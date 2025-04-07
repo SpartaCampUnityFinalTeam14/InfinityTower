@@ -1,0 +1,24 @@
+{
+  "data": [
+    {
+      "id": 0,
+      "type": "damage",
+      "description": "공격력"
+    },
+    {
+      "id": 1,
+      "type": "attackSpeed",
+      "description": "공격속도"
+    },
+    {
+      "id": 2,
+      "type": "projectileCount",
+      "description": "투사체 개수"
+    },
+    {
+      "id": 3,
+      "type": "targetCount",
+      "description": "타겟 수"
+    }
+  ]
+}

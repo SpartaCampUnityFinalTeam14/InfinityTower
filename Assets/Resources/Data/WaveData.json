@@ -1,0 +1,10 @@
+{
+  "data": [
+    {
+      "id": 0,
+      "enemyID": [0,1],
+      "spawnCount": [1,2],
+      "spawnDelayTime": [1,1]
+    }
+  ]
+}

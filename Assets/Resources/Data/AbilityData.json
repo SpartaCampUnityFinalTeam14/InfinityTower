@@ -1,0 +1,13 @@
+{
+  "data": [
+    {
+      "id": 0,
+      "rarity": 0,
+      "name": "특성",
+      "description": "특성이다.",
+      "valueType": [0,1,2,3],
+      "value": [1,1,1,1],
+      "targetTowerID": -1
+    }
+  ]
+}

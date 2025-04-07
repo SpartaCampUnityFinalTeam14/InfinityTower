@@ -1,0 +1,10 @@
+{
+  "data": [
+    {
+      "id": 0,
+      "waveCount": 5,
+      "waveID": [0,1,2,3,4],
+      "spawnPosition": [0.0,0.0]
+    }
+  ]
+}
