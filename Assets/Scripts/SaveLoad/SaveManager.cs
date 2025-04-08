@@ -26,10 +26,10 @@ public class SaveManager : Singleton<SaveManager>
         string path = $"{Application.persistentDataPath}/{typeof(Value)}.json";
         if (!System.IO.File.Exists(path))
         {
-            //throw new System.NullReferenceException($"ÆÄÀÏÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù. »õ·Î »ý¼ºÇÕ´Ï´Ù: {path}");
-            Debug.LogWarning($"ÆÄÀÏÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù. »õ·Î »ý¼ºÇÕ´Ï´Ù: {path}");
+            //throw new System.NullReferenceException($"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½: {path}");
+            Debug.LogWarning($"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½: {path}");
             Loader newLoader = new Loader();
-            SaveDict<Loader, Key, Value>(newLoader.MakeDict()); // ºó µ¥ÀÌÅÍ ÀúÀå
+            SaveDict<Loader, Key, Value>(newLoader.MakeDict()); // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             return newLoader;
         }
 
@@ -47,7 +47,7 @@ public class SaveManager : Singleton<SaveManager>
         string path = $"{Application.persistentDataPath}/{typeof(Value)}.json";
         System.IO.File.WriteAllText(path, json);
 
-        Debug.Log($"{path} ÀúÀå ¿Ï·á");
+        Debug.Log($"{path} ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½");
     }
 
     void LoadPlayerData()
@@ -55,14 +55,14 @@ public class SaveManager : Singleton<SaveManager>
         string path = $"{Application.persistentDataPath}/{(nameof(PlayerData))}.json";
         if (!System.IO.File.Exists(path))
         {
-            Debug.LogWarning($"¼¼ÀÌºê ÆÄÀÏÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù. »õ·Î »ý¼ºÇÕ´Ï´Ù: {path}");
-            playerData = new();//ºó µ¥ÀÌÅÍ »ý¼º
-            SavePlayerData(); // ºó µ¥ÀÌÅÍ ÀúÀå
+            Debug.LogWarning($"ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½: {path}");
+            playerData = new();//ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            SavePlayerData(); // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             return;
         }
 
         string json = System.IO.File.ReadAllText(path);
-        Debug.Log($"¼¼ÀÌºê ÆÄÀÏÀ» ·ÎµåÇß½À´Ï´Ù: {path}");
+        Debug.Log($"ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½: {path}");
         playerData = JsonUtility.FromJson<PlayerData>(json);
         return;
     }
@@ -73,13 +73,13 @@ public class SaveManager : Singleton<SaveManager>
         string path = $"{Application.persistentDataPath}/{playerData.GetType()}.json";
         System.IO.File.WriteAllText(path, json);
 
-        Debug.Log($"{path} ÀúÀå ¿Ï·á");
+        Debug.Log($"{path} ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½");
     }
 
     public void ClearAll()
     {
         playerData = new();
-        SavePlayerData(); // ºó µ¥ÀÌÅÍ ÀúÀå
+        SavePlayerData(); // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 
     public void SaveAll()

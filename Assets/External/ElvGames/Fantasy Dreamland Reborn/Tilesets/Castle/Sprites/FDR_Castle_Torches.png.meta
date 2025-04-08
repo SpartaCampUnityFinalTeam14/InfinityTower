@@ -3,7 +3,7 @@ guid: 2210cb01db4ab534795e008739dc432e
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -20,11 +20,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -63,6 +64,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -74,6 +77,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -86,6 +90,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -98,6 +103,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -110,6 +116,20 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -798,41 +818,40 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      FDR_Castle_Torches_29: -2134244229
-      FDR_Castle_Torches_30: -1312515795
-      FDR_Castle_Torches_25: -614803283
-      FDR_Castle_Torches_13: -972846656
-      FDR_Castle_Torches_10: 203033675
-      FDR_Castle_Torches_18: -1421163010
-      FDR_Castle_Torches_4: -55034550
-      FDR_Castle_Torches_20: 124333029
-      FDR_Castle_Torches_24: 1243869771
       FDR_Castle_Torches_0: 293649522
-      FDR_Castle_Torches_5: 2066306899
-      FDR_Castle_Torches_9: 1626951531
       FDR_Castle_Torches_1: 919992406
-      FDR_Castle_Torches_14: 738864307
-      FDR_Castle_Torches_23: -1742372518
-      FDR_Castle_Torches_6: 2132122016
-      FDR_Castle_Torches_7: 1189634765
+      FDR_Castle_Torches_10: 203033675
       FDR_Castle_Torches_11: 772045870
-      FDR_Castle_Torches_8: -493338939
+      FDR_Castle_Torches_12: -1880847169
+      FDR_Castle_Torches_13: -972846656
+      FDR_Castle_Torches_14: 738864307
       FDR_Castle_Torches_15: -201428066
       FDR_Castle_Torches_16: -573286173
       FDR_Castle_Torches_17: 142791152
-      FDR_Castle_Torches_27: -1448617375
-      FDR_Castle_Torches_31: -403392341
+      FDR_Castle_Torches_18: -1421163010
       FDR_Castle_Torches_19: -625951650
       FDR_Castle_Torches_2: -510754377
-      FDR_Castle_Torches_12: -1880847169
-      FDR_Castle_Torches_3: 386957967
-      FDR_Castle_Torches_26: -1396360762
+      FDR_Castle_Torches_20: 124333029
       FDR_Castle_Torches_21: 848964434
-      FDR_Castle_Torches_28: -1187183866
       FDR_Castle_Torches_22: -1984102530
-  spritePackingTag: 
+      FDR_Castle_Torches_23: -1742372518
+      FDR_Castle_Torches_24: 1243869771
+      FDR_Castle_Torches_25: -614803283
+      FDR_Castle_Torches_26: -1396360762
+      FDR_Castle_Torches_27: -1448617375
+      FDR_Castle_Torches_28: -1187183866
+      FDR_Castle_Torches_29: -2134244229
+      FDR_Castle_Torches_3: 386957967
+      FDR_Castle_Torches_30: -1312515795
+      FDR_Castle_Torches_31: -403392341
+      FDR_Castle_Torches_4: -55034550
+      FDR_Castle_Torches_5: 2066306899
+      FDR_Castle_Torches_6: 2132122016
+      FDR_Castle_Torches_7: 1189634765
+      FDR_Castle_Torches_8: -493338939
+      FDR_Castle_Torches_9: 1626951531
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
