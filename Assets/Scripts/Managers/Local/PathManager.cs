@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Net;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -28,12 +26,11 @@ public class PathManager : Singleton<PathManager>
     [SerializeField] Tilemap pathTilemap;
     [SerializeField] Transform startPos;
     [SerializeField] Transform endPos;
-    [SerializeField] MonsterBase test;
 
     Vector3Int startTile;
     Vector3Int endTile;
 
-    List<Vector3> pathPoints = new List<Vector3>();
+    public List<Vector3> pathPoints = new List<Vector3>();
 
     private readonly Vector3Int[] directions = {
         Vector3Int.up, Vector3Int.down, Vector3Int.left, Vector3Int.right
@@ -42,14 +39,23 @@ public class PathManager : Singleton<PathManager>
     protected override void Awake()
     {
         isGlobal = false;
-        base.Awake();
 
+        base.Awake();
+    }
+
+    public void Init(Tilemap path, Transform start, Transform end)
+    {
+        pathTilemap = path;
+        startPos = start;
+        endPos = end;
+        FindPath();
+    }
+
+    void FindPath()
+    {
         startTile = pathTilemap.WorldToCell(startPos.position);
         endTile = pathTilemap.WorldToCell(endPos.position);
         PathFind();
-
-        // testCode
-        test.SetPath(pathPoints);
     }
 
     #region A*

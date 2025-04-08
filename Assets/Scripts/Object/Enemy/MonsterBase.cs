@@ -11,9 +11,10 @@ public class MonsterBase : Poolable
     List<Vector3> pathPoints;
     int curTileIdx = 0;
 
-    public virtual void Init(int id, List<Vector3> path)
+    public virtual void Init(int id, List<Vector3> path, Transform startPos)
     {
         data = DataManager.Instance.monsterDict[id];
+        transform.position = startPos.position;
         SetPath(path);
     }
 
@@ -45,5 +46,7 @@ public class MonsterBase : Poolable
             curTileIdx++;
             yield return null;
         }
+
+        PoolManager.Instance.Release(this);
     }
 }

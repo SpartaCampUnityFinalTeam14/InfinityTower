@@ -36,9 +36,8 @@ public class StageManager : MonoBehaviour
         for(int i = 0; i < floorCount; i++)
         {
             if(floorGO != null) Destroy(floorGO);
-            floorGO = Util.InstantiatePrefab("testFloor");
-            floorGO.GetComponentInChildren<SpriteRenderer>().color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-            curFloor = floorGO.AddComponent<Floor>();
+            floorGO = Util.InstantiatePrefab("Floors/TestFloor");
+            curFloor = floorGO.GetOrAddComponent<Floor>();
             curFloor.Init(DataManager.Instance.floorDict[Random.Range(0, DataManager.Instance.floorDict.Count)]);
             curFloor.StartFloor();
 

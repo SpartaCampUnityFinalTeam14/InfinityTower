@@ -1,13 +1,17 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Floor : MonoBehaviour
 {
     //플로어
     private FloorData floorData;
 
-    public Vector2 spawnPosition;
+    [SerializeField] private Tilemap pathTilemap;
+    [SerializeField] private Transform startPos;
+    [SerializeField] private Transform endPos;
+
+    //public Vector2 spawnPosition;
     public float waveStartDelayTime;
     public bool isFloorEnd;
     public bool isPerkSelected;
@@ -16,15 +20,16 @@ public class Floor : MonoBehaviour
     private WaveData waveData;
 
     public bool isWaveEnd;
-    public float minSpawnDelayTime;
 
     public void Init(FloorData data)
     {
         floorData = data;
 
-        spawnPosition = new Vector2(DataManager.Instance.floorDict[0].spawnPosition[0]
-            , DataManager.Instance.floorDict[0].spawnPosition[1]);
+        //spawnPosition = new Vector2(DataManager.Instance.floorDict[0].spawnPosition[0]
+        //    , DataManager.Instance.floorDict[0].spawnPosition[1]);
         waveStartDelayTime = 1;
+
+        PathManager.Instance.Init(pathTilemap, startPos, endPos);
     }
 
     public void StartFloor()
@@ -82,14 +87,17 @@ public class Floor : MonoBehaviour
         EndWave();
     }
 
-    bool SpawnMonster(int monsterID)
+    void SpawnMonster(int monsterID)
     {
-        MonsterData monsterData = DataManager.Instance.monsterDict[monsterID];
+        GameObject monster = Resources.Load<GameObject>($"Prefabs/Monsters/TestMonster");
+        MonsterBase spawnedMonster = PoolManager.Instance.Get(monster).GetComponent<MonsterBase>();
+        spawnedMonster.Init(monsterID, PathManager.Instance.pathPoints, startPos);
 
-        Debug.Log($"<color=red>{monsterData.name} 생성됨</color>");
-        //스폰 위치에 몬스터 생성해야 함
+        //테스트 코드, 나중에는 몬스터의 Init()에 스프라이트와 애니메이션 변경해주는 코드 추가해야 함
+        float color = (float)monsterID / DataManager.Instance.monsterDict.Count;
+        spawnedMonster.GetComponentInChildren<SpriteRenderer>().color = new Color(color, color, color);
 
-        return true;
+        Debug.Log("<color=red>몬스터 스폰함</color>");
     }
 
     void SelectPerk()
