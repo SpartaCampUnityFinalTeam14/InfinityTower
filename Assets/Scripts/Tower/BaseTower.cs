@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
 
-public enum TargetingRule
+public enum TargettingRule
 {
     Nearest,   // 가장 가까운 적
     Farthest,  // 가장 멀리있는 적
