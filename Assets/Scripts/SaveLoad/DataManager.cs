@@ -16,19 +16,19 @@ public class DataManager : Singleton<DataManager>
     {
         base.Awake();
 
-        monsterDict = LoadJson<MonsterDataLoader, int, MonsterData>(nameof(MonsterData)).MakeDict();
-        floorDict = LoadJson<FloorDataLoader, int, FloorData>(nameof(FloorData)).MakeDict();
-        waveDict = LoadJson<WaveDataLoader, int, WaveData>(nameof(WaveData)).MakeDict();
-        towerDict = LoadJson<TowerDataLoader, int, TowerData>(nameof(TowerData)).MakeDict();
-        championDict = LoadJson<ChampionDataLoader, int, ChampionData>(nameof(ChampionData)).MakeDict();
-        skillDict = LoadJson<SkillDataLoader, int, SkillData>(nameof(SkillData)).MakeDict();
-        abilityDict = LoadJson<AbilityDataLoader, int, AbilityData>(nameof(AbilityData)).MakeDict();
-        abilityTypedict = LoadJson<AbilityTypeLoader, int, AbilityType>(nameof(AbilityType)).MakeDict();
+        monsterDict = LoadJson<MonsterDataLoader, int, MonsterData>().MakeDict();
+        floorDict = LoadJson<FloorDataLoader, int, FloorData>().MakeDict();
+        waveDict = LoadJson<WaveDataLoader, int, WaveData>().MakeDict();
+        towerDict = LoadJson<TowerDataLoader, int, TowerData>().MakeDict();
+        championDict = LoadJson<ChampionDataLoader, int, ChampionData>().MakeDict();
+        skillDict = LoadJson<SkillDataLoader, int, SkillData>().MakeDict();
+        abilityDict = LoadJson<AbilityDataLoader, int, AbilityData>().MakeDict();
+        abilityTypedict = LoadJson<AbilityTypeLoader, int, AbilityType>().MakeDict();
     }
 
-    Loader LoadJson<Loader, Key, Value>(string path) where Loader : ILoader<Key, Value>
+    Loader LoadJson<Loader, Key, Value>() where Loader : ILoader<Key, Value>
     {
-        TextAsset textAsset = Resources.Load<TextAsset>($"Data/{path}");
+        TextAsset textAsset = Resources.Load<TextAsset>($"Data/{typeof(Value)}");
         return JsonUtility.FromJson<Loader>(textAsset.text);
     }
 }
