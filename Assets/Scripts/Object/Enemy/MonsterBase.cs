@@ -47,6 +47,7 @@ public class MonsterBase : Poolable
             yield return null;
         }
 
+        StageManager.Instance.TakeDamage(data.damage);
         PoolManager.Instance.Release(this);
     }
 }

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class StageManager : MonoBehaviour
+public class StageManager : Singleton<StageManager>
 {
+    public int hp;
     public float curCost;
     private float maxCost;
+
     public List<int> selectedTowers = new();
     public int selectedChampion;
     //public List<Perk> perks 선택한 특성 리스트
@@ -15,13 +17,32 @@ public class StageManager : MonoBehaviour
     private GameObject floorGO;
     private Floor curFloor;
 
-    private void Awake()
+    protected override void Awake()
     {
+        isGlobal = false;
+
+        base.Awake();
+
         //영웅 세팅 필요
         selectedTowers = SaveManager.Instance.playerData.selectedTowerIndex;
         selectedChampion = SaveManager.Instance.playerData.selectedChampionIndex;
+        hp = DataManager.Instance.championDict[selectedChampion].hp;
 
         StartStage();//추후 awake가 아닌 다른 곳으로 이동 (예를 들어, 시작 버튼을 누른다든가 하는 식)
+    }
+
+    public void TakeDamage(int damage)
+    {
+        hp = Mathf.Max(hp - damage, 0);
+
+        if (hp <= 0) GameOver();
+    }
+
+    void GameOver()
+    {
+        Debug.Log("게임오버!");
+
+        EndStage();
     }
 
     public void StartStage()
