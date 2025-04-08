@@ -3,7 +3,14 @@
     {
       "id": 0,
       "skillClassName": "Skill_Temp",
-      "description": "스킬이다.",
+      "description": "스킬1이다.",
+      "coolTime": 1.0,
+      "multiplier": 1.0
+    },
+    {
+      "id": 1,
+      "skillClassName": "Skill_Temp",
+      "description": "스킬2이다.",
       "coolTime": 1.0,
       "multiplier": 1.0
     }
