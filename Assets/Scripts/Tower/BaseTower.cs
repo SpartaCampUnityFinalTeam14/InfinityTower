@@ -3,27 +3,12 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
 
-public enum TargettingRule
-{
-    Nearest,   // 가장 가까운 적
-    Farthest,  // 가장 멀리있는 적
-    LowestHP,  // 체력이 가장 낮은 적을 공격
-    HighestHP, // 체력이 가장 높은 적을 공격
-}
-
-public enum TargetType
-{
-    Attack,   //적 데미지, 디버프
-    Util,  //플레이어 코스트 회복, 체력 회복
-    Suport    //아군 타워 버프
-}
 
 public abstract class BaseTower : MonoBehaviour
 {
     public TowerData towerData;
     public float cooldownTimer;
-    public TargettingRule targettingRule;
-    public TargetType targetType;
+
 
     public virtual void Initialize(TowerData data)
     {
@@ -40,11 +25,6 @@ public abstract class BaseTower : MonoBehaviour
             Activate();
             cooldownTimer = towerData.coolTime;
         }
-    }
-
-    public virtual void DataChange()
-    {
-        
     }
 
     public abstract void Activate(); //실제행동은 하위 클래스에서 정의

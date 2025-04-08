@@ -106,10 +106,13 @@ public class TowerData
     public int targetType;
     public int targetCount;
     public int cost;
-    public int targetingRule;
+    public int targettingRule;
     public int value;
     public float coolTime;
     public float range;
+
+    public TargettingRule TargettingRule => (TargettingRule)targettingRule;
+    public TargetType TargetType => (TargetType)targetType;
 }
 
 [Serializable]

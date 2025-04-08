@@ -10,7 +10,7 @@ public abstract class TargettingTower : BaseTower
     //범위 안에 들어온 적 리스트
     List<Enemy> enemiesInRange;
     //범위 안에 있는 아군 타워 리스트
-    List<TargettingTower> allyTower;
+    List<TargettingTower> allyInRange;
 
     public virtual void FindTargets()
     {
@@ -21,11 +21,11 @@ public abstract class TargettingTower : BaseTower
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.range);
 
         enemiesInRange = new List<Enemy>();
-        allyTower = new List<TargettingTower>();
+        allyInRange = new List<TargettingTower>();
 
+        //범위 안에 있는 적과 아군 판별
         foreach (Collider2D hit in hits)
         {
-            //범위 안에 있는 적과 아군 판별
             if (hit.CompareTag("Enemy"))
             {
                 //enemiesInRange.Add(hit.GetComponent<Enemy>());
@@ -34,40 +34,70 @@ public abstract class TargettingTower : BaseTower
                     enemiesInRange.Add(enemy);
             }
 
-            if (hit.CompareTag("Tower"))
+            if (hit.CompareTag("Ally"))
             {
                 //allyTower.Add(hit.GetComponent<TargettingTower>());
                 TargettingTower tower = hit.GetComponent<TargettingTower>();
                 if (tower != null)
-                    allyTower.Add(tower);
+                    allyInRange.Add(tower);
             }
         }
 
         // 2. 타겟팅 룰 적용
-        switch (towerData.targetingRule)
+        switch (towerData.TargetType)
         {
-            case TargettingRule.Nearest: // 타워와 가장 가까운 적
-                enemiesInRange = enemiesInRange
-                    .OrderBy(e => Vector2.Distance(transform.position, e.transform.position))
-                    .ToList();
+            //타겟이 적일 경우
+            case TargetType.Enemy:
+                switch (towerData.TargettingRule)
+                {
+                    case TargettingRule.Nearest: // 타워와 가장 가까운 적
+                        enemiesInRange = enemiesInRange
+                            .OrderBy(e => Vector2.Distance(transform.position, e.transform.position))
+                            .ToList();
+                        break;
+
+                    case TargettingRule.Farthest: // 타워와 가장 먼 적
+                        enemiesInRange = enemiesInRange
+                            .OrderByDescending(e => Vector2.Distance(transform.position, e.transform.position))
+                            .ToList();
+                        break;
+
+                    case TargettingRule.LowestHP: // 체력이 가장 낮은 적
+                        enemiesInRange = enemiesInRange
+                            .OrderBy(e => e.currentHP)
+                            .ToList();
+                        break;
+
+                    case TargettingRule.HighestHP: // 체력이 가장 높은 적
+                        enemiesInRange = enemiesInRange
+                            .OrderByDescending(e => e.currentHP)
+                            .ToList();
+                        break;
+
+                    default:
+                        break;
+                }
                 break;
 
-            case TargettingRule.Farthest: // 타워와 가장 먼 적
-                enemiesInRange = enemiesInRange
-                    .OrderByDescending(e => Vector2.Distance(transform.position, e.transform.position))
-                    .ToList();
-                break;
+            //타겟이 아군일 경우
+            case TargetType.Ally:
+                switch (towerData.TargettingRule)
+                {
+                    case TargettingRule.Nearest: // 타워와 가장 가까운 아군
+                        allyInRange = allyInRange
+                            .OrderBy(a => Vector2.Distance(transform.position, a.transform.position))
+                            .ToList();
+                        break;
 
-            case TargettingRule.LowestHP: // 체력이 가장 낮은 적
-                enemiesInRange = enemiesInRange
-                    .OrderBy(e => e.currentHP)
-                    .ToList();
-                break;
+                    case TargettingRule.Farthest: // 타워와 가장 먼 아군
+                        allyInRange = allyInRange
+                            .OrderByDescending(a => Vector2.Distance(transform.position, a.transform.position))
+                            .ToList();
+                        break;
 
-            case TargettingRule.HighestHP: // 체력이 가장 높은 적
-                enemiesInRange = enemiesInRange
-                    .OrderByDescending(e => e.currentHP)
-                    .ToList();
+                    default:
+                        break;
+                }
                 break;
 
             default:
