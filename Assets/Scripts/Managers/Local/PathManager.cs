@@ -1,70 +1,176 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class PathManager : MonoBehaviour
+public class PathManager : Singleton<PathManager>
 {
-    public Tilemap pathTilemap;
+    #region A*Node
+    class AStarNode
+    {
+        public Vector3Int position;
+        public AStarNode parent;
+        public float gCost; // í˜„ìž¬ê¹Œì§€ ì´ë™ ë¹„ìš©
+        public float hCost; // ëª©í‘œê¹Œì§€ ì˜ˆìƒ ë¹„ìš© (íœ´ë¦¬ìŠ¤í‹±)
+        public float F => gCost + hCost;
 
-    public Vector3Int startPoint;
-    public Vector3Int endPoint;
+        public AStarNode(Vector3Int pos, AStarNode parent, float g, float h)
+        {
+            position = pos;
+            this.parent = parent;
+            gCost = g;
+            hCost = h;
+        }
+    }
+    #endregion
 
-    private List<Vector3> pathPoints = new List<Vector3>();
-    private HashSet<Vector3Int> visited = new HashSet<Vector3Int>();
+    [SerializeField] Tilemap pathTilemap;
+    [SerializeField] Transform startPos;
+    [SerializeField] Transform endPos;
+    [SerializeField] MonsterBase test;
+
+    Vector3Int startTile;
+    Vector3Int endTile;
+
+    List<Vector3> pathPoints = new List<Vector3>();
 
     private readonly Vector3Int[] directions = {
         Vector3Int.up, Vector3Int.down, Vector3Int.left, Vector3Int.right
     };
 
-    public void Init(Tilemap _pathTilemap)
+    protected override void Awake()
     {
-        pathTilemap = _pathTilemap;
+        isGlobal = false;
+        base.Awake();
 
+        startTile = pathTilemap.WorldToCell(startPos.position);
+        endTile = pathTilemap.WorldToCell(endPos.position);
         PathFind();
+
+        // testCode
+        test.SetPath(pathPoints);
     }
 
+    #region A*
     void PathFind()
     {
         pathPoints.Clear();
-        visited.Clear();
 
-        if (!DFS(startPoint))
+        List<AStarNode> open = new List<AStarNode>();
+        HashSet<Vector3Int> close = new HashSet<Vector3Int>();
+
+        AStarNode startNode = new AStarNode(startTile, null, 0, GetHeuristic(startTile, endTile));
+        open.Add(startNode);
+
+        while (open.Count > 0)
         {
-            Debug.LogAssertion("°æ·Î Å½»ö ½ÇÆÐ");
+            open.Sort((a, b) => a.F.CompareTo(b.F));
+            AStarNode current = open[0];
+            open.RemoveAt(0);
+
+            if (current.position == endTile)
+            {
+                RetracePath(current);
+                return;
+            }
+
+            close.Add(current.position);
+
+            foreach (Vector3Int dir in directions)
+            {
+                Vector3Int neighborPos = current.position + dir;
+
+                if (!pathTilemap.HasTile(neighborPos) || close.Contains(neighborPos))
+                    continue;
+
+                float newG = current.gCost + 1;
+                
+                AStarNode existing = open.Find(n => n.position == neighborPos);
+                if (existing == null)
+                {
+                    // ìƒˆë¡œìš´ ë…¸ë“œ
+                    float h = GetHeuristic(neighborPos, endTile);
+                    open.Add(new AStarNode(neighborPos, current, newG, h));
+                }
+                else if (newG < existing.gCost)
+                {
+                    // ë¹„ìš©ì´ ì ì€ ê²½ë¡œë¡œ ê°±ì‹ 
+                    existing.gCost = newG;
+                    existing.parent = current;
+                }
+            }
         }
-        else
-        {
-            Debug.LogAssertion($"°æ·Î Å½»ö ¿Ï·á");
-        }
+
+        Debug.LogAssertion("ê²½ë¡œ íƒìƒ‰ ì‹¤íŒ¨");
     }
 
-    bool DFS(Vector3Int current)
+    void RetracePath(AStarNode endNode)
     {
-        if (!pathTilemap.HasTile(current) || visited.Contains(current))
-            return false;
-
-        visited.Add(current);
-        pathPoints.Add(pathTilemap.CellToWorld(current) + pathTilemap.cellSize / 2);
-
-        // °æ·Î ½ÃÀÛ À§Ä¡¿Í ³¡ À§Ä¡°¡ °°°Å³ª ºÙ¾îÀÖ´Â °æ¿ì ¿¹¿Ü Ã³¸®
-        if (current == endPoint && pathPoints.Count > 1)
-            return true;
-
-        foreach (Vector3Int dir in directions)
+        AStarNode current = endNode;
+        while (current != null)
         {
-            Vector3Int next = current + dir;
-            if (DFS(next))
-                return true;
+            Vector3 worldPos = pathTilemap.CellToWorld(current.position) + pathTilemap.cellSize / 2;
+            pathPoints.Insert(0, worldPos);
+            current = current.parent;
         }
-
-        // ¸·´Ù¸¥ ±æÀÌ¸é µÇµ¹¸®±â
-        pathPoints.RemoveAt(pathPoints.Count - 1);
-        return false;
     }
 
-    public List<Vector3> GetPathPoints()
+    float GetHeuristic(Vector3Int a, Vector3Int b)
     {
-        return pathPoints;
+        return Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y); // ë§¨í•´íŠ¼ ê±°ë¦¬
     }
+    #endregion
+
+    #region DFS
+    //public void Init(Tilemap _pathTilemap)
+    //{
+    //    pathTilemap = _pathTilemap;
+
+    //    PathFind();
+    //}
+
+    //void PathFind()
+    //{
+    //    pathPoints.Clear();
+    //    visited.Clear();
+
+    //    if (!DFS(startPoint))
+    //    {
+    //        Debug.LogAssertion("ï¿½ï¿½ï¿½ Å½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
+    //    }
+    //    else
+    //    {
+    //        Debug.LogAssertion($"ï¿½ï¿½ï¿½ Å½ï¿½ï¿½ ï¿½Ï·ï¿½");
+    //    }
+    //}
+
+    //bool DFS(Vector3Int current)
+    //{
+    //    if (!pathTilemap.HasTile(current) || visited.Contains(current))
+    //        return false;
+
+    //    visited.Add(current);
+    //    pathPoints.Add(pathTilemap.CellToWorld(current) + pathTilemap.cellSize / 2);
+
+    //    if (current == endPoint && pathPoints.Count > 1)
+    //        return true;
+
+    //    foreach (Vector3Int dir in directions)
+    //    {
+    //        Vector3Int next = current + dir;
+    //        if (DFS(next))
+    //            return true;
+    //    }
+
+    //    // ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Çµï¿½ï¿½ï¿½ï¿½ï¿½
+    //    pathPoints.RemoveAt(pathPoints.Count - 1);
+    //    return false;
+    //}
+
+    //public List<Vector3> GetPathPoints()
+    //{
+    //    return pathPoints;
+    //}
+    #endregion
 }
