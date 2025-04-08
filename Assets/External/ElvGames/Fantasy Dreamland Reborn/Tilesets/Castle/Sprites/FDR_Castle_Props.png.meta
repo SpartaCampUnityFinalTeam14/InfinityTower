@@ -3,7 +3,7 @@ guid: 117d1288e126bed428aae1076ae42d2c
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -20,11 +20,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -63,6 +64,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -74,6 +77,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -86,6 +90,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -98,6 +103,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -110,6 +116,20 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -3738,181 +3758,180 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      FDR_Castle_Props_91: -551518412
-      FDR_Castle_Props_146: -1254800851
-      FDR_Castle_Props_56: -872331333
-      FDR_Castle_Props_53: -1865729721
-      FDR_Castle_Props_167: 1354011456
-      FDR_Castle_Props_48: 78708974
-      FDR_Castle_Props_114: 1198239711
-      FDR_Castle_Props_24: -1369243257
-      FDR_Castle_Props_58: -490740029
-      FDR_Castle_Props_130: -1919361554
-      FDR_Castle_Props_64: -1826279240
-      FDR_Castle_Props_104: 1030760886
-      FDR_Castle_Props_70: -920955937
-      FDR_Castle_Props_150: 1603426907
-      FDR_Castle_Props_100: -213850220
-      FDR_Castle_Props_40: -577669177
-      FDR_Castle_Props_97: 892382895
-      FDR_Castle_Props_108: 847332511
-      FDR_Castle_Props_78: 1942045807
-      FDR_Castle_Props_19: 2092501732
-      FDR_Castle_Props_27: -504481971
-      FDR_Castle_Props_162: 1332263177
-      FDR_Castle_Props_137: -946007292
-      FDR_Castle_Props_111: 2063430849
-      FDR_Castle_Props_159: 467680637
-      FDR_Castle_Props_139: -875126683
-      FDR_Castle_Props_12: 756871490
-      FDR_Castle_Props_103: -1123028405
-      FDR_Castle_Props_43: -596094243
-      FDR_Castle_Props_45: 3185711
-      FDR_Castle_Props_54: -1988954208
-      FDR_Castle_Props_85: -742778882
-      FDR_Castle_Props_9: 183238127
-      FDR_Castle_Props_35: 2005476732
-      FDR_Castle_Props_116: 1190957302
-      FDR_Castle_Props_72: 1301594848
-      FDR_Castle_Props_143: -813484496
-      FDR_Castle_Props_156: 175299777
-      FDR_Castle_Props_157: -1159683103
-      FDR_Castle_Props_87: 1671467327
-      FDR_Castle_Props_51: -621099071
-      FDR_Castle_Props_61: -573886725
-      FDR_Castle_Props_6: 20607685
-      FDR_Castle_Props_96: 2079603095
-      FDR_Castle_Props_82: 1672927058
-      FDR_Castle_Props_113: -302798587
-      FDR_Castle_Props_66: 1391674814
-      FDR_Castle_Props_98: -1411581707
-      FDR_Castle_Props_3: 1163847897
-      FDR_Castle_Props_101: 357346339
-      FDR_Castle_Props_10: -762198912
-      FDR_Castle_Props_127: -614902460
-      FDR_Castle_Props_136: 1383436736
-      FDR_Castle_Props_135: 1202730565
-      FDR_Castle_Props_46: -2057790062
-      FDR_Castle_Props_144: 1428264566
-      FDR_Castle_Props_115: 1194169052
-      FDR_Castle_Props_18: 741878485
-      FDR_Castle_Props_106: -1179219780
-      FDR_Castle_Props_123: -686837093
-      FDR_Castle_Props_57: 98669274
-      FDR_Castle_Props_14: -2016081390
-      FDR_Castle_Props_122: -838768044
-      FDR_Castle_Props_42: 1304488677
-      FDR_Castle_Props_49: 1526144190
-      FDR_Castle_Props_121: -1086039969
-      FDR_Castle_Props_26: 1509500526
-      FDR_Castle_Props_36: 1799592180
-      FDR_Castle_Props_112: -240251862
-      FDR_Castle_Props_94: -1159956531
-      FDR_Castle_Props_84: -1460603230
-      FDR_Castle_Props_11: 959140215
-      FDR_Castle_Props_60: -196807936
-      FDR_Castle_Props_134: 734628983
-      FDR_Castle_Props_21: -1276497361
-      FDR_Castle_Props_52: 335807007
-      FDR_Castle_Props_155: 1888058921
-      FDR_Castle_Props_118: 948660061
-      FDR_Castle_Props_23: -570457836
-      FDR_Castle_Props_1: 2009534239
-      FDR_Castle_Props_83: 393876337
-      FDR_Castle_Props_75: -2030577875
-      FDR_Castle_Props_2: 118715031
-      FDR_Castle_Props_110: 1337826151
-      FDR_Castle_Props_147: -621787134
-      FDR_Castle_Props_140: -582159349
-      FDR_Castle_Props_163: -905832335
-      FDR_Castle_Props_151: 2095294908
-      FDR_Castle_Props_28: 1953770362
-      FDR_Castle_Props_124: -1632062367
-      FDR_Castle_Props_13: -1488566493
-      FDR_Castle_Props_133: 1123183808
       FDR_Castle_Props_0: -1868528332
-      FDR_Castle_Props_30: 2115291297
-      FDR_Castle_Props_22: 421149629
-      FDR_Castle_Props_33: 2137255368
-      FDR_Castle_Props_31: -179542727
-      FDR_Castle_Props_71: -527196894
-      FDR_Castle_Props_32: 183649398
-      FDR_Castle_Props_99: -294336136
-      FDR_Castle_Props_148: 137774638
-      FDR_Castle_Props_160: 59587956
-      FDR_Castle_Props_7: -1214624618
-      FDR_Castle_Props_63: -1950952654
-      FDR_Castle_Props_86: 1485556236
-      FDR_Castle_Props_16: 848325655
-      FDR_Castle_Props_128: -639736466
-      FDR_Castle_Props_79: 313720970
-      FDR_Castle_Props_90: -1593095091
-      FDR_Castle_Props_145: -845723894
-      FDR_Castle_Props_158: -1459768346
-      FDR_Castle_Props_59: -96617160
-      FDR_Castle_Props_153: 688903006
-      FDR_Castle_Props_76: -2144526384
-      FDR_Castle_Props_81: 2055940681
-      FDR_Castle_Props_95: -2048194806
-      FDR_Castle_Props_37: -1423687593
-      FDR_Castle_Props_73: 357473980
-      FDR_Castle_Props_92: -1161662161
-      FDR_Castle_Props_29: 377825012
-      FDR_Castle_Props_120: 1899425220
-      FDR_Castle_Props_38: 1197117135
-      FDR_Castle_Props_77: -630015545
-      FDR_Castle_Props_55: 950059750
-      FDR_Castle_Props_129: -1266534028
-      FDR_Castle_Props_168: -1433684131
-      FDR_Castle_Props_125: -1839285993
-      FDR_Castle_Props_131: 553567829
-      FDR_Castle_Props_109: 430731200
-      FDR_Castle_Props_17: 351937143
-      FDR_Castle_Props_50: -103457982
-      FDR_Castle_Props_44: -1236233336
-      FDR_Castle_Props_169: -289931308
-      FDR_Castle_Props_39: -1112822867
-      FDR_Castle_Props_166: -911076908
-      FDR_Castle_Props_93: -286978575
-      FDR_Castle_Props_69: 502488709
+      FDR_Castle_Props_1: 2009534239
+      FDR_Castle_Props_10: -762198912
+      FDR_Castle_Props_100: -213850220
+      FDR_Castle_Props_101: 357346339
+      FDR_Castle_Props_102: -1054999011
+      FDR_Castle_Props_103: -1123028405
+      FDR_Castle_Props_104: 1030760886
+      FDR_Castle_Props_105: -495788672
+      FDR_Castle_Props_106: -1179219780
       FDR_Castle_Props_107: 678239588
-      FDR_Castle_Props_142: -698726489
+      FDR_Castle_Props_108: 847332511
+      FDR_Castle_Props_109: 430731200
+      FDR_Castle_Props_11: 959140215
+      FDR_Castle_Props_110: 1337826151
+      FDR_Castle_Props_111: 2063430849
+      FDR_Castle_Props_112: -240251862
+      FDR_Castle_Props_113: -302798587
+      FDR_Castle_Props_114: 1198239711
+      FDR_Castle_Props_115: 1194169052
+      FDR_Castle_Props_116: 1190957302
+      FDR_Castle_Props_117: -1222910101
+      FDR_Castle_Props_118: 948660061
       FDR_Castle_Props_119: -864519992
-      FDR_Castle_Props_41: -901307106
-      FDR_Castle_Props_47: 642803676
+      FDR_Castle_Props_12: 756871490
+      FDR_Castle_Props_120: 1899425220
+      FDR_Castle_Props_121: -1086039969
+      FDR_Castle_Props_122: -838768044
+      FDR_Castle_Props_123: -686837093
+      FDR_Castle_Props_124: -1632062367
+      FDR_Castle_Props_125: -1839285993
+      FDR_Castle_Props_126: 1359077943
+      FDR_Castle_Props_127: -614902460
+      FDR_Castle_Props_128: -639736466
+      FDR_Castle_Props_129: -1266534028
+      FDR_Castle_Props_13: -1488566493
+      FDR_Castle_Props_130: -1919361554
+      FDR_Castle_Props_131: 553567829
+      FDR_Castle_Props_132: 1282917951
+      FDR_Castle_Props_133: 1123183808
+      FDR_Castle_Props_134: 734628983
+      FDR_Castle_Props_135: 1202730565
+      FDR_Castle_Props_136: 1383436736
+      FDR_Castle_Props_137: -946007292
+      FDR_Castle_Props_138: 1660943752
+      FDR_Castle_Props_139: -875126683
+      FDR_Castle_Props_14: -2016081390
+      FDR_Castle_Props_140: -582159349
+      FDR_Castle_Props_141: 2078423628
+      FDR_Castle_Props_142: -698726489
+      FDR_Castle_Props_143: -813484496
+      FDR_Castle_Props_144: 1428264566
+      FDR_Castle_Props_145: -845723894
+      FDR_Castle_Props_146: -1254800851
+      FDR_Castle_Props_147: -621787134
+      FDR_Castle_Props_148: 137774638
       FDR_Castle_Props_149: 1206354195
       FDR_Castle_Props_15: 2114429831
-      FDR_Castle_Props_67: -608985742
-      FDR_Castle_Props_171: 2139162058
-      FDR_Castle_Props_154: 1046000018
-      FDR_Castle_Props_105: -495788672
-      FDR_Castle_Props_74: 1145022840
-      FDR_Castle_Props_5: -2134159057
-      FDR_Castle_Props_132: 1282917951
-      FDR_Castle_Props_62: 1541794237
-      FDR_Castle_Props_25: -2079155907
-      FDR_Castle_Props_20: 2092194145
-      FDR_Castle_Props_170: -1033977072
-      FDR_Castle_Props_80: 176104106
-      FDR_Castle_Props_161: -841539876
-      FDR_Castle_Props_141: 2078423628
-      FDR_Castle_Props_34: 319203897
-      FDR_Castle_Props_126: 1359077943
-      FDR_Castle_Props_117: -1222910101
-      FDR_Castle_Props_102: -1054999011
-      FDR_Castle_Props_4: -303573289
-      FDR_Castle_Props_165: -352334177
-      FDR_Castle_Props_8: 2009398075
-      FDR_Castle_Props_68: 109668262
-      FDR_Castle_Props_65: -1118316980
-      FDR_Castle_Props_89: -1705892162
+      FDR_Castle_Props_150: 1603426907
+      FDR_Castle_Props_151: 2095294908
       FDR_Castle_Props_152: 807574730
-      FDR_Castle_Props_138: 1660943752
+      FDR_Castle_Props_153: 688903006
+      FDR_Castle_Props_154: 1046000018
+      FDR_Castle_Props_155: 1888058921
+      FDR_Castle_Props_156: 175299777
+      FDR_Castle_Props_157: -1159683103
+      FDR_Castle_Props_158: -1459768346
+      FDR_Castle_Props_159: 467680637
+      FDR_Castle_Props_16: 848325655
+      FDR_Castle_Props_160: 59587956
+      FDR_Castle_Props_161: -841539876
+      FDR_Castle_Props_162: 1332263177
+      FDR_Castle_Props_163: -905832335
       FDR_Castle_Props_164: 1519853198
+      FDR_Castle_Props_165: -352334177
+      FDR_Castle_Props_166: -911076908
+      FDR_Castle_Props_167: 1354011456
+      FDR_Castle_Props_168: -1433684131
+      FDR_Castle_Props_169: -289931308
+      FDR_Castle_Props_17: 351937143
+      FDR_Castle_Props_170: -1033977072
+      FDR_Castle_Props_171: 2139162058
+      FDR_Castle_Props_18: 741878485
+      FDR_Castle_Props_19: 2092501732
+      FDR_Castle_Props_2: 118715031
+      FDR_Castle_Props_20: 2092194145
+      FDR_Castle_Props_21: -1276497361
+      FDR_Castle_Props_22: 421149629
+      FDR_Castle_Props_23: -570457836
+      FDR_Castle_Props_24: -1369243257
+      FDR_Castle_Props_25: -2079155907
+      FDR_Castle_Props_26: 1509500526
+      FDR_Castle_Props_27: -504481971
+      FDR_Castle_Props_28: 1953770362
+      FDR_Castle_Props_29: 377825012
+      FDR_Castle_Props_3: 1163847897
+      FDR_Castle_Props_30: 2115291297
+      FDR_Castle_Props_31: -179542727
+      FDR_Castle_Props_32: 183649398
+      FDR_Castle_Props_33: 2137255368
+      FDR_Castle_Props_34: 319203897
+      FDR_Castle_Props_35: 2005476732
+      FDR_Castle_Props_36: 1799592180
+      FDR_Castle_Props_37: -1423687593
+      FDR_Castle_Props_38: 1197117135
+      FDR_Castle_Props_39: -1112822867
+      FDR_Castle_Props_4: -303573289
+      FDR_Castle_Props_40: -577669177
+      FDR_Castle_Props_41: -901307106
+      FDR_Castle_Props_42: 1304488677
+      FDR_Castle_Props_43: -596094243
+      FDR_Castle_Props_44: -1236233336
+      FDR_Castle_Props_45: 3185711
+      FDR_Castle_Props_46: -2057790062
+      FDR_Castle_Props_47: 642803676
+      FDR_Castle_Props_48: 78708974
+      FDR_Castle_Props_49: 1526144190
+      FDR_Castle_Props_5: -2134159057
+      FDR_Castle_Props_50: -103457982
+      FDR_Castle_Props_51: -621099071
+      FDR_Castle_Props_52: 335807007
+      FDR_Castle_Props_53: -1865729721
+      FDR_Castle_Props_54: -1988954208
+      FDR_Castle_Props_55: 950059750
+      FDR_Castle_Props_56: -872331333
+      FDR_Castle_Props_57: 98669274
+      FDR_Castle_Props_58: -490740029
+      FDR_Castle_Props_59: -96617160
+      FDR_Castle_Props_6: 20607685
+      FDR_Castle_Props_60: -196807936
+      FDR_Castle_Props_61: -573886725
+      FDR_Castle_Props_62: 1541794237
+      FDR_Castle_Props_63: -1950952654
+      FDR_Castle_Props_64: -1826279240
+      FDR_Castle_Props_65: -1118316980
+      FDR_Castle_Props_66: 1391674814
+      FDR_Castle_Props_67: -608985742
+      FDR_Castle_Props_68: 109668262
+      FDR_Castle_Props_69: 502488709
+      FDR_Castle_Props_7: -1214624618
+      FDR_Castle_Props_70: -920955937
+      FDR_Castle_Props_71: -527196894
+      FDR_Castle_Props_72: 1301594848
+      FDR_Castle_Props_73: 357473980
+      FDR_Castle_Props_74: 1145022840
+      FDR_Castle_Props_75: -2030577875
+      FDR_Castle_Props_76: -2144526384
+      FDR_Castle_Props_77: -630015545
+      FDR_Castle_Props_78: 1942045807
+      FDR_Castle_Props_79: 313720970
+      FDR_Castle_Props_8: 2009398075
+      FDR_Castle_Props_80: 176104106
+      FDR_Castle_Props_81: 2055940681
+      FDR_Castle_Props_82: 1672927058
+      FDR_Castle_Props_83: 393876337
+      FDR_Castle_Props_84: -1460603230
+      FDR_Castle_Props_85: -742778882
+      FDR_Castle_Props_86: 1485556236
+      FDR_Castle_Props_87: 1671467327
       FDR_Castle_Props_88: 820325064
-  spritePackingTag: 
+      FDR_Castle_Props_89: -1705892162
+      FDR_Castle_Props_9: 183238127
+      FDR_Castle_Props_90: -1593095091
+      FDR_Castle_Props_91: -551518412
+      FDR_Castle_Props_92: -1161662161
+      FDR_Castle_Props_93: -286978575
+      FDR_Castle_Props_94: -1159956531
+      FDR_Castle_Props_95: -2048194806
+      FDR_Castle_Props_96: 2079603095
+      FDR_Castle_Props_97: 892382895
+      FDR_Castle_Props_98: -1411581707
+      FDR_Castle_Props_99: -294336136
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
