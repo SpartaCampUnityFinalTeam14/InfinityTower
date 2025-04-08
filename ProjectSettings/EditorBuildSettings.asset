@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Stage.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/Sample/KSM_Stage.unity
+    guid: 9abba0b57368dfe49b9896db324afd48
+  - enabled: 1
+    path: Assets/Scenes/Sample/KSM_Lobby.unity
+    guid: df8902c0dcef2ec4ea68e1454aeffe95
   m_configObjects: {}
