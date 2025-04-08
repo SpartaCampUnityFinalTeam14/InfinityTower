@@ -1,0 +1,11 @@
+{
+  "data": [
+    {
+      "id": 0,
+      "skillClassName": "Skill_Temp",
+      "description": "스킬이다.",
+      "coolTime": 1.0,
+      "multiplier": 1.0
+    }
+  ]
+}

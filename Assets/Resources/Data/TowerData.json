@@ -1,0 +1,16 @@
+{
+  "data": [
+    {
+      "id": 0,
+      "name": "타워",
+      "description": "타워다.",
+      "targetType": 0,
+      "targetCount": 1,
+      "cost": 1,
+      "targetingRule": 0,
+      "value": 1,
+      "coolTime": 1,
+      "range": 1
+    }
+  ]
+}
