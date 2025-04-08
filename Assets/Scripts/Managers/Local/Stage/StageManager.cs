@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,8 +7,8 @@ public class StageManager : MonoBehaviour
 {
     public float curCost;
     private float maxCost;
-    //public List<Tower> towers 선택한 타워 리스트
-    //public Champion champion 선택한 영웅
+    public List<int> selectedTowers = new();
+    public int selectedChampion;
     //public List<Perk> perks 선택한 특성 리스트
 
     [SerializeField] private int floorCount = 2;
@@ -17,6 +18,8 @@ public class StageManager : MonoBehaviour
     private void Awake()
     {
         //영웅 세팅 필요
+        selectedTowers = SaveManager.Instance.playerData.selectedTowerIndex;
+        selectedChampion = SaveManager.Instance.playerData.selectedChampionIndex;
 
         StartStage();//추후 awake가 아닌 다른 곳으로 이동 (예를 들어, 시작 버튼을 누른다든가 하는 식)
     }
