@@ -135,8 +135,8 @@ public abstract class TargettingTower : BaseTower
     {
         FindTargets();
         if (targets.Count > 0)
-            UseSkillOnTargets();
+            UseActOnTargets();
     }
 
-    protected abstract void UseSkillOnTargets(); // 공격/버프 등을 하위에서 정의
+    protected abstract void UseActOnTargets(); // 공격/버프 등을 하위에서 정의
 }

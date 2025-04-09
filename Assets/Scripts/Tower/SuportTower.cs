@@ -2,17 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SuportTower : MonoBehaviour
+public class SuportTower : TargettingTower
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override void UseActOnTargets()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        foreach (var target in targets)
+        {
+            // 적 디버프 or 아군 버프 부여
+        }
     }
 }
+
