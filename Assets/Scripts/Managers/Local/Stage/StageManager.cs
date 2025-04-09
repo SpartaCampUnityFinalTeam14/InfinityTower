@@ -5,9 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class StageManager : Singleton<StageManager>
 {
-    public int hp;
-    public float curCost;
-    private float maxCost;
+    private int hp;
+    private float curCost = 1f;
+    private float maxCost = 10f;
+    [SerializeField] private FloatEventChannel OnCostChanged;
 
     public List<int> selectedTowers = new();
     public int selectedChampion;
@@ -34,8 +35,27 @@ public class StageManager : Singleton<StageManager>
     public void TakeDamage(int damage)
     {
         hp = Mathf.Max(hp - damage, 0);
-
+        Debug.Log(hp);
         if (hp <= 0) GameOver();
+    }
+
+    IEnumerator RegainCost()
+    {
+        while (true)
+        {
+            curCost = Mathf.Min(curCost + Time.deltaTime, maxCost);
+            OnCostChanged?.RaiseEvent(curCost / maxCost);
+            yield return null;
+        }
+    }
+
+    public bool UseCost(int amount)
+    {
+        if (curCost < amount) return false;
+        
+        curCost -= amount;
+
+        return true;
     }
 
     void GameOver()
@@ -47,12 +67,14 @@ public class StageManager : Singleton<StageManager>
 
     public void StartStage()
     {
+        StartCoroutine(RegainCost());
         StartCoroutine(ProgressStage());
     }
 
     IEnumerator ProgressStage()
     {
         Debug.Log("<color=white>스테이지 시작</color>");
+        curCost = 0;
 
         for(int i = 0; i < floorCount; i++)
         {

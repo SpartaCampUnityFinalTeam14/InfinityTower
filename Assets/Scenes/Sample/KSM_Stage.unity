@@ -152,8 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 008e97adda5752442ad43d90b77a980c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 10
-  curCost: 0
+  OnCostChanged: {fileID: 11400000, guid: 8861c2d9b4b5f53449900531b454b226, type: 2}
   selectedTowers: 
   selectedChampion: 0
   floorCount: 2
