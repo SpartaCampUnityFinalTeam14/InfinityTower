@@ -44,8 +44,9 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        previewObj = Instantiate(previewPrefab);
+        if (!IsCostEnough()) return;
 
+        previewObj = Instantiate(previewPrefab);
     }
 
 
@@ -66,7 +67,6 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         {
             r.color = canPlace ? new Color(0f, 1f, 0f, 0.8f) : new Color(1f, 0f, 0f, 0.8f); // 초록 or 빨강
         }   
-        
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -85,10 +85,19 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             Vector3 spawnPos = TilemapManager.Instance.tilemap.CellToWorld(cellPos) +
                                TilemapManager.Instance.tilemap.cellSize / 2;
 
+            if(IsCostEnough()) StageManager.Instance.UseCost(DataManager.Instance.towerDict[towerID].cost);
+
             Instantiate(placedTowerPrefab, spawnPos, Quaternion.identity);
         }
 
         if (previewObj != null)
             Destroy(previewObj);
+    }
+
+    bool IsCostEnough()
+    {
+        int cost = DataManager.Instance.towerDict[towerID].cost;
+
+        return StageManager.Instance.CheckCost(cost);
     }
 }

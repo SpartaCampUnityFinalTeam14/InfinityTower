@@ -3,44 +3,97 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class StageManager : MonoBehaviour
+public class StageManager : Singleton<StageManager>
 {
-    public float curCost;
-    private float maxCost;
+    private int hp;
+    private float curCost = 1f;
+    private float maxCost = 10f;
+    [SerializeField] private FloatEventChannel OnCostChanged;
+
     public List<int> selectedTowers = new();
     public int selectedChampion;
-    //public List<Perk> perks ¼±ÅÃÇÑ Æ¯¼º ¸®½ºÆ®
+    //public List<Perk> perks ì„ íƒí•œ íŠ¹ì„± ë¦¬ìŠ¤íŠ¸
 
     [SerializeField] private int floorCount = 2;
     private GameObject floorGO;
     private Floor curFloor;
+    [SerializeField] private IntEventChannel OnFloorCountChanged;
 
-    private void Awake()
+    protected override void Awake()
     {
-        //¿µ¿õ ¼¼ÆÃ ÇÊ¿ä
+        isGlobal = false;
+
+        base.Awake();
+
+        //ì˜ì›… ìŠ¤í‚¬ ì„¸íŒ… í•„ìš”
         selectedTowers = SaveManager.Instance.playerData.selectedTowerIndex;
         selectedChampion = SaveManager.Instance.playerData.selectedChampionIndex;
+        hp = DataManager.Instance.championDict[selectedChampion].hp;
 
-        StartStage();//ÃßÈÄ awake°¡ ¾Æ´Ñ ´Ù¸¥ °÷À¸·Î ÀÌµ¿ (¿¹¸¦ µé¾î, ½ÃÀÛ ¹öÆ°À» ´©¸¥´Ùµç°¡ ÇÏ´Â ½Ä)
+        StartStage();//ì¶”í›„ awakeê°€ ì•„ë‹Œ ë‹¤ë¥¸ ê³³ìœ¼ë¡œ ì´ë™ (ì˜ˆë¥¼ ë“¤ì–´, ì‹œì‘ ë²„íŠ¼ì„ ëˆ„ë¥¸ë‹¤ë“ ê°€ í•˜ëŠ” ì‹)
+    }
+
+    public void TakeDamage(int damage)
+    {
+        hp = Mathf.Max(hp - damage, 0);
+        Debug.Log(hp);
+        if (hp <= 0) GameOver();
+    }
+
+    IEnumerator RegainCost()
+    {
+        while (true)
+        {
+            curCost = Mathf.Min(curCost + Time.deltaTime, maxCost);
+            OnCostChanged.RaiseEvent(curCost / maxCost);
+            yield return null;
+        }
+    }
+
+    public bool CheckCost(int amount)
+    {
+        if (curCost < amount) return false;
+        return true;
+    }
+
+    public bool UseCost(int amount)
+    {
+        if (CheckCost(amount))
+        {
+            curCost -= amount;
+            return false;
+        }
+
+        return true;
+    }
+
+    void GameOver()
+    {
+        Debug.Log("ê²Œì„ì˜¤ë²„!");
+
+        EndStage();
     }
 
     public void StartStage()
     {
+        StartCoroutine(RegainCost());
         StartCoroutine(ProgressStage());
     }
 
     IEnumerator ProgressStage()
     {
-        Debug.Log("<color=white>½ºÅ×ÀÌÁö ½ÃÀÛ</color>");
+        Debug.Log("<color=white>ìŠ¤í…Œì´ì§€ ì‹œì‘</color>");
 
         for(int i = 0; i < floorCount; i++)
         {
+            OnFloorCountChanged.RaiseEvent(i + 1);
+
             if(floorGO != null) Destroy(floorGO);
-            floorGO = Util.InstantiatePrefab("testFloor");
-            floorGO.GetComponentInChildren<SpriteRenderer>().color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-            curFloor = floorGO.AddComponent<Floor>();
-            curFloor.Init(DataManager.Instance.floorDict[Random.Range(0, DataManager.Instance.floorDict.Count)]);
+            floorGO = Util.InstantiatePrefab("Floors/TestFloor");//ëœë¤ IDì— ë§ëŠ” í”Œë¡œì–´ ìƒì„±í•˜ê²Œ ë³€ê²½í•´ì•¼ í•¨
+            curFloor = floorGO.GetComponent<Floor>();
             curFloor.StartFloor();
+
+            curCost = 0;
 
             yield return new WaitUntil(() => curFloor.isFloorEnd);
 
@@ -52,21 +105,21 @@ public class StageManager : MonoBehaviour
 
     void ShowEvent()
     {
-        Debug.Log("<color=white>ÀÌº¥Æ® ¼±ÅÃ</color>");
-        //±¸ÇöÇØ¾ß ÇÔ
+        Debug.Log("<color=white>ì´ë²¤íŠ¸ ì„ íƒ</color>");
+        //êµ¬í˜„í•´ì•¼ í•¨
     }
 
     void GetReward()
     {
-        Debug.Log("<color=white>°ñµå Áö±Ş</color>");
-        //°ñµå Ã¬°ÜÁà¾ß ÇÔ
+        Debug.Log("<color=white>ê³¨ë“œ ì§€ê¸‰</color>");
+        //ê³¨ë“œ ì±™ê²¨ì¤˜ì•¼ í•¨
     }
 
     void EndStage()
     {
-        //º¸»ó Ã¬°ÜÁÖ°í ·Îºñ·Î º¸³»¾ß ÇÔ
+        //ë³´ìƒ ì±™ê²¨ì£¼ê³  ë¡œë¹„ë¡œ ë³´ë‚´ì•¼ í•¨
         GetReward();
-        Debug.Log("<color=white>½ºÅ×ÀÌÁö Á¾·á</color>");
+        Debug.Log("<color=white>ìŠ¤í…Œì´ì§€ ì¢…ë£Œ</color>");
 
         SceneManager.LoadScene("KSM_Lobby");
     }

@@ -1,10 +1,8 @@
-﻿using System.Collections;
 using System.Collections.Generic;
-using System.Net;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class PathManager : Singleton<PathManager>
+public class PathManager : MonoBehaviour
 {
     #region A*Node
     class AStarNode
@@ -26,30 +24,28 @@ public class PathManager : Singleton<PathManager>
     #endregion
 
     [SerializeField] Tilemap pathTilemap;
-    [SerializeField] Transform startPos;
+    public Transform startPos;
     [SerializeField] Transform endPos;
-    [SerializeField] MonsterBase test;
 
     Vector3Int startTile;
     Vector3Int endTile;
 
-    List<Vector3> pathPoints = new List<Vector3>();
+    public List<Vector3> pathPoints = new List<Vector3>();
 
     private readonly Vector3Int[] directions = {
         Vector3Int.up, Vector3Int.down, Vector3Int.left, Vector3Int.right
     };
 
-    protected override void Awake()
+    private void Awake()
     {
-        isGlobal = false;
-        base.Awake();
+        FindPath();
+    }
 
+    void FindPath()
+    {
         startTile = pathTilemap.WorldToCell(startPos.position);
         endTile = pathTilemap.WorldToCell(endPos.position);
         PathFind();
-
-        // testCode
-        test.SetPath(pathPoints);
     }
 
     #region A*
