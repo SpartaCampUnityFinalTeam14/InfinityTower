@@ -7,7 +7,7 @@
       "targetType": 0,
       "targetCount": 1,
       "cost": 1,
-      "targetingRule": 0,
+      "targetingRule": 1,
       "value": 1,
       "coolTime": 1,
       "range": 1

@@ -9,6 +9,7 @@ public class MonsterBase : Poolable
 
     List<Vector3> pathPoints;
     int curTileIdx = 0;
+    public int currentHP;
 
     public virtual void Init(int id, List<Vector3> path, Transform startPos)
     {

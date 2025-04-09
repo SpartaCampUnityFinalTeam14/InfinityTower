@@ -4,32 +4,33 @@ using System.Linq;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
+
 public abstract class TargettingTower : BaseTower
 {
     protected List<GameObject> targets;
-    //¹üÀ§ ¾È¿¡ µé¾î¿Â Àû ¸®½ºÆ®
-    List<Enemy> enemiesInRange;
-    //¹üÀ§ ¾È¿¡ ÀÖ´Â ¾Æ±º Å¸¿ö ¸®½ºÆ®
+    //ë²”ìœ„ ì•ˆì— ë“¤ì–´ì˜¨ ì  ë¦¬ìŠ¤íŠ¸
+    List<MonsterBase> enemiesInRange;
+    //ë²”ìœ„ ì•ˆì— ìˆëŠ” ì•„êµ° íƒ€ì›Œ ë¦¬ìŠ¤íŠ¸
     List<TargettingTower> allyInRange;
 
     public virtual void FindTargets()
     {
-        // targetingRule, targetType, targetCount µîÀ» ÀÌ¿ëÇØ Å¸°ÙÆÃ
+        // targetingRule, targetType, targetCount ë“±ì„ ì´ìš©í•´ íƒ€ê²ŸíŒ…
         targets = new List<GameObject>();
 
-        //¹üÀ§ ³» À¯´Ö Å½»ö
+        //ë²”ìœ„ ë‚´ ìœ ë‹› íƒìƒ‰
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.range);
 
-        enemiesInRange = new List<Enemy>();
+        enemiesInRange = new List<MonsterBase>();
         allyInRange = new List<TargettingTower>();
 
-        //¹üÀ§ ¾È¿¡ ÀÖ´Â Àû°ú ¾Æ±º ÆÇº°
+        //ë²”ìœ„ ì•ˆì— ìˆëŠ” ì ê³¼ ì•„êµ° íŒë³„
         foreach (Collider2D hit in hits)
         {
             if (hit.CompareTag("Enemy"))
             {
                 //enemiesInRange.Add(hit.GetComponent<Enemy>());
-                Enemy enemy = hit.GetComponent<Enemy>();
+                MonsterBase enemy = hit.GetComponent<MonsterBase>();
                 if (enemy != null)
                     enemiesInRange.Add(enemy);
             }
@@ -43,34 +44,34 @@ public abstract class TargettingTower : BaseTower
             }
         }
 
-        // 2. Å¸°ÙÆÃ ·ê Àû¿ë
+        // 2. íƒ€ê²ŸíŒ… ë£° ì ìš©
         switch (towerData.TargetType)
         {
-            //Å¸°ÙÀÌ ÀûÀÏ °æ¿ì
+            //íƒ€ê²Ÿì´ ì ì¼ ê²½ìš°
             case TargetType.Enemy:
                 switch (towerData.TargettingRule)
                 {
-                    case TargettingRule.Nearest: // Å¸¿ö¿Í °¡Àå °¡±î¿î Àû
+                    case TargettingRule.Nearest: // íƒ€ì›Œì™€ ê°€ì¥ ê°€ê¹Œìš´ ì 
                         enemiesInRange = enemiesInRange
-                            .OrderBy(e => Vector2.Distance(transform.position, e.transform.position))
+                            .OrderBy(m => Vector2.Distance(transform.position, m.transform.position))
                             .ToList();
                         break;
 
-                    case TargettingRule.Farthest: // Å¸¿ö¿Í °¡Àå ¸Õ Àû
+                    case TargettingRule.Farthest: // íƒ€ì›Œì™€ ê°€ì¥ ë¨¼ ì 
                         enemiesInRange = enemiesInRange
-                            .OrderByDescending(e => Vector2.Distance(transform.position, e.transform.position))
+                            .OrderByDescending(m => Vector2.Distance(transform.position, m.transform.position))
                             .ToList();
                         break;
 
-                    case TargettingRule.LowestHP: // Ã¼·ÂÀÌ °¡Àå ³·Àº Àû
+                    case TargettingRule.LowestHP: // ì²´ë ¥ì´ ê°€ì¥ ë‚®ì€ ì 
                         enemiesInRange = enemiesInRange
-                            .OrderBy(e => e.currentHP)
+                            .OrderBy(m => m.currentHP)
                             .ToList();
                         break;
 
-                    case TargettingRule.HighestHP: // Ã¼·ÂÀÌ °¡Àå ³ôÀº Àû
+                    case TargettingRule.HighestHP: // ì²´ë ¥ì´ ê°€ì¥ ë†’ì€ ì 
                         enemiesInRange = enemiesInRange
-                            .OrderByDescending(e => e.currentHP)
+                            .OrderByDescending(m => m.currentHP)
                             .ToList();
                         break;
 
@@ -79,17 +80,17 @@ public abstract class TargettingTower : BaseTower
                 }
                 break;
 
-            //Å¸°ÙÀÌ ¾Æ±ºÀÏ °æ¿ì
+            //íƒ€ê²Ÿì´ ì•„êµ°ì¼ ê²½ìš°
             case TargetType.Ally:
                 switch (towerData.TargettingRule)
                 {
-                    case TargettingRule.Nearest: // Å¸¿ö¿Í °¡Àå °¡±î¿î ¾Æ±º
+                    case TargettingRule.Nearest: // íƒ€ì›Œì™€ ê°€ì¥ ê°€ê¹Œìš´ ì•„êµ°
                         allyInRange = allyInRange
                             .OrderBy(a => Vector2.Distance(transform.position, a.transform.position))
                             .ToList();
                         break;
 
-                    case TargettingRule.Farthest: // Å¸¿ö¿Í °¡Àå ¸Õ ¾Æ±º
+                    case TargettingRule.Farthest: // íƒ€ì›Œì™€ ê°€ì¥ ë¨¼ ì•„êµ°
                         allyInRange = allyInRange
                             .OrderByDescending(a => Vector2.Distance(transform.position, a.transform.position))
                             .ToList();
@@ -104,13 +105,32 @@ public abstract class TargettingTower : BaseTower
                 break;
         }
 
-        // 3. Å¸°Ù ¼ö Á¦ÇÑ
-        int maxCount = Mathf.Min(towerData.targetCount, enemiesInRange.Count);
-        for (int i = 0; i < maxCount; i++)
+        // 3. íƒ€ê²Ÿ ìˆ˜ ì œí•œ
+        int maxCount;
+
+        switch (towerData.TargetType)
         {
-            targets.Add(enemiesInRange[i].gameObject);
+            case TargetType.Enemy:
+                maxCount = Mathf.Min(towerData.targetCount, enemiesInRange.Count);
+                for (int i = 0; i < maxCount; i++)
+                {
+                    targets.Add(enemiesInRange[i].gameObject);
+                }
+                break;
+
+            case TargetType.Ally:
+                maxCount = Mathf.Min(towerData.targetCount, allyInRange.Count);
+                for (int i = 0; i < maxCount; i++)
+                {
+                    targets.Add(allyInRange[i].gameObject);
+                }
+                break;
+
+            default:
+                break;
         }
     }
+
     public override void Activate()
     {
         FindTargets();
@@ -118,5 +138,5 @@ public abstract class TargettingTower : BaseTower
             UseSkillOnTargets();
     }
 
-    protected abstract void UseSkillOnTargets(); // °ø°İ/¹öÇÁ µîÀ» ÇÏÀ§¿¡¼­ Á¤ÀÇ
+    protected abstract void UseSkillOnTargets(); // ê³µê²©/ë²„í”„ ë“±ì„ í•˜ìœ„ì—ì„œ ì •ì˜
 }
