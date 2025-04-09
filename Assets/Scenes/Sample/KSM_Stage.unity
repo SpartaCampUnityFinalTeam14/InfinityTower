@@ -156,6 +156,7 @@ MonoBehaviour:
   selectedTowers: 
   selectedChampion: 0
   floorCount: 2
+  OnFloorCountChanged: {fileID: 11400000, guid: 488655e93354e78488197b1da7274906, type: 2}
 --- !u!4 &180912841
 Transform:
   m_ObjectHideFlags: 0

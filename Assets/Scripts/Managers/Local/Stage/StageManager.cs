@@ -17,6 +17,7 @@ public class StageManager : Singleton<StageManager>
     [SerializeField] private int floorCount = 2;
     private GameObject floorGO;
     private Floor curFloor;
+    [SerializeField] private IntEventChannel OnFloorCountChanged;
 
     protected override void Awake()
     {
@@ -44,7 +45,7 @@ public class StageManager : Singleton<StageManager>
         while (true)
         {
             curCost = Mathf.Min(curCost + Time.deltaTime, maxCost);
-            OnCostChanged?.RaiseEvent(curCost / maxCost);
+            OnCostChanged.RaiseEvent(curCost / maxCost);
             yield return null;
         }
     }
@@ -82,14 +83,17 @@ public class StageManager : Singleton<StageManager>
     IEnumerator ProgressStage()
     {
         Debug.Log("<color=white>스테이지 시작</color>");
-        curCost = 0;
 
         for(int i = 0; i < floorCount; i++)
         {
+            OnFloorCountChanged.RaiseEvent(i + 1);
+
             if(floorGO != null) Destroy(floorGO);
             floorGO = Util.InstantiatePrefab("Floors/TestFloor");//랜덤 ID에 맞는 플로어 생성하게 변경해야 함
             curFloor = floorGO.GetComponent<Floor>();
             curFloor.StartFloor();
+
+            curCost = 0;
 
             yield return new WaitUntil(() => curFloor.isFloorEnd);
 

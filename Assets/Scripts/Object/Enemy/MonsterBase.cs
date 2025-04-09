@@ -55,7 +55,7 @@ public class MonsterBase : Poolable
 
     void Dead()
     {
-        floor.monsterCnt--;
+        floor.SubrtactMonsterCount(1);
         PoolManager.Instance.Release(this);
     }
 }

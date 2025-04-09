@@ -4375,7 +4375,10 @@ MonoBehaviour:
   waveStartDelayTime: 3
   isFloorEnd: 0
   isPerkSelected: 0
+  monsterCnt: 0
   isWaveEnd: 0
+  OnWaveCountChanged: {fileID: 11400000, guid: 536ae859c5221d34abf848c1e928be90, type: 2}
+  OnMonsterCountChanged: {fileID: 11400000, guid: b492a61d719312541a29e73481512fc0, type: 2}
 --- !u!114 &2574788083173616646
 MonoBehaviour:
   m_ObjectHideFlags: 0
