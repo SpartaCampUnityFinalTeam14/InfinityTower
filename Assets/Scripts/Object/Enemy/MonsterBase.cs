@@ -12,6 +12,11 @@ public class MonsterBase : Poolable
     int curTileIdx = 0;
     public int currentHP;
 
+    private void Awake()
+    {
+        currentHP = data.hp;
+    }
+
     public virtual void Init(int id, List<Vector3> path, Transform startPos, Floor floor)
     {
         this.floor = floor;
@@ -58,5 +63,14 @@ public class MonsterBase : Poolable
     {
         floor.SubrtactMonsterCount(1);
         PoolManager.Instance.Release(this);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        currentHP -= damage;
+        if (currentHP <= 0)
+        {
+            Dead();
+        }
     }
 }
