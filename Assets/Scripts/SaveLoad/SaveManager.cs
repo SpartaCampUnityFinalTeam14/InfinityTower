@@ -26,8 +26,7 @@ public class SaveManager : Singleton<SaveManager>
         string path = $"{Application.persistentDataPath}/{typeof(Value)}.json";
         if (!System.IO.File.Exists(path))
         {
-            //throw new System.NullReferenceException($"������ ã�� �� �����ϴ�. ���� �����մϴ�: {path}");
-            Debug.LogWarning($"������ ã�� �� �����ϴ�. ���� �����մϴ�: {path}");
+            Debug.LogWarning($"파일을 찾을 수 없습니다. 새로 생성합니다: {path}");
             Loader newLoader = new Loader();
             SaveDict<Loader, Key, Value>(newLoader.MakeDict()); // �� ������ ����
             return newLoader;
@@ -47,7 +46,7 @@ public class SaveManager : Singleton<SaveManager>
         string path = $"{Application.persistentDataPath}/{typeof(Value)}.json";
         System.IO.File.WriteAllText(path, json);
 
-        Debug.Log($"{path} ���� �Ϸ�");
+        Debug.Log($"{path} 저장 완료");
     }
 
     void LoadPlayerData()
@@ -55,14 +54,14 @@ public class SaveManager : Singleton<SaveManager>
         string path = $"{Application.persistentDataPath}/{(nameof(PlayerData))}.json";
         if (!System.IO.File.Exists(path))
         {
-            Debug.LogWarning($"���̺� ������ ã�� �� �����ϴ�. ���� �����մϴ�: {path}");
-            playerData = new();//�� ������ ����
-            SavePlayerData(); // �� ������ ����
+            Debug.LogWarning($"캐릭터 파일을 찾을 수 없습니다. 새로 생성합니다: {path}");
+            playerData = new();
+            SavePlayerData();
             return;
         }
 
         string json = System.IO.File.ReadAllText(path);
-        Debug.Log($"���̺� ������ �ε��߽��ϴ�: {path}");
+        Debug.Log($"캐릭터 파일을 로드했습니다: {path}");
         playerData = JsonUtility.FromJson<PlayerData>(json);
         return;
     }
@@ -73,13 +72,13 @@ public class SaveManager : Singleton<SaveManager>
         string path = $"{Application.persistentDataPath}/{playerData.GetType()}.json";
         System.IO.File.WriteAllText(path, json);
 
-        Debug.Log($"{path} ���� �Ϸ�");
+        Debug.Log($"{path} 저장 완료");
     }
 
     public void ClearAll()
     {
         playerData = new();
-        SavePlayerData(); // �� ������ ����
+        SavePlayerData();
     }
 
     public void SaveAll()

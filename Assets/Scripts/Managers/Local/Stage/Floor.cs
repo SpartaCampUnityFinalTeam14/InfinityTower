@@ -1,35 +1,36 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Floor : MonoBehaviour
 {
-    //ÇÃ·Î¾î
+    private PathManager path;
+
+    //í”Œë¡œì–´
+    [SerializeField] private int id;
     private FloorData floorData;
 
-    public Vector2 spawnPosition;
+    //public Vector2 spawnPosition;
     public float waveStartDelayTime;
     public bool isFloorEnd;
     public bool isPerkSelected;
 
-    //¿şÀÌºê
+    //ì›¨ì´ë¸Œ
     private WaveData waveData;
 
     public bool isWaveEnd;
-    public float minSpawnDelayTime;
 
-    public void Init(FloorData data)
+    private void Awake()
     {
-        floorData = data;
+        path = GetComponent<PathManager>();
 
-        spawnPosition = new Vector2(DataManager.Instance.floorDict[0].spawnPosition[0]
-            , DataManager.Instance.floorDict[0].spawnPosition[1]);
         waveStartDelayTime = 1;
+        floorData = DataManager.Instance.floorDict[id];
     }
 
     public void StartFloor()
     {
-        Debug.Log("<color=cyan>ÇÃ·Î¾î ½ÃÀÛ</color>");
+        Debug.Log("<color=cyan>í”Œë¡œì–´ ì‹œì‘</color>");
 
         isFloorEnd = false;
         StartCoroutine(ProgressFloor());
@@ -53,14 +54,14 @@ public class Floor : MonoBehaviour
 
     void EndFloor()
     {
-        Debug.Log("<color=cyan>ÇÃ·Î¾î Á¾·á</color>");
+        Debug.Log("<color=cyan>í”Œë¡œì–´ ì¢…ë£Œ</color>");
 
         isFloorEnd = true;
     }
 
     public void StartWave(int index)
     {
-        Debug.Log("<color=green>¿şÀÌºê ½ÃÀÛ</color>");
+        Debug.Log("<color=green>ì›¨ì´ë¸Œ ì‹œì‘</color>");
 
         isWaveEnd = false;
         waveData = DataManager.Instance.waveDict[index];
@@ -82,26 +83,29 @@ public class Floor : MonoBehaviour
         EndWave();
     }
 
-    bool SpawnMonster(int monsterID)
+    void SpawnMonster(int monsterID)
     {
-        MonsterData monsterData = DataManager.Instance.monsterDict[monsterID];
+        GameObject monster = Resources.Load<GameObject>($"Prefabs/Monsters/TestMonster");
+        MonsterBase spawnedMonster = PoolManager.Instance.Get(monster).GetComponent<MonsterBase>();
+        spawnedMonster.Init(monsterID, path.pathPoints, path.startPos);
 
-        Debug.Log($"<color=red>{monsterData.name} »ı¼ºµÊ</color>");
-        //½ºÆù À§Ä¡¿¡ ¸ó½ºÅÍ »ı¼ºÇØ¾ß ÇÔ
+        //í…ŒìŠ¤íŠ¸ ì½”ë“œ, ë‚˜ì¤‘ì—ëŠ” ëª¬ìŠ¤í„°ì˜ Init()ì— ìŠ¤í”„ë¼ì´íŠ¸ì™€ ì• ë‹ˆë©”ì´ì…˜ ë³€ê²½í•´ì£¼ëŠ” ì½”ë“œ ì¶”ê°€í•´ì•¼ í•¨
+        float color = (float)monsterID / DataManager.Instance.monsterDict.Count;
+        spawnedMonster.GetComponentInChildren<SpriteRenderer>().color = new Color(color, color, color);
 
-        return true;
+        Debug.Log("<color=red>ëª¬ìŠ¤í„° ìŠ¤í°í•¨</color>");
     }
 
     void SelectPerk()
     {
-        Debug.Log("<color=green>Æ¯¼º ¼±ÅÃ</color>");
+        Debug.Log("<color=green>íŠ¹ì„± ì„ íƒ</color>");
 
-        //±¸ÇöÇØ¾ß ÇÔ
+        //êµ¬í˜„í•´ì•¼ í•¨
     }
 
     void EndWave()
     {
-        Debug.Log("<color=green>¿şÀÌºê Á¾·á</color>");
+        Debug.Log("<color=green>ì›¨ì´ë¸Œ ì¢…ë£Œ</color>");
 
         isWaveEnd = true;
     }
