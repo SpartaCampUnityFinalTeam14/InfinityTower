@@ -5,6 +5,7 @@ public class Scene_Stage : Scene
     protected override void Init()
     {
         base.Init();
-        //Debug.Log(DataManager.Instance.towerDict);
+
+        UIManager.Instance.ShowUI<UI_Hud>();
     }
 }

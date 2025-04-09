@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Tilemaps;
 
 public class Floor : MonoBehaviour
@@ -11,14 +12,18 @@ public class Floor : MonoBehaviour
     private FloorData floorData;
 
     //public Vector2 spawnPosition;
-    public float waveStartDelayTime;
+    [SerializeField] private float waveStartDelayTime;
     public bool isFloorEnd;
     public bool isPerkSelected;
 
     //웨이브
     private WaveData waveData;
 
-    public bool isWaveEnd;
+    private int monsterCnt = 0;
+    private bool isWaveEnd;
+
+    [SerializeField] private IntEventChannel OnWaveCountChanged;
+    [SerializeField] private IntEventChannel OnMonsterCountChanged;
 
     private void Awake()
     {
@@ -40,6 +45,8 @@ public class Floor : MonoBehaviour
     {
         for (int i = 0; i < floorData.waveCount; i++)
         {
+            OnWaveCountChanged.RaiseEvent(i + 1);
+
             yield return new WaitForSeconds(waveStartDelayTime);
 
             StartWave(floorData.waveID[i]);
@@ -48,6 +55,8 @@ public class Floor : MonoBehaviour
 
             SelectPerk();
         }
+
+        yield return new WaitUntil(() => monsterCnt <= 0);
 
         EndFloor();
     }
@@ -87,13 +96,26 @@ public class Floor : MonoBehaviour
     {
         GameObject monster = Resources.Load<GameObject>($"Prefabs/Monsters/TestMonster");
         MonsterBase spawnedMonster = PoolManager.Instance.Get(monster).GetComponent<MonsterBase>();
-        spawnedMonster.Init(monsterID, path.pathPoints, path.startPos);
+        spawnedMonster.Init(monsterID, path.pathPoints, path.startPos, this);
+        AddMonsterCount(1);
 
         //테스트 코드, 나중에는 몬스터의 Init()에 스프라이트와 애니메이션 변경해주는 코드 추가해야 함
         float color = (float)monsterID / DataManager.Instance.monsterDict.Count;
         spawnedMonster.GetComponentInChildren<SpriteRenderer>().color = new Color(color, color, color);
 
         Debug.Log("<color=red>몬스터 스폰함</color>");
+    }
+
+    public void AddMonsterCount(int count)
+    {
+        monsterCnt += count;
+        OnMonsterCountChanged.RaiseEvent(monsterCnt);
+    }
+
+    public void SubrtactMonsterCount(int count)
+    {
+        monsterCnt -= count;
+        OnMonsterCountChanged.RaiseEvent(monsterCnt);
     }
 
     void SelectPerk()

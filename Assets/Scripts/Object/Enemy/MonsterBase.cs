@@ -5,14 +5,17 @@ using UnityEngine;
 
 public class MonsterBase : Poolable
 {
+    private Floor floor;
     protected MonsterData data;
 
     List<Vector3> pathPoints;
     int curTileIdx = 0;
     public int currentHP;
 
-    public virtual void Init(int id, List<Vector3> path, Transform startPos)
+    public virtual void Init(int id, List<Vector3> path, Transform startPos, Floor floor)
     {
+        this.floor = floor;
+
         data = new(DataManager.Instance.monsterDict[id]);//깊은 복사
         transform.position = startPos.position;
         SetPath(path);
@@ -48,6 +51,12 @@ public class MonsterBase : Poolable
         }
 
         StageManager.Instance.TakeDamage(data.damage);
+        Dead();
+    }
+
+    void Dead()
+    {
+        floor.SubrtactMonsterCount(1);
         PoolManager.Instance.Release(this);
     }
 }
