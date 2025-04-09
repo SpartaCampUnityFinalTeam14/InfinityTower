@@ -49,11 +49,19 @@ public class StageManager : Singleton<StageManager>
         }
     }
 
-    public bool UseCost(int amount)
+    public bool CheckCost(int amount)
     {
         if (curCost < amount) return false;
-        
-        curCost -= amount;
+        return true;
+    }
+
+    public bool UseCost(int amount)
+    {
+        if (CheckCost(amount))
+        {
+            curCost -= amount;
+            return false;
+        }
 
         return true;
     }
