@@ -18,6 +18,7 @@ public class Floor : MonoBehaviour
     //웨이브
     private WaveData waveData;
 
+    public int monsterCnt = 0;
     public bool isWaveEnd;
 
     private void Awake()
@@ -48,6 +49,8 @@ public class Floor : MonoBehaviour
 
             SelectPerk();
         }
+
+        yield return new WaitUntil(() => monsterCnt <= 0);
 
         EndFloor();
     }
@@ -87,7 +90,8 @@ public class Floor : MonoBehaviour
     {
         GameObject monster = Resources.Load<GameObject>($"Prefabs/Monsters/TestMonster");
         MonsterBase spawnedMonster = PoolManager.Instance.Get(monster).GetComponent<MonsterBase>();
-        spawnedMonster.Init(monsterID, path.pathPoints, path.startPos);
+        spawnedMonster.Init(monsterID, path.pathPoints, path.startPos, this);
+        monsterCnt++;
 
         //테스트 코드, 나중에는 몬스터의 Init()에 스프라이트와 애니메이션 변경해주는 코드 추가해야 함
         float color = (float)monsterID / DataManager.Instance.monsterDict.Count;

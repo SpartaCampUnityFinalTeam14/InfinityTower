@@ -4372,7 +4372,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
-  waveStartDelayTime: 1
+  waveStartDelayTime: 3
   isFloorEnd: 0
   isPerkSelected: 0
   isWaveEnd: 0
