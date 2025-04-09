@@ -1,27 +1,68 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.Playables;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class StageManager : MonoBehaviour
+public class StageManager : Singleton<StageManager>
 {
     public float curCost;
     private float maxCost;
     public List<int> selectedTowers = new();
     public int selectedChampion;
-    //public List<Perk> perks 선택한 특성 리스트
+    public Dictionary<int, Dictionary<int, AbilityData>> filterAbilityPool; // 특성 가챠에 사용될 특성 풀 (Dictionary<레어도, Dictionary<특성ID, 특성데이터>>)
+    public Dictionary<int, AbilityData> ability; // 선택한 특성 리스트 <특성id, 특성>
 
     [SerializeField] private int floorCount = 2;
     private GameObject floorGO;
     private Floor curFloor;
+    public Floor CurFloor => curFloor;
 
-    private void Awake()
+    protected override void Awake()
     {
+        isGlobal = false;
+        base.Awake();
+
         //영웅 세팅 필요
         selectedTowers = SaveManager.Instance.playerData.selectedTowerIndex;
         selectedChampion = SaveManager.Instance.playerData.selectedChampionIndex;
 
+        FilterAbilitiesByDeck(); // 현재 덱에 따라 특성 필터링
         StartStage();//추후 awake가 아닌 다른 곳으로 이동 (예를 들어, 시작 버튼을 누른다든가 하는 식)
+    }
+
+    public void FilterAbilitiesByDeck()
+    {
+        // Ditionary 초기화 작업
+        ability = new Dictionary<int, AbilityData>();
+        filterAbilityPool = new Dictionary<int, Dictionary<int, AbilityData>>();
+        var abilityDatas = DataManager.Instance.abilityDict;
+        foreach (var data in abilityDatas.Values)
+        {
+            if (!filterAbilityPool.ContainsKey(data.rarity))
+                filterAbilityPool.Add(data.rarity, new Dictionary<int, AbilityData>());
+
+            filterAbilityPool[data.rarity].Add(data.id ,data.DeepCopy());
+        }
+
+        // 현재 덱에 관련된 특성만 남기기
+        List<int> removeKey = new List<int>();
+        foreach (var ability in filterAbilityPool.Values)
+        {
+            removeKey.Clear();
+
+            foreach (var data in ability.Values)
+            {
+                if (data.targetID != -1 && data.targetType.Equals((int)TargetType.Tower) && !selectedTowers.Contains(data.targetID))
+                    removeKey.Add(data.id);
+            }
+
+            foreach (var key in removeKey)
+            {
+                ability.Remove(key);
+            }
+        }
     }
 
     public void StartStage()
@@ -49,7 +90,7 @@ public class StageManager : MonoBehaviour
 
         EndStage();
     }
-
+   
     void ShowEvent()
     {
         Debug.Log("<color=white>이벤트 선택</color>");

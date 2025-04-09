@@ -1,13 +1,70 @@
 {
-  "data": [
-    {
-      "id": 0,
-      "rarity": 0,
-      "name": "특성",
-      "description": "특성이다.",
-      "valueType": [0,1,2,3],
-      "value": [1,1,1,1],
-      "targetTowerID": -1
+    "data": [
+      {
+        "id": 0,
+        "rarity": 0,
+        "name": "공격력 증가",
+        "description": "타워 전체 공격력이 소폭 증가합니다.",
+        "valueType": [ 0 ],
+        "value": [ 10 ],
+        "targetType": 1,
+        "targetID": -1,
+        "stackable": 1
+      },
+      {
+        "id": 1,
+        "rarity": 0,
+        "name": "공격속도 증가",
+        "description": "모든 타워의 공격속도가 증가합니다.",
+        "valueType": [ 1 ],
+        "value": [ 15 ],
+        "targetType": 1,
+        "targetID": -1,
+        "stackable": 1
+      },
+      {
+        "id": 2,
+        "rarity": 2,
+        "name": "크리티컬 확률 증가",
+        "description": "특정 타워의 크리티컬 확률이 크게 증가합니다.",
+        "valueType": [ 2 ],
+        "value": [ 25 ],
+        "targetType": 1,
+        "targetID": -1,
+        "stackable": 0
+      },
+      {
+        "id": 3,
+        "rarity": 0,
+        "name": "범위 공격 강화",
+        "description": "범위 공격을 하는 타워의 범위가 증가합니다.",
+        "valueType": [ 3 ],
+        "value": [ 5 ],
+        "targetType": 2,
+        "targetID": 1002,
+        "stackable": 1
+      },
+      {
+        "id": 4,
+        "rarity": 1,
+        "name": "적 슬로우 효과 부여",
+        "description": "공격에 일정 확률로 적을 느리게 만드는 효과를 부여합니다.",
+        "valueType": [ 0 ],
+        "value": [ 2 ],
+        "targetType": 2,
+        "targetID": 1003,
+        "stackable": 0
+      },
+      {
+        "id": 5,
+        "rarity": 2,
+        "name": "보스에게 추가 피해",
+        "description": "보스 적에게 가하는 피해가 증가합니다.",
+        "valueType": [ 2 ],
+        "value": [ 3 ],
+        "targetType": 1,
+        "targetID": -1,
+        "stackable": 0
+        }
+      ]
     }
-  ]
-}

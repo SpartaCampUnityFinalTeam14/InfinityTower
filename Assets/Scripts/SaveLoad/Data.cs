@@ -198,7 +198,18 @@ public class AbilityData
     public string description;
     public List<int> valueType;
     public List<int> value;
-    public int targetTowerID;
+    public int targetType;
+    public int targetID;
+    public int stackable;
+
+    public AbilityData DeepCopy()
+    {
+        var copyData = (AbilityData)MemberwiseClone();
+        copyData.valueType = new List<int>(valueType);
+        copyData.value = new List<int>(value);
+
+        return copyData;
+    }
 }
 
 [Serializable]
