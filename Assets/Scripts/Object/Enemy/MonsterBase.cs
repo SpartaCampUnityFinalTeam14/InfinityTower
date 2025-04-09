@@ -7,7 +7,6 @@ public class MonsterBase : Poolable
 {
     protected MonsterData data;
 
-    [SerializeField] float speed = 2f;
     List<Vector3> pathPoints;
     int curTileIdx = 0;
 
@@ -38,7 +37,7 @@ public class MonsterBase : Poolable
 
             while (Vector3.Distance(transform.position, target) > 0.05f)
             {
-                transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, target, data.moveSpeed * Time.deltaTime);
                 yield return null;
             }
 
