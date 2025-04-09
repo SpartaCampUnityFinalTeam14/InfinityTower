@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class PathManager : Singleton<PathManager>
+public class PathManager : MonoBehaviour
 {
     #region A*Node
     class AStarNode
@@ -24,7 +24,7 @@ public class PathManager : Singleton<PathManager>
     #endregion
 
     [SerializeField] Tilemap pathTilemap;
-    [SerializeField] Transform startPos;
+    public Transform startPos;
     [SerializeField] Transform endPos;
 
     Vector3Int startTile;
@@ -36,18 +36,8 @@ public class PathManager : Singleton<PathManager>
         Vector3Int.up, Vector3Int.down, Vector3Int.left, Vector3Int.right
     };
 
-    protected override void Awake()
+    private void Awake()
     {
-        isGlobal = false;
-
-        base.Awake();
-    }
-
-    public void Init(Tilemap path, Transform start, Transform end)
-    {
-        pathTilemap = path;
-        startPos = start;
-        endPos = end;
         FindPath();
     }
 

@@ -13,7 +13,7 @@ public class MonsterBase : Poolable
 
     public virtual void Init(int id, List<Vector3> path, Transform startPos)
     {
-        data = DataManager.Instance.monsterDict[id];
+        data = new(DataManager.Instance.monsterDict[id]);//ê¹Šì€ ë³µì‚¬
         transform.position = startPos.position;
         SetPath(path);
     }
@@ -25,7 +25,7 @@ public class MonsterBase : Poolable
 
         if (pathPoints != null && pathPoints.Count > 0)
         {
-            transform.position = pathPoints[0]; // ½ÃÀÛ À§Ä¡ ¼³Á¤
+            transform.position = pathPoints[0]; // ì‹œìž‘ ìœ„ì¹˜ ì„¤ì •
             StartCoroutine(MoveToPath());
         }
     }

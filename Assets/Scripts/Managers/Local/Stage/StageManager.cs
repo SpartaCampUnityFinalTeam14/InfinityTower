@@ -11,7 +11,7 @@ public class StageManager : Singleton<StageManager>
 
     public List<int> selectedTowers = new();
     public int selectedChampion;
-    //public List<Perk> perks ¼±ÅÃÇÑ Æ¯¼º ¸®½ºÆ®
+    //public List<Perk> perks ì„ íƒí•œ íŠ¹ì„± ë¦¬ìŠ¤íŠ¸
 
     [SerializeField] private int floorCount = 2;
     private GameObject floorGO;
@@ -23,12 +23,12 @@ public class StageManager : Singleton<StageManager>
 
         base.Awake();
 
-        //¿µ¿õ ¼¼ÆÃ ÇÊ¿ä
+        //ì˜ì›… ìŠ¤í‚¬ ì„¸íŒ… í•„ìš”
         selectedTowers = SaveManager.Instance.playerData.selectedTowerIndex;
         selectedChampion = SaveManager.Instance.playerData.selectedChampionIndex;
         hp = DataManager.Instance.championDict[selectedChampion].hp;
 
-        StartStage();//ÃßÈÄ awake°¡ ¾Æ´Ñ ´Ù¸¥ °÷À¸·Î ÀÌµ¿ (¿¹¸¦ µé¾î, ½ÃÀÛ ¹öÆ°À» ´©¸¥´Ùµç°¡ ÇÏ´Â ½Ä)
+        StartStage();//ì¶”í›„ awakeê°€ ì•„ë‹Œ ë‹¤ë¥¸ ê³³ìœ¼ë¡œ ì´ë™ (ì˜ˆë¥¼ ë“¤ì–´, ì‹œì‘ ë²„íŠ¼ì„ ëˆ„ë¥¸ë‹¤ë“ ê°€ í•˜ëŠ” ì‹)
     }
 
     public void TakeDamage(int damage)
@@ -40,7 +40,7 @@ public class StageManager : Singleton<StageManager>
 
     void GameOver()
     {
-        Debug.Log("°ÔÀÓ¿À¹ö!");
+        Debug.Log("ê²Œì„ì˜¤ë²„!");
 
         EndStage();
     }
@@ -52,14 +52,13 @@ public class StageManager : Singleton<StageManager>
 
     IEnumerator ProgressStage()
     {
-        Debug.Log("<color=white>½ºÅ×ÀÌÁö ½ÃÀÛ</color>");
+        Debug.Log("<color=white>ìŠ¤í…Œì´ì§€ ì‹œì‘</color>");
 
         for(int i = 0; i < floorCount; i++)
         {
             if(floorGO != null) Destroy(floorGO);
-            floorGO = Util.InstantiatePrefab("Floors/TestFloor");
-            curFloor = floorGO.GetOrAddComponent<Floor>();
-            curFloor.Init(DataManager.Instance.floorDict[Random.Range(0, DataManager.Instance.floorDict.Count)]);
+            floorGO = Util.InstantiatePrefab("Floors/TestFloor");//ëœë¤ IDì— ë§ëŠ” í”Œë¡œì–´ ìƒì„±í•˜ê²Œ ë³€ê²½í•´ì•¼ í•¨
+            curFloor = floorGO.GetComponent<Floor>();
             curFloor.StartFloor();
 
             yield return new WaitUntil(() => curFloor.isFloorEnd);
@@ -72,21 +71,21 @@ public class StageManager : Singleton<StageManager>
 
     void ShowEvent()
     {
-        Debug.Log("<color=white>ÀÌº¥Æ® ¼±ÅÃ</color>");
-        //±¸ÇöÇØ¾ß ÇÔ
+        Debug.Log("<color=white>ì´ë²¤íŠ¸ ì„ íƒ</color>");
+        //êµ¬í˜„í•´ì•¼ í•¨
     }
 
     void GetReward()
     {
-        Debug.Log("<color=white>°ñµå Áö±Ş</color>");
-        //°ñµå Ã¬°ÜÁà¾ß ÇÔ
+        Debug.Log("<color=white>ê³¨ë“œ ì§€ê¸‰</color>");
+        //ê³¨ë“œ ì±™ê²¨ì¤˜ì•¼ í•¨
     }
 
     void EndStage()
     {
-        //º¸»ó Ã¬°ÜÁÖ°í ·Îºñ·Î º¸³»¾ß ÇÔ
+        //ë³´ìƒ ì±™ê²¨ì£¼ê³  ë¡œë¹„ë¡œ ë³´ë‚´ì•¼ í•¨
         GetReward();
-        Debug.Log("<color=white>½ºÅ×ÀÌÁö Á¾·á</color>");
+        Debug.Log("<color=white>ìŠ¤í…Œì´ì§€ ì¢…ë£Œ</color>");
 
         SceneManager.LoadScene("KSM_Lobby");
     }

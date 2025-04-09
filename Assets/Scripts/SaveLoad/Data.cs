@@ -1,4 +1,4 @@
-//Ä³¸¯ÅÍ, ¾ÆÀÌÅÛ µîÀÇ ÃÊ±â°ª ·Îµå ¿ëµµ
+//ìºë¦­í„°, ì•„ì´í…œ ë“±ì˜ ì´ˆê¸°ê°’ ë¡œë“œ ìš©ë„
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +20,18 @@ public class MonsterData
     public int damage;
     public int enemyType;
     public bool hasSkill;
+
+    public MonsterData(MonsterData data)
+    {
+        this.id = data.id;
+        this.name = data.name;
+        this.description = data.description;
+        this.hp = data.hp;
+        this.moveSpeed = data.moveSpeed;
+        this.damage = data.damage;
+        this.enemyType = data.enemyType;
+        this.hasSkill = data.hasSkill;
+    }
 }
 
 [Serializable]
