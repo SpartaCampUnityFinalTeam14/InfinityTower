@@ -15,7 +15,7 @@
       "name": "유령",
       "description": "유령이다.",
       "hp": 1,
-      "moveSpeed": 1.5,
+      "moveSpeed": 10,
       "damage": 1,
       "enemyType": 0,
       "hasSkill": "false"
