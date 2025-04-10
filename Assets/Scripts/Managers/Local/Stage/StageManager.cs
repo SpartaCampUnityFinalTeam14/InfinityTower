@@ -34,8 +34,14 @@ public class StageManager : Singleton<StageManager>
         selectedChampion = SaveManager.Instance.playerData.selectedChampionIndex;
         hp = DataManager.Instance.championDict[selectedChampion].hp;
 
+        InitUIPause();
         FilterAbilitiesByDeck(); // 현재 덱에 따라 특성 필터링
         StartStage();//추후 awake가 아닌 다른 곳으로 이동 (예를 들어, 시작 버튼을 누른다든가 하는 식)
+    }
+
+    void InitUIPause()
+    {
+        UIManager.Instance.HideUI<UIPause>();
     }
 
     public void TakeDamage(int damage)

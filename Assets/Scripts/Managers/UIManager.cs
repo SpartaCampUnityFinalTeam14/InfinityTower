@@ -88,6 +88,7 @@ public class UIManager : Singleton<UIManager>
 
         T ui = Util.InstantiatePrefabAndGetComponent<T>(path: $"UI/{uiType.Name}", parent: par);
         _sceneDict[uiType] = ui;
+        ui.Show();
 
         return ui;
     }
@@ -97,7 +98,7 @@ public class UIManager : Singleton<UIManager>
         return ShowUI<T>(Root);
     }
 
-    //´Ù¸¥ Å¬·¡½ºµé¿¡¼­ È£ÃâÇÏ´Â ¸Ş¼­µå
+    //ë‹¤ë¥¸ í´ë˜ìŠ¤ë“¤ì—ì„œ í˜¸ì¶œí•˜ëŠ” ë©”ì„œë“œ
     public void RemoveUI<T>() where T: UI
     {
         Type uiType = typeof(T);
@@ -111,7 +112,7 @@ public class UIManager : Singleton<UIManager>
         else throw new InvalidOperationException($"There's No {uiType.Name} in UIManager");
     }
 
-    //UIÀÇ Close¿¡¼­ È£ÃâÇÏ´Â ¸Ş¼­µå
+    //UIì˜ Closeì—ì„œ í˜¸ì¶œí•˜ëŠ” ë©”ì„œë“œ
     public void RemoveUI(UI ui)
     {
         Type uiType = ui.GetType();
