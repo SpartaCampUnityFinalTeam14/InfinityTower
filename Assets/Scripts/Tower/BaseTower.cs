@@ -19,11 +19,12 @@ public abstract class BaseTower : MonoBehaviour
     // Update is called once per frame
     public virtual void Update()
     {
+
         cooldownTimer -= Time.deltaTime;
         if (cooldownTimer <= 0)
         {
-            Activate();
             cooldownTimer = towerData.coolTime;
+            Activate();
         }
     }
 

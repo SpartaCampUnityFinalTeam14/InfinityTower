@@ -14,16 +14,12 @@ public class MonsterBase : Poolable
     //방어력 추가
     public float defense;
 
-    private void Awake()
-    {
-        currentHP = data.hp;
-    }
-
     public virtual void Init(int id, List<Vector3> path, Transform startPos, Floor floor)
     {
         this.floor = floor;
 
         data = new(DataManager.Instance.monsterDict[id]);//깊은 복사
+        currentHP = data.hp;
         transform.position = startPos.position;
         SetPath(path);
     }
