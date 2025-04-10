@@ -5,15 +5,18 @@ using UnityEngine;
 
 public class MonsterBase : Poolable
 {
+    private Floor floor;
     protected MonsterData data;
 
-    [SerializeField] float speed = 2f;
     List<Vector3> pathPoints;
     int curTileIdx = 0;
 
-    public virtual void Init(int id, List<Vector3> path)
+    public virtual void Init(int id, List<Vector3> path, Transform startPos, Floor floor)
     {
-        data = DataManager.Instance.monsterDict[id];
+        this.floor = floor;
+
+        data = new(DataManager.Instance.monsterDict[id]);//ê¹Šì€ ë³µì‚¬
+        transform.position = startPos.position;
         SetPath(path);
     }
 
@@ -24,7 +27,7 @@ public class MonsterBase : Poolable
 
         if (pathPoints != null && pathPoints.Count > 0)
         {
-            transform.position = pathPoints[0]; // ½ÃÀÛ À§Ä¡ ¼³Á¤
+            transform.position = pathPoints[0]; // ì‹œìž‘ ìœ„ì¹˜ ì„¤ì •
             StartCoroutine(MoveToPath());
         }
     }
@@ -37,7 +40,7 @@ public class MonsterBase : Poolable
 
             while (Vector3.Distance(transform.position, target) > 0.05f)
             {
-                transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, target, data.moveSpeed * Time.deltaTime);
                 yield return null;
             }
 
@@ -45,5 +48,14 @@ public class MonsterBase : Poolable
             curTileIdx++;
             yield return null;
         }
+
+        StageManager.Instance.TakeDamage(data.damage);
+        Dead();
+    }
+
+    void Dead()
+    {
+        floor.SubrtactMonsterCount(1);
+        PoolManager.Instance.Release(this);
     }
 }

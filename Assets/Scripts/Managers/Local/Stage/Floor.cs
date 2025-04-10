@@ -1,35 +1,41 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.Tilemaps;
 
 public class Floor : MonoBehaviour
 {
-    //ÇÃ·Î¾î
+    private PathManager path;
+
+    //í”Œë¡œì–´
+    [SerializeField] private int id;
     private FloorData floorData;
 
-    public Vector2 spawnPosition;
-    public float waveStartDelayTime;
+    //public Vector2 spawnPosition;
+    [SerializeField] private float waveStartDelayTime;
     public bool isFloorEnd;
     public bool isPerkSelected;
 
-    //¿şÀÌºê
+    //ì›¨ì´ë¸Œ
     private WaveData waveData;
 
-    public bool isWaveEnd;
-    public float minSpawnDelayTime;
+    private int monsterCnt = 0;
+    private bool isWaveEnd;
 
-    public void Init(FloorData data)
+    [SerializeField] private IntEventChannel OnWaveCountChanged;
+    [SerializeField] private IntEventChannel OnMonsterCountChanged;
+
+    private void Awake()
     {
-        floorData = data;
+        path = GetComponent<PathManager>();
 
-        spawnPosition = new Vector2(DataManager.Instance.floorDict[0].spawnPosition[0]
-            , DataManager.Instance.floorDict[0].spawnPosition[1]);
         waveStartDelayTime = 1;
+        floorData = DataManager.Instance.floorDict[id];
     }
 
     public void StartFloor()
     {
-        Debug.Log("<color=cyan>ÇÃ·Î¾î ½ÃÀÛ</color>");
+        Debug.Log("<color=cyan>í”Œë¡œì–´ ì‹œì‘</color>");
 
         isFloorEnd = false;
         StartCoroutine(ProgressFloor());
@@ -39,6 +45,8 @@ public class Floor : MonoBehaviour
     {
         for (int i = 0; i < floorData.waveCount; i++)
         {
+            OnWaveCountChanged.RaiseEvent(i + 1);
+
             yield return new WaitForSeconds(waveStartDelayTime);
 
             StartWave(floorData.waveID[i]);
@@ -49,19 +57,21 @@ public class Floor : MonoBehaviour
             yield return new WaitUntil(() => isPerkSelected);
         }
 
+        yield return new WaitUntil(() => monsterCnt <= 0);
+
         EndFloor();
     }
 
     void EndFloor()
     {
-        Debug.Log("<color=cyan>ÇÃ·Î¾î Á¾·á</color>");
+        Debug.Log("<color=cyan>í”Œë¡œì–´ ì¢…ë£Œ</color>");
 
         isFloorEnd = true;
     }
 
     public void StartWave(int index)
     {
-        Debug.Log("<color=green>¿şÀÌºê ½ÃÀÛ</color>");
+        Debug.Log("<color=green>ì›¨ì´ë¸Œ ì‹œì‘</color>");
 
         isWaveEnd = false;
         waveData = DataManager.Instance.waveDict[index];
@@ -83,19 +93,35 @@ public class Floor : MonoBehaviour
         EndWave();
     }
 
-    bool SpawnMonster(int monsterID)
+    void SpawnMonster(int monsterID)
     {
-        MonsterData monsterData = DataManager.Instance.monsterDict[monsterID];
+        GameObject monster = Resources.Load<GameObject>($"Prefabs/Monsters/TestMonster");
+        MonsterBase spawnedMonster = PoolManager.Instance.Get(monster).GetComponent<MonsterBase>();
+        spawnedMonster.Init(monsterID, path.pathPoints, path.startPos, this);
+        AddMonsterCount(1);
 
-        Debug.Log($"<color=red>{monsterData.name} »ı¼ºµÊ</color>");
-        //½ºÆù À§Ä¡¿¡ ¸ó½ºÅÍ »ı¼ºÇØ¾ß ÇÔ
+        //í…ŒìŠ¤íŠ¸ ì½”ë“œ, ë‚˜ì¤‘ì—ëŠ” ëª¬ìŠ¤í„°ì˜ Init()ì— ìŠ¤í”„ë¼ì´íŠ¸ì™€ ì• ë‹ˆë©”ì´ì…˜ ë³€ê²½í•´ì£¼ëŠ” ì½”ë“œ ì¶”ê°€í•´ì•¼ í•¨
+        float color = (float)monsterID / DataManager.Instance.monsterDict.Count;
+        spawnedMonster.GetComponentInChildren<SpriteRenderer>().color = new Color(color, color, color);
 
-        return true;
+        Debug.Log("<color=red>ëª¬ìŠ¤í„° ìŠ¤í°í•¨</color>");
+    }
+
+    public void AddMonsterCount(int count)
+    {
+        monsterCnt += count;
+        OnMonsterCountChanged.RaiseEvent(monsterCnt);
+    }
+
+    public void SubrtactMonsterCount(int count)
+    {
+        monsterCnt -= count;
+        OnMonsterCountChanged.RaiseEvent(monsterCnt);
     }
 
     void SelectPerk()
     {
-        Debug.Log("<color=green>Æ¯¼º ¼±ÅÃ</color>");
+        Debug.Log("<color=green>íŠ¹ì„± ì„ íƒ</color>");
         isPerkSelected = false;
         var uiAbility = UIManager.Instance.ShowUI<UIAbility>();
         uiAbility.DrawAbility();
@@ -103,7 +129,7 @@ public class Floor : MonoBehaviour
 
     void EndWave()
     {
-        Debug.Log("<color=green>¿şÀÌºê Á¾·á</color>");
+        Debug.Log("<color=green>ì›¨ì´ë¸Œ ì¢…ë£Œ</color>");
 
         isWaveEnd = true;
     }

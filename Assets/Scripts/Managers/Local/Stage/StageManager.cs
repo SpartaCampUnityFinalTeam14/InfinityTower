@@ -7,34 +7,81 @@ using UnityEngine.SceneManagement;
 
 public class StageManager : Singleton<StageManager>
 {
-    public float curCost;
-    private float maxCost;
+    private int hp;
+    private float curCost = 1f;
+    private float maxCost = 10f;
+    [SerializeField] private FloatEventChannel OnCostChanged;
+
     public List<int> selectedTowers = new();
     public int selectedChampion;
-    public Dictionary<int, Dictionary<int, AbilityData>> filterAbilityPool; // Æ¯¼º °¡Ã­¿¡ »ç¿ëµÉ Æ¯¼º Ç® (Dictionary<·¹¾îµµ, Dictionary<Æ¯¼ºID, Æ¯¼ºµ¥ÀÌÅÍ>>)
-    public Dictionary<int, AbilityData> ability; // ¼±ÅÃÇÑ Æ¯¼º ¸®½ºÆ® <Æ¯¼ºid, Æ¯¼º>
+    public Dictionary<int, Dictionary<int, AbilityData>> filterAbilityPool; // íŠ¹ì„± ê°€ì± ì— ì‚¬ìš©ë  íŠ¹ì„± í’€ (Dictionary<ë ˆì–´ë„, Dictionary<íŠ¹ì„±ID, íŠ¹ì„±ë°ì´í„°>>)
+    public Dictionary<int, AbilityData> ability; // ì„ íƒí•œ íŠ¹ì„± ë¦¬ìŠ¤íŠ¸ <íŠ¹ì„±id, íŠ¹ì„±>
 
     [SerializeField] private int floorCount = 2;
     private GameObject floorGO;
     private Floor curFloor;
     public Floor CurFloor => curFloor;
+    [SerializeField] private IntEventChannel OnFloorCountChanged;
 
     protected override void Awake()
     {
         isGlobal = false;
+
         base.Awake();
 
-        //¿µ¿õ ¼¼ÆÃ ÇÊ¿ä
+        //ì˜ì›… ìŠ¤í‚¬ ì„¸íŒ… í•„ìš”
         selectedTowers = SaveManager.Instance.playerData.selectedTowerIndex;
         selectedChampion = SaveManager.Instance.playerData.selectedChampionIndex;
+        hp = DataManager.Instance.championDict[selectedChampion].hp;
 
-        FilterAbilitiesByDeck(); // ÇöÀç µ¦¿¡ µû¶ó Æ¯¼º ÇÊÅÍ¸µ
-        StartStage();//ÃßÈÄ awake°¡ ¾Æ´Ñ ´Ù¸¥ °÷À¸·Î ÀÌµ¿ (¿¹¸¦ µé¾î, ½ÃÀÛ ¹öÆ°À» ´©¸¥´Ùµç°¡ ÇÏ´Â ½Ä)
+        FilterAbilitiesByDeck(); // í˜„ì¬ ë±ì— ë”°ë¼ íŠ¹ì„± í•„í„°ë§
+        StartStage();//ì¶”í›„ awakeê°€ ì•„ë‹Œ ë‹¤ë¥¸ ê³³ìœ¼ë¡œ ì´ë™ (ì˜ˆë¥¼ ë“¤ì–´, ì‹œì‘ ë²„íŠ¼ì„ ëˆ„ë¥¸ë‹¤ë“ ê°€ í•˜ëŠ” ì‹)
+    }
+
+    public void TakeDamage(int damage)
+    {
+        hp = Mathf.Max(hp - damage, 0);
+        Debug.Log(hp);
+        if (hp <= 0) GameOver();
+    }
+
+    IEnumerator RegainCost()
+    {
+        while (true)
+        {
+            curCost = Mathf.Min(curCost + Time.deltaTime, maxCost);
+            OnCostChanged.RaiseEvent(curCost / maxCost);
+            yield return null;
+        }
+    }
+
+    public bool CheckCost(int amount)
+    {
+        if (curCost < amount) return false;
+        return true;
+    }
+
+    public bool UseCost(int amount)
+    {
+        if (CheckCost(amount))
+        {
+            curCost -= amount;
+            return false;
+        }
+
+        return true;
+    }
+
+    void GameOver()
+    {
+        Debug.Log("ê²Œì„ì˜¤ë²„!");
+
+        EndStage();
     }
 
     public void FilterAbilitiesByDeck()
     {
-        // Ditionary ÃÊ±âÈ­ ÀÛ¾÷
+        // Ditionary ì´ˆê¸°í™” ì‘ì—…
         ability = new Dictionary<int, AbilityData>();
         filterAbilityPool = new Dictionary<int, Dictionary<int, AbilityData>>();
         var abilityDatas = DataManager.Instance.abilityDict;
@@ -46,7 +93,7 @@ public class StageManager : Singleton<StageManager>
             filterAbilityPool[data.rarity].Add(data.id ,data.DeepCopy());
         }
 
-        // ÇöÀç µ¦¿¡ °ü·ÃµÈ Æ¯¼º¸¸ ³²±â±â
+        // í˜„ì¬ ë±ì— ê´€ë ¨ëœ íŠ¹ì„±ë§Œ ë‚¨ê¸°ê¸°
         List<int> removeKey = new List<int>();
         foreach (var ability in filterAbilityPool.Values)
         {
@@ -67,21 +114,24 @@ public class StageManager : Singleton<StageManager>
 
     public void StartStage()
     {
+        StartCoroutine(RegainCost());
         StartCoroutine(ProgressStage());
     }
 
     IEnumerator ProgressStage()
     {
-        Debug.Log("<color=white>½ºÅ×ÀÌÁö ½ÃÀÛ</color>");
+        Debug.Log("<color=white>ìŠ¤í…Œì´ì§€ ì‹œì‘</color>");
 
         for(int i = 0; i < floorCount; i++)
         {
+            OnFloorCountChanged.RaiseEvent(i + 1);
+
             if(floorGO != null) Destroy(floorGO);
-            floorGO = Util.InstantiatePrefab("testFloor");
-            floorGO.GetComponentInChildren<SpriteRenderer>().color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-            curFloor = floorGO.AddComponent<Floor>();
-            curFloor.Init(DataManager.Instance.floorDict[Random.Range(0, DataManager.Instance.floorDict.Count)]);
+            floorGO = Util.InstantiatePrefab("Floors/TestFloor");//ëœë¤ IDì— ë§ëŠ” í”Œë¡œì–´ ìƒì„±í•˜ê²Œ ë³€ê²½í•´ì•¼ í•¨
+            curFloor = floorGO.GetComponent<Floor>();
             curFloor.StartFloor();
+
+            curCost = 0;
 
             yield return new WaitUntil(() => curFloor.isFloorEnd);
 
@@ -93,21 +143,21 @@ public class StageManager : Singleton<StageManager>
    
     void ShowEvent()
     {
-        Debug.Log("<color=white>ÀÌº¥Æ® ¼±ÅÃ</color>");
-        //±¸ÇöÇØ¾ß ÇÔ
+        Debug.Log("<color=white>ì´ë²¤íŠ¸ ì„ íƒ</color>");
+        //êµ¬í˜„í•´ì•¼ í•¨
     }
 
     void GetReward()
     {
-        Debug.Log("<color=white>°ñµå Áö±Ş</color>");
-        //°ñµå Ã¬°ÜÁà¾ß ÇÔ
+        Debug.Log("<color=white>ê³¨ë“œ ì§€ê¸‰</color>");
+        //ê³¨ë“œ ì±™ê²¨ì¤˜ì•¼ í•¨
     }
 
     void EndStage()
     {
-        //º¸»ó Ã¬°ÜÁÖ°í ·Îºñ·Î º¸³»¾ß ÇÔ
+        //ë³´ìƒ ì±™ê²¨ì£¼ê³  ë¡œë¹„ë¡œ ë³´ë‚´ì•¼ í•¨
         GetReward();
-        Debug.Log("<color=white>½ºÅ×ÀÌÁö Á¾·á</color>");
+        Debug.Log("<color=white>ìŠ¤í…Œì´ì§€ ì¢…ë£Œ</color>");
 
         SceneManager.LoadScene("KSM_Lobby");
     }
