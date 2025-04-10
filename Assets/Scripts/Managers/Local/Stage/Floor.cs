@@ -124,6 +124,7 @@ public class Floor : MonoBehaviour
         Debug.Log("<color=green>특성 선택</color>");
         isPerkSelected = false;
         var uiAbility = UIManager.Instance.ShowUI<UIAbility>();
+        uiAbility.Show();
         uiAbility.DrawAbility();
     }
 
