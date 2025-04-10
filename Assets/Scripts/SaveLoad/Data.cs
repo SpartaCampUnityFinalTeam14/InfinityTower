@@ -201,6 +201,7 @@ public class AbilityData
     public int targetType;
     public int targetID;
     public int stackable;
+    public int maxStack;
 
     public AbilityData DeepCopy()
     {

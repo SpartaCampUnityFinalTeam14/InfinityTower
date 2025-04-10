@@ -11,17 +11,32 @@ public class AbilitySlot : MonoBehaviour
     [SerializeField] TextMeshProUGUI title;
     [SerializeField] TextMeshProUGUI description;
     [SerializeField] TextMeshProUGUI value;
+    Image background;
 
     AbilityData data;
 
     private void Awake()
     {
         button.onClick.AddListener(OnButtonClick);
+        background = GetComponent<Image>();
     }
 
     public void Init(AbilityData ability)
     {
         data = ability;
+
+        switch (data.rarity)
+        {
+            case (int)Rarity.Common:
+                background.color = Color.white;
+                break;
+            case (int)Rarity.Rare:
+                background.color = Color.blue;
+                break;
+            case (int)Rarity.Epic:
+                background.color = Color.magenta;
+                break;
+        }
 
         title.text = data.name;
         description.text = data.description;
@@ -39,18 +54,21 @@ public class AbilitySlot : MonoBehaviour
         // 이미 가지고 있는 특성일 경우 ex) 공격력 같은 공통 특성
         if (StageManager.Instance.ability.ContainsKey(data.id))
         {
-            //StageManager.Instance.ability[data.id].value += 레벨 당 증가값?
-            // 추후 스택최대값도 필요 있어보임
+            for (int i = 0; i < data.valueType.Count; i++)
+            {
+                StageManager.Instance.ability[data.id].value[i] += DataManager.Instance.abilityDict[data.id].value[i];
+            }
+            StageManager.Instance.ability[data.id].maxStack++;
         }
         else
         {
             StageManager.Instance.ability.Add(data.id, data);
         }
 
-        // 특성 가챠 풀에서 스택형이 아니면 빼기
+        // 특성 가챠 풀에서 스택형이 아니거나 최대 스택이면 제거
         UIManager.Instance.GetUI<UIAbility>().CheckStackable(data);
 
         // UI숨김
-        UIManager.Instance.GetUI<UIAbility>().Hide();
+        UIManager.Instance.HideUI<UIAbility>();
     }
 }
