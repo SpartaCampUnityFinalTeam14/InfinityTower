@@ -19,16 +19,20 @@ public class UI_Hud : UI
     {
         base.Awake();
 
+        UnSubscribe();
         Subscribe();
     }
 
-    void Subscribe()
+    void UnSubscribe()
     {
         OnCostChanged.UnregisterListener(SetCostBar);
         OnFloorCountChanged.UnregisterListener(SetFloorText);
         OnWaveCountChanged.UnregisterListener(SetWaveText);
         OnMonsterCountChanged.UnregisterListener(SetMonsterCountText);
+    }
 
+    void Subscribe()
+    {
         OnCostChanged.RegisterListener(SetCostBar);
         OnFloorCountChanged.RegisterListener(SetFloorText);
         OnWaveCountChanged.RegisterListener(SetWaveText);
@@ -53,5 +57,10 @@ public class UI_Hud : UI
     void SetMonsterCountText(int monsterCount)
     {
         monsterCountText.text = monsterCount.ToString();
+    }
+
+    public override void Clear()
+    {
+        UnSubscribe();
     }
 }

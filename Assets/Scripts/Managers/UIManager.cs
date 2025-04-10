@@ -15,7 +15,7 @@ public class UIManager : Singleton<UIManager>
     {
         get
         {
-            if(_root == null)
+            if(_root == null || _root.gameObject == null)
             {
                 _root = new GameObject("@UI_Root").transform;
             }
@@ -94,10 +94,12 @@ public class UIManager : Singleton<UIManager>
 
     public T ShowUI<T>() where T : UI
     {
+        Debug.Log(Root);
+
         return ShowUI<T>(Root);
     }
 
-    //´Ù¸¥ Å¬·¡½ºµé¿¡¼­ È£ÃâÇÏ´Â ¸Ş¼­µå
+    //ë‹¤ë¥¸ í´ë˜ìŠ¤ë“¤ì—ì„œ í˜¸ì¶œí•˜ëŠ” ë©”ì„œë“œ
     public void RemoveUI<T>() where T: UI
     {
         Type uiType = typeof(T);
@@ -111,7 +113,7 @@ public class UIManager : Singleton<UIManager>
         else throw new InvalidOperationException($"There's No {uiType.Name} in UIManager");
     }
 
-    //UIÀÇ Close¿¡¼­ È£ÃâÇÏ´Â ¸Ş¼­µå
+    //UIì˜ Closeì—ì„œ í˜¸ì¶œí•˜ëŠ” ë©”ì„œë“œ
     public void RemoveUI(UI ui)
     {
         Type uiType = ui.GetType();
@@ -129,6 +131,7 @@ public class UIManager : Singleton<UIManager>
     {
         foreach (UI ui in _sceneDict.Values.ToList())
         {
+            ui.Clear();
             Destroy(ui.gameObject);
         }
         _sceneDict.Clear();
@@ -142,7 +145,7 @@ public class UIManager : Singleton<UIManager>
     public void Clear()
     {
         RemoveAllUI();
-        Destroy(Root.gameObject);
+        _sceneDict.Clear();
         _root = null;
     }
 }

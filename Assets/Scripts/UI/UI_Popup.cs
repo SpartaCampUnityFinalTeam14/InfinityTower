@@ -25,4 +25,9 @@ public class UI_Popup : UI
 
         UIManager.Instance.RemovePopupUI();
     }
+
+    public override void Clear()
+    {
+        
+    }
 }

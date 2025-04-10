@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class UI : MonoBehaviour
+public abstract class UI : MonoBehaviour
 {
     GameObject panel;
 
@@ -23,4 +23,6 @@ public class UI : MonoBehaviour
     {
         UIManager.Instance.RemoveUI(this);
     }
+
+    public abstract void Clear();
 }
