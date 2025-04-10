@@ -31,7 +31,7 @@ public class SuportTower : TargettingTower
                     enemy.ApplyDebuff(DebuffType, debuffAmount, debuffDuration);
                 }
             }
-            else if (towerData.TargetType == TargetType.Ally)
+            else if (towerData.TargetType == TargetType.Tower)
             {
                 // 아군에게 버프
                 TargettingTower ally = target.GetComponent<TargettingTower>();

@@ -82,7 +82,7 @@ public abstract class TargettingTower : BaseTower
                 break;
 
             //타겟이 아군일 경우
-            case TargetType.Ally:
+            case TargetType.Tower:
                 switch (towerData.TargettingRule)
                 {
                     case TargettingRule.Nearest: // 타워와 가장 가까운 아군
@@ -119,7 +119,7 @@ public abstract class TargettingTower : BaseTower
                 }
                 break;
 
-            case TargetType.Ally:
+            case TargetType.Tower:
                 maxCount = Mathf.Min(towerData.targetCount, allyInRange.Count);
                 for (int i = 0; i < maxCount; i++)
                 {
