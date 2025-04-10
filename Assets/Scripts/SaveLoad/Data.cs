@@ -109,6 +109,19 @@ public class WaveDataLoader : ILoader<int, WaveData>
 #endregion
 
 #region TowerData
+
+// 버프/디버프 Enum 추가
+public enum BuffType
+{
+    AttackSpeed,
+    Range,
+    CooldownReduction
+}
+public enum DebuffType
+{ 
+    Slow,
+    DefenseDown
+}
 [Serializable]
 public class TowerData
 {
@@ -123,8 +136,19 @@ public class TowerData
     public float coolTime;
     public float range;
 
+    // 버프/디버프 데이터 추가
+    public int buffType;
+    public float buffAmount;
+    public float buffDuration;
+
+    public int debuffType;
+    public float debuffAmount;
+    public float debuffDuration;
+
     public TargettingRule TargettingRule => (TargettingRule)targettingRule;
     public TargetType TargetType => (TargetType)targetType;
+    public BuffType BuffType => (BuffType)buffType;
+    public DebuffType DebuffType => (DebuffType)debuffType;
 }
 
 [Serializable]

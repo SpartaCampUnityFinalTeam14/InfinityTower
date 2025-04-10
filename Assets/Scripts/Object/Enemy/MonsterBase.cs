@@ -11,6 +11,8 @@ public class MonsterBase : Poolable
     List<Vector3> pathPoints;
     int curTileIdx = 0;
     public int currentHP;
+    //방어력 추가
+    public float defense;
 
     private void Awake()
     {
@@ -73,4 +75,38 @@ public class MonsterBase : Poolable
             Dead();
         }
     }
+
+    public void ApplyDebuff(DebuffType type, float amount, float duration)
+    {
+        StartCoroutine(DebuffCoroutine(type, amount, duration));
+    }
+
+    private IEnumerator DebuffCoroutine(DebuffType type, float amount, float duration)
+    {
+        switch (type)
+        {
+            case DebuffType.Slow:
+                data.moveSpeed -= amount;
+                break;
+
+            case DebuffType.DefenseDown:
+                defense -= amount;
+                break;
+        }
+
+        yield return new WaitForSeconds(duration);
+
+        // 디버프 종료 시 원래대로 복구
+        switch (type)
+        {
+            case DebuffType.Slow:
+                data.moveSpeed += amount;
+                break;
+
+            case DebuffType.DefenseDown:
+                defense += amount;
+                break;
+        }
+    }
+
 }
