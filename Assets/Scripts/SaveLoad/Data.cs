@@ -110,18 +110,7 @@ public class WaveDataLoader : ILoader<int, WaveData>
 
 #region TowerData
 
-// 버프/디버프 Enum 추가
-public enum BuffType
-{
-    AttackSpeed,
-    Range,
-    CooldownReduction
-}
-public enum DebuffType
-{ 
-    Slow,
-    DefenseDown
-}
+
 [Serializable]
 public class TowerData
 {
@@ -132,23 +121,12 @@ public class TowerData
     public int targetCount;
     public int cost;
     public int targettingRule;
-    public int value;
+    public float value;
     public float coolTime;
     public float range;
 
-    // 버프/디버프 데이터 추가
-    public int buffType;
-    public float buffAmount;
-    public float buffDuration;
-
-    public int debuffType;
-    public float debuffAmount;
-    public float debuffDuration;
-
     public TargettingRule TargettingRule => (TargettingRule)targettingRule;
     public TargetType TargetType => (TargetType)targetType;
-    public BuffType BuffType => (BuffType)buffType;
-    public DebuffType DebuffType => (DebuffType)debuffType;
 }
 
 [Serializable]
@@ -237,19 +215,7 @@ public class AbilityData
     public string description;
     public List<int> valueType;
     public List<int> value;
-    public int targetType;
-    public int targetID;
-    public int stackable;
-    public int maxStack;
-
-    public AbilityData DeepCopy()
-    {
-        var copyData = (AbilityData)MemberwiseClone();
-        copyData.valueType = new List<int>(valueType);
-        copyData.value = new List<int>(value);
-
-        return copyData;
-    }
+    public int targetTowerID;
 }
 
 [Serializable]
