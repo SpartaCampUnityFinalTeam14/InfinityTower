@@ -26,9 +26,9 @@ public class DataManager : Singleton<DataManager>
         abilityTypedict = LoadJson<AbilityTypeLoader, int, AbilityType>().MakeDict();
     }
 
-    Loader LoadJson<Loader, Key, Value>() where Loader : ILoader<Key, Value>
+    Loader LoadJson<Loader, Key, Value>(string fileName = default) where Loader : ILoader<Key, Value>
     {
-        TextAsset textAsset = Resources.Load<TextAsset>($"Data/{typeof(Value)}");
+        TextAsset textAsset = Resources.Load<TextAsset>(string.IsNullOrEmpty(fileName) ? $"Data/{typeof(Value)}" : $"Data/{fileName}");
         return JsonUtility.FromJson<Loader>(textAsset.text);
     }
 }

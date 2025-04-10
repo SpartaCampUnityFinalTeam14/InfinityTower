@@ -129,7 +129,7 @@ public class UIManager : Singleton<UIManager>
     {
         foreach (UI ui in _sceneDict.Values.ToList())
         {
-            Destroy(ui.gameObject);
+            if (ui) Destroy(ui.gameObject);
         }
         _sceneDict.Clear();
 

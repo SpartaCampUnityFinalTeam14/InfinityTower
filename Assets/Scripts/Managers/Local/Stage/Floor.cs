@@ -54,6 +54,7 @@ public class Floor : MonoBehaviour
             yield return new WaitUntil(() => isWaveEnd);
 
             SelectPerk();
+            yield return new WaitUntil(() => isPerkSelected);
         }
 
         yield return new WaitUntil(() => monsterCnt <= 0);
@@ -121,8 +122,10 @@ public class Floor : MonoBehaviour
     void SelectPerk()
     {
         Debug.Log("<color=green>특성 선택</color>");
-
-        //구현해야 함
+        isPerkSelected = false;
+        var uiAbility = UIManager.Instance.ShowUI<UIAbility>();
+        uiAbility.Show();
+        uiAbility.DrawAbility();
     }
 
     void EndWave()
