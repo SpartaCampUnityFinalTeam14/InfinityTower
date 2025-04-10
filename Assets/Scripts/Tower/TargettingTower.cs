@@ -5,6 +5,7 @@ using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
 
+
 public abstract class TargettingTower : BaseTower
 {
     protected List<GameObject> targets;
@@ -134,8 +135,13 @@ public abstract class TargettingTower : BaseTower
     public override void Activate()
     {
         FindTargets();
-        if (targets.Count > 0)
+
+        if (targets.Count > 0 )
+        {
+            cooldownTimer = 0f;
             UseActOnTargets();
+        }
+           
     }
 
     protected abstract void UseActOnTargets(); // 공격/버프 등을 하위에서 정의
@@ -143,6 +149,8 @@ public abstract class TargettingTower : BaseTower
     //버프 적용메서드
     public void ApplyBuff(BuffType type, float amount, float duration)
     {
+        //중복 적용 안되게 스탑코루틴 작성
+        StopCoroutine("BuffCoroutine");
         StartCoroutine(BuffCoroutine(type, amount, duration));
     }
 

@@ -67,17 +67,20 @@ public class MonsterBase : Poolable
         PoolManager.Instance.Release(this);
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
-        currentHP -= damage;
+        currentHP -= Mathf.RoundToInt(damage);
         if (currentHP <= 0)
         {
             Dead();
         }
     }
 
+    //디버프 적용메서드
     public void ApplyDebuff(DebuffType type, float amount, float duration)
     {
+        //중복 적용 안되게 스탑코루틴 작성
+        StopCoroutine("DebuffCoroutine");
         StartCoroutine(DebuffCoroutine(type, amount, duration));
     }
 

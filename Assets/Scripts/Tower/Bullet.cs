@@ -6,14 +6,14 @@ public class Bullet : MonoBehaviour
 {
     private Transform target;
     private float speed = 10f;
-    private int damage;
+    private float damage;
 
     public void SetTarget(Transform newTarget)
     {
         target = newTarget;
     }
 
-    public void SetDamage(int dmg)
+    public void SetDamage(float dmg)
     {
         damage = dmg;
     }

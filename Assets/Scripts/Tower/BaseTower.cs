@@ -27,7 +27,7 @@ public abstract class BaseTower : MonoBehaviour
         }
     }
 
-    public abstract void Activate(); //½ÇÁ¦Çàµ¿Àº ÇÏÀ§ Å¬·¡½º¿¡¼­ Á¤ÀÇ
+    public abstract void Activate(); //ì‹¤ì œí–‰ë™ì€ í•˜ìœ„ í´ë˜ìŠ¤ì—ì„œ ì •ì˜
 
 
 }
