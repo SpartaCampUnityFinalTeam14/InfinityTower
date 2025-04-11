@@ -18,5 +18,6 @@ public enum StatType
 {
     Attack,
     AttackSpeed,
-    Speed
+    Speed,
+    Health
 }

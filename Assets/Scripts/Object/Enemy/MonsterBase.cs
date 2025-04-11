@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MonsterBase : Poolable
@@ -11,21 +12,11 @@ public class MonsterBase : Poolable
     List<Vector3> pathPoints;
     int curTileIdx = 0;
 
-    List<AbilityData> abilities;
-    Dictionary<int, float> baseStat = new();
-    Dictionary<int, float> abilityStat = new();
-
-    public int ID => data.id;
-
     public virtual void Init(int id, List<Vector3> path, Transform startPos, Floor floor)
     {
         this.floor = floor;
 
         data = new(DataManager.Instance.monsterDict[id]);//깊은 복사
-        
-        StageManager.Instance.abilityManager.OnAbilityChanged += UpdateAbility;
-        UpdateAbility();
-
         transform.position = startPos.position;
         SetPath(path);
     }
@@ -50,7 +41,7 @@ public class MonsterBase : Poolable
 
             while (Vector3.Distance(transform.position, target) > 0.05f)
             {
-                transform.position = Vector3.MoveTowards(transform.position, target, data.moveSpeed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, target, GetStat(StatType.Speed) * Time.deltaTime);
                 yield return null;
             }
 
@@ -59,7 +50,7 @@ public class MonsterBase : Poolable
             yield return null;
         }
 
-        StageManager.Instance.TakeDamage(data.damage);
+        StageManager.Instance.TakeDamage((int)GetStat(StatType.Attack));
         Dead();
     }
 
@@ -68,34 +59,20 @@ public class MonsterBase : Poolable
         floor.SubrtactMonsterCount(1);
         PoolManager.Instance.Release(this);
     }
-
-    void UpdateAbility()
-    {
-        abilities = StageManager.Instance.abilityManager.GetAbilities(data);
-
-        foreach (var ability in abilities)
-        {
-            for (int i = 0; i < ability.valueType.Count; i++)
-            {
-                if (abilityStat.ContainsKey(ability.valueType[i]))
-                {
-                    abilityStat[ability.valueType[i]] += ability.value[i];
-                }
-                else
-                {
-                    abilityStat.Add(ability.valueType[i], ability.value[i]);
-                }
-            }
-        }
-    }
-
+   
     public float GetStat(StatType type)
     {
         int iType = (int)type;
+        var common = StageManager.Instance.abilityManager.commonMonsterAbilities;
 
-        float origin = baseStat.ContainsKey(iType) ? baseStat[iType] : 0f;
-        float abil = abilityStat.ContainsKey(iType) ? abilityStat[iType] : 0f;
+        float origin = 0f;
+        float abil = 0f;
 
+        bool result = data.dictValue.TryGetValue(iType, out origin);
+        abil = common.ContainsKey(iType) ? common[iType] : 0f;
+
+        Debug.Assert(result, $"Not Find Type in DictionaryValue");
+        
         return origin + abil;
     }
 }

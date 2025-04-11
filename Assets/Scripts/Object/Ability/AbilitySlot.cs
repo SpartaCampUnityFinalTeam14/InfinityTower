@@ -64,7 +64,8 @@ public class AbilitySlot : MonoBehaviour
         }
         else
         {
-            abilities.Add(data.id, data);
+            //abilities.Add(data.id, data);
+            StageManager.Instance.abilityManager.AddAbillity(data);
         }
 
         // 특성 가챠 풀에서 스택형이 아니거나 최대 스택이면 제거
