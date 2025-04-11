@@ -26,6 +26,11 @@ public class Bullet : MonoBehaviour
             return;
         }
 
+        if (!target.gameObject.activeSelf)
+        {
+            // 날아가다가 사라지게 만들기
+        }
+
         Vector2 dir = (target.position - transform.position).normalized;
         transform.Translate(dir * speed * Time.deltaTime);
 

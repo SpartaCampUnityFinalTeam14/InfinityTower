@@ -13,11 +13,13 @@ public class MonsterBase : Poolable
     public int currentHP;
     //방어력 추가
     public float defense;
+    private bool isDead;
 
     public virtual void Init(int id, List<Vector3> path, Transform startPos, Floor floor)
     {
         this.floor = floor;
 
+        isDead = false;
         data = new(DataManager.Instance.monsterDict[id]);//깊은 복사
         currentHP = data.hp;
         transform.position = startPos.position;
@@ -57,14 +59,21 @@ public class MonsterBase : Poolable
         Dead();
     }
 
+    
+
     void Dead()
     {
+        isDead = true;
         floor.SubrtactMonsterCount(1);
         PoolManager.Instance.Release(this);
     }
 
     public void TakeDamage(float damage)
     {
+        if (isDead)
+        {
+            return;
+        }
         currentHP -= Mathf.RoundToInt(damage);
         if (currentHP <= 0)
         {

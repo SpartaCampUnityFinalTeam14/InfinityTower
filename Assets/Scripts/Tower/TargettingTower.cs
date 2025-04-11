@@ -29,21 +29,29 @@ public abstract class TargettingTower : BaseTower
         //범위 안에 있는 적과 아군 판별
         foreach (Collider2D hit in hits)
         {
-            if (hit.CompareTag("Enemy"))
+            switch (towerData.TargetType)
             {
-                //enemiesInRange.Add(hit.GetComponent<Enemy>());
-                MonsterBase enemy = hit.GetComponent<MonsterBase>();
-                if (enemy != null)
-                    enemiesInRange.Add(enemy);
+                case TargetType.Enemy:
+                    if (hit.CompareTag("Enemy"))
+                    {
+                        //enemiesInRange.Add(hit.GetComponent<Enemy>());
+                        MonsterBase enemy = hit.GetComponent<MonsterBase>();
+                        if (enemy != null)
+                            enemiesInRange.Add(enemy);
+                    }
+                break;
+
+                case TargetType.Tower:
+                    if (hit.CompareTag("Ally"))
+                    {
+                        //allyTower.Add(hit.GetComponent<TargettingTower>());
+                        TargettingTower tower = hit.GetComponent<TargettingTower>();
+                        if (tower != null)
+                            allyInRange.Add(tower);
+                    }
+                break;
             }
 
-            if (hit.CompareTag("Ally"))
-            {
-                //allyTower.Add(hit.GetComponent<TargettingTower>());
-                TargettingTower tower = hit.GetComponent<TargettingTower>();
-                if (tower != null)
-                    allyInRange.Add(tower);
-            }
         }
 
         // 2. 타겟팅 룰 적용
