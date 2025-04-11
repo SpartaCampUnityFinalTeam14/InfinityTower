@@ -19,9 +19,4 @@ public class UI_Lobby : UI
         goldText.text = SaveManager.Instance.playerData.gold.ToString();
         stageStartButton.onClick.AddListener(() => GameManager.Instance.LoadScene("KSM_Stage"));
     }
-
-    public override void Clear()
-    {
-        
-    }
 }

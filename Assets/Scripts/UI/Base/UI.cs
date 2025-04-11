@@ -1,12 +1,17 @@
 using UnityEngine;
 
-public abstract class UI : MonoBehaviour
+public class UI : MonoBehaviour
 {
     GameObject panel;
 
     protected virtual void Awake()
     {
         panel = transform.GetChild(0).gameObject;
+    }
+
+    public void SetCanvas(int order)
+    {
+        GetComponent<Canvas>().sortingOrder = order;
     }
 
     public virtual void Show()
@@ -24,5 +29,8 @@ public abstract class UI : MonoBehaviour
         UIManager.Instance.RemoveUI(this);
     }
 
-    public abstract void Clear();
+    public virtual void Clear()
+    {
+
+    }
 }

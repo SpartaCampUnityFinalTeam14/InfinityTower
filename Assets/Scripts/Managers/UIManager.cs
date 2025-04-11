@@ -5,10 +5,12 @@ using UnityEngine;
 
 public class UIManager : Singleton<UIManager>
 {
-    Dictionary<Type, UI> _sceneDict = new Dictionary<Type, UI>();
-    Stack<UI_Popup> _popupUIs = new Stack<UI_Popup>();
+    Dictionary<Type, UI> _sceneDict = new();
+    List<UI> _stackableList = new(); 
+    Stack<UI_Popup> _popupUIs = new();
 
     int popupOrder = 10;
+    int stackOrder = 1;
 
     Transform _root;
     Transform Root
@@ -20,6 +22,14 @@ public class UIManager : Singleton<UIManager>
                 _root = new GameObject("@UI_Root").transform;
             }
             return _root;
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            HideStackUI();
         }
     }
 
@@ -64,6 +74,14 @@ public class UIManager : Singleton<UIManager>
         if (_sceneDict.TryGetValue(uiType, out UI existingUI))
         {
             existingUI.Hide();
+            for(int i = _stackableList.Count - 1; i >= 0; i--)
+            {
+                if(existingUI == _stackableList[i])
+                {
+                    _stackableList.RemoveAt(i);
+                    break;
+                }
+            }
             return existingUI as T;
         }
 
@@ -72,6 +90,15 @@ public class UIManager : Singleton<UIManager>
         ui.Hide();
 
         return null;
+    }
+
+    public void HideStackUI()
+    {
+        if(_stackableList.Count <= 0) return;
+
+        UI ui = _stackableList.Last();
+        ui.Hide();
+        _stackableList.Remove(ui);
     }
 
     public T ShowUI<T>(Transform par) where T : UI
@@ -97,6 +124,25 @@ public class UIManager : Singleton<UIManager>
         Debug.Log(Root);
 
         return ShowUI<T>(Root);
+    }
+
+    public T ShowStackUI<T>() where T : UI
+    {
+        T ui = ShowUI<T>();
+        ui.SetCanvas(stackOrder++);
+
+        for(int i = 0; i < _stackableList.Count; i++)
+        {
+            if(ui == _stackableList[i])
+            {
+                _stackableList.RemoveAt(i);
+                break;
+            }
+        }
+
+        _stackableList.Add(ui);
+
+        return ui;
     }
 
     //다른 클래스들에서 호출하는 메서드
@@ -145,7 +191,7 @@ public class UIManager : Singleton<UIManager>
     public void Clear()
     {
         RemoveAllUI();
-        _sceneDict.Clear();
+        _stackableList.Clear();
         _root = null;
     }
 }
