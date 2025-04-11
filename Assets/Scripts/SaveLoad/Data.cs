@@ -185,7 +185,12 @@ public class SkillData
     public string description;
     public float coolTime;
     public float multiplier;
+    public float range;
+
+    // 🔗 SO를 참조할 수 있는 필드 (Resources 또는 Addressable 기준 경로로 사용)
+    public string visualId; // 예: "Meteor"
 }
+
 
 [Serializable]
 public class SkillDataLoader : ILoader<int, SkillData>
