@@ -63,6 +63,7 @@ public class PoolManager : Singleton<PoolManager>
 
         public void Push(Poolable poolable)
         {
+            Debug.Log("ë¦´ë¦¬ì¦ˆí˜¸ì¶œ");
             _pool.Release(poolable);
         }
     }
@@ -91,14 +92,14 @@ public class PoolManager : Singleton<PoolManager>
     }
 
     public Poolable Get(GameObject original, int count = 10, Transform parent = null)
-    {//Instantiate ´ë¿ë
+    {//Instantiate ëŒ€ìš©
         if (_poolDict.ContainsKey(original.name) == false) CreatePool(original, count);
 
         return _poolDict[original.name].Pop(parent);
     }
 
     public void Release(Poolable poolable)
-    {//Destroy ´ë¿ë
+    {//Destroy ëŒ€ìš©
         string name = poolable.gameObject.name;
 
         if (_poolDict.ContainsKey(name) == true) _poolDict[name].Push(poolable);
