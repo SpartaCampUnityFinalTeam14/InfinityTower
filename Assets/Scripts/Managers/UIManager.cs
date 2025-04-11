@@ -121,8 +121,6 @@ public class UIManager : Singleton<UIManager>
 
     public T ShowUI<T>() where T : UI
     {
-        Debug.Log(Root);
-
         return ShowUI<T>(Root);
     }
 

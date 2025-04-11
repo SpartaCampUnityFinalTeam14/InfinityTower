@@ -1763,6 +1763,7 @@ MonoBehaviour:
   Skill1Image: {fileID: 5568933790799841353}
   Skill2Image: {fileID: 7911574865202767595}
   slotParent: {fileID: 2345622816708185752}
+  OnChampionSelected: {fileID: 11400000, guid: ab69cc0aaf635254cabc3f202eabb7ff, type: 2}
 --- !u!1 &6299762050914186257
 GameObject:
   m_ObjectHideFlags: 0

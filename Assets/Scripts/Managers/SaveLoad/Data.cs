@@ -149,7 +149,7 @@ public class ChampionData
     public int id;
     public string name;
     public List<int> skillID;
-    public string desctiption;
+    public string description;
     public int hp;
     public int atk;
 }
