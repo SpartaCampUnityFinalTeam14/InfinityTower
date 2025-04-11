@@ -11,11 +11,21 @@ public class MonsterBase : Poolable
     List<Vector3> pathPoints;
     int curTileIdx = 0;
 
+    List<AbilityData> abilities;
+    Dictionary<int, float> baseStat = new();
+    Dictionary<int, float> abilityStat = new();
+
+    public int ID => data.id;
+
     public virtual void Init(int id, List<Vector3> path, Transform startPos, Floor floor)
     {
         this.floor = floor;
 
         data = new(DataManager.Instance.monsterDict[id]);//깊은 복사
+        
+        StageManager.Instance.abilityManager.OnAbilityChanged += UpdateAbility;
+        UpdateAbility();
+
         transform.position = startPos.position;
         SetPath(path);
     }
@@ -57,5 +67,35 @@ public class MonsterBase : Poolable
     {
         floor.SubrtactMonsterCount(1);
         PoolManager.Instance.Release(this);
+    }
+
+    void UpdateAbility()
+    {
+        abilities = StageManager.Instance.abilityManager.GetAbilities(data);
+
+        foreach (var ability in abilities)
+        {
+            for (int i = 0; i < ability.valueType.Count; i++)
+            {
+                if (abilityStat.ContainsKey(ability.valueType[i]))
+                {
+                    abilityStat[ability.valueType[i]] += ability.value[i];
+                }
+                else
+                {
+                    abilityStat.Add(ability.valueType[i], ability.value[i]);
+                }
+            }
+        }
+    }
+
+    public float GetStat(StatType type)
+    {
+        int iType = (int)type;
+
+        float origin = baseStat.ContainsKey(iType) ? baseStat[iType] : 0f;
+        float abil = abilityStat.ContainsKey(iType) ? abilityStat[iType] : 0f;
+
+        return origin + abil;
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 public enum Rarity
@@ -12,4 +12,11 @@ public enum TargetType
 {
     Tower = 1,
     Monster
+}
+
+public enum StatType
+{
+    Attack,
+    AttackSpeed,
+    Speed
 }

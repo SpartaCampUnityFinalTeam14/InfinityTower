@@ -51,24 +51,26 @@ public class AbilitySlot : MonoBehaviour
 
     void OnButtonClick()
     {
-        // ÀÌ¹Ì °¡Áö°í ÀÖ´Â Æ¯¼ºÀÏ °æ¿ì ex) °ø°İ·Â °°Àº °øÅë Æ¯¼º
-        if (StageManager.Instance.ability.ContainsKey(data.id))
+        var abilities = StageManager.Instance.abilityManager.abilities;
+
+        // ì´ë¯¸ ê°€ì§€ê³  ìˆëŠ” íŠ¹ì„±ì¼ ê²½ìš° ex) ê³µê²©ë ¥ ê°™ì€ ê³µí†µ íŠ¹ì„±
+        if (abilities.ContainsKey(data.id))
         {
             for (int i = 0; i < data.valueType.Count; i++)
             {
-                StageManager.Instance.ability[data.id].value[i] += DataManager.Instance.abilityDict[data.id].value[i];
+                abilities[data.id].value[i] += DataManager.Instance.abilityDict[data.id].value[i];
             }
-            StageManager.Instance.ability[data.id].maxStack++;
+            abilities[data.id].maxStack++;
         }
         else
         {
-            StageManager.Instance.ability.Add(data.id, data);
+            abilities.Add(data.id, data);
         }
 
-        // Æ¯¼º °¡Ã­ Ç®¿¡¼­ ½ºÅÃÇüÀÌ ¾Æ´Ï°Å³ª ÃÖ´ë ½ºÅÃÀÌ¸é Á¦°Å
+        // íŠ¹ì„± ê°€ì±  í’€ì—ì„œ ìŠ¤íƒí˜•ì´ ì•„ë‹ˆê±°ë‚˜ ìµœëŒ€ ìŠ¤íƒì´ë©´ ì œê±°
         UIManager.Instance.GetUI<UIAbility>().CheckStackable(data);
 
-        // UI¼û±è
+        // UIìˆ¨ê¹€
         UIManager.Instance.HideUI<UIAbility>();
     }
 }
