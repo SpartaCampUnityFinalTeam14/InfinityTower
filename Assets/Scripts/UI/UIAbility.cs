@@ -36,7 +36,7 @@ public class UIAbility : UI
     {
         AbilityData data;
         List<AbilityData> listDraw = new List<AbilityData>();
-        int maxIdx = 0;
+        
         while (listDraw.Count < drawCount)
         {
             // 레어도
@@ -50,10 +50,6 @@ public class UIAbility : UI
             // 이미 뽑은 특성인지 중복 체크
             if (!listDraw.Contains(data))
                 listDraw.Add(data);
-
-            maxIdx++;
-            if (maxIdx > 50)
-                break;
         }
 
         // 특성 생성
@@ -65,7 +61,7 @@ public class UIAbility : UI
 
     public void CheckStackable(AbilityData data)
     {
-        if (data.stackable <= 0 || DataManager.Instance.abilityDict[data.id].maxStack <= )
+        if (data.stackable <= 0 || DataManager.Instance.abilityDict[data.id].maxStack <= StageManager.Instance.abilityManager.abilities[data.id].CurStackCount)
             StageManager.Instance.filterAbilityPool[data.rarity].Remove(data.id);
     }
 

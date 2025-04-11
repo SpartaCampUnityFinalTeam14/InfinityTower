@@ -5,64 +5,64 @@ using UnityEngine;
 
 public class AbilityManager : MonoBehaviour
 {
-    public Dictionary<int, AbilityData> abilities = new(); // 선택한 특성 리스트 <특성id, 특성>
+    public Dictionary<int, Ability> abilities = new(); // 선택한 특성 리스트 <특성id, 특성>
     public event Action OnAbilityChanged;
 
     public Dictionary<int, float> commonMonsterAbilities = new();
 
-    void UpdateMonsterAbility(AbilityData ability)
+    void UpdateMonsterAbility(Ability ability)
     {
         var monsterAbilities = GetMonsterAbilities();
        
-        for (int i = 0; i < ability.valueType.Count; i++)
+        for (int i = 0; i < ability.Data.valueType.Count; i++)
         {
-            if (commonMonsterAbilities.ContainsKey(ability.valueType[i]))
+            if (commonMonsterAbilities.ContainsKey(ability.Data.valueType[i]))
             {
-                commonMonsterAbilities[ability.valueType[i]] += ability.value[i];
+                commonMonsterAbilities[ability.Data.valueType[i]] += ability.Data.value[i];
             }
             else
             {
-                commonMonsterAbilities.Add(ability.valueType[i], ability.value[i]);
+                commonMonsterAbilities.Add(ability.Data.valueType[i], ability.Data.value[i]);
             }
         }
     }
 
-    public void AddAbillity(AbilityData ability)
+    public void AddAbillity(Ability ability)
     {
-        abilities.Add(ability.id, ability);
+        abilities.Add(ability.Data.id, ability);
 
         // 타겟타입으로 특성 업데이트 분류
-        if (ability.targetType == (int)TargetType.Tower)
+        if (ability.Data.targetType == (int)TargetType.Tower)
         {
             OnAbilityChanged?.Invoke();
         }
-        else if (ability.targetType == (int)TargetType.Enemy)
+        else if (ability.Data.targetType == (int)TargetType.Enemy)
         {
             UpdateMonsterAbility(ability);
         }
     }
 
-    List<AbilityData> GetMonsterAbilities()
+    List<Ability> GetMonsterAbilities()
     {
-        List<AbilityData> listData = new();
+        List<Ability> listData = new();
 
-        foreach (var data in abilities.Values)
+        foreach (var ability in abilities.Values)
         {
-            if (data.targetType == (int)TargetType.Enemy)
-                listData.Add(data);
+            if (ability.Data.targetType == (int)TargetType.Enemy)
+                listData.Add(ability);
         }
         
         return listData;
     }
 
-    public List<AbilityData> GetAbilities(TowerData towerData)
+    public List<Ability> GetAbilities(TowerData towerData)
     {
-        List<AbilityData> listData = new();
+        List<Ability> listData = new();
 
-        foreach (var data in abilities.Values)
+        foreach (var ability in abilities.Values)
         {
-            if (data.targetType == (int)TargetType.Tower && (data.targetID == -1 || data.targetID.Equals(towerData.id)))
-                listData.Add(data);
+            if (ability.Data.targetType == (int)TargetType.Tower && (ability.Data.targetID == -1 || ability.Data.targetID.Equals(towerData.id)))
+                listData.Add(ability);
         }
 
         return listData;
