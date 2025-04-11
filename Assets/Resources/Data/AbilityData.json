@@ -9,7 +9,8 @@
         "value": [ 10 ],
         "targetType": 1,
         "targetID": -1,
-        "stackable": 1
+        "stackable": 1,
+        "maxStack":  5
       },
       {
         "id": 1,
@@ -20,7 +21,8 @@
         "value": [ 15 ],
         "targetType": 1,
         "targetID": -1,
-        "stackable": 1
+        "stackable": 1,
+        "maxStack": 5
       },
       {
         "id": 2,
@@ -42,7 +44,8 @@
         "value": [ 5 ],
         "targetType": 1,
         "targetID": 1002,
-        "stackable": 1
+        "stackable": 1,
+        "maxStack": 5
       },
       {
         "id": 4,
@@ -64,7 +67,8 @@
         "value": [ 3 ],
         "targetType": 1,
         "targetID": -1,
-        "stackable": 0
-        }
+        "stackable": 0,
+        "maxStack": 5
+      }
       ]
     }
