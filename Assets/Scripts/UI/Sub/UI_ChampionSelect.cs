@@ -3,28 +3,18 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_ChampionSelect : UI
+public class UI_ChampionSelect : MonoBehaviour
 {
-    [SerializeField] private Button closeButton;
     [SerializeField] private Image championImage;
 
-    [SerializeField] private TextMeshProUGUI nameText;
-    [SerializeField] private TextMeshProUGUI infoText;
-    [SerializeField] private TextMeshProUGUI hpText;
-    [SerializeField] private Image Skill1Image;
-    [SerializeField] private Image Skill2Image;
-
+    [SerializeField] private GameObject scrollView;
     [SerializeField] private Transform slotParent;
     private List<UI_ChampionSlot> slots = new();
 
     [SerializeField] private IntEventChannel OnChampionSelected;
 
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
-
-        closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_ChampionSelect>());
-
         UnregisterEvent();
         RegisterEvent();
 
@@ -66,14 +56,9 @@ public class UI_ChampionSelect : UI
         {
             slot.SetSelectedMark(slot.id == id);
         }
-
-        ChampionData data = DataManager.Instance.championDict[id];
-        nameText.text = data.name;
-        infoText.text = data.description;
-        hpText.text = data.hp.ToString();
     }
 
-    public override void Clear()
+    public void Clear()
     {
         UnregisterEvent();
     }

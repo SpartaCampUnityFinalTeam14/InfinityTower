@@ -2,21 +2,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_TowerSelect : UI
+public class UI_TowerSelect : MonoBehaviour
 {
-    [SerializeField] private Button closeButton;
-
+    [SerializeField] private GameObject scrollView;
     [SerializeField] private Transform slotParent;
     private List<UI_TowerSelectSlot> slots = new();
 
     [SerializeField] private List<Image> selectedTowerSlots = new(5);
 
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
-
-        closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_TowerSelect>());
-
         Init();
     }
 
@@ -32,10 +27,5 @@ public class UI_TowerSelect : UI
 
             slot.Init(DataManager.Instance.championDict[i].id);
         }
-    }
-
-    public override void Clear()
-    {
-
     }
 }
