@@ -1,4 +1,4 @@
-//Ä³¸¯ÅÍ Á¤º¸ ¼¼ÀÌºê ·Îµå ¿ëµµ
+//ìºë¦­í„° ì •ë³´ ì„¸ì´ë¸Œ ë¡œë“œ ìš©ë„
 using System;
 using System.Collections.Generic;
 
@@ -20,7 +20,7 @@ public class PlayerData
     public PlayerData()
     {
         gold = 1000;
-        selectedTowerIndex = new List<int>(5);
+        selectedTowerIndex = new List<int>(5) {0,0,0,0,0};
         selectedChampionIndex = 0;
     }
 }

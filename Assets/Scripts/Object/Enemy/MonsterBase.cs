@@ -10,12 +10,18 @@ public class MonsterBase : Poolable
 
     List<Vector3> pathPoints;
     int curTileIdx = 0;
+    public int currentHP;
+    //방어력 추가
+    public float defense;
+    private bool isDead;
 
     public virtual void Init(int id, List<Vector3> path, Transform startPos, Floor floor)
     {
         this.floor = floor;
 
+        isDead = false;
         data = new(DataManager.Instance.monsterDict[id]);//깊은 복사
+        currentHP = data.hp;
         transform.position = startPos.position;
         SetPath(path);
     }
@@ -53,9 +59,62 @@ public class MonsterBase : Poolable
         Dead();
     }
 
+    
+
     void Dead()
     {
+        isDead = true;
         floor.SubrtactMonsterCount(1);
         PoolManager.Instance.Release(this);
     }
+
+    public void TakeDamage(float damage)
+    {
+        if (isDead)
+        {
+            return;
+        }
+        currentHP -= Mathf.RoundToInt(damage);
+        if (currentHP <= 0)
+        {
+            Dead();
+        }
+    }
+
+    //디버프 적용메서드
+    public void ApplyDebuff(DebuffType type, float amount, float duration)
+    {
+        //중복 적용 안되게 스탑코루틴 작성
+        StopCoroutine("DebuffCoroutine");
+        StartCoroutine(DebuffCoroutine(type, amount, duration));
+    }
+
+    private IEnumerator DebuffCoroutine(DebuffType type, float amount, float duration)
+    {
+        switch (type)
+        {
+            case DebuffType.Slow:
+                data.moveSpeed -= amount;
+                break;
+
+            case DebuffType.DefenseDown:
+                defense -= amount;
+                break;
+        }
+
+        yield return new WaitForSeconds(duration);
+
+        // 디버프 종료 시 원래대로 복구
+        switch (type)
+        {
+            case DebuffType.Slow:
+                data.moveSpeed += amount;
+                break;
+
+            case DebuffType.DefenseDown:
+                defense += amount;
+                break;
+        }
+    }
+
 }

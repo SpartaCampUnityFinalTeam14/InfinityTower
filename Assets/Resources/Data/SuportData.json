@@ -1,0 +1,13 @@
+{
+  "data": [
+    {
+        "suportId": 0,
+
+        "buffType": 0,
+        "buffDuration": 5,
+
+        "debuffType": 0,
+        "debuffDuration": 0
+    }
+  ]
+}

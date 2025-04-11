@@ -109,6 +109,8 @@ public class WaveDataLoader : ILoader<int, WaveData>
 #endregion
 
 #region TowerData
+
+
 [Serializable]
 public class TowerData
 {
@@ -118,10 +120,13 @@ public class TowerData
     public int targetType;
     public int targetCount;
     public int cost;
-    public int targetingRule;
-    public int value;
+    public int targettingRule;
+    public float value;
     public float coolTime;
     public float range;
+
+    public TargettingRule TargettingRule => (TargettingRule)targettingRule;
+    public TargetType TargetType => (TargetType)targetType;
 }
 
 [Serializable]

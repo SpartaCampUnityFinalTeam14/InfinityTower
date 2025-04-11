@@ -4315,8 +4315,8 @@ GameObject:
   - component: {fileID: 507235457758905051}
   - component: {fileID: 4856890651523967414}
   - component: {fileID: 6494949735215175386}
-  - component: {fileID: 2574788083173616646}
   - component: {fileID: 7063618647067491168}
+  - component: {fileID: 8878025663444062370}
   m_Layer: 0
   m_Name: TestFloor
   m_TagString: Untagged
@@ -4375,11 +4375,22 @@ MonoBehaviour:
   waveStartDelayTime: 3
   isFloorEnd: 0
   isPerkSelected: 0
-  monsterCnt: 0
-  isWaveEnd: 0
   OnWaveCountChanged: {fileID: 11400000, guid: 536ae859c5221d34abf848c1e928be90, type: 2}
   OnMonsterCountChanged: {fileID: 11400000, guid: b492a61d719312541a29e73481512fc0, type: 2}
---- !u!114 &2574788083173616646
+--- !u!114 &7063618647067491168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8787929984150461542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24a34cdb792b4f39be99d5f21086102a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tilemap: {fileID: 6828107244006189014}
+--- !u!114 &8878025663444062370
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4395,16 +4406,3 @@ MonoBehaviour:
   startPos: {fileID: 7059882045903892012}
   endPos: {fileID: 390678549950817619}
   pathPoints: []
---- !u!114 &7063618647067491168
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8787929984150461542}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24a34cdb792b4f39be99d5f21086102a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tilemap: {fileID: 6828107244006189014}
