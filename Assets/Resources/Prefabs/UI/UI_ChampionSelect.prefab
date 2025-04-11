@@ -1762,6 +1762,7 @@ MonoBehaviour:
   hpText: {fileID: 8935772047144053437}
   Skill1Image: {fileID: 5568933790799841353}
   Skill2Image: {fileID: 7911574865202767595}
+  slotParent: {fileID: 2345622816708185752}
 --- !u!1 &6299762050914186257
 GameObject:
   m_ObjectHideFlags: 0

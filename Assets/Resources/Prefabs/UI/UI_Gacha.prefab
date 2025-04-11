@@ -25,13 +25,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1268382257246917594}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7823658140901848889}
-  m_Father: {fileID: 6716623675111532842}
+  m_Father: {fileID: 2886567155109915329}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -892,7 +892,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2886567155109915329}
-  - {fileID: 5313974122249433180}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -976,7 +975,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   closeButton: {fileID: 6838330740423977048}
-  slots: []
+  slotParent: {fileID: 7745922771755756580}
   gachaButton: {fileID: 6779427979926377050}
   resultImage: {fileID: 8613253722134477661}
   nameText: {fileID: 6002369106952876617}
@@ -1148,6 +1147,7 @@ RectTransform:
   - {fileID: 3923295164002634013}
   - {fileID: 4469979937572427810}
   - {fileID: 831386289140718026}
+  - {fileID: 5313974122249433180}
   m_Father: {fileID: 6716623675111532842}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

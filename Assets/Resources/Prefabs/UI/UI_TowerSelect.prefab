@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   closeButton: {fileID: 7748512854435197538}
-  slots: []
+  slotParent: {fileID: 4917209430519592218}
   selectedTowerSlots:
   - {fileID: 7748640306148043427}
   - {fileID: 8602591927226379194}

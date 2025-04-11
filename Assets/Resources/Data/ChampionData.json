@@ -2,6 +2,7 @@
   "data": [
     {
       "id": 0,
+      "name": "영웅 1",
       "skillId": [0,1],
       "description": "영웅이다.",
       "hp": 1,
