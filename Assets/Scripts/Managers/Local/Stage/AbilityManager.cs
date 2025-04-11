@@ -36,7 +36,7 @@ public class AbilityManager : MonoBehaviour
         {
             OnAbilityChanged?.Invoke();
         }
-        else if (ability.targetType == (int)TargetType.Monster)
+        else if (ability.targetType == (int)TargetType.Enemy)
         {
             UpdateMonsterAbility(ability);
         }
@@ -48,7 +48,7 @@ public class AbilityManager : MonoBehaviour
 
         foreach (var data in abilities.Values)
         {
-            if (data.targetType == (int)TargetType.Monster)
+            if (data.targetType == (int)TargetType.Enemy)
                 listData.Add(data);
         }
         

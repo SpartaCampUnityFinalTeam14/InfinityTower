@@ -19,7 +19,7 @@ public class Floor : MonoBehaviour
     //웨이브
     private WaveData waveData;
 
-    private int monsterCnt = 0;
+    [SerializeField] int monsterCnt = 0;
     private bool isWaveEnd;
 
     [SerializeField] private IntEventChannel OnWaveCountChanged;

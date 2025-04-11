@@ -22,7 +22,7 @@ public class MonsterBase : Poolable
 
         isDead = false;
         data = new(DataManager.Instance.monsterDict[id]);//깊은 복사
-        currentHP = data.hp;
+        currentHP = (int)GetStat(StatType.Health);
         transform.position = startPos.position;
         SetPath(path);
     }

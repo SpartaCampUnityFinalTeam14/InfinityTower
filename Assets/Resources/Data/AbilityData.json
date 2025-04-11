@@ -51,7 +51,7 @@
         "description": "적을 느리게 만드는 효과를 부여합니다.",
         "valueType": [ 2 ],
         "value": [ -1 ],
-        "targetType": 2,
+        "targetType": 3,
         "targetID": 1003,
         "stackable": 0
       },
