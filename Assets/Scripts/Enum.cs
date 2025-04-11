@@ -19,5 +19,5 @@ public enum StatType
     Attack,
     AttackSpeed,
     Speed,
-    Health
+    Health,
 }

@@ -57,8 +57,6 @@ public class Floor : MonoBehaviour
             yield return new WaitUntil(() => isPerkSelected);
         }
 
-        yield return new WaitUntil(() => monsterCnt <= 0);
-
         EndFloor();
     }
 
@@ -90,6 +88,7 @@ public class Floor : MonoBehaviour
             }
         }
 
+        yield return new WaitUntil(() => monsterCnt <= 0);
         EndWave();
     }
 
