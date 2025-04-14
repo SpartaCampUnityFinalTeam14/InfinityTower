@@ -55,6 +55,8 @@ public class UI_ChampionSelect : MonoBehaviour
         {
             slot.SetSelectedMark(slot.id == id);
         }
+
+        SaveManager.Instance.SavePlayerData();
     }
 
     public void Clear()

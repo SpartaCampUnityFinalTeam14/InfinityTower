@@ -19,6 +19,7 @@ public class UI_Deck : UI
 
     [SerializeField] private IntEventChannel OnTowerSelected;
     [SerializeField] private IntEventChannel OnTowerSlotSelected;
+    [SerializeField] private IntEventChannel OnChampionSelected;
 
     private int selectedTowerIndex = -1;
 
@@ -37,19 +38,21 @@ public class UI_Deck : UI
         RegisterListeners();
 
         InitSelectedTowers();
-        SelectCharacter(SaveManager.Instance.playerData.selectedChampionIndex);
+        SetChampion(SaveManager.Instance.playerData.selectedChampionIndex);
     }
 
     void UnregisterListeners()
     {
         OnTowerSelected.UnregisterListener(SelectedTower);
         OnTowerSlotSelected.UnregisterListener(SelectedSlot);
+        OnChampionSelected.UnregisterListener(SetChampion);
     }
 
     void RegisterListeners()
     {
         OnTowerSelected.RegisterListener(SelectedTower);
         OnTowerSlotSelected.RegisterListener(SelectedSlot);
+        OnChampionSelected.RegisterListener(SetChampion);
     }
 
     public void SetDeckTab(bool isTower)
@@ -103,7 +106,7 @@ public class UI_Deck : UI
         selectedTowerSlots[selectedPos].SetSelectedTower(selectedTowerIndex);
     }
 
-    public void SelectCharacter(int index)
+    public void SetChampion(int index)
     {
         //스프라이트 세팅해야 함
         championNameText.text = DataManager.Instance.championDict[index].name;
