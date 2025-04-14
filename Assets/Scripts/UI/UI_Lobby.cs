@@ -18,8 +18,8 @@ public class UI_Lobby : UI
 
         goldText.text = SaveManager.Instance.playerData.gold.ToString();
         stageStartButton.onClick.AddListener(() => GameManager.Instance.LoadScene("KSM_Stage"));
-        championSelectButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Deck>());
-        deckSelectButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Deck>());
+        championSelectButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Deck>().SetDeckTab(false));
+        deckSelectButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Deck>().SetDeckTab(true));
         gachaButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Gacha>());
     }
 }

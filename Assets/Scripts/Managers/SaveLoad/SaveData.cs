@@ -1,4 +1,4 @@
-//ĳ���� ���� ���̺� �ε� �뵵
+//캐릭터 정보 세이브 로드 용도
 using System;
 using System.Collections.Generic;
 
@@ -20,8 +20,34 @@ public class PlayerData
     public PlayerData()
     {
         gold = 1000;
-        selectedTowerIndex = new List<int>(5);
+        selectedTowerIndex = new List<int>(5) { -1, -1, -1, -1, -1 };
         selectedChampionIndex = 0;
+    }
+
+    public int AddTower(int pos, int towerIndex)
+    {
+        int beforeId = selectedTowerIndex.IndexOf(towerIndex);
+
+        if(beforeId != -1)
+        {//선택한 타워가 다른 슬롯에 존재하고
+            if (selectedTowerIndex[pos] != -1)
+            {//선택한 슬롯에 이미 다른 타워가 있으면
+                //선택한 슬롯에 있는 타워를 원래 슬롯으로 
+                selectedTowerIndex[beforeId] = selectedTowerIndex[pos];
+            }
+            else
+            {//선택한 슬롯이 비어 있으면
+                //원래 슬롯 비우기
+                selectedTowerIndex[beforeId] = -1;
+            }
+        }
+
+        //선택한 타워 선택한 슬롯에 대입
+        selectedTowerIndex[pos] = towerIndex;
+
+        SaveManager.Instance.SavePlayerData();
+
+        return beforeId;
     }
 }
 #endregion

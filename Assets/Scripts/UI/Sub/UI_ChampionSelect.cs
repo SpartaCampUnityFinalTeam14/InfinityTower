@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class UI_ChampionSelect : MonoBehaviour
 {
-    [SerializeField] private Image championImage;
+    [HideInInspector] public UI_Deck deck;
 
     [SerializeField] private GameObject scrollView;
     [SerializeField] private Transform slotParent;
@@ -36,16 +36,15 @@ public class UI_ChampionSelect : MonoBehaviour
         foreach(Transform child in slotParent) Destroy(child.gameObject);
         slots.Clear();
 
-        int selectedId = SaveManager.Instance.playerData.selectedChampionIndex;
-        for(int i = 0; i < DataManager.Instance.championDict.Count; i++)
+        foreach(var data in DataManager.Instance.championDict)
         {
             UI_ChampionSlot slot = Util.InstantiatePrefabAndGetComponent<UI_ChampionSlot>(path: "UI/Sub/UI_ChampionSlot", parent: slotParent);
             slots.Add(slot);
 
-            slot.Init(DataManager.Instance.championDict[i].id);
+            slot.Init(data.Value.id);
         }
 
-        SetSelectedChampion(selectedId);
+        SetSelectedChampion(SaveManager.Instance.playerData.selectedChampionIndex);
     }
 
     void SetSelectedChampion(int id)
