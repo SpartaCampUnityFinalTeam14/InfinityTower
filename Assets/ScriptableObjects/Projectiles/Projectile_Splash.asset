@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6cadae355814f23890bb83aee14b316, type: 3}
+  m_Name: Projectile_Splash
+  m_EditorClassIdentifier: 
+  id: 1
+  prefab: {fileID: 4953463060920897959, guid: 4c22378f58e5f4f9297a1909da9072cd, type: 3}
+  speed: 3
+  damage: 10
+  hasDoT: 0
+  dotDuration: 0
+  dotTickInterval: 0
+  dotDamagePerTick: 0
+  dotRadius: 0
+  hasSplash: 1
+  splashRadius: 1
+  impactEffect: {fileID: 6619667030349456030, guid: e6ca8db7922b44f6382012eb098aae02, type: 3}
+  sound: {fileID: 0}

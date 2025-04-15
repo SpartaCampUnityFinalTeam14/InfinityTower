@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class MonsterBase : Poolable
+public class MonsterBase : Poolable, ISkillUser
 {
     private Floor floor;
     protected MonsterData data;
@@ -15,6 +15,8 @@ public class MonsterBase : Poolable
     //방어력 추가
     public float defense;
     private bool isDead;
+    public bool IsDead => isDead;
+
 
     public virtual void Init(int id, List<Vector3> path, Transform startPos, Floor floor)
     {
@@ -60,8 +62,6 @@ public class MonsterBase : Poolable
         Dead();
     }
 
-    
-
     void Dead()
     {
         isDead = true;
@@ -69,18 +69,18 @@ public class MonsterBase : Poolable
         PoolManager.Instance.Release(this);
     }
 
-    public void TakeDamage(float damage)
-    {
-        if (isDead)
-        {
-            return;
-        }
-        currentHP -= Mathf.RoundToInt(damage);
-        if (currentHP <= 0)
-        {
-            Dead();
-        }
-    }
+    // public void TakeDamage(float damage)
+    // {
+    //     if (isDead)
+    //     {
+    //         return;
+    //     }
+    //     currentHP -= Mathf.RoundToInt(damage);
+    //     if (currentHP <= 0)
+    //     {
+    //         Dead();
+    //     }
+    // }
 
     //디버프 적용메서드
     public void ApplyDebuff(DebuffType type, float amount, float duration)
@@ -133,5 +133,28 @@ public class MonsterBase : Poolable
         Debug.Assert(result, $"Not Find Type in DictionaryValue");
         
         return origin + abil;
+    }
+    
+    public string GetName()
+    {
+        return data.name;
+    }
+    
+    public void TakeDamage(float amount)
+    {
+        if (isDead)
+        {
+            return;
+        }
+        currentHP -= Mathf.RoundToInt(amount);
+        if (currentHP <= 0)
+        {
+            Dead();
+        }
+    }
+    
+    public Vector3 GetPosition()
+    {
+        return transform.position;
     }
 }

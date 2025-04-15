@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class ChainLightningEffect : MonoBehaviour
 {
-    public float duration = 0.3f; // 이펙트 유지 시간
+    public float duration = 0.3f;
 
     private void Start()
     {
-        Destroy(gameObject, duration);
+        Destroy(this.gameObject, duration);
     }
 }
