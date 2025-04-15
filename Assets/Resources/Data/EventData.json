@@ -1,0 +1,21 @@
+{
+    "data": [
+      {
+        "id": 0,
+        "title": "구원 요청",
+        "type": 0,
+        "description": "우리는 탐색 도중 한 무리의 사람들을 만났다. 그들은 우리에게 도움을 요청하며, 도와줄 시 그에 따른 보상을 해준다고 말한다.",
+        "choiceTitle": "도와줘야 하나?",
+        "choice1": "도와준다",
+        "choice2": "놔두고 갈길간다",
+        "choice3": null,
+        "choice1ID": 0,
+        "choice2ID": 1,
+        "choice3ID": null,
+        "rewardType": null,
+        "reward": null,
+        "image": null,
+        "buttonText": null
+      }
+    ]
+    }

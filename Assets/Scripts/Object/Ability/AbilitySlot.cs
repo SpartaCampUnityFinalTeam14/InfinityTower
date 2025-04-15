@@ -51,27 +51,7 @@ public class AbilitySlot : MonoBehaviour
 
     void OnButtonClick()
     {
-        var abilities = StageManager.Instance.abilityManager.abilities;
-        Ability newAbility = new Ability();
-        newAbility.Init(abilityData);
-
-        // 이미 가지고 있는 특성일 경우 ex) 공격력 같은 공통 특성
-        if (abilities.ContainsKey(abilityData.id))
-        {
-            for (int i = 0; i < abilityData.valueType.Count; i++)
-            {
-                abilities[abilityData.id].Data.value[i] += DataManager.Instance.abilityDict[abilityData.id].value[i];
-            }
-            abilities[abilityData.id].AddStackCount(1);
-        }
-        else
-        {
-            StageManager.Instance.abilityManager.AddAbillity(newAbility);
-            abilities[abilityData.id].AddStackCount(1);
-        }
-
-        // 특성 가챠 풀에서 스택형이 아니거나 최대 스택이면 제거
-        UIManager.Instance.GetUI<UIAbility>().CheckStackable(abilityData);
+        StageManager.Instance.abilityManager.AddAbillity(abilityData);
 
         // UI숨김
         UIManager.Instance.HideUI<UIAbility>();

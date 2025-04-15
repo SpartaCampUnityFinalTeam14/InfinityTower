@@ -11,6 +11,8 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<int, SkillData> skillDict = new();
     public Dictionary<int, AbilityData> abilityDict = new();
     public Dictionary<int, AbilityType> abilityTypedict = new();
+    public Dictionary<int, EventData> eventDict = new();
+    public Dictionary<int, EventData> eventResultDict = new();
 
     protected override void Awake()
     {
@@ -24,6 +26,8 @@ public class DataManager : Singleton<DataManager>
         skillDict = LoadJson<SkillDataLoader, int, SkillData>().MakeDict();
         abilityDict = LoadJson<AbilityDataLoader, int, AbilityData>().MakeDict();
         abilityTypedict = LoadJson<AbilityTypeLoader, int, AbilityType>().MakeDict();
+        eventDict = LoadJson<EventDataLoader, int, EventData>().MakeDict();
+        eventResultDict = LoadJson<EventDataLoader, int, EventData>("EventResultData").MakeDict();
     }
 
     Loader LoadJson<Loader, Key, Value>(string fileName = default) where Loader : ILoader<Key, Value>

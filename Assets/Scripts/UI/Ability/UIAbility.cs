@@ -9,6 +9,7 @@ using UnityEngine;
 public class UIAbility : UI
 {
     [SerializeField] Transform layout;
+    [SerializeField] int abilitySlotCount;
 
     List<AbilitySlot> slots;
     const string prefabPath = "Ability/AbilitySlot";
@@ -17,18 +18,27 @@ public class UIAbility : UI
     {
         base.Awake();
         slots = new List<AbilitySlot>();
+
+        for (int i = 0; i < abilitySlotCount; i++)
+        {
+            Util.InstantiatePrefab(prefabPath, Vector3.zero, Quaternion.identity, layout).TryGetComponent(out AbilitySlot ability);
+            slots.Add(ability);
+        }
     }
 
     public override void Show()
     {
         base.Show();
         Time.timeScale = 0f;
+        StageManager.Instance.CurFloor.isPerkSelected = false;
     }
 
     public override void Hide()
     {
         base.Hide();
-        Time.timeScale = 1f;
+
+        if (!StageManager.Instance.isPause && StageManager.Instance.isEventEnd)
+            Time.timeScale = 1f;
         StageManager.Instance.CurFloor.isPerkSelected = true;
     }
 
@@ -40,10 +50,10 @@ public class UIAbility : UI
         while (listDraw.Count < drawCount)
         {
             // 레어도
-            int rarity = GetRandomRarity();
+            int rarity = StageManager.Instance.abilityManager.GetRandomRarity();
 
             // 특성 뽑기
-            data = GetRandomAbility(rarity);
+            data = StageManager.Instance.abilityManager.GetRandomAbility(rarity);
 
             if (data == null) continue;
 
@@ -57,32 +67,6 @@ public class UIAbility : UI
         {
             CreateAbilitySlot(listDraw[i], i);
         }
-    }
-
-    public void CheckStackable(AbilityData data)
-    {
-        if (data.stackable <= 0 || DataManager.Instance.abilityDict[data.id].maxStack <= StageManager.Instance.abilityManager.abilities[data.id].CurStackCount)
-            StageManager.Instance.filterAbilityPool[data.rarity].Remove(data.id);
-    }
-
-    int GetRandomRarity()
-    {
-        // 1성 60%, 2성 30%, 3성 10%
-        float roll = Random.value;
-
-        if (roll < 0.6f)
-            return (int)Rarity.Common;
-        else if (roll < 0.9f)
-            return (int)Rarity.Rare;
-        else
-            return (int)Rarity.Epic;
-    }
-
-    AbilityData GetRandomAbility(int rarity)
-    {
-        var abilityDatas = StageManager.Instance.filterAbilityPool[rarity].Values.ToList();
-        
-        return abilityDatas.Count < 1 ? null : abilityDatas[Random.Range(0, abilityDatas.Count)];
     }
 
     void CreateAbilitySlot(AbilityData data, int slotIdx)

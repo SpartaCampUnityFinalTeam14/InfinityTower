@@ -42,3 +42,24 @@ public enum StatType
     Speed,
     Health,
 }
+
+public enum EventType
+{
+    Choice,
+    Battle,
+    Penalty,
+    Probablity,
+    PerkChange,
+    ReturnStage
+}
+
+public enum RewardType
+{
+    RandomRarityPerk,
+    RandomCommonPerk,
+    RandomRarePerk,
+    RandomEpicPerk,
+    Health,
+    Cost,
+    Cooldown
+}

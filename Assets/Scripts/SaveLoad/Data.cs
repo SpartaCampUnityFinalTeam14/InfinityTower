@@ -291,3 +291,42 @@ public class AbilityTypeLoader : ILoader<int, AbilityType>
     }
 }
 #endregion
+
+#region EventData
+[Serializable]
+public class EventData
+{
+    public int id;
+    public string title;
+    public int type;
+    public string description;
+    public string choiceTitle;
+    public string choice1;
+    public string choice2;
+    public string choice3;
+    public int choice1ID;
+    public int choice2ID;
+    public int choice3ID;
+    public int rewardType;
+    public int reward;
+    public string image;
+    public string buttonText;
+}
+
+[Serializable]
+public class EventDataLoader : ILoader<int, EventData>
+{
+    public List<EventData> data = new();
+
+    public Dictionary<int, EventData> MakeDict()
+    {
+        Dictionary<int, EventData> dict = new();
+        foreach (EventData eventData in data)
+        {
+            dict.Add(eventData.id, eventData);
+        }
+
+        return dict;
+    }
+}
+#endregion
