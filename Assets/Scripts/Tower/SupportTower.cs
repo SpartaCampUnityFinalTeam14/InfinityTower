@@ -3,22 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class SuportTower : TargettingTower
+public class SupportTower : TargettingTower
 {
-    public int suportId;
-    // 버프/디버프 데이터 추가
-    public int buffType;
+    public BuffType buffType;
     public float buffAmount;
     public float buffDuration;
 
-    public int debuffType;
+    public DebuffType debuffType;
     public float debuffAmount;
     public float debuffDuration;
-    public BuffType BuffType => (BuffType)buffType;
-    public DebuffType DebuffType => (DebuffType)debuffType;
 
     protected override void UseActOnTargets()
     {
+        SupportTowerData data = towerData as SupportTowerData;
+        if (data == null) return;
+
         // 적 디버프 or 아군 버프 부여
         foreach (GameObject target in targets)
         {
@@ -28,7 +27,7 @@ public class SuportTower : TargettingTower
                 MonsterBase enemy = target.GetComponent<MonsterBase>();
                 if (enemy != null)
                 {
-                    enemy.ApplyDebuff(DebuffType, debuffAmount, debuffDuration);
+                    enemy.ApplyDebuff(debuffType, debuffAmount, debuffDuration);
                 }
             }
             else if (towerData.TargetType == TargetType.Tower)
@@ -37,7 +36,7 @@ public class SuportTower : TargettingTower
                 TargettingTower ally = target.GetComponent<TargettingTower>();
                 if (ally != null)
                 {
-                    ally.ApplyBuff(BuffType, debuffAmount, buffDuration);
+                    ally.ApplyBuff(buffType, debuffAmount, buffDuration);
                 }
             }
         }
