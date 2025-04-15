@@ -160,27 +160,26 @@ public abstract class TargettingTower : BaseTower
     protected abstract void UseActOnTargets(); // 공격/버프 등을 하위에서 정의
 
     //버프 적용메서드
-    public void ApplyBuff(BuffType type, float amount, float duration)
+    public void ApplyBuff(BuffEffectType type, float amount, float duration)
     {
         //중복 적용 안되게 스탑코루틴 작성
         StopCoroutine("BuffCoroutine");
         StartCoroutine(BuffCoroutine(type, amount, duration));
     }
 
-    private IEnumerator BuffCoroutine(BuffType type, float amount, float duration)
+    private IEnumerator BuffCoroutine(BuffEffectType type, float amount, float duration)
     {
         switch (type)
         {
-            case BuffType.AttackSpeed:
-                float originalCooltime = towerData.coolTime;
+            case BuffEffectType.AttackSpeed:
                 towerData.coolTime = Mathf.Max(0.1f, towerData.coolTime - amount);
                 break;
 
-            case BuffType.Range:
+            case BuffEffectType.Range:
                 towerData.range += amount;
                 break;
 
-            case BuffType.CooldownReduction:
+            case BuffEffectType.CooldownReduction:
                 cooldownTimer -= amount;
                 break;
         }
@@ -190,15 +189,15 @@ public abstract class TargettingTower : BaseTower
         // 버프 종료 시 원래대로 복구
         switch (type)
         {
-            case BuffType.AttackSpeed:
+            case BuffEffectType.AttackSpeed:
                 towerData.coolTime += amount;
                 break;
 
-            case BuffType.Range:
+            case BuffEffectType.Range:
                 towerData.range -= amount;
                 break;
 
-            case BuffType.CooldownReduction:
+            case BuffEffectType.CooldownReduction:
                 // 이건 타이머에 영향을 주는 일회성이라 되돌릴 필요 없음
                 break;
         }

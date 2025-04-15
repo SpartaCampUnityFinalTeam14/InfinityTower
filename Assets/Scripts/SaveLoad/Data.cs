@@ -121,12 +121,25 @@ public class TowerData
     public int targetCount;
     public int cost;
     public int targettingRule;
-    public float value;
     public float coolTime;
     public float range;
+    //변경
+    public List<int> valueTypes;    // BuffEffectType의 int 값들
+    public List<float> valueList;   // 각 효과에 대한 수치
 
     public TargettingRule TargettingRule => (TargettingRule)targettingRule;
     public TargetType TargetType => (TargetType)targetType;
+
+    // 유틸 메서드: 특정 타입의 값 가져오기
+    public float GetValue(BuffEffectType type)
+    {
+        for (int i = 0; i < valueTypes.Count; i++)
+        {
+            if ((BuffEffectType)valueTypes[i] == type)
+                return valueList[i];
+        }
+        return 0f;
+    }
 }
 
 [Serializable]

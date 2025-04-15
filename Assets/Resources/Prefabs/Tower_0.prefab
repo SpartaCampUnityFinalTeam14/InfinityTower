@@ -106,9 +106,11 @@ MonoBehaviour:
     targetCount: 1
     cost: 0
     targettingRule: 0
-    value: 10
     coolTime: 0.5
     range: 50
+    valueTypes: 00000000
+    valueList:
+    - 10
   cooldownTimer: 0
   bulletPrefab: {fileID: 4240676569077837654, guid: 251cbf19a589aec48b9b4ca6bd7f7b3f, type: 3}
   firePoint: {fileID: 47152423553481607}

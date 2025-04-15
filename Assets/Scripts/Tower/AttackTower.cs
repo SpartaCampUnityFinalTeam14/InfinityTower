@@ -19,7 +19,7 @@ public class AttackTower : TargettingTower
             if (bulletScript != null)
             {
                 bulletScript.SetTarget(target.transform);
-                bulletScript.SetDamage(towerData.value);
+                bulletScript.SetDamage(towerData.GetValue(BuffEffectType.AttackPower));
             }
         }
     }

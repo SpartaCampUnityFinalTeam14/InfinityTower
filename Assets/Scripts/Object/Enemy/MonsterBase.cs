@@ -15,6 +15,11 @@ public class MonsterBase : Poolable
     public float defense;
     private bool isDead;
 
+    // 디버프 관련 상태 저장
+    private Dictionary<BuffEffectType, Coroutine> debuffCoroutines = new Dictionary<BuffEffectType, Coroutine>();
+    private float originalMoveSpeed;
+    private float originalDefense;
+
     public virtual void Init(int id, List<Vector3> path, Transform startPos, Floor floor)
     {
         this.floor = floor;
@@ -24,6 +29,10 @@ public class MonsterBase : Poolable
         currentHP = data.hp;
         transform.position = startPos.position;
         SetPath(path);
+
+        //디버프 해제 후 원상복구를 위한 저장
+        originalMoveSpeed = data.moveSpeed;
+        originalDefense = defense/* = data.defense*/; //몬스터 데이터에 방어력 추가 시 주석 해제
     }
 
     public void SetPath(List<Vector3> path)
@@ -82,39 +91,48 @@ public class MonsterBase : Poolable
     }
 
     //디버프 적용메서드
-    public void ApplyDebuff(DebuffType type, float amount, float duration)
+    public void ApplyDebuff(BuffEffectType type, float amount, float duration)
     {
-        //중복 적용 안되게 스탑코루틴 작성
-        StopCoroutine("DebuffCoroutine");
-        StartCoroutine(DebuffCoroutine(type, amount, duration));
+        // 기존 디버프가 있으면 정지
+        if (debuffCoroutines.TryGetValue(type, out Coroutine running))
+        {
+            StopCoroutine(running);
+        }
+
+        // 새로운 디버프 적용
+        Coroutine routine = StartCoroutine(DebuffRoutine(type, amount, duration));
+        debuffCoroutines[type] = routine;
     }
 
-    private IEnumerator DebuffCoroutine(DebuffType type, float amount, float duration)
+    private IEnumerator DebuffRoutine(BuffEffectType type, float amount, float duration)
     {
         switch (type)
         {
-            case DebuffType.Slow:
-                data.moveSpeed -= amount;
+            case BuffEffectType.Slow:
+                data.moveSpeed = Mathf.Max(0.1f, originalMoveSpeed - amount);
                 break;
 
-            case DebuffType.DefenseDown:
-                defense -= amount;
+            case BuffEffectType.DefenseDown:
+                defense = Mathf.Max(0, originalDefense - amount);
                 break;
         }
 
         yield return new WaitForSeconds(duration);
 
-        // 디버프 종료 시 원래대로 복구
+        // 원래 값으로 복원
         switch (type)
         {
-            case DebuffType.Slow:
-                data.moveSpeed += amount;
+            case BuffEffectType.Slow:
+                data.moveSpeed = originalMoveSpeed;
                 break;
 
-            case DebuffType.DefenseDown:
-                defense += amount;
+            case BuffEffectType.DefenseDown:
+                defense = originalDefense;
                 break;
         }
+
+        // 디버프 딕셔너리에서 제거
+        debuffCoroutines.Remove(type);
     }
 
 }

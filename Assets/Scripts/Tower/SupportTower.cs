@@ -5,38 +5,38 @@ using UnityEngine;
 
 public class SupportTower : TargettingTower
 {
-    public BuffType buffType;
-    public float buffAmount;
-    public float buffDuration;
-
-    public DebuffType debuffType;
-    public float debuffAmount;
-    public float debuffDuration;
-
     protected override void UseActOnTargets()
     {
-        SupportTowerData data = towerData as SupportTowerData;
-        if (data == null) return;
+        float duration = towerData.GetValue(BuffEffectType.Duration); // 지속시간
 
-        // 적 디버프 or 아군 버프 부여
         foreach (GameObject target in targets)
         {
-            if (towerData.TargetType == TargetType.Enemy)
+            foreach (int rawType in towerData.valueTypes)
             {
-                // 적에게 디버프
-                MonsterBase enemy = target.GetComponent<MonsterBase>();
-                if (enemy != null)
+                BuffEffectType effectType = (BuffEffectType)rawType;
+
+                // 지속시간 타입은 적용 효과가 아니므로 패스
+                if (effectType == BuffEffectType.Duration) continue;
+
+                float amount = towerData.GetValue(effectType);
+
+                if (towerData.TargetType == TargetType.Enemy)
                 {
-                    enemy.ApplyDebuff(debuffType, debuffAmount, debuffDuration);
+                    // 디버프 적용
+                    MonsterBase enemy = target.GetComponent<MonsterBase>();
+                    if (enemy != null)
+                    {
+                        enemy.ApplyDebuff(effectType, amount, duration);
+                    }
                 }
-            }
-            else if (towerData.TargetType == TargetType.Tower)
-            {
-                // 아군에게 버프
-                TargettingTower ally = target.GetComponent<TargettingTower>();
-                if (ally != null)
+                else if (towerData.TargetType == TargetType.Tower)
                 {
-                    ally.ApplyBuff(buffType, debuffAmount, buffDuration);
+                    // 버프 적용
+                    TargettingTower ally = target.GetComponent<TargettingTower>();
+                    if (ally != null)
+                    {
+                        ally.ApplyBuff(effectType, amount, duration);
+                    }
                 }
             }
         }
