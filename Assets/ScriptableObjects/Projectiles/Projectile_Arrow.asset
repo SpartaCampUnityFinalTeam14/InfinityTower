@@ -23,5 +23,5 @@ MonoBehaviour:
   dotRadius: 0
   hasSplash: 0
   splashRadius: 0
-  impactEffect: {fileID: 0}
+  impactEffect: {fileID: 6069227671954865344, guid: b082cb859e10b4838a7d6c7b200377db, type: 3}
   sound: {fileID: 0}

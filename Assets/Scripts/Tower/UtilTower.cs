@@ -1,18 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Resources;
 using UnityEngine;
 
-public class UtilTower : MonoBehaviour
+public class UtilityTower : BaseTower
 {
-    // Start is called before the first frame update
-    void Start()
+    private float goldGainAmount;
+
+    public override void Initialize(TowerData data)
     {
-        
+        base.Initialize(data);
+        goldGainAmount = data.GetValue(BuffEffectType.GainGold);
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Activate()
     {
-        
+        //골드를 더해주는 함수 추가
+        Debug.Log($"[UtilityTower] 골드 +{goldGainAmount}");
     }
 }

@@ -13,7 +13,7 @@ public abstract class TargettingTower : BaseTower
     //범위 안에 들어온 적 리스트
     List<MonsterBase> enemiesInRange;
     //범위 안에 있는 아군 타워 리스트
-    List<TargettingTower> allyInRange;
+    List<TargettingTower> towerInRange;
 
     public virtual void FindTargets()
     {
@@ -24,7 +24,7 @@ public abstract class TargettingTower : BaseTower
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.range);
 
         enemiesInRange = new List<MonsterBase>();
-        allyInRange = new List<TargettingTower>();
+        towerInRange = new List<TargettingTower>();
 
         //범위 안에 있는 적과 아군 판별
         foreach (Collider2D hit in hits)
@@ -34,7 +34,6 @@ public abstract class TargettingTower : BaseTower
                 case TargetType.Enemy:
                     if (hit.CompareTag("Enemy"))
                     {
-                        //enemiesInRange.Add(hit.GetComponent<Enemy>());
                         MonsterBase enemy = hit.GetComponent<MonsterBase>();
                         if (enemy != null)
                             enemiesInRange.Add(enemy);
@@ -42,12 +41,11 @@ public abstract class TargettingTower : BaseTower
                 break;
 
                 case TargetType.Tower:
-                    if (hit.CompareTag("Ally"))
+                    if (hit.CompareTag("Tower"))
                     {
-                        //allyTower.Add(hit.GetComponent<TargettingTower>());
                         TargettingTower tower = hit.GetComponent<TargettingTower>();
                         if (tower != null)
-                            allyInRange.Add(tower);
+                            towerInRange.Add(tower);
                     }
                 break;
             }
@@ -95,13 +93,13 @@ public abstract class TargettingTower : BaseTower
                 switch (towerData.TargettingRule)
                 {
                     case TargettingRule.Nearest: // 타워와 가장 가까운 아군
-                        allyInRange = allyInRange
+                        towerInRange = towerInRange
                             .OrderBy(a => Vector2.Distance(transform.position, a.transform.position))
                             .ToList();
                         break;
 
                     case TargettingRule.Farthest: // 타워와 가장 먼 아군
-                        allyInRange = allyInRange
+                        towerInRange = towerInRange
                             .OrderByDescending(a => Vector2.Distance(transform.position, a.transform.position))
                             .ToList();
                         break;
@@ -129,10 +127,10 @@ public abstract class TargettingTower : BaseTower
                 break;
 
             case TargetType.Tower:
-                maxCount = Mathf.Min(towerData.targetCount, allyInRange.Count);
+                maxCount = Mathf.Min(towerData.targetCount, towerInRange.Count);
                 for (int i = 0; i < maxCount; i++)
                 {
-                    targets.Add(allyInRange[i].gameObject);
+                    targets.Add(towerInRange[i].gameObject);
                 }
                 break;
 

@@ -57,6 +57,9 @@ public enum BuffEffectType
     // === 특수 ===
     Duration = 100,            // 지속 시간 (버프/디버프 적용 시간)
     Stackable = 101,           // 중첩 가능 여부 (별도 처리 필요 시)
+    
+    // === 유틸 ===
+    GainGold = 200             // 일정 시간마다 골드 획득
 }
 
 public enum StatType

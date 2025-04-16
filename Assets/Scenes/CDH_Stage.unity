@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 180912841}
   - component: {fileID: 180912840}
+  - component: {fileID: 180912842}
   m_Layer: 0
   m_Name: StageManager
   m_TagString: Untagged
@@ -155,6 +156,7 @@ MonoBehaviour:
   OnCostChanged: {fileID: 11400000, guid: 8861c2d9b4b5f53449900531b454b226, type: 2}
   selectedTowers: 
   selectedChampion: 0
+  abilityManager: {fileID: 0}
   floorCount: 2
   OnFloorCountChanged: {fileID: 11400000, guid: 488655e93354e78488197b1da7274906, type: 2}
 --- !u!4 &180912841
@@ -172,6 +174,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &180912842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180912839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 251fc3a054ac4f64ca469b8f13f0c10f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

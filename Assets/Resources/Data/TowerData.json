@@ -12,6 +12,19 @@
         "range": 1,
         "valueTypes": [ 0 ],
         "valueList": [ 10 ]
+    },
+    {
+        "id": 10,
+        "name": "골드 생성기",
+        "description": "주기적으로 골드를 생성하는 유틸리티 타워",
+        "targetType": 2,
+        "targetCount": 0,
+        "cost": 100,
+        "targetingRule": 0,
+        "coolTime": 3,
+        "range": 0,
+        "valueTypes": [ 200 ],
+        "valueList": [ 5 ]
     }
   ]
 }
