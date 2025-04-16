@@ -79,6 +79,7 @@ public class UIManager : Singleton<UIManager>
                 if(existingUI == _stackableList[i])
                 {
                     _stackableList.RemoveAt(i);
+                    if (_stackableList.Count == 0) stackOrder = 1;
                     break;
                 }
             }

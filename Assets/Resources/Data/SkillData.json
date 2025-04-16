@@ -2,6 +2,7 @@
   "data": [
     {
       "id": 0,
+      "name": "스킬 1",
       "skillClassName": "Skill_Temp",
       "description": "스킬1이다.",
       "coolTime": 1.0,
@@ -9,6 +10,7 @@
     },
     {
       "id": 1,
+      "name": "스킬 2",
       "skillClassName": "Skill_Temp",
       "description": "스킬2이다.",
       "coolTime": 1.0,

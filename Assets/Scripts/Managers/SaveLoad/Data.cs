@@ -148,7 +148,7 @@ public class ChampionData
 {
     public int id;
     public string name;
-    public List<int> skillID;
+    public List<int> skillId;
     public string description;
     public int hp;
     public int atk;
@@ -177,6 +177,7 @@ public class ChampionDataLoader : ILoader<int, ChampionData>
 public class SkillData
 {
     public int id;
+    public string name;
     public string skillClassName;
     public string description;
     public float coolTime;
