@@ -43,6 +43,7 @@ public class UI_ChampionInfo : UI
         backgroundButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_ChampionInfo>());
         closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_ChampionInfo>());
         selectButton.onClick.AddListener(SelectChampion);
+        levelupButton.onClick.AddListener(Levelup);
 
         skill1Button.onClick.AddListener(() => SetSkillInfo(data.skillId[0]));
         skill2Button.onClick.AddListener(() => SetSkillInfo(data.skillId[1]));
@@ -67,7 +68,7 @@ public class UI_ChampionInfo : UI
 
     void Levelup()
     {
-
+        Debug.Log("레벨업 구현해야 함");
     }
 
     void SetSkillInfo(int id)

@@ -9,17 +9,21 @@ public class UI_Deck : UI
     [SerializeField] private UI_TowerSelect towerSelect;
     [SerializeField] private UI_ChampionSelect championSelect;
 
-    [SerializeField] private List<UI_SelectedTowerSlot> selectedTowerSlots = new(5);
-    [SerializeField] private Image championImage;
-    [SerializeField] private TextMeshProUGUI championNameText;
-
     [SerializeField] private Button closeButton;
     [SerializeField] private Button towerTab;
     [SerializeField] private Button championTab;
 
+    [SerializeField] private List<UI_SelectedTowerSlot> selectedTowerSlots = new(5);
+    [SerializeField] private Image championImage;
+    [SerializeField] private TextMeshProUGUI championNameText;
+
+    [SerializeField] private GameObject towerSelectMask;
+    [SerializeField] private Button towerSelectMaskButton;
+
     [SerializeField] private IntEventChannel OnTowerSelected;
     [SerializeField] private IntEventChannel OnTowerSlotSelected;
     [SerializeField] private IntEventChannel OnChampionSelected;
+
 
     private int selectedTowerIndex = -1;
 
@@ -33,6 +37,10 @@ public class UI_Deck : UI
         closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Deck>());
         towerTab.onClick.AddListener(() => SetDeckTab(true));
         championTab.onClick.AddListener(() => SetDeckTab(false));
+        towerSelectMaskButton.onClick.AddListener(() => {
+            towerSelectMask.SetActive(false);
+            selectedTowerIndex = -1;
+            });
 
         UnregisterListeners();
         RegisterListeners();
@@ -81,6 +89,7 @@ public class UI_Deck : UI
     void SelectedTower(int index)
     {
         selectedTowerIndex = index;
+        towerSelectMask.SetActive(true);
     }
 
     void SelectedSlot(int index)
@@ -89,6 +98,8 @@ public class UI_Deck : UI
 
         SelectTower(index, selectedTowerIndex);
         selectedTowerIndex = -1;
+
+        towerSelectMask.SetActive(false);
     }
 
     public void SelectTower(int selectedPos, int selectedTowerIndex)

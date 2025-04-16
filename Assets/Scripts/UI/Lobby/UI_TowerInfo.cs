@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class UI_TowerInfo : UI
 {
+    private TowerData data;
+
     [Header("배경")]
     [SerializeField] private Button backgroundButton;
 
@@ -33,6 +35,40 @@ public class UI_TowerInfo : UI
     protected override void Awake()
     {
         base.Awake();
+
+        backgroundButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_TowerInfo>());
+        closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_TowerInfo>());
+        selectButton.onClick.AddListener(SelectTower);
+        levelupButton.onClick.AddListener(Levelup);
+    }
+
+    public void Init(int id)
+    {
+        data = DataManager.Instance.towerDict[id];
+
+        SetTower();
+    }
+
+    void SetTower()
+    {
+        towerNameText.text = data.name;
+        //exp 세팅
+        //스프라이트 세팅
+        towerCostText.text = data.cost.ToString();
+        towerDamageText.text = data.value.ToString();
+        towerAttackSpeedText.text = data.coolTime.ToString();
+        towerRangeText.text = data.range.ToString();
+    }
+
+    void Levelup()
+    {
+        Debug.Log("레벨업 구현해야 함");
+    }
+
+    void SelectTower()
+    {
+        OnTowerSelected.RaiseEvent(data.id);
+        UIManager.Instance.HideUI<UI_TowerInfo>();
     }
 
     public override void Clear()

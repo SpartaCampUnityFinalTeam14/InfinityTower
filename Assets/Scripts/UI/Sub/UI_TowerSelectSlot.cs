@@ -16,7 +16,7 @@ public class UI_TowerSelectSlot : MonoBehaviour
 
     private void Awake()
     {
-        selectButton.onClick.AddListener(SelectTower);
+        selectButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_TowerInfo>().Init(data.id));
     }
 
     public void Init(int id)
