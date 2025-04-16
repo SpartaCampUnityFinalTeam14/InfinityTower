@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 public class SaveManager : Singleton<SaveManager>
 {
     public PlayerData playerData;
     public Dictionary<int, TowerLevelData> towerLevelDict = new();
+    public Dictionary<int, ChampionLevelData> championLevelDict = new();
 
     protected override void Awake()
     {
@@ -13,6 +13,7 @@ public class SaveManager : Singleton<SaveManager>
 
         LoadPlayerData();
         towerLevelDict = LoadJson<TowerLevelDataLoader, int, TowerLevelData>().MakeDict();
+        championLevelDict = LoadJson<ChampionLevelDataLoader, int, ChampionLevelData>().MakeDict();
     }
 
     //public bool CheckDataFileExist(string className)
@@ -28,7 +29,27 @@ public class SaveManager : Singleton<SaveManager>
         {
             Debug.LogWarning($"파일을 찾을 수 없습니다. 새로 생성합니다: {path}");
             Loader newLoader = new Loader();
-            SaveDict<Loader, Key, Value>(newLoader.MakeDict()); // �� ������ ����
+
+            if(typeof(Value) == typeof(TowerLevelData))
+            {
+                List<Value> list = new();
+                foreach (var tower in DataManager.Instance.towerDict)
+                {
+                    list.Add((Value)(object)new TowerLevelData(tower.Key, 0));
+                }
+                newLoader.data = list;
+            }
+            else if(typeof(Value) == typeof(ChampionLevelData))
+            {
+                List<Value> list = new();
+                foreach (var champion in DataManager.Instance.championDict)
+                {
+                    list.Add((Value)(object)new ChampionLevelData(champion.Key, 0));
+                }
+                newLoader.data = list;
+            }
+
+            SaveDict<Loader, Key, Value>(newLoader.MakeDict());
             return newLoader;
         }
 

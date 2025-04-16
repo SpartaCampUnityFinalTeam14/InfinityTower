@@ -5,8 +5,8 @@ using System.Collections.Generic;
 [Serializable]
 public abstract class ISaveLoader<Key, Value>
 {
-    public abstract Dictionary<Key, Value> MakeDict();
     public List<Value> data = new List<Value>();
+    public abstract Dictionary<Key, Value> MakeDict();
 }
 
 #region PlayerData
@@ -52,12 +52,18 @@ public class PlayerData
 }
 #endregion
 
-#region LevelData
+#region TowerLevelData
 [Serializable]
 public class TowerLevelData
 {
     public int id;
     public int level;
+
+    public TowerLevelData(int id, int level)
+    {
+        this.id = id;
+        this.level = level;
+    }
 }
 
 [Serializable]
@@ -66,9 +72,40 @@ public class TowerLevelDataLoader : ISaveLoader<int, TowerLevelData>
     public override Dictionary<int, TowerLevelData> MakeDict()
     {
         Dictionary<int, TowerLevelData> dict = new();
+
         foreach (TowerLevelData towerLevel in data)
         {
             dict.Add(towerLevel.id, towerLevel);
+        }
+
+        return dict;
+    }
+}
+#endregion
+
+#region ChampionLevelData
+[Serializable]
+public class ChampionLevelData
+{
+    public int id;
+    public int level;
+
+    public ChampionLevelData(int id, int level)
+    {
+        this.id = id;
+        this.level = level;
+    }
+}
+
+[Serializable]
+public class ChampionLevelDataLoader : ISaveLoader<int, ChampionLevelData>
+{
+    public override Dictionary<int, ChampionLevelData> MakeDict()
+    {
+        Dictionary<int, ChampionLevelData> dict = new();
+        foreach (ChampionLevelData championLevel in data)
+        {
+            dict.Add(championLevel.id, championLevel);
         }
 
         return dict;
