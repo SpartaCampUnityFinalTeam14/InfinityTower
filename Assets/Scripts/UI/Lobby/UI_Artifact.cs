@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Gacha : UI
+public class UI_Artifact : UI
 {
     [SerializeField] private Button closeButton;
 
@@ -18,7 +18,7 @@ public class UI_Gacha : UI
     {
         base.Awake();
 
-        closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Gacha>());
+        closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Artifact>());
 
         Init();
     }

@@ -13,7 +13,7 @@ public class UI_Lobby : UI
     [SerializeField] private Button stageStartButton;
     [SerializeField] private Button championSelectButton;
     [SerializeField] private Button deckSelectButton;
-    [SerializeField] private Button gachaButton;
+    [SerializeField] private Button artifactButton;
 
     [SerializeField] private IntEventChannel OnChampionSelected;
 
@@ -25,7 +25,7 @@ public class UI_Lobby : UI
         stageStartButton.onClick.AddListener(() => GameManager.Instance.LoadScene("KSM_Stage"));
         championSelectButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Deck>().SetDeckTab(false));
         deckSelectButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Deck>().SetDeckTab(true));
-        gachaButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Gacha>());
+        artifactButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Artifact>());
 
         UnregisterListeners();
         RegisterListeners();

@@ -116,11 +116,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   goldText: {fileID: 8813830905810492764}
+  championImage: {fileID: 5236287791424246440}
   championNameText: {fileID: 5960623352721462978}
   stageStartButton: {fileID: 4141072741799483142}
   championSelectButton: {fileID: 698192022879754627}
   deckSelectButton: {fileID: 3024397815782176354}
-  gachaButton: {fileID: 333897538144573159}
+  artifactButton: {fileID: 333897538144573159}
   OnChampionSelected: {fileID: 11400000, guid: ab69cc0aaf635254cabc3f202eabb7ff, type: 2}
 --- !u!1 &794584559039011572
 GameObject:
@@ -1611,7 +1612,7 @@ GameObject:
   - component: {fileID: 8176362349816430232}
   - component: {fileID: 333897538144573159}
   m_Layer: 5
-  m_Name: GachaButton
+  m_Name: ArtifactButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
