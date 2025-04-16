@@ -13,7 +13,7 @@ public class AbilitySlot : MonoBehaviour
     [SerializeField] TextMeshProUGUI value;
     Image background;
 
-    AbilityData data;
+    AbilityData abilityData;
 
     private void Awake()
     {
@@ -21,9 +21,9 @@ public class AbilitySlot : MonoBehaviour
         background = GetComponent<Image>();
     }
 
-    public void Init(AbilityData ability)
+    public void Init(AbilityData data)
     {
-        data = ability;
+        this.abilityData = data;
 
         switch (data.rarity)
         {
@@ -51,24 +51,29 @@ public class AbilitySlot : MonoBehaviour
 
     void OnButtonClick()
     {
-        // ÀÌ¹Ì °¡Áö°í ÀÖ´Â Æ¯¼ºÀÏ °æ¿ì ex) °ø°İ·Â °°Àº °øÅë Æ¯¼º
-        if (StageManager.Instance.ability.ContainsKey(data.id))
+        var abilities = StageManager.Instance.abilityManager.abilities;
+        Ability newAbility = new Ability();
+        newAbility.Init(abilityData);
+
+        // ì´ë¯¸ ê°€ì§€ê³  ìˆëŠ” íŠ¹ì„±ì¼ ê²½ìš° ex) ê³µê²©ë ¥ ê°™ì€ ê³µí†µ íŠ¹ì„±
+        if (abilities.ContainsKey(abilityData.id))
         {
-            for (int i = 0; i < data.valueType.Count; i++)
+            for (int i = 0; i < abilityData.valueType.Count; i++)
             {
-                StageManager.Instance.ability[data.id].value[i] += DataManager.Instance.abilityDict[data.id].value[i];
+                abilities[abilityData.id].Data.value[i] += DataManager.Instance.abilityDict[abilityData.id].value[i];
             }
-            StageManager.Instance.ability[data.id].maxStack++;
+            abilities[abilityData.id].AddStackCount(1);
         }
         else
         {
-            StageManager.Instance.ability.Add(data.id, data);
+            StageManager.Instance.abilityManager.AddAbillity(newAbility);
+            abilities[abilityData.id].AddStackCount(1);
         }
 
-        // Æ¯¼º °¡Ã­ Ç®¿¡¼­ ½ºÅÃÇüÀÌ ¾Æ´Ï°Å³ª ÃÖ´ë ½ºÅÃÀÌ¸é Á¦°Å
-        UIManager.Instance.GetUI<UIAbility>().CheckStackable(data);
+        // íŠ¹ì„± ê°€ì±  í’€ì—ì„œ ìŠ¤íƒí˜•ì´ ì•„ë‹ˆê±°ë‚˜ ìµœëŒ€ ìŠ¤íƒì´ë©´ ì œê±°
+        UIManager.Instance.GetUI<UIAbility>().CheckStackable(abilityData);
 
-        // UI¼û±è
+        // UIìˆ¨ê¹€
         UIManager.Instance.HideUI<UIAbility>();
     }
 }

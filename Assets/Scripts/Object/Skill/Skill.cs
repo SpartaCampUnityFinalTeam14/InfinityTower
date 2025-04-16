@@ -57,14 +57,24 @@ public abstract class Skill
     public List<ISkillUser> FindNearestEnemies(ISkillUser caster, int maxCount)
     {
         Vector3 casterPos = caster.GetPosition();
-        // List<ISkillUser> allEnemies = EnemyManager.Instance.GetAllEnemies();
 
-        // 거리 정렬
-        // allEnemies.Sort((a, b) =>
-        //     Vector3.Distance(casterPos, a.GetPosition()).CompareTo(
-        //         Vector3.Distance(casterPos, b.GetPosition())));
-        //
-        // return allEnemies.GetRange(0, Mathf.Min(maxCount, allEnemies.Count));
-        return new List<ISkillUser>(); // 임시로 빈 리스트 반환
+        List<ISkillUser> result = new();
+        Collider2D[] hits = Physics2D.OverlapCircleAll(casterPos, 100f); // 📌 넉넉한 범위로 모두 탐색
+
+        foreach (var h in hits)
+        {
+            ISkillUser target = h.GetComponent<ISkillUser>();
+            if (target != null && target != caster)
+            {
+                result.Add(target);
+            }
+        }
+
+        // 거리순 정렬 후 상위 maxCount 개만 추출
+        result.Sort((a, b) =>
+            Vector3.Distance(casterPos, a.GetPosition())
+                .CompareTo(Vector3.Distance(casterPos, b.GetPosition())));
+
+        return result.GetRange(0, Mathf.Min(maxCount, result.Count));
     }
 }

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: ChainLightning
   effectPrefab: {fileID: 7065246769282063243, guid: 1ebb811dac53448948fef600facc95e8, type: 3}
-  explosionEffect: {fileID: 0}
+  explosionEffect: {fileID: 7065246769282063243, guid: 1ebb811dac53448948fef600facc95e8, type: 3}
   soundClip: {fileID: 0}

@@ -11,6 +11,7 @@ public class UIAbility : UI
     [SerializeField] Transform layout;
 
     List<AbilitySlot> slots;
+    const string prefabPath = "Ability/AbilitySlot";
 
     protected override void Awake()
     {
@@ -35,23 +36,23 @@ public class UIAbility : UI
     {
         AbilityData data;
         List<AbilityData> listDraw = new List<AbilityData>();
-
+        
         while (listDraw.Count < drawCount)
         {
-            // ·¹¾îµµ
+            // ë ˆì–´ë„
             int rarity = GetRandomRarity();
 
-            // Æ¯¼º »Ì±â
+            // íŠ¹ì„± ë½‘ê¸°
             data = GetRandomAbility(rarity);
 
             if (data == null) continue;
 
-            // ÀÌ¹Ì »ÌÀº Æ¯¼ºÀÎÁö Áßº¹ Ã¼Å©
+            // ì´ë¯¸ ë½‘ì€ íŠ¹ì„±ì¸ì§€ ì¤‘ë³µ ì²´í¬
             if (!listDraw.Contains(data))
                 listDraw.Add(data);
         }
 
-        // Æ¯¼º »ý¼º
+        // íŠ¹ì„± ìƒì„±
         for (int i = 0; i < listDraw.Count; i++)
         {
             CreateAbilitySlot(listDraw[i], i);
@@ -60,13 +61,13 @@ public class UIAbility : UI
 
     public void CheckStackable(AbilityData data)
     {
-        if (data.stackable <= 0 || DataManager.Instance.abilityDict[data.id].maxStack <= data.maxStack)
+        if (data.stackable <= 0 || DataManager.Instance.abilityDict[data.id].maxStack <= StageManager.Instance.abilityManager.abilities[data.id].CurStackCount)
             StageManager.Instance.filterAbilityPool[data.rarity].Remove(data.id);
     }
 
     int GetRandomRarity()
     {
-        // 1¼º 60%, 2¼º 30%, 3¼º 10%
+        // 1ì„± 60%, 2ì„± 30%, 3ì„± 10%
         float roll = Random.value;
 
         if (roll < 0.6f)
@@ -89,7 +90,7 @@ public class UIAbility : UI
         AbilitySlot ability;
         if (slots.Count <= slotIdx)
         {
-            Util.InstantiatePrefab($"Ability/AbilitySlot", Vector3.zero, Quaternion.identity, layout).TryGetComponent(out ability);
+            Util.InstantiatePrefab(prefabPath, Vector3.zero, Quaternion.identity, layout).TryGetComponent(out ability);
             slots.Add(ability);
         }
         else

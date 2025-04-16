@@ -4,9 +4,8 @@
       "id": 0,
       "name": "좀비",
       "description": "좀비다.",
-      "hp": 1,
-      "moveSpeed": 1.0,
-      "damage": 1,
+      "valueType": [ 3, 2 ],
+      "value":  [1, 1],
       "enemyType": 0,
       "hasSkill": "false"
     },
@@ -14,9 +13,8 @@
       "id": 1,
       "name": "유령",
       "description": "유령이다.",
-      "hp": 1,
-      "moveSpeed": 1.5,
-      "damage": 1,
+      "valueType": [ 3, 2 ],
+      "value": [ 1, 1.5 ],
       "enemyType": 0,
       "hasSkill": "false"
     }

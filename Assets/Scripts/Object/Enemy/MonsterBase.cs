@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class MonsterBase : Poolable
+public class MonsterBase : Poolable, ISkillUser
 {
     private Floor floor;
     protected MonsterData data;
@@ -14,6 +15,8 @@ public class MonsterBase : Poolable
     //방어력 추가
     public float defense;
     private bool isDead;
+    public bool IsDead => isDead;
+
 
     // 디버프 관련 상태 저장
     private Dictionary<BuffEffectType, Coroutine> debuffCoroutines = new Dictionary<BuffEffectType, Coroutine>();
@@ -26,7 +29,7 @@ public class MonsterBase : Poolable
 
         isDead = false;
         data = new(DataManager.Instance.monsterDict[id]);//깊은 복사
-        currentHP = data.hp;
+        currentHP = (int)GetStat(StatType.Health);
         transform.position = startPos.position;
         SetPath(path);
 
@@ -55,7 +58,7 @@ public class MonsterBase : Poolable
 
             while (Vector3.Distance(transform.position, target) > 0.05f)
             {
-                transform.position = Vector3.MoveTowards(transform.position, target, data.moveSpeed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, target, GetStat(StatType.Speed) * Time.deltaTime);
                 yield return null;
             }
 
@@ -64,11 +67,9 @@ public class MonsterBase : Poolable
             yield return null;
         }
 
-        StageManager.Instance.TakeDamage(data.damage);
+        StageManager.Instance.TakeDamage((int)GetStat(StatType.Attack));
         Dead();
     }
-
-    
 
     void Dead()
     {
@@ -77,18 +78,18 @@ public class MonsterBase : Poolable
         PoolManager.Instance.Release(this);
     }
 
-    public void TakeDamage(float damage)
-    {
-        if (isDead)
-        {
-            return;
-        }
-        currentHP -= Mathf.RoundToInt(damage);
-        if (currentHP <= 0)
-        {
-            Dead();
-        }
-    }
+    // public void TakeDamage(float damage)
+    // {
+    //     if (isDead)
+    //     {
+    //         return;
+    //     }
+    //     currentHP -= Mathf.RoundToInt(damage);
+    //     if (currentHP <= 0)
+    //     {
+    //         Dead();
+    //     }
+    // }
 
     //디버프 적용메서드
     public void ApplyDebuff(BuffEffectType type, float amount, float duration)
@@ -135,4 +136,43 @@ public class MonsterBase : Poolable
         debuffCoroutines.Remove(type);
     }
 
+   
+    public float GetStat(StatType type)
+    {
+        int iType = (int)type;
+        var common = StageManager.Instance.abilityManager.commonMonsterAbilities;
+
+        float origin = 0f;
+        float abil = 0f;
+
+        bool result = data.dictValue.TryGetValue(iType, out origin);
+        abil = common.ContainsKey(iType) ? common[iType] : 0f;
+
+        Debug.Assert(result, $"Not Find Type in DictionaryValue");
+        
+        return origin + abil;
+    }
+    
+    public string GetName()
+    {
+        return data.name;
+    }
+    
+    public void TakeDamage(float amount)
+    {
+        if (isDead)
+        {
+            return;
+        }
+        currentHP -= Mathf.RoundToInt(amount);
+        if (currentHP <= 0)
+        {
+            Dead();
+        }
+    }
+    
+    public Vector3 GetPosition()
+    {
+        return transform.position;
+    }
 }

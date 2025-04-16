@@ -1,7 +1,10 @@
 //캐릭터, 아이템 등의 초기값 로드 용도
+using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public interface ILoader<Key, Value>
 {
@@ -15,22 +18,24 @@ public class MonsterData
     public int id;
     public string name;
     public string description;
-    public int hp;
-    public float moveSpeed;
-    public int damage;
+    public List<int> valueType;
+    public List<float> value;
     public int enemyType;
     public bool hasSkill;
+    public float moveSpeed;
+
+    public Dictionary<int, float> dictValue;
 
     public MonsterData(MonsterData data)
     {
         this.id = data.id;
         this.name = data.name;
         this.description = data.description;
-        this.hp = data.hp;
-        this.moveSpeed = data.moveSpeed;
-        this.damage = data.damage;
+        this.valueType = new List<int>(data.valueType);
+        this.value = new List<float>(data.value);
         this.enemyType = data.enemyType;
         this.hasSkill = data.hasSkill;
+        this.dictValue = new Dictionary<int, float>(data.dictValue);
     }
 }
 
@@ -45,7 +50,14 @@ public class MonsterDataLoader : ILoader<int, MonsterData>
         foreach (MonsterData monster in data)
         {
             dict.Add(monster.id, monster);
+
+            monster.dictValue = new();
+            for (int i = 0; i < monster.valueType.Count; i++)
+            {
+                monster.dictValue.Add(monster.valueType[i], monster.value[i]);
+            }
         }
+
 
         return dict;
     }

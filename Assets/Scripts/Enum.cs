@@ -59,3 +59,11 @@ public enum BuffEffectType
     Stackable = 101,           // 중첩 가능 여부 (별도 처리 필요 시)
 }
 
+public enum StatType
+{
+    Attack,
+    AttackSpeed,
+    Speed,
+    Health,
+}
+

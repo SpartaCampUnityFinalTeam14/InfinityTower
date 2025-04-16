@@ -15,7 +15,8 @@ public class StageManager : Singleton<StageManager>
     public List<int> selectedTowers = new();
     public int selectedChampion;
     public Dictionary<int, Dictionary<int, AbilityData>> filterAbilityPool; // 특성 가챠에 사용될 특성 풀 (Dictionary<레어도, Dictionary<특성ID, 특성데이터>>)
-    public Dictionary<int, AbilityData> ability; // 선택한 특성 리스트 <특성id, 특성>
+    //public Dictionary<int, AbilityData> ability; // 선택한 특성 리스트 <특성id, 특성>
+    public AbilityManager abilityManager;
 
     [SerializeField] private int floorCount = 2;
     private GameObject floorGO;
@@ -33,9 +34,16 @@ public class StageManager : Singleton<StageManager>
         selectedTowers = SaveManager.Instance.playerData.selectedTowerIndex;
         selectedChampion = SaveManager.Instance.playerData.selectedChampionIndex;
         hp = DataManager.Instance.championDict[selectedChampion].hp;
-
+        
+        abilityManager = GetComponent<AbilityManager>();
+        InitUIPause();
         FilterAbilitiesByDeck(); // 현재 덱에 따라 특성 필터링
         StartStage();//추후 awake가 아닌 다른 곳으로 이동 (예를 들어, 시작 버튼을 누른다든가 하는 식)
+    }
+
+    void InitUIPause()
+    {
+        UIManager.Instance.HideUI<UIPause>();
     }
 
     public void TakeDamage(int damage)
@@ -82,7 +90,6 @@ public class StageManager : Singleton<StageManager>
     public void FilterAbilitiesByDeck()
     {
         // Ditionary 초기화 작업
-        ability = new Dictionary<int, AbilityData>();
         filterAbilityPool = new Dictionary<int, Dictionary<int, AbilityData>>();
         var abilityDatas = DataManager.Instance.abilityDict;
         foreach (var data in abilityDatas.Values)

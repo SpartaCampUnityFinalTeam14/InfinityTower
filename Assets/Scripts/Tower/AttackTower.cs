@@ -1,26 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackTower : TargettingTower
+public class SOAttackTower : TargettingTower
 {
-    public GameObject bulletPrefab; // 발사할 총알 프리팹
-    public Transform firePoint;     // 총알이 발사될 위치
+    public ProjectileDataSO projectileData;
+    public Transform firePoint;
 
     protected override void UseActOnTargets()
     {
         foreach (GameObject target in targets)
         {
-            if (target == null) continue;
-
-            // 총알을 발사
-            GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
-            Bullet bulletScript = bullet.GetComponent<Bullet>();
-            if (bulletScript != null)
+            if (target == null || projectileData == null)
             {
-                bulletScript.SetTarget(target.transform);
-                bulletScript.SetDamage(towerData.GetValue(BuffEffectType.AttackPower));
+                Debug.LogWarning("🚨 타겟 또는 프로젝트일 데이터가 null임");
+                continue;
             }
+
+            Debug.Log($"🧨 타겟에게 발사 중: {target.name}");
+
+            GameObject projObj = Instantiate(projectileData.prefab, firePoint.position, Quaternion.identity);
+
+            Projectile proj = projObj.GetComponent<Projectile>();
+            if (proj == null)
+            {
+                Debug.LogWarning($"🚨 {projectileData.id} 프리팹에 Projectile 스크립트가 없음");
+                continue;
+            }
+
+            proj.Init(projectileData);
+            proj.SetTarget(target.transform);
+            Debug.Log($"📌 SetTarget 호출됨 → {target.name}");
         }
     }
 }

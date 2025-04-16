@@ -19,7 +19,7 @@ public class Floor : MonoBehaviour
     //웨이브
     private WaveData waveData;
 
-    private int monsterCnt = 0;
+    [SerializeField] int monsterCnt = 0;
     private bool isWaveEnd;
 
     [SerializeField] private IntEventChannel OnWaveCountChanged;
@@ -57,8 +57,6 @@ public class Floor : MonoBehaviour
             yield return new WaitUntil(() => isPerkSelected);
         }
 
-        yield return new WaitUntil(() => monsterCnt <= 0);
-
         EndFloor();
     }
 
@@ -90,6 +88,7 @@ public class Floor : MonoBehaviour
             }
         }
 
+        yield return new WaitUntil(() => monsterCnt <= 0);
         EndWave();
     }
 
@@ -124,7 +123,6 @@ public class Floor : MonoBehaviour
         Debug.Log("<color=green>특성 선택</color>");
         isPerkSelected = false;
         var uiAbility = UIManager.Instance.ShowUI<UIAbility>();
-        uiAbility.Show();
         uiAbility.DrawAbility();
     }
 

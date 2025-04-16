@@ -24,16 +24,9 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         // 이름 단순 표시 (원하면 Resources/타워 데이터로 확장 가능)
         nameText.text = $"타워 {towerID}";
 
-        // 아이콘 로드 (예: Resources/Icons/tower_1.png)
-        Sprite icon = Resources.Load<Sprite>($"Icons/tower_{towerID}");
-        if (icon != null)
-            iconImage.sprite = icon;
-        else
-            Debug.LogWarning($"❌ 아이콘 없음: Icons/tower_{towerID}");
-
         // 프리팹 로드 (예: Prefabs/TowerGhost_1, Prefabs/Tower_1)
-        previewPrefab = Resources.Load<GameObject>($"Prefabs/TowerGhost_{towerID}");
-        placedTowerPrefab = Resources.Load<GameObject>($"Prefabs/Tower_{towerID}");
+        previewPrefab = Resources.Load<GameObject>($"Prefabs/Tower/TowerGhost_{towerID}");
+        placedTowerPrefab = Resources.Load<GameObject>($"Prefabs/Tower/Tower_{towerID}");
 
         if (previewPrefab == null)
             Debug.LogError($"❌ previewPrefab 로드 실패: TowerGhost_{towerID}");
