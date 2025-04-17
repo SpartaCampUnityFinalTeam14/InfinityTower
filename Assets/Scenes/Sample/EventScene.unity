@@ -901,7 +901,7 @@ MonoBehaviour:
   selectedChampion: 0
   abilityManager: {fileID: 0}
   eventManager: {fileID: 0}
-  floorCount: 2
+  floorCount: 4
   OnFloorCountChanged: {fileID: 11400000, guid: 488655e93354e78488197b1da7274906, type: 2}
   isEventEnd: 1
   isPause: 0

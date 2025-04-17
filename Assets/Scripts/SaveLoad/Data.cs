@@ -297,8 +297,8 @@ public class AbilityTypeLoader : ILoader<int, AbilityType>
 public class EventData
 {
     public int id;
-    public string title;
     public int type;
+    public string title;
     public string description;
     public string choiceTitle;
     public string choice1;
@@ -307,10 +307,20 @@ public class EventData
     public int choice1ID;
     public int choice2ID;
     public int choice3ID;
-    public int rewardType;
-    public int reward;
+    public List<int> rewardType;
+    public List<int> reward;
     public string image;
-    public string buttonText;
+    public string result;
+}
+
+[Serializable]
+public class ProbabilityEventData
+{
+    public int id;
+    public int drop1ID;
+    public int drop1Per;
+    public int drop2ID;
+    public int drop2Per;
 }
 
 [Serializable]
@@ -322,6 +332,23 @@ public class EventDataLoader : ILoader<int, EventData>
     {
         Dictionary<int, EventData> dict = new();
         foreach (EventData eventData in data)
+        {
+            dict.Add(eventData.id, eventData);
+        }
+
+        return dict;
+    }
+}
+
+[Serializable]
+public class ProbabilityEventDataLoader : ILoader<int, ProbabilityEventData>
+{
+    public List<ProbabilityEventData> data = new();
+
+    public Dictionary<int, ProbabilityEventData> MakeDict()
+    {
+        Dictionary<int, ProbabilityEventData> dict = new();
+        foreach (ProbabilityEventData eventData in data)
         {
             dict.Add(eventData.id, eventData);
         }

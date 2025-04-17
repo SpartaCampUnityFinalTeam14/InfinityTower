@@ -146,7 +146,7 @@ public class AbilityManager : MonoBehaviour
 
     public void CheckStackable(AbilityData data)
     {
-        if (data.stackable <= 0 || DataManager.Instance.abilityDict[data.id].maxStack <= abilities[data.id].CurStackCount)
+        if (DataManager.Instance.abilityDict[data.id].maxStack <= abilities[data.id].CurStackCount)
             filterAbilityPool[data.rarity].Remove(data.id);
     }
 }

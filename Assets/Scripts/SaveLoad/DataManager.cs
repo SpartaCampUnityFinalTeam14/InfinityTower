@@ -13,6 +13,7 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<int, AbilityType> abilityTypedict = new();
     public Dictionary<int, EventData> eventDict = new();
     public Dictionary<int, EventData> eventResultDict = new();
+    public Dictionary<int, ProbabilityEventData> eventProbabilityDict = new();
 
     protected override void Awake()
     {
@@ -28,6 +29,7 @@ public class DataManager : Singleton<DataManager>
         abilityTypedict = LoadJson<AbilityTypeLoader, int, AbilityType>().MakeDict();
         eventDict = LoadJson<EventDataLoader, int, EventData>().MakeDict();
         eventResultDict = LoadJson<EventDataLoader, int, EventData>("EventResultData").MakeDict();
+        eventProbabilityDict = LoadJson<ProbabilityEventDataLoader, int, ProbabilityEventData>("EventProbabilityData").MakeDict();
     }
 
     Loader LoadJson<Loader, Key, Value>(string fileName = default) where Loader : ILoader<Key, Value>

@@ -59,7 +59,7 @@ public enum RewardType
     RandomCommonPerk,
     RandomRarePerk,
     RandomEpicPerk,
-    Health,
     Cost,
-    Cooldown
+    Cooldown,
+    Health = 6
 }

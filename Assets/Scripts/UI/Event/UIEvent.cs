@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class UIEvent : UI
 {
-    [Header ("Event Page")]
+    [Header ("Event Panel")]
     [SerializeField] GameObject pageMain1;
     [SerializeField] GameObject pageMain2;
     [SerializeField] GameObject pageChoice;
@@ -29,9 +29,6 @@ public class UIEvent : UI
     [SerializeField] TextMeshProUGUI resultDesc;
     [SerializeField] TextMeshProUGUI resultReward;
     [SerializeField] Button btnResult;
-
-    EventData eventData;
-
     protected override void Awake()
     {
         base.Awake();
@@ -61,38 +58,15 @@ public class UIEvent : UI
         StageManager.Instance.isEventEnd = true;
     }
 
-    public void SetEventText(EventData data)
+    public void SetEventPanel(EventData data)
     {
-        eventData = data;
+        eventTitle.text = data.title;
+        eventDesc.text = data.description;
 
-        eventTitle.text = eventData.title;
-        eventDesc.text = eventData.description;
-        choiceTitle.text = eventData.choiceTitle;
-
-        var sprite = Resources.Load<Sprite>($"Event/{eventData.image}");
+        var sprite = Resources.Load<Sprite>($"Event/{data.image}");
         if (sprite) image.sprite = sprite;
 
-        ClearAllChoiceButton();
-        if (!string.IsNullOrEmpty(eventData.choice1))
-        {
-            btnChoice1.GetComponentInChildren<TextMeshProUGUI>().text = eventData.choice1;
-            btnChoice1.gameObject.SetActive(true);
-            btnChoice1.enabled = true;
-        }
-
-        if (!string.IsNullOrEmpty(eventData.choice2))
-        {
-            btnChoice2.GetComponentInChildren<TextMeshProUGUI>().text = eventData.choice2;
-            btnChoice2.gameObject.SetActive(true);
-            btnChoice2.enabled = true;
-        }
-
-        if (!string.IsNullOrEmpty(eventData.choice3))
-        {
-            btnChoice3.GetComponentInChildren<TextMeshProUGUI>().text = eventData.choice3;
-            btnChoice3.gameObject.SetActive(true);
-            btnChoice3.enabled = true;
-        }
+        SetChoicePanel(data);
 
         pageMain1.SetActive(true);
         pageMain2.SetActive(true);
@@ -100,24 +74,51 @@ public class UIEvent : UI
         pageResult.SetActive(false);
     }
 
-    public void SetResultText(EventData resultEvent)
+    public void SetChoicePanel(EventData data)
     {
-        resultTitle.text = resultEvent.choiceTitle;
+        choiceTitle.text = data.choiceTitle;
+
+        ClearAllChoiceButton();
+        if (!string.IsNullOrEmpty(data.choice1))
+        {
+            btnChoice1.GetComponentInChildren<TextMeshProUGUI>().text = data.choice1;
+            btnChoice1.enabled = true;
+            btnChoice1.gameObject.SetActive(true);
+        }
+
+        if (!string.IsNullOrEmpty(data.choice2))
+        {
+            btnChoice2.GetComponentInChildren<TextMeshProUGUI>().text = data.choice2;
+            btnChoice2.enabled = true;
+            btnChoice2.gameObject.SetActive(true);
+        }
+
+        if (!string.IsNullOrEmpty(data.choice3))
+        {
+            btnChoice3.GetComponentInChildren<TextMeshProUGUI>().text = data.choice3;
+            btnChoice3.enabled = true;
+            btnChoice3.gameObject.SetActive(true);
+        }
+    }
+
+    public void SetResultPanel(EventData resultEvent)
+    {
+        resultTitle.text = resultEvent.title;
         resultDesc.text = resultEvent.description;
-        btnResult.GetComponentInChildren<TextMeshProUGUI>().text = resultEvent.buttonText;
+        btnResult.GetComponentInChildren<TextMeshProUGUI>().text = string.IsNullOrEmpty(resultEvent.result) ? "다음 페이지로" : resultEvent.result;
     }
 
     public void SetRewadText(string str)
     {
         if (!string.IsNullOrEmpty(str))
-            resultReward.text = $"{str} 획득";
+            resultReward.text = str;
         else
         {
             resultReward.text = "";
         }
     }
 
-    public void SetActiveResult(bool isActive)
+    public void SetActiveResultPanel(bool isActive)
     {
         pageResult.SetActive(isActive);
     }
@@ -130,11 +131,11 @@ public class UIEvent : UI
         pageResult.SetActive(false);
     }
 
-    public void DisableAllChoiceButton()
+    public void EnableAllChoiceButton(bool isEnabled)
     {
-        btnChoice1.enabled = false;
-        btnChoice2.enabled = false;
-        btnChoice3.enabled = false;
+        btnChoice1.enabled = isEnabled;
+        btnChoice2.enabled = isEnabled;
+        btnChoice3.enabled = isEnabled;
     }
 
     void ClearAllChoiceButton()

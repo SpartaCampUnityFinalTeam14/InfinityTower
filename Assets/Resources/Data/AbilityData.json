@@ -69,6 +69,42 @@
         "targetID": -1,
         "stackable": 0,
         "maxStack": 5
+      },
+      {
+        "id": 6,
+        "rarity": 0,
+        "name": "테스트 커먼 특성",
+        "description": "커먼 무한 중첩",
+        "valueType": [ 2 ],
+        "value": [ 0 ],
+        "targetType": 3,
+        "targetID": 1003,
+        "stackable": 1,
+        "maxStack": 500
+      },
+      {
+        "id": 7,
+        "rarity": 1,
+        "name": "테스트 레어 특성",
+        "description": "레어 무한 중첩",
+        "valueType": [ 2 ],
+        "value": [ 0 ],
+        "targetType": 3,
+        "targetID": 1003,
+        "stackable": 1,
+        "maxStack": 500
+      },
+      {
+        "id": 8,
+        "rarity": 2,
+        "name": "테스트 에픽 특성",
+        "description": "에픽 무한 중첩",
+        "valueType": [ 2 ],
+        "value": [ 0 ],
+        "targetType": 3,
+        "targetID": 1003,
+        "stackable": 1,
+        "maxStack": 500
       }
-      ]
+    ]
     }

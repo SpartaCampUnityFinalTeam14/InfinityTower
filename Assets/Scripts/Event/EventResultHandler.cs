@@ -1,0 +1,42 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class EventResultHandler
+{
+    Dictionary<EventType, Action<EventData>> resultHandlers;
+
+    public EventResultHandler()
+    {
+        resultHandlers = new Dictionary<EventType, Action<EventData>>
+        {
+            { EventType.Battle, HandleBattle},
+            { EventType.Probablity, HandleProbabilty}
+        };
+    }
+
+    public void HandleResult(EventData data)
+    {
+        if (resultHandlers.TryGetValue((EventType)data.type, out var handle))
+            handle.Invoke(data);
+        else
+            HandleDefault(data);
+    }
+
+    void HandleBattle(EventData data)
+    {
+        StageManager.Instance.AddFloorCount(1);
+        UIManager.Instance.HideUI<UIEvent>();
+    }
+
+    void HandleProbabilty(EventData data)
+    {
+        StageManager.Instance.eventManager.SetChoiceEvent(data);
+    }
+
+    void HandleDefault(EventData data)
+    {
+        UIManager.Instance.HideUI<UIEvent>();
+    }
+}

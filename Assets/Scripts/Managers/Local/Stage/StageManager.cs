@@ -122,7 +122,8 @@ public class StageManager : Singleton<StageManager>
 
             yield return new WaitUntil(() => curFloor.isFloorEnd);
 
-            if (i % 2 == 0) ShowEvent();
+            //if (i != 0 && (i + 1) % 2 == 0) ShowEvent();
+            ShowEvent();
 
             yield return new WaitUntil(() => isEventEnd);
         }

@@ -15,7 +15,24 @@
         "rewardType": null,
         "reward": null,
         "image": null,
-        "buttonText": null
+        "result": null
+      },
+      {
+        "id": 1,
+        "title": "수상한 상자",
+        "type": 3,
+        "description": "오두막안에 누군가 버린 듯한 수상한 상자가 있다. 안에 뭐가 있는 것 같은데?",
+        "choiceTitle": "열어볼까?",
+        "choice1": "열어본다\n(80% 확률로 성공)",
+        "choice2": "그냥 지나가자",
+        "choice3": null,
+        "choice1ID": 10000,
+        "choice2ID": 10,
+        "choice3ID": null,
+        "rewardType": null,
+        "reward": null,
+        "image": null,
+        "result": null
       }
     ]
     }
