@@ -11,14 +11,24 @@ public class UI_Artifact : UI
     private List<UI_ArtifactSlot> slots = new();
 
     [SerializeField] private Button gachaButton;
+
+    [SerializeField] private GameObject gachaBackground;
     [SerializeField] private Image resultImage;
     [SerializeField] private TextMeshProUGUI nameText;
+    [SerializeField] private Image boxImage;
+    [SerializeField] private Button gachaCloseButton;
+
+    private ArtifactGachaManager gachaManager;
 
     protected override void Awake()
     {
         base.Awake();
 
+        gachaManager = new();
+
         closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Artifact>());
+        gachaButton.onClick.AddListener(Gacha);
+        gachaCloseButton.onClick.AddListener(() => gachaBackground.SetActive(false));
 
         Init();
     }
@@ -28,13 +38,31 @@ public class UI_Artifact : UI
         foreach (Transform child in slotParent) Destroy(child.gameObject);
         slots.Clear();
 
-        for (int i = 0; i < DataManager.Instance.championDict.Count; i++)
+        foreach(var data in SaveManager.Instance.artifactSaveDict)
         {
             UI_ArtifactSlot slot = Util.InstantiatePrefabAndGetComponent<UI_ArtifactSlot>(path: "UI/Sub/UI_ArtifactSlot", parent: slotParent);
             slots.Add(slot);
 
-            slot.Init(DataManager.Instance.championDict[i].id);
+            slot.Init(data.Value.id);
         }
+    }
+
+    void Dirty()
+    {
+        for(int i = 0; i < SaveManager.Instance.artifactSaveDict.Count; i++)
+        {
+            slots[i].SetCount(SaveManager.Instance.artifactSaveDict[i].count);
+        }
+    }
+
+    void Gacha()
+    {
+        gachaBackground.SetActive(true);
+
+        int Id = gachaManager.GetRandomArtifact();
+
+        //resultImage 세팅
+        nameText.text = DataManager.Instance.artifactDicts[Id / 1000][Id].name;
     }
 
     public override void Clear()

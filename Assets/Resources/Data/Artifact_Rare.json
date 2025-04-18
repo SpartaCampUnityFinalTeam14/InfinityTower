@@ -1,8 +1,8 @@
 {
   "data": [
     {
-      "id": 0,
-      "name": "damage",
+      "id": 1000,
+      "name": "Damage",
       "description": "공격력"
     }
   ]

@@ -11,7 +11,12 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<int, SkillData> skillDict = new();
     public Dictionary<int, AbilityData> abilityDict = new();
     public Dictionary<int, AbilityType> abilityTypedict = new();
-    public Dictionary<int, ArtifactData> artifactDict = new();
+    public List<Dictionary<int, ArtifactData>> artifactDicts = new(3)
+    {
+        new Dictionary<int, ArtifactData>(),
+        new Dictionary<int, ArtifactData>(),
+        new Dictionary<int, ArtifactData>()
+    };
 
     protected override void Awake()
     {
@@ -25,12 +30,14 @@ public class DataManager : Singleton<DataManager>
         skillDict = LoadJson<SkillDataLoader, int, SkillData>().MakeDict();
         abilityDict = LoadJson<AbilityDataLoader, int, AbilityData>().MakeDict();
         abilityTypedict = LoadJson<AbilityTypeLoader, int, AbilityType>().MakeDict();
-        artifactDict = LoadJson<ArtifactDataLoader, int, ArtifactData>().MakeDict();
+        artifactDicts[0] = LoadJson<ArtifactDataLoader, int, ArtifactData>("Artifact_Common").MakeDict();
+        artifactDicts[1] = LoadJson<ArtifactDataLoader, int, ArtifactData>("Artifact_Rare").MakeDict();
+        artifactDicts[2] = LoadJson<ArtifactDataLoader, int, ArtifactData>("Artifact_Epic").MakeDict();
     }
 
-    Loader LoadJson<Loader, Key, Value>() where Loader : ILoader<Key, Value>
+    Loader LoadJson<Loader, Key, Value>(string fileName = default) where Loader : ILoader<Key, Value>
     {
-        TextAsset textAsset = Resources.Load<TextAsset>($"Data/{typeof(Value)}");
+        TextAsset textAsset = Resources.Load<TextAsset>(string.IsNullOrEmpty(fileName) ? $"Data/{typeof(Value)}" : $"Data/{fileName}");
         return JsonUtility.FromJson<Loader>(textAsset.text);
     }
 }

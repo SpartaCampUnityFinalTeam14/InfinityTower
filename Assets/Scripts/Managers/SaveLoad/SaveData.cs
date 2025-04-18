@@ -112,3 +112,33 @@ public class ChampionLevelDataLoader : ISaveLoader<int, ChampionLevelData>
     }
 }
 #endregion
+
+#region ArtifactSaveData
+[Serializable]
+public class ArtifactSaveData
+{
+    public int id;
+    public int count;
+
+    public ArtifactSaveData(int id, int count)
+    {
+        this.id = id;
+        this.count = count;
+    }
+}
+
+[Serializable]
+public class ArtifactSaveDataLoader : ISaveLoader<int, ArtifactSaveData>
+{
+    public override Dictionary<int, ArtifactSaveData> MakeDict()
+    {
+        Dictionary<int, ArtifactSaveData> dict = new();
+        foreach (ArtifactSaveData artifact in data)
+        {
+            dict.Add(artifact.id, artifact);
+        }
+
+        return dict;
+    }
+}
+#endregion

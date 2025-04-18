@@ -1,0 +1,9 @@
+{
+  "data": [
+    {
+      "id": 2000,
+      "name": "AttackSpeed",
+      "description": "공격속도"
+    }
+  ]
+}
