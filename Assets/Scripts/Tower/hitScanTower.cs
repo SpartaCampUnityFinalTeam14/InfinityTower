@@ -29,12 +29,20 @@ public class hitScanTower : TargettingTower
 
                 if (towerData.TargetType == TargetType.Enemy)
                 {
-                    // 디버프 적용
                     MonsterBase enemy = target.GetComponent<MonsterBase>();
-                    if (enemy != null)
+                    if (enemy == null) continue;
+
+                    if (effectType == BuffEffectType.Damage)
                     {
+                        // 공격 적용
+                        enemy.TakeDamage(amount);
+                        Debug.Log($"[hitScanTower] 데미지 {amount} 적용 -> {enemy.name}");
+                    }
+                    else
+                    {
+                        // 디버프 적용
                         enemy.ApplyDebuff(effectType, amount, duration);
-                        Debug.Log($"[SupportTower] 디버프 {effectType} {amount} 적용 (지속: {duration}) -> {enemy.name}");
+                        Debug.Log($"[hitScanTower] 디버프 {effectType} {amount} 적용 (지속: {duration}) -> {enemy.name}");
                     }
                 }
                 else if (towerData.TargetType == TargetType.Tower)

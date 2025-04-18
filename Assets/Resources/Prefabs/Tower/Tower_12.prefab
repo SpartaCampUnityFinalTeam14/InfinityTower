@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -495282547741510930}
   - component: {fileID: -6891636743366010001}
   m_Layer: 0
-  m_Name: Tower_10
+  m_Name: Tower_12
   m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -100,21 +100,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerData:
-    id: 10
-    name: "\uC800\uACA9\uC218"
-    description: "\uBA3C \uAC70\uB9AC\uC5D0\uC11C\uB3C4 \uC801\uC744 \uC815\uD655\uD788
-      \uB9DE\uCD94\uB294 \uD65C\uC758 \uBA85\uC0AC\uC218. \uC0AC\uAC70\uB9AC\uAC00
-      \uB113\uC9C0\uB9CC \uC801\uC744 \uC870\uC900\uD558\uB294\uB370 \uC9D1\uC911\uC774
-      \uD544\uC694\uD558\uB2E4"
+    id: 12
+    name: "\uCE90\uB17C\uC288\uD130"
+    description: "\uB300\uD3EC\uB97C \uC0AC\uC6A9\uD574 \uB113\uC740 \uBC94\uC704\uC758
+      \uC801\uC744 \uACF5\uACA9\uD558\uC5EC \uC9C4\uC601\uC744 \uBB34\uB108\uB728\uB9B0\uB2E4"
     targetType: 3
     targetCount: 1
-    cost: 100
+    cost: 150
     targettingRule: 3
     coolTime: 20
-    range: 8
+    range: 7
     valueTypes: 00000000
     valueList:
-    - 10
+    - 8
   cooldownTimer: 0
 --- !u!61 &-6891636743366010001
 BoxCollider2D:
