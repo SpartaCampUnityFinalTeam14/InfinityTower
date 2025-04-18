@@ -12,10 +12,10 @@ public class EventRewardHandler
     {
         rewardHandlers = new Dictionary<RewardType, Func<int, string>>
         {
-            { RewardType.RandomRarityPerk, value => AddRandomPerk(StageManager.Instance.abilityManager.GetRandomRarity()) },
-            { RewardType.RandomCommonPerk, value => AddRandomPerk((int)Rarity.Common) },
-            { RewardType.RandomRarePerk, value => AddRandomPerk((int)Rarity.Rare) },
-            { RewardType.RandomEpicPerk, value => AddRandomPerk((int)Rarity.Epic) },
+            { RewardType.RandomRarityPerk, value => AddRandomPerk(StageManager.Instance.abilityManager.GetRandomRarity(), value) },
+            { RewardType.RandomCommonPerk, value => AddRandomPerk((int)Rarity.Common, value) },
+            { RewardType.RandomRarePerk, value => AddRandomPerk((int)Rarity.Rare, value) },
+            { RewardType.RandomEpicPerk, value => AddRandomPerk((int)Rarity.Epic, value) },
             { RewardType.Health, ApplyHealthReward },
             { RewardType.Cost, ApplyCostReward },
             { RewardType.Cooldown, ApplyCooldownReward }
@@ -32,13 +32,23 @@ public class EventRewardHandler
         return string.Empty;
     }
 
-    string AddRandomPerk(int rarity)
+    string AddRandomPerk(int rarity, int count)
     {
-        var ability = StageManager.Instance.abilityManager.GetRandomAbility(rarity);
-        if (ability == null)
-            Debug.LogError("이벤트: 랜덤 특성 뽑기 실패");
-        StageManager.Instance.abilityManager.AddAbillity(ability);
-        return $"{ability.name} 획득";
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < count; i++)
+        {
+            var ability = StageManager.Instance.abilityManager.GetRandomAbility(rarity);
+            
+            if (ability == null)
+                Debug.LogError("이벤트: 랜덤 특성 뽑기 실패");
+            
+            StageManager.Instance.abilityManager.AddAbillity(ability);
+            
+            sb.AppendLine($"{ability.name} 획득");
+        }
+
+        return sb.ToString().TrimEnd('\n');
     }
 
     string ApplyHealthReward(int value)

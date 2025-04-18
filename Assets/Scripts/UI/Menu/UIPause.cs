@@ -67,11 +67,11 @@ public class UIPause : UI
         var list = StageManager.Instance.abilityManager.abilities;
         GameObject prefab = Resources.Load<GameObject>(iconPrefabPath);
 
-        foreach (var ability in list)
+        foreach (var ability in list.Values)
         {
-            AbilityIcon icon = PoolManager.Instance.Get(prefab, 10, content).GetComponent<AbilityIcon>();
-            //icon.SetIcon(Resources.Load<Sprite>($"Prefabs/Icon/ability.iconImage"));
-            
+            AbilityIcon icon = PoolManager.Instance.Get(prefab, 20, content).GetComponent<AbilityIcon>();
+            icon.Init(ability.Data);
+
             listIcon.Add(icon);
         }
     }

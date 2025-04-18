@@ -10,26 +10,26 @@ public class AbilityManager : MonoBehaviour
     public Dictionary<int, Ability> abilities = new(); // 선택한 특성 리스트 <특성id, 특성>
     public event Action OnAbilityChanged;
 
-    public Dictionary<int, float> commonMonsterAbilities = new();
+    public Dictionary<int, float> monsterAbilities = new();
 
     private void Awake()
     {
         FilterAbilitiesByDeck();
     }
 
-    void UpdateMonsterAbility(Ability ability)
+    void UpdateMonsterAbility(AbilityData data)
     {
         var monsterAbilities = GetMonsterAbilities();
        
-        for (int i = 0; i < ability.Data.valueType.Count; i++)
+        for (int i = 0; i < data.valueType.Count; i++)
         {
-            if (commonMonsterAbilities.ContainsKey(ability.Data.valueType[i]))
+            if (this.monsterAbilities.ContainsKey(data.valueType[i]))
             {
-                commonMonsterAbilities[ability.Data.valueType[i]] += ability.Data.value[i];
+                this.monsterAbilities[data.valueType[i]] += DataManager.Instance.abilityDict[data.id].value[i]; ;
             }
             else
             {
-                commonMonsterAbilities.Add(ability.Data.valueType[i], ability.Data.value[i]);
+                this.monsterAbilities.Add(data.valueType[i], data.value[i]);
             }
         }
     }
@@ -57,7 +57,7 @@ public class AbilityManager : MonoBehaviour
             if (!filterAbilityPool.ContainsKey(data.rarity))
                 filterAbilityPool.Add(data.rarity, new Dictionary<int, AbilityData>());
 
-            filterAbilityPool[data.rarity].Add(data.id, data.DeepCopy());
+            filterAbilityPool[data.rarity].Add(data.id, data);
         }
 
         // 현재 덱에 관련된 특성만 남기기
@@ -81,9 +81,6 @@ public class AbilityManager : MonoBehaviour
 
     public void AddAbillity(AbilityData data)
     {
-        Ability ability = new Ability();
-        ability.Init(data);
-        
         if (abilities.ContainsKey(data.id))
         {
             for (int i = 0; i < data.valueType.Count; i++)
@@ -92,7 +89,11 @@ public class AbilityManager : MonoBehaviour
             }
         }
         else
-            abilities.Add(ability.Data.id, ability);
+        {
+            Ability ability = new Ability();
+            ability.Init(data);
+            abilities.Add(data.id, ability);
+        }
 
         // 특성 스택 증가
         abilities[data.id].AddStackCount(1);
@@ -101,13 +102,32 @@ public class AbilityManager : MonoBehaviour
         CheckStackable(data);
 
         // 타겟타입으로 특성 업데이트 분류
-        if (ability.Data.targetType == (int)TargetType.Tower)
+        if (data.targetType == (int)TargetType.Tower)
         {
             OnAbilityChanged?.Invoke();
         }
-        else if (ability.Data.targetType == (int)TargetType.Enemy)
+        else if (data.targetType == (int)TargetType.Enemy)
         {
-            UpdateMonsterAbility(ability);
+            UpdateMonsterAbility(data);
+        }
+    }
+
+    public void RemoveAbility(AbilityData data)
+    {
+        if (abilities.ContainsKey(data.id))
+        {
+            abilities[data.id].SubStackCount(1);
+
+            if (abilities[data.id].CurStackCount <= 0)
+            {
+                abilities.Remove(data.id);
+                
+                // 제거한 특성이 가챠풀 안에 없으면 추가
+                if (!filterAbilityPool[data.rarity].ContainsKey(data.id))
+                {
+                    filterAbilityPool[data.rarity].Add(data.id, DataManager.Instance.abilityDict[data.id]);
+                }
+            }
         }
     }
 

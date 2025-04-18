@@ -122,7 +122,7 @@ public class MonsterBase : Poolable
     public float GetStat(StatType type)
     {
         int iType = (int)type;
-        var common = StageManager.Instance.abilityManager.commonMonsterAbilities;
+        var common = StageManager.Instance.abilityManager.monsterAbilities;
 
         float origin = 0f;
         float abil = 0f;

@@ -20,4 +20,9 @@ public class Ability
     {
         curStackCount += cnt;
     }
+
+    public void SubStackCount(int cnt)
+    {
+        curStackCount -= cnt;
+    }
 }
