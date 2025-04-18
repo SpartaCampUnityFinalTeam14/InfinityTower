@@ -3,14 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class SupportTower : TargettingTower
+public class hitScanTower : TargettingTower
 {
+    public override void Update()
+    {
+        base.Update();
+    }
+
     protected override void UseActOnTargets()
     {
         float duration = towerData.GetValue(BuffEffectType.Duration); // 지속시간
 
         foreach (GameObject target in targets)
         {
+            if (target == null) continue;
+
             foreach (int rawType in towerData.valueTypes)
             {
                 BuffEffectType effectType = (BuffEffectType)rawType;
@@ -27,15 +34,17 @@ public class SupportTower : TargettingTower
                     if (enemy != null)
                     {
                         enemy.ApplyDebuff(effectType, amount, duration);
+                        Debug.Log($"[SupportTower] 디버프 {effectType} {amount} 적용 (지속: {duration}) -> {enemy.name}");
                     }
                 }
                 else if (towerData.TargetType == TargetType.Tower)
                 {
                     // 버프 적용
                     TargettingTower ally = target.GetComponent<TargettingTower>();
-                    if (ally != null)
+                    if (ally != null && ally != this) //자기 자신 제외
                     {
                         ally.ApplyBuff(effectType, amount, duration);
+                        Debug.Log($"[SupportTower] 버프 {effectType} {amount} 적용 (지속: {duration}) -> {ally.name}");
                     }
                 }
             }

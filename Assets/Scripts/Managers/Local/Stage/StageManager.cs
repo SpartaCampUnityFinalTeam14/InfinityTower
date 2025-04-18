@@ -11,6 +11,8 @@ public class StageManager : Singleton<StageManager>
     private float curCost = 1f;
     private float maxCost = 10f;
     [SerializeField] private FloatEventChannel OnCostChanged;
+    private List<float> activeCostRecoveryMultipliers = new List<float>(); // 여러 타워의 버프들을 저장
+    [SerializeField] private float costRecoveryMultiplier = 1f;  // Cost 얻는 속도 - 기본 1배속
 
     public List<int> selectedTowers = new();
     public int selectedChampion;
@@ -23,6 +25,7 @@ public class StageManager : Singleton<StageManager>
     private Floor curFloor;
     public Floor CurFloor => curFloor;
     [SerializeField] private IntEventChannel OnFloorCountChanged;
+
 
     protected override void Awake()
     {
@@ -53,11 +56,36 @@ public class StageManager : Singleton<StageManager>
         if (hp <= 0) GameOver();
     }
 
+    public void AddCostRecoveryMultiplier(float value)
+    {
+        activeCostRecoveryMultipliers.Add(value);
+        UpdateCostRecoveryMultiplier();
+    }
+
+    public void RemoveCostRecoveryMultiplier(float value)
+    {
+        activeCostRecoveryMultipliers.Remove(value);
+        UpdateCostRecoveryMultiplier();
+    }
+
+    private void UpdateCostRecoveryMultiplier()
+    {
+        // 여러 타워에서 오는 버프들을 합산해서 적용
+        float totalMultiplier = 1f;
+        foreach (var multiplier in activeCostRecoveryMultipliers)
+        {
+            totalMultiplier += multiplier;
+        }
+
+        // 그에 맞춰서 속도를 조정 (누적 값 적용)
+        costRecoveryMultiplier = totalMultiplier;
+    }
+
     IEnumerator RegainCost()
     {
         while (true)
         {
-            curCost = Mathf.Min(curCost + Time.deltaTime, maxCost);
+            curCost = Mathf.Min(curCost + Time.deltaTime * costRecoveryMultiplier, maxCost);
             OnCostChanged.RaiseEvent(curCost / maxCost);
             yield return null;
         }

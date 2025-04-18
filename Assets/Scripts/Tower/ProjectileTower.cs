@@ -1,9 +1,14 @@
 using UnityEngine;
 
-public class SOAttackTower : TargettingTower
+public class ProjectileTower : TargettingTower
 {
     public ProjectileDataSO projectileData;
     public Transform firePoint;
+
+    public override void Update()
+    {
+        base.Update();
+    }
 
     protected override void UseActOnTargets()
     {

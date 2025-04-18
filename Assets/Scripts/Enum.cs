@@ -25,11 +25,12 @@ public enum TargetType
 
 public enum BuffEffectType
 {
+    Damage = 0,                // 공격력
     // === 스탯 변경 ===
-    AttackPower = 0,           // 공격력 증감
-    AttackSpeed = 1,           // 공격 속도
-    Range = 2,                 // 사거리
-    CooldownReduction = 3,     // 스킬 쿨타임 감소
+    AttackPower = 1,           // 공격력 증감
+    AttackSpeed = 2,           // 공격 속도
+    Range = 3,                 // 사거리
+    CooldownReduction = 4,     // 스킬 쿨타임 감소
 
     // === 방어 관련 ===
     Defense = 10,              // 방어력
@@ -59,7 +60,7 @@ public enum BuffEffectType
     Stackable = 101,           // 중첩 가능 여부 (별도 처리 필요 시)
     
     // === 유틸 ===
-    GainGold = 200             // 일정 시간마다 골드 획득
+    CostRecovery = 200            // 일정 시간동안 코스트 회복속도 증가
 }
 
 public enum StatType

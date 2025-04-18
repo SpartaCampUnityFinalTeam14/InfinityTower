@@ -15,6 +15,11 @@ public abstract class TargettingTower : BaseTower
     //범위 안에 있는 아군 타워 리스트
     List<TargettingTower> towerInRange;
 
+    public override void Update()
+    {
+        base.Update();
+    }
+
     public virtual void FindTargets()
     {
         // targetingRule, targetType, targetCount 등을 이용해 타겟팅
@@ -44,7 +49,7 @@ public abstract class TargettingTower : BaseTower
                     if (hit.CompareTag("Tower"))
                     {
                         TargettingTower tower = hit.GetComponent<TargettingTower>();
-                        if (tower != null)
+                        if (tower != null && tower != this)
                             towerInRange.Add(tower);
                     }
                 break;
@@ -145,7 +150,7 @@ public abstract class TargettingTower : BaseTower
 
         if (targets.Count == 0)
         {
-            //break;
+            Debug.Log("타겟이 없음");
         }
         
         if (targets.Count > 0 )
