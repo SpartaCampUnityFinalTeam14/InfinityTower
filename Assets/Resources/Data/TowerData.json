@@ -1,16 +1,108 @@
 {
-  "data": [
-    {
-      "id": 0,
-      "name": "타워",
-      "description": "타워다.",
-      "targetType": 0,
-      "targetCount": 1,
-      "cost": 1,
-      "targetingRule": 1,
-      "value": 1,
-      "coolTime": 1,
-      "range": 1
-    }
-  ]
+    "data": [
+        {
+            "id": 0,
+            "name": "궁수",
+            "description": "활을 사용해 적 하나를 공격한다. 일반적인 공격력과 공격속도를 지니고 있다.",
+            "targetType": 3,
+            "targetCount": 1,
+            "cost": 50,
+            "targetingRule": 0,
+            "coolTime": 20,
+            "range": 5,
+            "valueTypes": [ 0 ],
+            "valueList": [ 8 ]
+        },
+        {
+            "id": 1,
+            "name": "견습 마법사",
+            "description": "화염 마법을 사용하여 적 하나를 공격한다. 공격한 적 주위에도 피해를 준다.",
+            "targetType": 3,
+            "targetCount": 1,
+            "cost": 100,
+            "targetingRule": 0,
+            "coolTime": 20,
+            "range": 3,
+            "valueTypes": [ 0 ],
+            "valueList": [ 8 ]
+        },
+        {
+            "id": 2,
+            "name": "역병의사",
+            "description": "의사지만 독을 다룬다. 적에게 독병을 던져 바닥에 독을 퍼뜨린다",
+            "targetType": 3,
+            "targetCount": 1,
+            "cost": 125,
+            "targetingRule": 0,
+            "coolTime": 20,
+            "range": 4,
+            "valueTypes": [ 0 ],
+            "valueList": [ 1 ]
+        },
+        {
+            "id": 10,
+            "name": "저격수",
+            "description": "먼 거리에서도 적을 정확히 맞추는 활의 명사수. 사거리가 넓지만 적을 조준하는데 집중이 필요하다",
+            "targetType": 3,
+            "targetCount": 1,
+            "cost": 100,
+            "targetingRule": 3,
+            "coolTime": 20,
+            "range": 8,
+            "valueTypes": [ 0 ],
+            "valueList": [ 10 ]
+        },
+        {
+            "id": 11,
+            "name": "검사",
+            "description": "검을 휘둘러 적 하나를 공격한다. 사거리가 짧지만 공격속도가 빠르다.",
+            "targetType": 3,
+            "targetCount": 1,
+            "cost": 70,
+            "targetingRule": 0,
+            "coolTime": 20,
+            "range": 3,
+            "valueTypes": [ 0 ],
+            "valueList": [ 7 ]
+        },
+        {
+            "id": 12,
+            "name": "캐논슈터",
+            "description": "대포를 사용해 넓은 범위의 적을 공격하여 진영을 무너뜨린다",
+            "targetType": 3,
+            "targetCount": 1,
+            "cost": 150,
+            "targetingRule": 3,
+            "coolTime": 20,
+            "range": 7,
+            "valueTypes": [ 0 ],
+            "valueList": [ 8 ]
+        },
+        {
+            "id": 13,
+            "name": "전격 마법사",
+            "description": "번개를 주로 다루는 마법사. 여러명에게 낙뢰를 떨어트린다",
+            "targetType": 3,
+            "targetCount": 3,
+            "cost": 180,
+            "targetingRule": 0,
+            "coolTime": 30,
+            "range": 4,
+            "valueTypes": [ 0 ],
+            "valueList": [ 5 ]
+        },
+        {
+            "id": 14,
+            "name": "사제",
+            "description": "주위 아군들의 공격력을 올려준다",
+            "targetType": 1,
+            "targetCount": 100,
+            "cost": 100,
+            "targetingRule": 0,
+            "coolTime": 25,
+            "range": 3,
+            "valueTypes": [ 1, 100 ],
+            "valueList": [ 10, 25 ]
+        }
+    ]
 }

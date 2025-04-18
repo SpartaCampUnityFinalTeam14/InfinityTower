@@ -1,18 +1,53 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class UtilTower : MonoBehaviour
+public class UtilityTower : BaseTower
 {
-    // Start is called before the first frame update
-    void Start()
+    private float buffAmount;
+    private float buffDuration;
+    private Coroutine buffCoroutine;
+
+    public override void Initialize(TowerData data)
     {
-        
+        base.Initialize(data);
+
+        buffAmount = towerData.GetValue(BuffEffectType.CostRecovery);   // ex: +0.5
+        buffDuration = towerData.GetValue(BuffEffectType.Duration);    // ex: 5초
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Activate()
     {
-        
+        // 여러 타워가 동시에 영향을 미칠 수 있게 조정
+        if (buffCoroutine == null)
+        {
+            buffCoroutine = StartCoroutine(ApplyCostRecoveryBuff());
+        }
+    }
+
+    IEnumerator ApplyCostRecoveryBuff()
+    {
+        // 타워가 추가되면 버프를 적용, 중복되는 버프는 기존값에 누적 적용
+        StageManager.Instance.AddCostRecoveryMultiplier(buffAmount);
+
+        float timer = 0f;
+        while (timer < buffDuration)
+        {
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        StageManager.Instance.RemoveCostRecoveryMultiplier(buffAmount);
+        buffCoroutine = null;
+    }
+
+    private void OnDestroy()
+    {
+        // 타워가 제거되면 코스트 버프도 제거
+        if (buffCoroutine != null)
+        {
+            StopCoroutine(buffCoroutine);
+            StageManager.Instance.RemoveCostRecoveryMultiplier(buffAmount);
+            buffCoroutine = null;
+        }
     }
 }

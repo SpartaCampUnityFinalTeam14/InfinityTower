@@ -13,7 +13,12 @@ public abstract class TargettingTower : BaseTower
     //범위 안에 들어온 적 리스트
     List<MonsterBase> enemiesInRange;
     //범위 안에 있는 아군 타워 리스트
-    List<TargettingTower> allyInRange;
+    List<TargettingTower> towerInRange;
+
+    public override void Update()
+    {
+        base.Update();
+    }
 
     public virtual void FindTargets()
     {
@@ -24,7 +29,7 @@ public abstract class TargettingTower : BaseTower
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.range);
 
         enemiesInRange = new List<MonsterBase>();
-        allyInRange = new List<TargettingTower>();
+        towerInRange = new List<TargettingTower>();
 
         //범위 안에 있는 적과 아군 판별
         foreach (Collider2D hit in hits)
@@ -34,7 +39,6 @@ public abstract class TargettingTower : BaseTower
                 case TargetType.Enemy:
                     if (hit.CompareTag("Enemy"))
                     {
-                        //enemiesInRange.Add(hit.GetComponent<Enemy>());
                         MonsterBase enemy = hit.GetComponent<MonsterBase>();
                         if (enemy != null)
                             enemiesInRange.Add(enemy);
@@ -42,12 +46,11 @@ public abstract class TargettingTower : BaseTower
                 break;
 
                 case TargetType.Tower:
-                    if (hit.CompareTag("Ally"))
+                    if (hit.CompareTag("Tower"))
                     {
-                        //allyTower.Add(hit.GetComponent<TargettingTower>());
                         TargettingTower tower = hit.GetComponent<TargettingTower>();
-                        if (tower != null)
-                            allyInRange.Add(tower);
+                        if (tower != null && tower != this)
+                            towerInRange.Add(tower);
                     }
                 break;
             }
@@ -95,13 +98,13 @@ public abstract class TargettingTower : BaseTower
                 switch (towerData.TargettingRule)
                 {
                     case TargettingRule.Nearest: // 타워와 가장 가까운 아군
-                        allyInRange = allyInRange
+                        towerInRange = towerInRange
                             .OrderBy(a => Vector2.Distance(transform.position, a.transform.position))
                             .ToList();
                         break;
 
                     case TargettingRule.Farthest: // 타워와 가장 먼 아군
-                        allyInRange = allyInRange
+                        towerInRange = towerInRange
                             .OrderByDescending(a => Vector2.Distance(transform.position, a.transform.position))
                             .ToList();
                         break;
@@ -129,10 +132,10 @@ public abstract class TargettingTower : BaseTower
                 break;
 
             case TargetType.Tower:
-                maxCount = Mathf.Min(towerData.targetCount, allyInRange.Count);
+                maxCount = Mathf.Min(towerData.targetCount, towerInRange.Count);
                 for (int i = 0; i < maxCount; i++)
                 {
-                    targets.Add(allyInRange[i].gameObject);
+                    targets.Add(towerInRange[i].gameObject);
                 }
                 break;
 
@@ -147,7 +150,7 @@ public abstract class TargettingTower : BaseTower
 
         if (targets.Count == 0)
         {
-            //break;
+            Debug.Log("타겟이 없음");
         }
         
         if (targets.Count > 0 )
@@ -160,27 +163,26 @@ public abstract class TargettingTower : BaseTower
     protected abstract void UseActOnTargets(); // 공격/버프 등을 하위에서 정의
 
     //버프 적용메서드
-    public void ApplyBuff(BuffType type, float amount, float duration)
+    public void ApplyBuff(BuffEffectType type, float amount, float duration)
     {
         //중복 적용 안되게 스탑코루틴 작성
         StopCoroutine("BuffCoroutine");
         StartCoroutine(BuffCoroutine(type, amount, duration));
     }
 
-    private IEnumerator BuffCoroutine(BuffType type, float amount, float duration)
+    private IEnumerator BuffCoroutine(BuffEffectType type, float amount, float duration)
     {
         switch (type)
         {
-            case BuffType.AttackSpeed:
-                float originalCooltime = towerData.coolTime;
+            case BuffEffectType.AttackSpeed:
                 towerData.coolTime = Mathf.Max(0.1f, towerData.coolTime - amount);
                 break;
 
-            case BuffType.Range:
+            case BuffEffectType.Range:
                 towerData.range += amount;
                 break;
 
-            case BuffType.CooldownReduction:
+            case BuffEffectType.CooldownReduction:
                 cooldownTimer -= amount;
                 break;
         }
@@ -190,15 +192,15 @@ public abstract class TargettingTower : BaseTower
         // 버프 종료 시 원래대로 복구
         switch (type)
         {
-            case BuffType.AttackSpeed:
+            case BuffEffectType.AttackSpeed:
                 towerData.coolTime += amount;
                 break;
 
-            case BuffType.Range:
+            case BuffEffectType.Range:
                 towerData.range -= amount;
                 break;
 
-            case BuffType.CooldownReduction:
+            case BuffEffectType.CooldownReduction:
                 // 이건 타이머에 영향을 주는 일회성이라 되돌릴 필요 없음
                 break;
         }

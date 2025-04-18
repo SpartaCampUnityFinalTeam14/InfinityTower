@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class MonsterBase : Poolable
+public class MonsterBase : Poolable, ISkillUser
 {
     private Floor floor;
     protected MonsterData data;
@@ -15,6 +15,13 @@ public class MonsterBase : Poolable
     //방어력 추가
     public float defense;
     private bool isDead;
+    public bool IsDead => isDead;
+
+
+    // 디버프 관련 상태 저장
+    private Dictionary<BuffEffectType, Coroutine> debuffCoroutines = new Dictionary<BuffEffectType, Coroutine>();
+    private float originalMoveSpeed;
+    private float originalDefense;
 
     public virtual void Init(int id, List<Vector3> path, Transform startPos, Floor floor)
     {
@@ -25,6 +32,10 @@ public class MonsterBase : Poolable
         currentHP = (int)GetStat(StatType.Health);
         transform.position = startPos.position;
         SetPath(path);
+
+        //디버프 해제 후 원상복구를 위한 저장
+        originalMoveSpeed = data.moveSpeed;
+        originalDefense = defense/* = data.defense*/; //몬스터 데이터에 방어력 추가 시 주석 해제
     }
 
     public void SetPath(List<Vector3> path)
@@ -60,8 +71,6 @@ public class MonsterBase : Poolable
         Dead();
     }
 
-    
-
     void Dead()
     {
         isDead = true;
@@ -69,53 +78,62 @@ public class MonsterBase : Poolable
         PoolManager.Instance.Release(this);
     }
 
-    public void TakeDamage(float damage)
-    {
-        if (isDead)
-        {
-            return;
-        }
-        currentHP -= Mathf.RoundToInt(damage);
-        if (currentHP <= 0)
-        {
-            Dead();
-        }
-    }
+    // public void TakeDamage(float damage)
+    // {
+    //     if (isDead)
+    //     {
+    //         return;
+    //     }
+    //     currentHP -= Mathf.RoundToInt(damage);
+    //     if (currentHP <= 0)
+    //     {
+    //         Dead();
+    //     }
+    // }
 
     //디버프 적용메서드
-    public void ApplyDebuff(DebuffType type, float amount, float duration)
+    public void ApplyDebuff(BuffEffectType type, float amount, float duration)
     {
-        //중복 적용 안되게 스탑코루틴 작성
-        StopCoroutine("DebuffCoroutine");
-        StartCoroutine(DebuffCoroutine(type, amount, duration));
+        // 기존 디버프가 있으면 정지
+        if (debuffCoroutines.TryGetValue(type, out Coroutine running))
+        {
+            StopCoroutine(running);
+        }
+
+        // 새로운 디버프 적용
+        Coroutine routine = StartCoroutine(DebuffRoutine(type, amount, duration));
+        debuffCoroutines[type] = routine;
     }
 
-    private IEnumerator DebuffCoroutine(DebuffType type, float amount, float duration)
+    private IEnumerator DebuffRoutine(BuffEffectType type, float amount, float duration)
     {
         switch (type)
         {
-            case DebuffType.Slow:
-                data.moveSpeed -= amount;
+            case BuffEffectType.Slow:
+                data.moveSpeed = Mathf.Max(0.1f, originalMoveSpeed - amount);
                 break;
 
-            case DebuffType.DefenseDown:
-                defense -= amount;
+            case BuffEffectType.DefenseDown:
+                defense = Mathf.Max(0, originalDefense - amount);
                 break;
         }
 
         yield return new WaitForSeconds(duration);
 
-        // 디버프 종료 시 원래대로 복구
+        // 원래 값으로 복원
         switch (type)
         {
-            case DebuffType.Slow:
-                data.moveSpeed += amount;
+            case BuffEffectType.Slow:
+                data.moveSpeed = originalMoveSpeed;
                 break;
 
-            case DebuffType.DefenseDown:
-                defense += amount;
+            case BuffEffectType.DefenseDown:
+                defense = originalDefense;
                 break;
         }
+
+        // 디버프 딕셔너리에서 제거
+        debuffCoroutines.Remove(type);
     }
 
    
@@ -133,5 +151,28 @@ public class MonsterBase : Poolable
         Debug.Assert(result, $"Not Find Type in DictionaryValue");
         
         return origin + abil;
+    }
+    
+    public string GetName()
+    {
+        return data.name;
+    }
+    
+    public void TakeDamage(float amount)
+    {
+        if (isDead)
+        {
+            return;
+        }
+        currentHP -= Mathf.RoundToInt(amount);
+        if (currentHP <= 0)
+        {
+            Dead();
+        }
+    }
+    
+    public Vector3 GetPosition()
+    {
+        return transform.position;
     }
 }
