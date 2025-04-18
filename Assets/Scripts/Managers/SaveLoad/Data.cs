@@ -1,7 +1,10 @@
 //캐릭터, 아이템 등의 초기값 로드 용도
+using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public interface ILoader<Key, Value>
 {
@@ -15,22 +18,23 @@ public class MonsterData
     public int id;
     public string name;
     public string description;
-    public int hp;
-    public float moveSpeed;
-    public int damage;
+    public List<int> valueType;
+    public List<float> value;
     public int enemyType;
     public bool hasSkill;
+
+    public Dictionary<int, float> dictValue;
 
     public MonsterData(MonsterData data)
     {
         this.id = data.id;
         this.name = data.name;
         this.description = data.description;
-        this.hp = data.hp;
-        this.moveSpeed = data.moveSpeed;
-        this.damage = data.damage;
+        this.valueType = new List<int>(data.valueType);
+        this.value = new List<float>(data.value);
         this.enemyType = data.enemyType;
         this.hasSkill = data.hasSkill;
+        this.dictValue = new Dictionary<int, float>(data.dictValue);
     }
 }
 
@@ -45,7 +49,14 @@ public class MonsterDataLoader : ILoader<int, MonsterData>
         foreach (MonsterData monster in data)
         {
             dict.Add(monster.id, monster);
+
+            monster.dictValue = new();
+            for (int i = 0; i < monster.valueType.Count; i++)
+            {
+                monster.dictValue.Add(monster.valueType[i], monster.value[i]);
+            }
         }
+
 
         return dict;
     }
@@ -109,6 +120,8 @@ public class WaveDataLoader : ILoader<int, WaveData>
 #endregion
 
 #region TowerData
+
+
 [Serializable]
 public class TowerData
 {
@@ -118,10 +131,26 @@ public class TowerData
     public int targetType;
     public int targetCount;
     public int cost;
-    public int targetingRule;
-    public int value;
+    public int targettingRule;
     public float coolTime;
     public float range;
+    //변경
+    public List<int> valueTypes;    // BuffEffectType의 int 값들
+    public List<float> valueList;   // 각 효과에 대한 수치
+
+    public TargettingRule TargettingRule => (TargettingRule)targettingRule;
+    public TargetType TargetType => (TargetType)targetType;
+
+    // 유틸 메서드: 특정 타입의 값 가져오기
+    public float GetValue(BuffEffectType type)
+    {
+        for (int i = 0; i < valueTypes.Count; i++)
+        {
+            if ((BuffEffectType)valueTypes[i] == type)
+                return valueList[i];
+        }
+        return 0f;
+    }
 }
 
 [Serializable]
@@ -182,7 +211,12 @@ public class SkillData
     public string description;
     public float coolTime;
     public float multiplier;
+    public float range;
+
+    // 🔗 SO를 참조할 수 있는 필드 (Resources 또는 Addressable 기준 경로로 사용)
+    public string visualId; // 예: "Meteor"
 }
+
 
 [Serializable]
 public class SkillDataLoader : ILoader<int, SkillData>
@@ -212,7 +246,20 @@ public class AbilityData
     public string description;
     public List<int> valueType;
     public List<int> value;
-    public int targetTowerID;
+    public int targetType;
+    public int targetID;
+    public int stackable;
+    public int maxStack;
+    public string image;
+
+    public AbilityData DeepCopy()
+    {
+        var copyData = (AbilityData)MemberwiseClone();
+        copyData.valueType = new List<int>(valueType);
+        copyData.value = new List<int>(value);
+
+        return copyData;
+    }
 }
 
 [Serializable]
@@ -253,6 +300,72 @@ public class AbilityTypeLoader : ILoader<int, AbilityType>
         foreach (AbilityType ability in data)
         {
             dict.Add(ability.id, ability);
+        }
+
+        return dict;
+    }
+}
+#endregion
+
+#region EventData
+[Serializable]
+public class EventData
+{
+    public int id;
+    public int type;
+    public string title;
+    public string description;
+    public string choiceTitle;
+    public string choice1;
+    public string choice2;
+    public string choice3;
+    public int choice1ID;
+    public int choice2ID;
+    public int choice3ID;
+    public List<int> rewardType;
+    public List<int> reward;
+    public string image;
+    public string result;
+}
+
+[Serializable]
+public class ProbabilityEventData
+{
+    public int id;
+    public int drop1ID;
+    public int drop1Per;
+    public int drop2ID;
+    public int drop2Per;
+}
+
+[Serializable]
+public class EventDataLoader : ILoader<int, EventData>
+{
+    public List<EventData> data = new();
+
+    public Dictionary<int, EventData> MakeDict()
+    {
+        Dictionary<int, EventData> dict = new();
+        foreach (EventData eventData in data)
+        {
+            dict.Add(eventData.id, eventData);
+        }
+
+        return dict;
+    }
+}
+
+[Serializable]
+public class ProbabilityEventDataLoader : ILoader<int, ProbabilityEventData>
+{
+    public List<ProbabilityEventData> data = new();
+
+    public Dictionary<int, ProbabilityEventData> MakeDict()
+    {
+        Dictionary<int, ProbabilityEventData> dict = new();
+        foreach (ProbabilityEventData eventData in data)
+        {
+            dict.Add(eventData.id, eventData);
         }
 
         return dict;

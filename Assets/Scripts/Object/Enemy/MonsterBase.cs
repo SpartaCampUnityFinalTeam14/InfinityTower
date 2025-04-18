@@ -1,23 +1,75 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class MonsterBase : Poolable
+public class MonsterBase : Poolable, ISkillUser
 {
     private Floor floor;
     protected MonsterData data;
 
     List<Vector3> pathPoints;
     int curTileIdx = 0;
+    public int currentHP;
+    //방어력 추가
+    private float defense;
+    // 이동속도 
+    private float moveSpeed;
+    private bool isDead;
+    public bool IsDead => isDead;
+
+    private Image hpBar;
+
+    // 디버프 관련 상태 저장
+    private Dictionary<BuffEffectType, Coroutine> debuffCoroutines = new Dictionary<BuffEffectType, Coroutine>();
+    private float originalMoveSpeed;
+    private float originalDefense;
 
     public virtual void Init(int id, List<Vector3> path, Transform startPos, Floor floor)
     {
         this.floor = floor;
+        isDead = false;
+        data = new(DataManager.Instance.monsterDict[id]);
 
-        data = new(DataManager.Instance.monsterDict[id]);//깊은 복사
+        currentHP = (int)GetStat(StatType.Health);
+        moveSpeed = GetStat(StatType.Speed);
+        defense = GetStat(StatType.Armor);
+
+        ApplyTypeBonus((EnemyType)data.enemyType);
+
         transform.position = startPos.position;
         SetPath(path);
+        
+        //디버프 해제 후 원상복구를 위한 저장
+        originalMoveSpeed = moveSpeed;
+        originalDefense = defense/* = data.defense*/; //몬스터 데이터에 방어력 추가 시 주석 해제
+
+        // ✅ HP바 연결
+        hpBar = transform.Find("HPBar/Image").GetComponent<Image>();
+        UpdateHpUI(); // 시작할 때 체력바도 세팅
+    }
+
+    public void UpdateHpUI()
+    {
+        if (hpBar != null)
+        {
+            hpBar.fillAmount = Mathf.Clamp01((float)currentHP / GetStat(StatType.Health));
+        }
+    }
+    
+    public void TakeDamage(float amount)
+    {
+        if (isDead)
+            return;
+
+        currentHP -= Mathf.RoundToInt(amount);
+
+        UpdateHpUI(); // ✅ 체력 갱신
+
+        if (currentHP <= 0)
+            Dead();
     }
 
     public void SetPath(List<Vector3> path)
@@ -40,7 +92,7 @@ public class MonsterBase : Poolable
 
             while (Vector3.Distance(transform.position, target) > 0.05f)
             {
-                transform.position = Vector3.MoveTowards(transform.position, target, data.moveSpeed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, target, GetStat(StatType.Speed) * Time.deltaTime);
                 yield return null;
             }
 
@@ -49,13 +101,128 @@ public class MonsterBase : Poolable
             yield return null;
         }
 
-        StageManager.Instance.TakeDamage(data.damage);
+        StageManager.Instance.TakeDamage((int)GetStat(StatType.Attack));
         Dead();
     }
 
     void Dead()
     {
+        if (isDead) return;
+
+        isDead = true;
+
+        StopAllCoroutines(); // <<<< 코루틴 싹 멈춰서 이동 정지
+
+        Animator animator = GetComponentInChildren<Animator>();
+        if (animator != null)
+        {
+            animator.SetTrigger("isDead");
+        }
+
+        StartCoroutine(Co_Dead());
+    }
+    
+    private IEnumerator Co_Dead()
+    {
+        // 애니메이션 길이만큼 기다리기 (예시 0.5초)
+        yield return new WaitForSeconds(0.5f);
+
         floor.SubrtactMonsterCount(1);
         PoolManager.Instance.Release(this);
+    }
+
+    
+    //디버프 적용메서드
+    public void ApplyDebuff(BuffEffectType type, float amount, float duration)
+    {
+        // 기존 디버프가 있으면 정지
+        if (debuffCoroutines.TryGetValue(type, out Coroutine running))
+        {
+            StopCoroutine(running);
+        }
+
+        // 새로운 디버프 적용
+        Coroutine routine = StartCoroutine(DebuffRoutine(type, amount, duration));
+        debuffCoroutines[type] = routine;
+    }
+
+    private IEnumerator DebuffRoutine(BuffEffectType type, float amount, float duration)
+    {
+        switch (type)
+        {
+            case BuffEffectType.Slow:
+                moveSpeed = Mathf.Max(0.1f, originalMoveSpeed - amount);
+                break;
+
+            case BuffEffectType.DefenseDown:
+                defense = Mathf.Max(0, originalDefense - amount);
+                break;
+        }
+
+        yield return new WaitForSeconds(duration);
+
+        // 원래 값으로 복원
+        switch (type)
+        {
+            case BuffEffectType.Slow:
+                moveSpeed = originalMoveSpeed;
+                break;
+
+            case BuffEffectType.DefenseDown:
+                defense = originalDefense;
+                break;
+        }
+
+        // 디버프 딕셔너리에서 제거
+        debuffCoroutines.Remove(type);
+    }
+
+    protected void ApplyTypeBonus(EnemyType type)
+    {
+        Debug.Log($"적의 타입 : {type}, 이동속도 : {moveSpeed}, 체력 : {currentHP}, 방어력 : {defense}");
+        switch (type)
+        {
+            case EnemyType.Fast:
+                moveSpeed *= 2f; // 빠른 몬스터는 이동속도 1.5배
+                break;
+        
+            case EnemyType.Tank:
+                currentHP = Mathf.RoundToInt(currentHP * 2f); // 탱커 몬스터는 체력 2배
+                defense *= 2f; // 방어력도 보너스
+                break;
+            case EnemyType.Boss:
+                Debug.Log($"보스몬스터, {data.hasSkill} ");
+                break;
+            case EnemyType.Normal:
+            default:
+                break;
+        }
+        Debug.Log($"적의 타입 : {type}, 이동속도 : {moveSpeed}, 체력 : {currentHP}, 방어력 : {defense}");
+    }
+    
+    public float GetStat(StatType type)
+    {
+        int iType = (int)type;
+        var common = StageManager.Instance.abilityManager.monsterAbilities;
+
+        float origin = 0f;
+        float abil = 0f;
+
+        bool result = data.dictValue.TryGetValue(iType, out origin);
+        abil = common.ContainsKey(iType) ? common[iType] : 0f;
+        
+        Debug.Assert(result, $"Not Find Type in DictionaryValue");
+        
+        return origin + abil;
+    }
+    
+    public string GetName()
+    {
+        return data.name;
+    }
+    
+    public Vector3 GetPosition()
+    {
+        return transform.position;
     }
 }

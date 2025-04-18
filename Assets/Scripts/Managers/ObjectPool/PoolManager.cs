@@ -63,6 +63,7 @@ public class PoolManager : Singleton<PoolManager>
 
         public void Push(Poolable poolable)
         {
+            Debug.Log("릴리즈호출");
             _pool.Release(poolable);
         }
     }

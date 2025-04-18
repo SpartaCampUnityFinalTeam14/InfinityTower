@@ -2,19 +2,22 @@
   "data": [
     {
       "id": 0,
-      "name": "스킬 1",
-      "skillClassName": "Skill_Temp",
-      "description": "스킬1이다.",
-      "coolTime": 1.0,
-      "multiplier": 1.0
+      "name": "체인 라이트닝",
+      "skillClassName": "ChainLightningSkill",
+      "description": "여러 명에게 번개",
+      "coolTime": 2.0,
+      "multiplier": 1.2,
+      "visualId": "ChainLightning"
     },
     {
       "id": 1,
-      "name": "스킬 2",
-      "skillClassName": "Skill_Temp",
-      "description": "스킬2이다.",
-      "coolTime": 1.0,
-      "multiplier": 1.0
+      "name": "메테오",
+      "skillClassName": "MeteorSkill",
+      "description": "범위 피해",
+      "coolTime": 5.0,
+      "multiplier": 1.5,
+      "range": 3.5,
+      "visualId": "Meteor"
     }
   ]
 }

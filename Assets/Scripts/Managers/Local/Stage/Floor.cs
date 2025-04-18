@@ -19,7 +19,7 @@ public class Floor : MonoBehaviour
     //웨이브
     private WaveData waveData;
 
-    private int monsterCnt = 0;
+    [SerializeField] int monsterCnt = 0;
     private bool isWaveEnd;
 
     [SerializeField] private IntEventChannel OnWaveCountChanged;
@@ -54,9 +54,8 @@ public class Floor : MonoBehaviour
             yield return new WaitUntil(() => isWaveEnd);
 
             SelectPerk();
+            yield return new WaitUntil(() => isPerkSelected);
         }
-
-        yield return new WaitUntil(() => monsterCnt <= 0);
 
         EndFloor();
     }
@@ -89,22 +88,20 @@ public class Floor : MonoBehaviour
             }
         }
 
+        yield return new WaitUntil(() => monsterCnt <= 0);
         EndWave();
     }
 
     void SpawnMonster(int monsterID)
     {
-        GameObject monster = Resources.Load<GameObject>($"Prefabs/Monsters/TestMonster");
+        GameObject monster = Resources.Load<GameObject>($"Prefabs/Monsters/Enemy_{monsterID}");
         MonsterBase spawnedMonster = PoolManager.Instance.Get(monster).GetComponent<MonsterBase>();
         spawnedMonster.Init(monsterID, path.pathPoints, path.startPos, this);
         AddMonsterCount(1);
-
-        //테스트 코드, 나중에는 몬스터의 Init()에 스프라이트와 애니메이션 변경해주는 코드 추가해야 함
-        float color = (float)monsterID / DataManager.Instance.monsterDict.Count;
-        spawnedMonster.GetComponentInChildren<SpriteRenderer>().color = new Color(color, color, color);
-
+        
         Debug.Log("<color=red>몬스터 스폰함</color>");
     }
+
 
     public void AddMonsterCount(int count)
     {
@@ -121,8 +118,9 @@ public class Floor : MonoBehaviour
     void SelectPerk()
     {
         Debug.Log("<color=green>특성 선택</color>");
-
-        //구현해야 함
+        isPerkSelected = false;
+        var uiAbility = UIManager.Instance.ShowUI<UIAbility>();
+        uiAbility.DrawAbility();
     }
 
     void EndWave()

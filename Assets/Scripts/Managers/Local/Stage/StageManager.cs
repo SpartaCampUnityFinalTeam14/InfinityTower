@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.Playables;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,15 +11,23 @@ public class StageManager : Singleton<StageManager>
     private float curCost = 1f;
     private float maxCost = 10f;
     [SerializeField] private FloatEventChannel OnCostChanged;
+    private List<float> activeCostRecoveryMultipliers = new List<float>(); // 여러 타워의 버프들을 저장
+    [SerializeField] private float costRecoveryMultiplier = 1f;  // Cost 얻는 속도 - 기본 1배속
 
     public List<int> selectedTowers = new();
     public int selectedChampion;
-    //public List<Perk> perks 선택한 특성 리스트
+
+    public AbilityManager abilityManager;
+    public EventManager eventManager;
 
     [SerializeField] private int floorCount = 2;
     private GameObject floorGO;
     private Floor curFloor;
+    public Floor CurFloor => curFloor;
     [SerializeField] private IntEventChannel OnFloorCountChanged;
+
+    public bool isEventEnd;
+    public bool isPause;
 
     protected override void Awake()
     {
@@ -29,8 +39,23 @@ public class StageManager : Singleton<StageManager>
         selectedTowers = SaveManager.Instance.playerData.selectedTowerIndex;
         selectedChampion = SaveManager.Instance.playerData.selectedChampionIndex;
         hp = DataManager.Instance.championDict[selectedChampion].hp;
-
+        
+        //abilityManager = GetComponent<AbilityManager>();
+        Init();
         StartStage();//추후 awake가 아닌 다른 곳으로 이동 (예를 들어, 시작 버튼을 누른다든가 하는 식)
+    }
+
+    void Init()
+    {
+        UIManager.Instance.HideUI<UIPause>();
+
+        abilityManager = gameObject.AddComponent<AbilityManager>();
+        eventManager = gameObject.AddComponent<EventManager>();
+    }
+
+    public void AddFloorCount(int count)
+    {
+        floorCount += count;
     }
 
     public void TakeDamage(int damage)
@@ -40,11 +65,36 @@ public class StageManager : Singleton<StageManager>
         if (hp <= 0) GameOver();
     }
 
+    public void AddCostRecoveryMultiplier(float value)
+    {
+        activeCostRecoveryMultipliers.Add(value);
+        UpdateCostRecoveryMultiplier();
+    }
+
+    public void RemoveCostRecoveryMultiplier(float value)
+    {
+        activeCostRecoveryMultipliers.Remove(value);
+        UpdateCostRecoveryMultiplier();
+    }
+
+    private void UpdateCostRecoveryMultiplier()
+    {
+        // 여러 타워에서 오는 버프들을 합산해서 적용
+        float totalMultiplier = 1f;
+        foreach (var multiplier in activeCostRecoveryMultipliers)
+        {
+            totalMultiplier += multiplier;
+        }
+
+        // 그에 맞춰서 속도를 조정 (누적 값 적용)
+        costRecoveryMultiplier = totalMultiplier;
+    }
+
     IEnumerator RegainCost()
     {
         while (true)
         {
-            curCost = Mathf.Min(curCost + Time.deltaTime, maxCost);
+            curCost = Mathf.Min(curCost + Time.deltaTime * costRecoveryMultiplier, maxCost);
             OnCostChanged.RaiseEvent(curCost / maxCost);
             yield return null;
         }
@@ -74,6 +124,8 @@ public class StageManager : Singleton<StageManager>
         EndStage();
     }
 
+    
+
     public void StartStage()
     {
         StartCoroutine(RegainCost());
@@ -97,16 +149,20 @@ public class StageManager : Singleton<StageManager>
 
             yield return new WaitUntil(() => curFloor.isFloorEnd);
 
-            if (i % 2 == 0) ShowEvent();
+            //if (i != 0 && (i + 1) % 2 == 0) ShowEvent();
+            ShowEvent();
+
+            yield return new WaitUntil(() => isEventEnd);
         }
 
         EndStage();
     }
-
+   
     void ShowEvent()
     {
         Debug.Log("<color=white>이벤트 선택</color>");
-        //구현해야 함
+
+        eventManager.ShowEvent();
     }
 
     void GetReward()

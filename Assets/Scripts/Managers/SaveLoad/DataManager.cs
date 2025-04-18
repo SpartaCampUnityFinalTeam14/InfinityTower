@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class DataManager : Singleton<DataManager>
@@ -11,6 +12,9 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<int, SkillData> skillDict = new();
     public Dictionary<int, AbilityData> abilityDict = new();
     public Dictionary<int, AbilityType> abilityTypedict = new();
+    public Dictionary<int, EventData> eventDict = new();
+    public Dictionary<int, EventData> eventResultDict = new();
+    public Dictionary<int, ProbabilityEventData> eventProbabilityDict = new();
     public List<Dictionary<int, ArtifactData>> artifactDicts = new(3)
     {
         new Dictionary<int, ArtifactData>(),
@@ -30,6 +34,9 @@ public class DataManager : Singleton<DataManager>
         skillDict = LoadJson<SkillDataLoader, int, SkillData>().MakeDict();
         abilityDict = LoadJson<AbilityDataLoader, int, AbilityData>().MakeDict();
         abilityTypedict = LoadJson<AbilityTypeLoader, int, AbilityType>().MakeDict();
+        eventDict = LoadJson<EventDataLoader, int, EventData>().MakeDict();
+        eventResultDict = LoadJson<EventDataLoader, int, EventData>("EventResultData").MakeDict();
+        eventProbabilityDict = LoadJson<ProbabilityEventDataLoader, int, ProbabilityEventData>("EventProbabilityData").MakeDict();
         artifactDicts[0] = LoadJson<ArtifactDataLoader, int, ArtifactData>("Artifact_Common").MakeDict();
         artifactDicts[1] = LoadJson<ArtifactDataLoader, int, ArtifactData>("Artifact_Rare").MakeDict();
         artifactDicts[2] = LoadJson<ArtifactDataLoader, int, ArtifactData>("Artifact_Epic").MakeDict();

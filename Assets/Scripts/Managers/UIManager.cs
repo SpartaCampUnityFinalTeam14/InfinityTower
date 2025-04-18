@@ -116,6 +116,7 @@ public class UIManager : Singleton<UIManager>
 
         T ui = Util.InstantiatePrefabAndGetComponent<T>(path: $"UI/{uiType.Name}", parent: par);
         _sceneDict[uiType] = ui;
+        ui.Show();
 
         return ui;
     }
@@ -177,7 +178,7 @@ public class UIManager : Singleton<UIManager>
         foreach (UI ui in _sceneDict.Values.ToList())
         {
             ui.Clear();
-            Destroy(ui.gameObject);
+            if (ui) Destroy(ui.gameObject);
         }
         _sceneDict.Clear();
 
