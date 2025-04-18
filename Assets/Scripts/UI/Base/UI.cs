@@ -9,6 +9,11 @@ public class UI : MonoBehaviour
         panel = transform.GetChild(0).gameObject;
     }
 
+    public void SetCanvas(int order)
+    {
+        GetComponent<Canvas>().sortingOrder = order;
+    }
+
     public virtual void Show()
     {
         panel.SetActive(true);
@@ -22,5 +27,10 @@ public class UI : MonoBehaviour
     public virtual void Close()
     {
         UIManager.Instance.RemoveUI(this);
+    }
+
+    public virtual void Clear()
+    {
+
     }
 }

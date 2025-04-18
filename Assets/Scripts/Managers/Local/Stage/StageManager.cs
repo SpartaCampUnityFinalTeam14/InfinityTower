@@ -177,6 +177,6 @@ public class StageManager : Singleton<StageManager>
         GetReward();
         Debug.Log("<color=white>스테이지 종료</color>");
 
-        SceneManager.LoadScene("KSM_Lobby");
+        GameManager.Instance.LoadScene("KSM_Lobby");
     }
 }

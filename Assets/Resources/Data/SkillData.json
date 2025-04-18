@@ -2,6 +2,7 @@
   "data": [
     {
       "id": 0,
+      "name": "체인 라이트닝",
       "skillClassName": "ChainLightningSkill",
       "description": "여러 명에게 번개",
       "coolTime": 2.0,
@@ -10,6 +11,7 @@
     },
     {
       "id": 1,
+      "name": "메테오",
       "skillClassName": "MeteorSkill",
       "description": "범위 피해",
       "coolTime": 5.0,

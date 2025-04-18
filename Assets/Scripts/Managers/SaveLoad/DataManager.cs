@@ -15,6 +15,12 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<int, EventData> eventDict = new();
     public Dictionary<int, EventData> eventResultDict = new();
     public Dictionary<int, ProbabilityEventData> eventProbabilityDict = new();
+    public List<Dictionary<int, ArtifactData>> artifactDicts = new(3)
+    {
+        new Dictionary<int, ArtifactData>(),
+        new Dictionary<int, ArtifactData>(),
+        new Dictionary<int, ArtifactData>()
+    };
 
     protected override void Awake()
     {
@@ -31,6 +37,9 @@ public class DataManager : Singleton<DataManager>
         eventDict = LoadJson<EventDataLoader, int, EventData>().MakeDict();
         eventResultDict = LoadJson<EventDataLoader, int, EventData>("EventResultData").MakeDict();
         eventProbabilityDict = LoadJson<ProbabilityEventDataLoader, int, ProbabilityEventData>("EventProbabilityData").MakeDict();
+        artifactDicts[0] = LoadJson<ArtifactDataLoader, int, ArtifactData>("Artifact_Common").MakeDict();
+        artifactDicts[1] = LoadJson<ArtifactDataLoader, int, ArtifactData>("Artifact_Rare").MakeDict();
+        artifactDicts[2] = LoadJson<ArtifactDataLoader, int, ArtifactData>("Artifact_Epic").MakeDict();
     }
 
     Loader LoadJson<Loader, Key, Value>(string fileName = default) where Loader : ILoader<Key, Value>

@@ -108,11 +108,7 @@ public class PoolManager : Singleton<PoolManager>
 
     public void Clear()
     {
-        foreach(Transform child in _root)
-        {
-            GameObject.Destroy(child.gameObject);
-        }
-
+        _root = null;
         _poolDict.Clear();
     }
 }

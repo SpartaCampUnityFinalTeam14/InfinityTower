@@ -5,7 +5,7 @@
       "name": "좀비",
       "description": "좀비다.",
       "valueType": [ 0, 1, 2, 3 ],
-      "value":  [20, 1, 0, 2 ],
+      "value":  [2, 1, 0, 2 ],
       "enemyType": 0,
       "hasSkill": "false"
     },
@@ -14,7 +14,7 @@
       "name": "유령",
       "description": "유령이다.",
       "valueType": [ 0, 1, 2, 3 ],
-      "value":  [10, 1, 0, 2 ],
+      "value":  [3, 1, 0, 2 ],
       "enemyType": 1,
       "hasSkill": "false"
     },
@@ -23,7 +23,7 @@
       "name": "돼지",
       "description": "보스임",
       "valueType": [ 0, 1, 2, 3 ],
-      "value":  [100, 1, 0, 3 ],
+      "value":  [5, 1, 0, 3 ],
       "enemyType": 3,
       "hasSkill": "true"
     }

@@ -19,8 +19,8 @@ public class BattleManager : MonoBehaviour
 
         // 임시로 챔피언 ID = 0 사용
         ChampionData champData = DataManager.Instance.championDict[0];
-        Debug.Log(champData.skillID.Count + " 개의 스킬을 가지고 있습니다.");
-        foreach (int skillId in champData.skillID)
+        Debug.Log(champData.skillId.Count + " 개의 스킬을 가지고 있습니다.");
+        foreach (int skillId in champData.skillId)
         {
             if (DataManager.Instance.skillDict.TryGetValue(skillId, out SkillData skillData))
             {

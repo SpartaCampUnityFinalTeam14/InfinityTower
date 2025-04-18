@@ -176,8 +176,9 @@ public class TowerDataLoader : ILoader<int, TowerData>
 public class ChampionData
 {
     public int id;
-    public List<int> skillID;
-    public string desctiption;
+    public string name;
+    public List<int> skillId;
+    public string description;
     public int hp;
     public int atk;
 }
@@ -205,6 +206,7 @@ public class ChampionDataLoader : ILoader<int, ChampionData>
 public class SkillData
 {
     public int id;
+    public string name;
     public string skillClassName;
     public string description;
     public float coolTime;
@@ -364,6 +366,33 @@ public class ProbabilityEventDataLoader : ILoader<int, ProbabilityEventData>
         foreach (ProbabilityEventData eventData in data)
         {
             dict.Add(eventData.id, eventData);
+        }
+
+        return dict;
+    }
+}
+#endregion
+
+#region ArtifactData
+[Serializable]
+public class ArtifactData
+{
+    public int id;
+    public string name;
+    public string description;
+}
+
+[Serializable]
+public class ArtifactDataLoader : ILoader<int, ArtifactData>
+{
+    public List<ArtifactData> data = new();
+
+    public Dictionary<int, ArtifactData> MakeDict()
+    {
+        Dictionary<int, ArtifactData> dict = new();
+        foreach (ArtifactData artifact in data)
+        {
+            dict.Add(artifact.id, artifact);
         }
 
         return dict;
