@@ -22,7 +22,6 @@ public class MonsterData
     public List<float> value;
     public int enemyType;
     public bool hasSkill;
-    public float moveSpeed;
 
     public Dictionary<int, float> dictValue;
 

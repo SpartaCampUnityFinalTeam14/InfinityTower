@@ -94,17 +94,14 @@ public class Floor : MonoBehaviour
 
     void SpawnMonster(int monsterID)
     {
-        GameObject monster = Resources.Load<GameObject>($"Prefabs/Monsters/TestMonster");
+        GameObject monster = Resources.Load<GameObject>($"Prefabs/Monsters/Enemy_{monsterID}");
         MonsterBase spawnedMonster = PoolManager.Instance.Get(monster).GetComponent<MonsterBase>();
         spawnedMonster.Init(monsterID, path.pathPoints, path.startPos, this);
         AddMonsterCount(1);
-
-        //테스트 코드, 나중에는 몬스터의 Init()에 스프라이트와 애니메이션 변경해주는 코드 추가해야 함
-        float color = (float)monsterID / DataManager.Instance.monsterDict.Count;
-        spawnedMonster.GetComponentInChildren<SpriteRenderer>().color = new Color(color, color, color);
-
+        
         Debug.Log("<color=red>몬스터 스폰함</color>");
     }
+
 
     public void AddMonsterCount(int count)
     {

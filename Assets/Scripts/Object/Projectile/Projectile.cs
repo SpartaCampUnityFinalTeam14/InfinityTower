@@ -6,12 +6,6 @@ public abstract class Projectile : MonoBehaviour
     protected float damage;
     protected GameObject impactEffect;
 
-    public virtual void Init(float speed, float damage)
-    {
-        this.speed = speed;
-        this.damage = damage;
-    }
-
     protected virtual void Update()
     {
         Move();

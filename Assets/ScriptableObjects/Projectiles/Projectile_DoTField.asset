@@ -17,11 +17,11 @@ MonoBehaviour:
   speed: 5
   damage: 0
   hasDoT: 1
-  dotDuration: 0.3
+  dotDuration: 10
   dotTickInterval: 3
   dotDamagePerTick: 10
   dotRadius: 1.5
   hasSplash: 0
   splashRadius: 0
-  impactEffect: {fileID: 6069227671954865344, guid: b082cb859e10b4838a7d6c7b200377db, type: 3}
+  impactEffect: {fileID: 6069227671954865344, guid: eef72b5c0a0f9401e9d9b412aa81de5e, type: 3}
   sound: {fileID: 0}

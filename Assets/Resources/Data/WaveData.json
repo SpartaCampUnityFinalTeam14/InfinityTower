@@ -2,9 +2,9 @@
   "data": [
     {
       "id": 0,
-      "enemyID": [0,1],
-      "spawnCount": [1,2],
-      "spawnDelayTime": [1,1]
+      "enemyID": [0,1, 99],
+      "spawnCount": [1,2, 1],
+      "spawnDelayTime": [1,1,1]
     },
     {
       "id": 1,

@@ -65,10 +65,19 @@ public enum BuffEffectType
 
 public enum StatType
 {
+    Health,
+    Speed,
+    Armor,
     Attack,
     AttackSpeed,
-    Speed,
-    Health,
+}
+
+public enum EnemyType
+{
+    Normal = 0,
+    Fast = 1,
+    Tank = 2,
+    Boss = 3,
 }
 
 public enum EventType
