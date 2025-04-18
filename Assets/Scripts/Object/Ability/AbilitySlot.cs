@@ -49,6 +49,11 @@ public class AbilitySlot : MonoBehaviour
         value.text = sb.ToString();
     }
 
+    public void EnabledButton(bool isEnabled)
+    {
+        button.enabled = isEnabled;
+    }
+
     void OnButtonClick()
     {
         StageManager.Instance.abilityManager.AddAbillity(abilityData);

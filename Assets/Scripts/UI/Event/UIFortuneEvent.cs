@@ -26,6 +26,7 @@ public class UIFortuneEvent : UI
         InitAbilityIcon();
         abilitSlot.gameObject.SetActive(false);
         btnChange.enabled = false;
+        abilitSlot.EnabledButton(false);
     }
 
     public override void Hide()

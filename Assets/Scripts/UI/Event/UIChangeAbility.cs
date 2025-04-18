@@ -24,6 +24,9 @@ public class UIChangeAbility : UI
     {
         before.Init(beforeData);
         after.Init(afterData);
+
+        before.EnabledButton(false);
+        after.EnabledButton(false);
     }
 
     public void OnButtonClick()
