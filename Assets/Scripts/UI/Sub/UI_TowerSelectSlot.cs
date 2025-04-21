@@ -12,6 +12,10 @@ public class UI_TowerSelectSlot : MonoBehaviour
     [SerializeField] private GameObject clickedMark;
     [SerializeField] private TextMeshProUGUI nameText;
 
+    [SerializeField] private TextMeshProUGUI levelText;
+    [SerializeField] private Image expBar;
+    [SerializeField] private TextMeshProUGUI expText;
+
     [SerializeField] private IntEventChannel OnTowerSelected;
 
     private void Awake()
@@ -25,6 +29,8 @@ public class UI_TowerSelectSlot : MonoBehaviour
 
         nameText.text = data.name;
         //스프라이트 지정해줘야 함
+
+        //레벨 및 경험치 세팅해줘야 함
     }
 
     void SelectTower()

@@ -12,6 +12,10 @@ public class UI_ChampionSlot : MonoBehaviour
     [SerializeField] private GameObject selectedMark;
     [SerializeField] private TextMeshProUGUI nameText;
 
+    [SerializeField] private TextMeshProUGUI levelText;
+    [SerializeField] private Image expBar;
+    [SerializeField] private TextMeshProUGUI expText;
+
     private void Awake()
     {
         selectButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_ChampionInfo>().Init(id));
@@ -25,6 +29,8 @@ public class UI_ChampionSlot : MonoBehaviour
 
         nameText.text = data.name;
         //아이디에 맞춰서 스프라이트 찾아와야 함
+
+        //레벨 및 경험치 세팅해야 함
     }
 
     public void SetSelectedMark(bool flag)
