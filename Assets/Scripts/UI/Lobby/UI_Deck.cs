@@ -13,12 +13,14 @@ public class UI_Deck : UI
     [SerializeField] private Button towerTab;
     [SerializeField] private Button championTab;
 
-    [SerializeField] private List<UI_SelectedTowerSlot> selectedTowerSlots = new(5);
     [SerializeField] private Image championImage;
+    [SerializeField] private Button championButton;
     [SerializeField] private TextMeshProUGUI championNameText;
 
     [SerializeField] private GameObject towerSelectMask;
     [SerializeField] private Button towerSelectMaskButton;
+
+    [SerializeField] private List<UI_SelectedTowerSlot> selectedTowerSlots = new(5);
 
     [SerializeField] private IntEventChannel OnTowerSelected;
     [SerializeField] private IntEventChannel OnTowerSlotSelected;
@@ -37,6 +39,8 @@ public class UI_Deck : UI
         closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Deck>());
         towerTab.onClick.AddListener(() => SetDeckTab(true));
         championTab.onClick.AddListener(() => SetDeckTab(false));
+
+        championButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_ChampionInfo>().Init(SaveManager.Instance.playerData.selectedChampionIndex));
         towerSelectMaskButton.onClick.AddListener(() => {
             towerSelectMask.SetActive(false);
             selectedTowerIndex = -1;
@@ -94,7 +98,12 @@ public class UI_Deck : UI
 
     void SelectedSlot(int index)
     {
-        if (selectedTowerIndex < 0) return;
+        if (selectedTowerIndex < 0)
+        {
+            int towerId = selectedTowerSlots[index].towerId;
+            UIManager.Instance.ShowStackUI<UI_TowerInfo>().Init(towerId);
+            return;
+        }
 
         SelectTower(index, selectedTowerIndex);
         selectedTowerIndex = -1;
