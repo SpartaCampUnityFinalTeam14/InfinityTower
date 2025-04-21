@@ -7,28 +7,33 @@ using UnityEngine;
 public abstract class BaseTower : MonoBehaviour
 {
     public TowerData towerData;
-    public float cooldownTimer;
+    protected float attackTimer;
 
-
-    public virtual void Initialize(TowerData data)
+    protected virtual void Start()
     {
-        towerData = data;
-        cooldownTimer = 0f;
+        attackTimer = 1f / towerData.attackSpeed;
     }
 
-    // Update is called once per frame
-    public virtual void Update()
+    protected virtual void Update()
     {
 
-        cooldownTimer -= Time.deltaTime;
-        if (cooldownTimer <= 0)
+        attackTimer -= Time.deltaTime;
+        if (attackTimer <= 0)
         {
-            cooldownTimer = towerData.coolTime;
             Activate();
+            attackTimer = 1f / towerData.attackSpeed;
         }
     }
 
-    public abstract void Activate(); //실제행동은 하위 클래스에서 정의
+    protected abstract void Activate(); //실제행동은 하위 클래스에서 정의
 
+    public virtual float GetRange()
+    {
+        return towerData.range;
+    }
 
+    public virtual TargetType GetTargetType()
+    {
+        return towerData.TargetType;
+    }
 }

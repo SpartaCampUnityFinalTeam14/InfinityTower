@@ -103,6 +103,19 @@
             "range": 3,
             "valueTypes": [ 1, 100 ],
             "valueList": [ 10, 25 ]
+        },
+        {
+            "id": 100,
+            "name": "도굴꾼",
+            "description": "공격하지 않으나 10초마다 50 코스트 추가 회복",
+            "targetType": 2,
+            "targetCount": 1,
+            "cost": 75,
+            "targetingRule": 0,
+            "coolTime": 30,
+            "range": 50,
+            "valueTypes": [ 200, 100 ],
+            "valueList": [ 50, 10 ]
         }
     ]
 }

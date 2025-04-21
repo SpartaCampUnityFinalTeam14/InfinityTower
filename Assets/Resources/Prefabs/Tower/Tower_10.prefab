@@ -111,11 +111,11 @@ MonoBehaviour:
     cost: 100
     targettingRule: 3
     coolTime: 20
+    attackSpeed: 2
     range: 8
     valueTypes: 00000000
     valueList:
     - 10
-  cooldownTimer: 0
 --- !u!61 &-6891636743366010001
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -5,7 +5,7 @@ public class ProjectileTower : TargettingTower
     public ProjectileDataSO projectileData;
     public Transform firePoint;
 
-    public override void Update()
+    protected override void Update()
     {
         base.Update();
     }

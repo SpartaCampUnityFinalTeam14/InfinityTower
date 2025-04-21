@@ -109,11 +109,11 @@ MonoBehaviour:
     cost: 125
     targettingRule: 0
     coolTime: 20
+    attackSpeed: 3
     range: 4
     valueTypes: 00000000
     valueList:
     - 1
-  cooldownTimer: 0
   projectileData: {fileID: 11400000, guid: 26a74d10ce67a473cbda1eebdf5596f1, type: 2}
   firePoint: {fileID: 47152423553481607}
 --- !u!61 &-5899432786219981154

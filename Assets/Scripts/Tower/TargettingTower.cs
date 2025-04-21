@@ -15,7 +15,7 @@ public abstract class TargettingTower : BaseTower
     //범위 안에 있는 아군 타워 리스트
     List<TargettingTower> towerInRange;
 
-    public override void Update()
+    protected override void Update()
     {
         base.Update();
     }
@@ -24,12 +24,11 @@ public abstract class TargettingTower : BaseTower
     {
         // targetingRule, targetType, targetCount 등을 이용해 타겟팅
         targets = new List<GameObject>();
-
-        //범위 내 유닛 탐색
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.range);
-
         enemiesInRange = new List<MonsterBase>();
         towerInRange = new List<TargettingTower>();
+
+        //범위 내 유닛 탐색
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.range);        
 
         //범위 안에 있는 적과 아군 판별
         foreach (Collider2D hit in hits)
@@ -144,7 +143,7 @@ public abstract class TargettingTower : BaseTower
         }
     }
 
-    public override void Activate()
+    protected override void Activate()
     {
         FindTargets();
 
@@ -175,15 +174,11 @@ public abstract class TargettingTower : BaseTower
         switch (type)
         {
             case BuffEffectType.AttackSpeed:
-                towerData.coolTime = Mathf.Max(0.1f, towerData.coolTime - amount);
+                towerData.attackSpeed += amount;
                 break;
 
             case BuffEffectType.Range:
                 towerData.range += amount;
-                break;
-
-            case BuffEffectType.CooldownReduction:
-                cooldownTimer -= amount;
                 break;
         }
 
@@ -198,10 +193,6 @@ public abstract class TargettingTower : BaseTower
 
             case BuffEffectType.Range:
                 towerData.range -= amount;
-                break;
-
-            case BuffEffectType.CooldownReduction:
-                // 이건 타이머에 영향을 주는 일회성이라 되돌릴 필요 없음
                 break;
         }
     }

@@ -133,6 +133,7 @@ public class TowerData
     public int cost;
     public int targettingRule;
     public float coolTime;
+    public float attackSpeed;
     public float range;
     //변경
     public List<int> valueTypes;    // BuffEffectType의 int 값들
