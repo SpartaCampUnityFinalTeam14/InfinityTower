@@ -1,9 +1,95 @@
 {
   "data": [
-    {
-      "id": 1000,
-      "name": "Damage",
-      "description": "공격력"
-    }
+      {
+          "id": 1000,
+          "name": "타워 공격력 2",
+          "valueType": 0,
+          "value": "",
+          "prob": 2.31
+      },
+      {
+          "id": 1001,
+          "name": "타워 공격 속도 2",
+          "valueType": 2,
+          "value": "",
+          "prob": 2.31
+      },
+      {
+          "id": 1002,
+          "name": "타워 사거리 2",
+          "valueType": 1,
+          "value": "",
+          "prob": 2.31
+      },
+      {
+          "id": 1003,
+          "name": "타워 재설치 쿨타임 감소 1",
+          "valueType": 12,
+          "value": "",
+          "prob": 2.31
+      },
+      {
+          "id": 1004,
+          "name": "코스트 추가 2",
+          "valueType": 4,
+          "value": "",
+          "prob": 2.31
+      },
+      {
+          "id": 1005,
+          "name": "코스트 회복 속도 증가2",
+          "valueType": 5,
+          "value": "",
+          "prob": 2.31
+      },
+      {
+          "id": 1006,
+          "name": "플레이어 체력 증가 1",
+          "valueType": 7,
+          "value": "",
+          "prob": 2.31
+      },
+      {
+          "id": 1007,
+          "name": "플레이어 체력 회복량 증가 1",
+          "valueType": 6,
+          "value": "",
+          "prob": 2.31
+      },
+      {
+          "id": 1008,
+          "name": "적 체력 감소2",
+          "valueType": 8,
+          "value": "",
+          "prob": 2.31
+      },
+      {
+          "id": 1009,
+          "name": "적 이동 속도 감소 2",
+          "valueType": 9,
+          "value": "",
+          "prob": 2.31
+      },
+      {
+          "id": 1010,
+          "name": "적 방어력 감소 2",
+          "valueType": 10,
+          "value": "",
+          "prob": 2.31
+      },
+      {
+          "id": 1011,
+          "name": "캐릭터 공격력 2",
+          "valueType": 13,
+          "value": "",
+          "prob": 2.31
+      },
+      {
+          "id": 1012,
+          "name": "스킬 쿨타임 감소 1",
+          "valueType": 11,
+          "value": "",
+          "prob": 2.31
+      }
   ]
 }

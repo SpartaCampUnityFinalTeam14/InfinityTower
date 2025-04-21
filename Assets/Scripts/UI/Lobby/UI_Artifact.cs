@@ -30,6 +30,8 @@ public class UI_Artifact : UI
         gachaButton.onClick.AddListener(Gacha);
         gachaCloseButton.onClick.AddListener(() => gachaBackground.SetActive(false));
 
+        gachaBackground.SetActive(false);
+
         Init();
     }
 
@@ -47,11 +49,11 @@ public class UI_Artifact : UI
         }
     }
 
-    void Dirty()
+    void Dirty(int id)
     {
         for(int i = 0; i < SaveManager.Instance.artifactSaveDict.Count; i++)
         {
-            slots[i].SetCount(SaveManager.Instance.artifactSaveDict[i].count);
+            if (slots[i].id == id) slots[i].SetCount(SaveManager.Instance.artifactSaveDict[i].count);
         }
     }
 
@@ -63,6 +65,8 @@ public class UI_Artifact : UI
 
         //resultImage 세팅
         nameText.text = DataManager.Instance.artifactDicts[Id / 1000][Id].name;
+
+        Dirty(Id);
     }
 
     public override void Clear()

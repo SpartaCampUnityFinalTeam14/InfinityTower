@@ -49,7 +49,7 @@ public class ArtifactGachaManager
         int randomId = Random.Range(0, artifactPool[rarity].Count);
         if (++SaveManager.Instance.artifactSaveDict[randomId].count >= 3) artifactPool[rarity].Remove(randomId);
         artifactCount++;
-        SaveManager.Instance.SaveAll();
+        SaveManager.Instance.SaveArtifactSaveData();
         return artifactPool[rarity][randomId];
     }
 

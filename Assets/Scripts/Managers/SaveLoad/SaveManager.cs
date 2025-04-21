@@ -111,15 +111,32 @@ public class SaveManager : Singleton<SaveManager>
         Debug.Log($"{path} 저장 완료");
     }
 
-    public void ClearAll()
+    public void SaveTowerLevelData()
     {
-        playerData = new();
-        SavePlayerData();
+        SaveDict<TowerLevelDataLoader, int, TowerLevelData>(towerLevelDict);
+    }
+
+    public void SaveChampionLevelData()
+    {
+        SaveDict<ChampionLevelDataLoader, int, ChampionLevelData>(championLevelDict);
+    }
+
+    public void SaveArtifactSaveData()
+    {
+        SaveDict<ArtifactSaveDataLoader, int, ArtifactSaveData>(artifactSaveDict);
     }
 
     public void SaveAll()
     {
         SavePlayerData();
-        SaveDict<TowerLevelDataLoader, int, TowerLevelData>(towerLevelDict);
+        SaveTowerLevelData();
+        SaveChampionLevelData();
+        SaveArtifactSaveData();
+    }
+
+    public void ClearAll()
+    {
+        playerData = new();
+        SavePlayerData();
     }
 }
