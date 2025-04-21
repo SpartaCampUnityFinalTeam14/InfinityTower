@@ -95,8 +95,8 @@ MonoBehaviour:
   id: 0
   artifactBackground: {fileID: 438038201486082662}
   rarityColors:
-  - {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 1}
-  - {r: 0, g: 0.56353164, b: 1, a: 1}
+  - {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 1}
+  - {r: 0, g: 0.5882353, b: 1, a: 1}
   - {r: 0.5879774, g: 0, b: 1, a: 1}
   selectButton: {fileID: 8105265613001103722}
   artifactImage: {fileID: 7726677785239580810}

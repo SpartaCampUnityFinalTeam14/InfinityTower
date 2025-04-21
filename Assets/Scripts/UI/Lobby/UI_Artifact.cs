@@ -13,6 +13,8 @@ public class UI_Artifact : UI
     [SerializeField] private Button gachaButton;
 
     [SerializeField] private GameObject gachaBackground;
+    [SerializeField] private Image resultBackground;
+    [SerializeField] private Color[] rarityColors;
     [SerializeField] private Image resultImage;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private Image boxImage;
@@ -31,6 +33,8 @@ public class UI_Artifact : UI
         gachaCloseButton.onClick.AddListener(() => gachaBackground.SetActive(false));
 
         gachaBackground.SetActive(false);
+
+        CheckGachaAble();
 
         Init();
     }
@@ -53,20 +57,34 @@ public class UI_Artifact : UI
     {
         for(int i = 0; i < SaveManager.Instance.artifactSaveDict.Count; i++)
         {
-            if (slots[i].id == id) slots[i].SetCount(SaveManager.Instance.artifactSaveDict[i].count);
+            if (slots[i].id == id)
+            {
+                slots[i].SetCount(SaveManager.Instance.artifactSaveDict[id].count);
+                return;
+            }
         }
+    }
+
+    void CheckGachaAble()
+    {
+        gachaButton.interactable = !gachaManager.IsAllArtifactPulled();
+        gachaButton.GetComponentInChildren<TextMeshProUGUI>().text = gachaButton.interactable ? "유물 뽑기" : "전부 뽑음";
     }
 
     void Gacha()
     {
         gachaBackground.SetActive(true);
 
-        int Id = gachaManager.GetRandomArtifact();
+        int id = gachaManager.GetRandomArtifact();
+        int rarity = id / 1000;
+        resultBackground.color = rarityColors[rarity];
 
         //resultImage 세팅
-        nameText.text = DataManager.Instance.artifactDicts[Id / 1000][Id].name;
+        nameText.text = DataManager.Instance.artifactDicts[rarity][id].name;
 
-        Dirty(Id);
+        Dirty(id);
+
+        CheckGachaAble();
     }
 
     public override void Clear()
