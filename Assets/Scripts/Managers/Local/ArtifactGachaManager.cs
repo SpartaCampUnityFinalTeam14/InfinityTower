@@ -41,7 +41,6 @@ public class ArtifactGachaManager
                 artifactPool[data.id / 1000].Remove(data.id);
             }
         }
-        Debug.Log(artifactPool);
     }
 
     public bool IsAllArtifactPulled()

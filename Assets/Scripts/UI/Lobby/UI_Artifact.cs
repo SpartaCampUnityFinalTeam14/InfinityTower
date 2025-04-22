@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,11 +15,14 @@ public class UI_Artifact : UI
     [SerializeField] private Button gachaButton;
 
     [SerializeField] private GameObject gachaBackground;
+    //[SerializeField] private Button skipBackgroundButton;
     [SerializeField] private Image resultBackground;
     [SerializeField] private Color[] rarityColors;
     [SerializeField] private Image resultImage;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private Image boxImage;
+    [SerializeField] private Animator boxAnimator;
+    [SerializeField] private List<int> boxIndex = new();
     [SerializeField] private Button gachaCloseButton;
 
     private ArtifactGachaManager gachaManager;
@@ -29,8 +34,13 @@ public class UI_Artifact : UI
         gachaManager = new();
 
         closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Artifact>());
-        gachaButton.onClick.AddListener(Gacha);
-        gachaCloseButton.onClick.AddListener(() => gachaBackground.SetActive(false));
+        gachaButton.onClick.AddListener(() => StartCoroutine(Gacha()));
+        gachaCloseButton.onClick.AddListener(() => 
+        {
+            gachaBackground.SetActive(false);
+            boxAnimator.SetInteger("BoxID", -1);
+            boxAnimator.SetTrigger("Close");
+        });
 
         gachaBackground.SetActive(false);
 
@@ -71,9 +81,16 @@ public class UI_Artifact : UI
         gachaButton.GetComponentInChildren<TextMeshProUGUI>().text = gachaButton.interactable ? "유물 뽑기" : "전부 뽑음";
     }
 
-    void Gacha()
+    IEnumerator Gacha()
     {
+        int boxID = boxIndex[Random.Range(0, boxIndex.Count)];
+        Debug.Log(boxAnimator.GetInteger("BoxID"));
+        boxAnimator.SetInteger("BoxID", boxID);
+        //yield return null;
+        Debug.Log(boxAnimator.GetInteger("BoxID"));
+
         gachaBackground.SetActive(true);
+        SetResultActive(false);
 
         int id = gachaManager.GetRandomArtifact();
         int rarity = id / 1000;
@@ -85,6 +102,17 @@ public class UI_Artifact : UI
         Dirty(id);
 
         CheckGachaAble();
+
+        boxAnimator.SetTrigger("Open");
+        float clipLength = boxAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+        yield return new WaitForSeconds(clipLength);
+        SetResultActive(true);
+    }
+
+    void SetResultActive(bool flag)
+    {
+        resultBackground.gameObject.SetActive(flag);
+        gachaCloseButton.gameObject.SetActive(flag);
     }
 
     public override void Clear()
