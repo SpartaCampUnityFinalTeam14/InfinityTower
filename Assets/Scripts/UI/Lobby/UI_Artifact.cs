@@ -37,9 +37,9 @@ public class UI_Artifact : UI
         gachaButton.onClick.AddListener(() => StartCoroutine(Gacha()));
         gachaCloseButton.onClick.AddListener(() => 
         {
-            gachaBackground.SetActive(false);
             boxAnimator.SetInteger("BoxID", -1);
             boxAnimator.SetTrigger("Close");
+            gachaBackground.SetActive(false);
         });
 
         gachaBackground.SetActive(false);
@@ -83,14 +83,14 @@ public class UI_Artifact : UI
 
     IEnumerator Gacha()
     {
+        gachaBackground.SetActive(true);
+        SetResultActive(false);
+
         int boxID = boxIndex[Random.Range(0, boxIndex.Count)];
         Debug.Log(boxAnimator.GetInteger("BoxID"));
         boxAnimator.SetInteger("BoxID", boxID);
-        //yield return null;
+        yield return new WaitForFixedUpdate();
         Debug.Log(boxAnimator.GetInteger("BoxID"));
-
-        gachaBackground.SetActive(true);
-        SetResultActive(false);
 
         int id = gachaManager.GetRandomArtifact();
         int rarity = id / 1000;
@@ -104,6 +104,7 @@ public class UI_Artifact : UI
         CheckGachaAble();
 
         boxAnimator.SetTrigger("Open");
+        yield return new WaitForFixedUpdate();
         float clipLength = boxAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
         yield return new WaitForSeconds(clipLength);
         SetResultActive(true);
