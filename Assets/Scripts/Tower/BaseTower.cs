@@ -11,7 +11,7 @@ public abstract class BaseTower : MonoBehaviour
 
     protected virtual void Start()
     {
-        attackTimer = 1f / towerData.attackSpeed;
+        attackTimer = towerData.attackSpeed;
     }
 
     protected virtual void Update()
@@ -21,19 +21,9 @@ public abstract class BaseTower : MonoBehaviour
         if (attackTimer <= 0)
         {
             Activate();
-            attackTimer = 1f / towerData.attackSpeed;
+            attackTimer = towerData.attackSpeed;
         }
     }
 
     protected abstract void Activate(); //실제행동은 하위 클래스에서 정의
-
-    public virtual float GetRange()
-    {
-        return towerData.range;
-    }
-
-    public virtual TargetType GetTargetType()
-    {
-        return towerData.TargetType;
-    }
 }

@@ -171,29 +171,38 @@ public abstract class TargettingTower : BaseTower
 
     private IEnumerator BuffCoroutine(BuffEffectType type, float amount, float duration)
     {
-        switch (type)
-        {
-            case BuffEffectType.AttackSpeed:
-                towerData.attackSpeed += amount;
-                break;
+        int index = towerData.valueTypes.FindIndex(v => (BuffEffectType)v == type);
 
-            case BuffEffectType.Range:
-                towerData.range += amount;
-                break;
+        if (index == -1)
+        {
+            // 기존에 해당 타입이 없다면 새로 추가
+            towerData.valueTypes.Add((int)type);
+            towerData.valueList.Add(amount);
+        }
+        else
+        {
+            // 기존 값에 더하기
+            towerData.valueList[index] += amount;
         }
 
         yield return new WaitForSeconds(duration);
 
-        // 버프 종료 시 원래대로 복구
-        switch (type)
+        // 버프 종료 시 복구
+        if (index == -1)
         {
-            case BuffEffectType.AttackSpeed:
-                towerData.coolTime += amount;
-                break;
-
-            case BuffEffectType.Range:
-                towerData.range -= amount;
-                break;
+            // 추가했던 걸 다시 제거
+            int lastIndex = towerData.valueTypes.FindIndex(v => (BuffEffectType)v == type);
+            if (lastIndex != -1)
+            {
+                towerData.valueTypes.RemoveAt(lastIndex);
+                towerData.valueList.RemoveAt(lastIndex);
+            }
+        }
+        else
+        {
+            // 기존 값에서 차감
+            towerData.valueList[index] -= amount;
         }
     }
+
 }

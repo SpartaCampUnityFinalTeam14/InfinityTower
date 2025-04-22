@@ -9,6 +9,7 @@
             "cost": 50,
             "targetingRule": 0,
             "coolTime": 20,
+            "attackSpeed": 4,
             "range": 5,
             "valueTypes": [ 0 ],
             "valueList": [ 8 ]
@@ -22,6 +23,7 @@
             "cost": 100,
             "targetingRule": 0,
             "coolTime": 20,
+            "attackSpeed": 3,
             "range": 3,
             "valueTypes": [ 0 ],
             "valueList": [ 8 ]
@@ -35,6 +37,7 @@
             "cost": 125,
             "targetingRule": 0,
             "coolTime": 20,
+            "attackSpeed": 3,
             "range": 4,
             "valueTypes": [ 0 ],
             "valueList": [ 1 ]
@@ -48,6 +51,7 @@
             "cost": 100,
             "targetingRule": 3,
             "coolTime": 20,
+            "attackSpeed": 2,
             "range": 8,
             "valueTypes": [ 0 ],
             "valueList": [ 10 ]
@@ -61,6 +65,7 @@
             "cost": 70,
             "targetingRule": 0,
             "coolTime": 20,
+            "attackSpeed": 6,
             "range": 3,
             "valueTypes": [ 0 ],
             "valueList": [ 7 ]
@@ -74,6 +79,7 @@
             "cost": 150,
             "targetingRule": 3,
             "coolTime": 20,
+            "attackSpeed": 2,
             "range": 7,
             "valueTypes": [ 0 ],
             "valueList": [ 8 ]
@@ -87,6 +93,7 @@
             "cost": 180,
             "targetingRule": 0,
             "coolTime": 30,
+            "attackSpeed": 3,
             "range": 4,
             "valueTypes": [ 0 ],
             "valueList": [ 5 ]
@@ -100,6 +107,7 @@
             "cost": 100,
             "targetingRule": 0,
             "coolTime": 25,
+            "attackSpeed": 25,
             "range": 3,
             "valueTypes": [ 1, 100 ],
             "valueList": [ 10, 25 ]
@@ -113,6 +121,7 @@
             "cost": 75,
             "targetingRule": 0,
             "coolTime": 30,
+            "attackSpeed": 10,
             "range": 50,
             "valueTypes": [ 200, 100 ],
             "valueList": [ 50, 10 ]

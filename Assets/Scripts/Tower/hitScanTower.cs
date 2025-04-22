@@ -34,9 +34,13 @@ public class hitScanTower : TargettingTower
 
                     if (effectType == BuffEffectType.Damage)
                     {
+                        float baseDamage = towerData.GetValue(BuffEffectType.Damage);
+                        float attackPowerBuff = towerData.GetValue(BuffEffectType.AttackPower);
+                        float totalDamage = baseDamage + attackPowerBuff;
+
                         // 공격 적용
-                        enemy.TakeDamage(amount);
-                        Debug.Log($"[hitScanTower] 데미지 {amount} 적용 -> {enemy.name}");
+                        enemy.TakeDamage(totalDamage);
+                        Debug.Log($"[hitScanTower] 데미지 {totalDamage} 적용 (기본:{baseDamage}, 추가:{attackPowerBuff}) -> {enemy.name}");
                     }
                     else
                     {
