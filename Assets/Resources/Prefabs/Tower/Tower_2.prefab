@@ -114,8 +114,18 @@ MonoBehaviour:
     valueList:
     - 1
   cooldownTimer: 0
-  projectileData: {fileID: 11400000, guid: 26a74d10ce67a473cbda1eebdf5596f1, type: 2}
+  projectileDataSO: {fileID: 11400000, guid: 145a984cbd9df455b9fe03d770c6579f, type: 2}
   firePoint: {fileID: 47152423553481607}
+  projectileData:
+    id: 0
+    speed: 0
+    hasDoT: 0
+    dotDuration: 0
+    dotTickInterval: 0
+    dotDamagePerTick: 0
+    dotRadius: 0
+    hasSplash: 0
+    splashRadius: 0
 --- !u!61 &-5899432786219981154
 BoxCollider2D:
   m_ObjectHideFlags: 0
