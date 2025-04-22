@@ -37,7 +37,7 @@ public class SaveManager : Singleton<SaveManager>
                 List<Value> list = new();
                 foreach (var tower in DataManager.Instance.towerDict)
                 {
-                    list.Add((Value)(object)new TowerLevelData(tower.Key, 0));
+                    list.Add((Value)(object)new TowerLevelData(tower.Key, 0, 0));
                 }
                 newLoader.data = list;
             }
@@ -46,7 +46,7 @@ public class SaveManager : Singleton<SaveManager>
                 List<Value> list = new();
                 foreach (var champion in DataManager.Instance.championDict)
                 {
-                    list.Add((Value)(object)new ChampionLevelData(champion.Key, 0));
+                    list.Add((Value)(object)new ChampionLevelData(champion.Key, 0, 0));
                 }
                 newLoader.data = list;
             }

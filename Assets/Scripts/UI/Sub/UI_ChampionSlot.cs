@@ -31,10 +31,23 @@ public class UI_ChampionSlot : MonoBehaviour
         //아이디에 맞춰서 스프라이트 찾아와야 함
 
         //레벨 및 경험치 세팅해야 함
+        SetLevel(SaveManager.Instance.championLevelDict[id].level);
+        SetExp(SaveManager.Instance.championLevelDict[id].exp);
     }
 
     public void SetSelectedMark(bool flag)
     {
         selectedMark.SetActive(flag);
+    }
+
+    void SetLevel(int level)
+    {
+        levelText.text = level.ToString();
+    }
+
+    void SetExp(int exp)
+    {
+        expText.text = exp.ToString();
+        //최대 경험치도 체크해야 함
     }
 }

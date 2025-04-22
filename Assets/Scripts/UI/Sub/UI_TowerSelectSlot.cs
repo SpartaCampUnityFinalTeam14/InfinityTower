@@ -31,12 +31,8 @@ public class UI_TowerSelectSlot : MonoBehaviour
         //스프라이트 지정해줘야 함
 
         //레벨 및 경험치 세팅해줘야 함
-    }
-
-    void SelectTower()
-    {
-        OnTowerSelected.RaiseEvent(data.id);
-        SetClickedMark(true);
+        SetLevel(SaveManager.Instance.towerLevelDict[id].level);
+        SetExp(SaveManager.Instance.towerLevelDict[id].exp);
     }
 
     public void SetSelectedMark(bool flag)
@@ -47,5 +43,16 @@ public class UI_TowerSelectSlot : MonoBehaviour
     public void SetClickedMark(bool flag)
     {
         clickedMark.SetActive(flag);
+    }
+
+    void SetLevel(int level)
+    {
+        levelText.text = level.ToString();
+    }
+
+    void SetExp(int exp)
+    {
+        expText.text = exp.ToString();
+        //최대 경험치도 체크해야 함
     }
 }

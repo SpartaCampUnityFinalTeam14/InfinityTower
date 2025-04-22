@@ -58,11 +58,13 @@ public class TowerLevelData
 {
     public int id;
     public int level;
+    public int exp;
 
-    public TowerLevelData(int id, int level)
+    public TowerLevelData(int id, int level, int exp)
     {
         this.id = id;
         this.level = level;
+        this.exp = exp;
     }
 }
 
@@ -89,11 +91,13 @@ public class ChampionLevelData
 {
     public int id;
     public int level;
+    public int exp;
 
-    public ChampionLevelData(int id, int level)
+    public ChampionLevelData(int id, int level, int exp)
     {
         this.id = id;
         this.level = level;
+        this.exp = exp;
     }
 }
 
