@@ -14,6 +14,7 @@ public class UI_Lobby : UI
     [SerializeField] private Button championSelectButton;
     [SerializeField] private Button deckSelectButton;
     [SerializeField] private Button artifactButton;
+    [SerializeField] private Button gachaButton;
 
     [SerializeField] private IntEventChannel OnChampionSelected;
 
@@ -26,6 +27,7 @@ public class UI_Lobby : UI
         championSelectButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Deck>().SetDeckTab(false));
         deckSelectButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Deck>().SetDeckTab(true));
         artifactButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Artifact>());
+        gachaButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Gacha>());
 
         UnregisterListeners();
         RegisterListeners();
