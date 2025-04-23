@@ -25,6 +25,10 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         nameText.text = $"타워 {towerID}";
 
         // 프리팹 로드 (예: Prefabs/TowerGhost_1, Prefabs/Tower_1)
+        Sprite icon = Resources.Load<Sprite>($"Icons/Tower/Tower_{towerID}");
+        if (icon)
+            iconImage.sprite = icon;
+
         previewPrefab = Resources.Load<GameObject>($"Prefabs/Tower/TowerGhost_{towerID}");
         placedTowerPrefab = Resources.Load<GameObject>($"Prefabs/Tower/Tower_{towerID}");
 
@@ -80,7 +84,10 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
             if(IsCostEnough()) StageManager.Instance.UseCost(DataManager.Instance.towerDict[towerID].cost);
 
-            Instantiate(placedTowerPrefab, spawnPos, Quaternion.identity);
+            //Instantiate(placedTowerPrefab, spawnPos, Quaternion.identity);
+            
+            var tower = PoolManager.Instance.Get(placedTowerPrefab).GetComponent<BaseTower>();
+            tower.transform.position = spawnPos;
         }
 
         if (previewObj != null)

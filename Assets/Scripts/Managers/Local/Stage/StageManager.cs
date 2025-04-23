@@ -9,7 +9,7 @@ public class StageManager : Singleton<StageManager>
 {
     private int hp;
     private float curCost = 1f;
-    private float maxCost = 10f;
+    //private float maxCost = 10f;
     [SerializeField] private FloatEventChannel OnCostChanged;
     private List<float> activeCostRecoveryMultipliers = new List<float>(); // 여러 타워의 버프들을 저장
     [SerializeField] private float costRecoveryMultiplier = 1f;  // Cost 얻는 속도 - 기본 1배속
@@ -94,8 +94,8 @@ public class StageManager : Singleton<StageManager>
     {
         while (true)
         {
-            curCost = Mathf.Min(curCost + Time.deltaTime * costRecoveryMultiplier, maxCost);
-            OnCostChanged.RaiseEvent(curCost / maxCost);
+            curCost = curCost + Time.deltaTime * costRecoveryMultiplier;
+            OnCostChanged.RaiseEvent(curCost);
             yield return null;
         }
     }
@@ -115,6 +115,11 @@ public class StageManager : Singleton<StageManager>
         }
 
         return true;
+    }
+
+    public void GetCost(int amount)
+    {
+        curCost += amount;
     }
 
     void GameOver()

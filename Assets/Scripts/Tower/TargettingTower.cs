@@ -156,6 +156,8 @@ public abstract class TargettingTower : BaseTower
         if (targets.Count > 0 )
         {
             UseActOnTargets();
+
+            anim?.SetTrigger("Attack");
         }
            
     }
