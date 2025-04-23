@@ -54,10 +54,10 @@ public class UI_TowerInfo : UI
         towerNameText.text = data.name;
         //exp 세팅
         //스프라이트 세팅
-        towerCostText.text = data.cost.ToString();
-        towerDamageText.text = data.valueList[0].ToString();
-        towerAttackSpeedText.text = data.coolTime.ToString();
-        towerRangeText.text = data.range.ToString();
+        towerCostText.text = data.GetStatValue(TowerStatType.Cost).ToString();
+        towerDamageText.text = data.GetStatValue(TowerStatType.Damage).ToString();
+        towerAttackSpeedText.text = data.GetStatValue(TowerStatType.ActiveSpeed).ToString();
+        towerRangeText.text = data.GetStatValue(TowerStatType.Range).ToString();
     }
 
     void Levelup()

@@ -28,7 +28,7 @@ public abstract class TargettingTower : BaseTower
         towerInRange = new List<TargettingTower>();
 
         //범위 내 유닛 탐색
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.range);        
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.GetStatValue(TowerStatType.Range));        
 
         //범위 안에 있는 적과 아군 판별
         foreach (Collider2D hit in hits)
@@ -123,7 +123,8 @@ public abstract class TargettingTower : BaseTower
         switch (towerData.TargetType)
         {
             case TargetType.Enemy:
-                maxCount = Mathf.Min(towerData.targetCount, enemiesInRange.Count);
+                //maxCount = Mathf.Min(towerData.targetCount, enemiesInRange.Count);
+                maxCount = Mathf.Min((int)towerData.GetStatValue(TowerStatType.TargetCount), enemiesInRange.Count);
                 for (int i = 0; i < maxCount; i++)
                 {
                     targets.Add(enemiesInRange[i].gameObject);
@@ -131,7 +132,7 @@ public abstract class TargettingTower : BaseTower
                 break;
 
             case TargetType.Tower:
-                maxCount = Mathf.Min(towerData.targetCount, towerInRange.Count);
+                maxCount = Mathf.Min((int)towerData.GetStatValue(TowerStatType.TargetCount), towerInRange.Count);
                 for (int i = 0; i < maxCount; i++)
                 {
                     targets.Add(towerInRange[i].gameObject);
@@ -162,27 +163,35 @@ public abstract class TargettingTower : BaseTower
     protected abstract void UseActOnTargets(); // 공격/버프 등을 하위에서 정의
 
     //버프 적용메서드
+    private Dictionary<BuffEffectType, Coroutine> activeBuffs = new();
+
     public void ApplyBuff(BuffEffectType type, float amount, float duration)
     {
-        //중복 적용 안되게 스탑코루틴 작성
-        StopCoroutine("BuffCoroutine");
-        StartCoroutine(BuffCoroutine(type, amount, duration));
+        // 이미 해당 타입의 버프가 있다면 중단
+        if (activeBuffs.ContainsKey(type))
+        {
+            StopCoroutine(activeBuffs[type]);
+            activeBuffs.Remove(type);
+        }
+
+        Coroutine newBuff = StartCoroutine(BuffCoroutine(type, amount, duration));
+        activeBuffs[type] = newBuff;
     }
 
     private IEnumerator BuffCoroutine(BuffEffectType type, float amount, float duration)
     {
-        int index = towerData.valueTypes.FindIndex(v => (BuffEffectType)v == type);
+        int index = towerData.statTypes.FindIndex(v => (BuffEffectType)v == type);
 
         if (index == -1)
         {
             // 기존에 해당 타입이 없다면 새로 추가
-            towerData.valueTypes.Add((int)type);
-            towerData.valueList.Add(amount);
+            towerData.statTypes.Add((int)type);
+            towerData.statValue.Add(amount);
         }
         else
         {
             // 기존 값에 더하기
-            towerData.valueList[index] += amount;
+            towerData.statValue[index] += amount;
         }
 
         yield return new WaitForSeconds(duration);
@@ -191,17 +200,17 @@ public abstract class TargettingTower : BaseTower
         if (index == -1)
         {
             // 추가했던 걸 다시 제거
-            int lastIndex = towerData.valueTypes.FindIndex(v => (BuffEffectType)v == type);
+            int lastIndex = towerData.statTypes.FindIndex(v => (BuffEffectType)v == type);
             if (lastIndex != -1)
             {
-                towerData.valueTypes.RemoveAt(lastIndex);
-                towerData.valueList.RemoveAt(lastIndex);
+                towerData.statTypes.RemoveAt(lastIndex);
+                towerData.statValue.RemoveAt(lastIndex);
             }
         }
         else
         {
             // 기존 값에서 차감
-            towerData.valueList[index] -= amount;
+            towerData.statValue[index] -= amount;
         }
     }
 

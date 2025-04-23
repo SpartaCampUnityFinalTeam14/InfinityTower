@@ -129,26 +129,34 @@ public class TowerData
     public string name;
     public string description;
     public int targetType;
-    public int targetCount;
-    public int cost;
     public int targettingRule;
-    public float coolTime;
-    public float attackSpeed;
-    public float range;
     //변경
-    public List<int> valueTypes;    // BuffEffectType의 int 값들
-    public List<float> valueList;   // 각 효과에 대한 수치
-
+    public List<int> statTypes;    // TowerStatType의 int 값들
+    public List<float> statValue;   // 각 스탯에 대한 수치
+    public List<int> effectID;      // BuffEffectType의 int 값들
+    public List<float> effectValue; // 각 효과에 대한 수치
+    
     public TargettingRule TargettingRule => (TargettingRule)targettingRule;
     public TargetType TargetType => (TargetType)targetType;
 
-    // 유틸 메서드: 특정 타입의 값 가져오기
-    public float GetValue(BuffEffectType type)
+    // 유틸 메서드: 특정 타입의 스탯 값 가져오기
+    public float GetBuffValue(BuffEffectType type)
     {
-        for (int i = 0; i < valueTypes.Count; i++)
+        for (int i = 0; i < effectID.Count; i++)
         {
-            if ((BuffEffectType)valueTypes[i] == type)
-                return valueList[i];
+            if ((BuffEffectType)effectID[i] == type)
+                return effectValue[i];
+        }
+        return 0f;
+    }
+
+    // 유틸 메서드: 특정 타입의 스탯 값 가져오기
+    public float GetStatValue(TowerStatType type)
+    {
+        for (int i = 0; i < statTypes.Count; i++)
+        {
+            if ((TowerStatType)statTypes[i] == type)
+                return statValue[i];
         }
         return 0f;
     }

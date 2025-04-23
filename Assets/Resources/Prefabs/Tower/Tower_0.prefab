@@ -106,15 +106,17 @@ MonoBehaviour:
       \uC77C\uBC18\uC801\uC778 \uACF5\uACA9\uB825\uACFC \uACF5\uACA9\uC18D\uB3C4\uB97C
       \uC9C0\uB2C8\uACE0 \uC788\uB2E4."
     targetType: 3
-    targetCount: 1
-    cost: 50
     targettingRule: 0
-    coolTime: 20
-    attackSpeed: 4
-    range: 5
-    valueTypes: 00000000
-    valueList:
+    statTypes: 000000000100000002000000030000000400000005000000
+    statValue:
+    - 10
     - 8
+    - 2
+    - 1
+    - 20
+    - 100
+    effectID: 
+    effectValue: []
   projectileData: {fileID: 11400000, guid: e92844389e3074bbeb66070749ba7eb7, type: 2}
   firePoint: {fileID: 47152423553481607}
 --- !u!61 &-5899432786219981154

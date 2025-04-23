@@ -11,7 +11,8 @@ public abstract class BaseTower : MonoBehaviour
 
     protected virtual void Start()
     {
-        attackTimer = towerData.attackSpeed;
+        //attackTimer = towerData.attackSpeed;
+        attackTimer = towerData.GetStatValue(TowerStatType.ActiveSpeed);
     }
 
     protected virtual void Update()
@@ -21,7 +22,8 @@ public abstract class BaseTower : MonoBehaviour
         if (attackTimer <= 0)
         {
             Activate();
-            attackTimer = towerData.attackSpeed;
+            //attackTimer = towerData.attackSpeed;
+            attackTimer = towerData.GetStatValue(TowerStatType.ActiveSpeed);
         }
     }
 
