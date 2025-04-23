@@ -139,7 +139,7 @@ public class TowerData
     public TargettingRule TargettingRule => (TargettingRule)targettingRule;
     public TargetType TargetType => (TargetType)targetType;
 
-    // 유틸 메서드: 특정 타입의 스탯 값 가져오기
+    // 유틸 메서드: 특정 타입의 효과 값 가져오기
     public float GetBuffValue(BuffEffectType type)
     {
         for (int i = 0; i < effectID.Count; i++)
