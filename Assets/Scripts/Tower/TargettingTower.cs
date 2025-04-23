@@ -181,8 +181,9 @@ public abstract class TargettingTower : BaseTower
     private IEnumerator BuffCoroutine(BuffEffectType type, float amount, float duration)
     {
         int index = towerData.statTypes.FindIndex(v => (BuffEffectType)v == type);
+        bool isNew = index == -1;
 
-        if (index == -1)
+        if (isNew)
         {
             // 기존에 해당 타입이 없다면 새로 추가
             towerData.statTypes.Add((int)type);
@@ -197,20 +198,31 @@ public abstract class TargettingTower : BaseTower
         yield return new WaitForSeconds(duration);
 
         // 버프 종료 시 복구
-        if (index == -1)
+        if (isNew)
         {
             // 추가했던 걸 다시 제거
-            int lastIndex = towerData.statTypes.FindIndex(v => (BuffEffectType)v == type);
-            if (lastIndex != -1)
+            int removeIndex = towerData.statTypes.FindIndex(v => (BuffEffectType)v == type);
+            if (removeIndex != -1)
             {
-                towerData.statTypes.RemoveAt(lastIndex);
-                towerData.statValue.RemoveAt(lastIndex);
+                towerData.statTypes.RemoveAt(removeIndex);
+                towerData.statValue.RemoveAt(removeIndex);
             }
         }
         else
         {
             // 기존 값에서 차감
+            int updateIndex = towerData.statTypes.FindIndex(v => (BuffEffectType)v == type);
+            if (updateIndex != -1)
+            {
+                towerData.statValue[updateIndex] -= amount;
+            }
             towerData.statValue[index] -= amount;
+        }
+
+        // 코루틴 종료 시 Dictionary에서 제거
+        if (activeBuffs.ContainsKey(type))
+        {
+            activeBuffs.Remove(type);
         }
     }
 
