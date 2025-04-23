@@ -11,6 +11,7 @@ public abstract class BaseTower : Poolable
     public float cooldownTimer;
 
     [SerializeField] protected Animator anim;
+    [SerializeField] protected SpriteRenderer spriteRenderer;
 
     GameObject rangePrefab;
     RangeIndicator rangeIndicator;
@@ -18,6 +19,8 @@ public abstract class BaseTower : Poolable
     protected virtual void Awake()
     {
         rangePrefab = Resources.Load<GameObject>("Prefabs/Tower/RangeIndicator");
+        anim = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     public virtual void Initialize(TowerData data)

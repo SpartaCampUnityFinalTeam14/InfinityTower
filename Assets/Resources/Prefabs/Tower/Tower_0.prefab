@@ -117,7 +117,7 @@ MonoBehaviour:
     - 8
   cooldownTimer: 0
   anim: {fileID: 5765603005157225429}
-  spriteRange: {fileID: 0}
+  spriteRenderer: {fileID: 0}
   projectileData: {fileID: 11400000, guid: e92844389e3074bbeb66070749ba7eb7, type: 2}
   firePoint: {fileID: 47152423553481607}
 --- !u!61 &-5899432786219981154
