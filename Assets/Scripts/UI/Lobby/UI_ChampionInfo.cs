@@ -12,9 +12,11 @@ public class UI_ChampionInfo : UI
     [Header("좌측")]
     [SerializeField] private TextMeshProUGUI championNameText;
     [SerializeField] private Image championIcon;
+    [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private Image expBar;
     [SerializeField] private TextMeshProUGUI expText;
     [SerializeField] private Button levelupButton;
+    [SerializeField] private Button tempGetExpButton;
 
     [Header("우측 상단")]
     [SerializeField] private TextMeshProUGUI championHPText;
@@ -35,6 +37,8 @@ public class UI_ChampionInfo : UI
 
     [Header("이벤트채널")]
     [SerializeField] private IntEventChannel OnChampionSelected;
+    [SerializeField] private IntEventChannel OnChampionLevelChanged;
+    [SerializeField] private IntEventChannel OnChampionExpChanged;
 
     protected override void Awake()
     {
@@ -44,6 +48,13 @@ public class UI_ChampionInfo : UI
         closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_ChampionInfo>());
         selectButton.onClick.AddListener(SelectChampion);
         levelupButton.onClick.AddListener(Levelup);
+
+        tempGetExpButton.onClick.AddListener(() => 
+        {
+            SetExp(++SaveManager.Instance.championLevelDict[data.id].exp);
+            SaveManager.Instance.SaveChampionLevelData();
+            OnChampionExpChanged.RaiseEvent(data.id);
+        });
 
         skill1Button.onClick.AddListener(() => SetSkillInfo(data.skillId[0]));
         skill2Button.onClick.AddListener(() => SetSkillInfo(data.skillId[1]));
@@ -68,7 +79,51 @@ public class UI_ChampionInfo : UI
 
     void Levelup()
     {
-        Debug.Log("레벨업 구현해야 함");
+        int level = SaveManager.Instance.championLevelDict[data.id].level;
+        if (level >= 10) return;
+
+        int exp = SaveManager.Instance.championLevelDict[data.id].exp;
+        int maxExp = DataManager.Instance.levelUpDict[level].requiredExp;
+
+        if (exp >= maxExp)
+        {
+            level += 1;
+            SaveManager.Instance.championLevelDict[data.id].level = level;
+            SetLevel(level);
+
+            exp -= maxExp;
+            SaveManager.Instance.championLevelDict[data.id].exp = exp;
+            SetExp(exp);
+            
+            SaveManager.Instance.SaveChampionLevelData();
+
+            OnChampionLevelChanged.RaiseEvent(data.id);
+            OnChampionExpChanged.RaiseEvent(data.id);
+        }
+    }
+
+    void SetLevel(int level)
+    {
+        levelText.text = level.ToString();
+
+        if (level >= 10) levelupButton.interactable = false;
+    }
+
+    void SetExp(int exp)
+    {
+        int level = SaveManager.Instance.championLevelDict[data.id].level;
+        if (level >= 10)
+        {
+            expBar.fillAmount = 1f;
+            expText.text = $"{exp} / Inf";
+        }
+        else
+        {
+            int maxExp = DataManager.Instance.levelUpDict[level].requiredExp;
+
+            expBar.fillAmount = Mathf.Min(1f, (float)exp / maxExp);
+            expText.text = $"{exp} / {maxExp}";
+        }
     }
 
     void SetSkillInfo(int id)

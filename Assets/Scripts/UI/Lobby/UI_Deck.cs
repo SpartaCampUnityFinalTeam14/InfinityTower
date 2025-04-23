@@ -25,8 +25,7 @@ public class UI_Deck : UI
     [SerializeField] private IntEventChannel OnTowerSelected;
     [SerializeField] private IntEventChannel OnTowerSlotSelected;
     [SerializeField] private IntEventChannel OnChampionSelected;
-
-
+    
     private int selectedTowerIndex = -1;
 
     protected override void Awake()
@@ -81,6 +80,12 @@ public class UI_Deck : UI
         }
     }
 
+    void SetChampion(int index)
+    {
+        //스프라이트 세팅해야 함
+        championNameText.text = DataManager.Instance.championDict[index].name;
+    }
+
     void InitSelectedTowers()
     {
         for(int i = 0; i < SaveManager.Instance.playerData.selectedTowerIndex.Count; i++)
@@ -111,7 +116,7 @@ public class UI_Deck : UI
         towerSelectMask.SetActive(false);
     }
 
-    public void SelectTower(int selectedPos, int selectedTowerIndex)
+    void SelectTower(int selectedPos, int selectedTowerIndex)
     {
         int posTowerIndex = selectedTowerSlots[selectedPos].towerId;
         int exIndex = SaveManager.Instance.playerData.AddTower(selectedPos, selectedTowerIndex);//교체된 타워가 원래 있던 슬롯 위치
@@ -124,12 +129,6 @@ public class UI_Deck : UI
 
         //현재 선택된 슬롯 업데이트
         selectedTowerSlots[selectedPos].SetSelectedTower(selectedTowerIndex);
-    }
-
-    public void SetChampion(int index)
-    {
-        //스프라이트 세팅해야 함
-        championNameText.text = DataManager.Instance.championDict[index].name;
     }
 
     public override void Clear()

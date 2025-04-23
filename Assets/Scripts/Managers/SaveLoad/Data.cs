@@ -401,3 +401,30 @@ public class ArtifactDataLoader : ILoader<int, ArtifactData>
     }
 }
 #endregion
+
+#region LevelUpData
+[Serializable]
+public class LevelUpData
+{
+    public int level;
+    public int requiredExp;
+    public float multiplier;
+}
+
+[Serializable]
+public class LevelUpDataLoader : ILoader<int, LevelUpData>
+{
+    public List<LevelUpData> data = new();
+
+    public Dictionary<int, LevelUpData> MakeDict()
+    {
+        Dictionary<int, LevelUpData> dict = new();
+        foreach (LevelUpData levelUp in data)
+        {
+            dict.Add(levelUp.level, levelUp);
+        }
+
+        return dict;
+    }
+}
+#endregion

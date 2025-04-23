@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class UI_ChampionSlot : MonoBehaviour
 {
     public int id;
-    ChampionData data;
+    private ChampionData data;
 
     [SerializeField] private Button selectButton;
     [SerializeField] private Image championImage;
@@ -40,14 +40,35 @@ public class UI_ChampionSlot : MonoBehaviour
         selectedMark.SetActive(flag);
     }
 
+    public void UpdateLevel()
+    {
+        SetLevel(SaveManager.Instance.championLevelDict[data.id].level);
+    }
+
     void SetLevel(int level)
     {
         levelText.text = level.ToString();
     }
 
+    public void UpdateExp()
+    {
+        SetExp(SaveManager.Instance.championLevelDict[data.id].exp);
+    }
+
     void SetExp(int exp)
     {
-        expText.text = exp.ToString();
-        //최대 경험치도 체크해야 함
+        int level = SaveManager.Instance.championLevelDict[data.id].level;
+        if (level >= 10)
+        {
+            expBar.fillAmount = 1f;
+            expText.text = $"{exp} / Inf";
+        }
+        else
+        {
+            int maxExp = DataManager.Instance.levelUpDict[level].requiredExp;
+
+            expBar.fillAmount = Mathf.Min(1f, (float)exp / maxExp);
+            expText.text = $"{exp} / {maxExp}";
+        }
     }
 }

@@ -4,7 +4,8 @@ using UnityEngine.UI;
 
 public class UI_TowerSelectSlot : MonoBehaviour
 {
-    [HideInInspector] public TowerData data;
+    public int id;
+    private TowerData data;
 
     [SerializeField] private Button selectButton;
     [SerializeField] private Image towerImage;
@@ -25,6 +26,7 @@ public class UI_TowerSelectSlot : MonoBehaviour
 
     public void Init(int id)
     {
+        this.id = id;
         data = DataManager.Instance.towerDict[id];
 
         nameText.text = data.name;
@@ -45,14 +47,35 @@ public class UI_TowerSelectSlot : MonoBehaviour
         clickedMark.SetActive(flag);
     }
 
+    public void UpdateLevel()
+    {
+        SetLevel(SaveManager.Instance.towerLevelDict[id].level);
+    }
+
     void SetLevel(int level)
     {
         levelText.text = level.ToString();
     }
 
+    public void UpdateExp()
+    {
+        SetExp(SaveManager.Instance.towerLevelDict[id].exp);
+    }
+
     void SetExp(int exp)
     {
-        expText.text = exp.ToString();
-        //최대 경험치도 체크해야 함
+        int level = SaveManager.Instance.towerLevelDict[id].level;
+        if (level >= 10)
+        {
+            expBar.fillAmount = 1f;
+            expText.text = $"{exp} / Inf";
+        }
+        else
+        {
+            int maxExp = DataManager.Instance.levelUpDict[level].requiredExp;
+
+            expBar.fillAmount = Mathf.Min(1f, (float)exp / maxExp);
+            expText.text = $"{exp} / {maxExp}";
+        }
     }
 }

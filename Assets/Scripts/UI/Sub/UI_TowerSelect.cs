@@ -12,6 +12,8 @@ public class UI_TowerSelect : MonoBehaviour
     private List<UI_TowerSelectSlot> slots = new();
 
     [SerializeField] private IntEventChannel OnTowerSlotSelected;
+    [SerializeField] private IntEventChannel OnTowerLevelChanged;
+    [SerializeField] private IntEventChannel OnTowerExpChanged;
 
     private void Awake()
     {
@@ -38,7 +40,7 @@ public class UI_TowerSelect : MonoBehaviour
         {
             foreach(var slot in slots)
             {
-                if (slot.data.id == index) slot.SetSelectedMark(true);
+                if (slot.id == index) slot.SetSelectedMark(true);
             }
         }
 
@@ -48,11 +50,15 @@ public class UI_TowerSelect : MonoBehaviour
     void UnregisterListeners()
     {
         OnTowerSlotSelected.UnregisterListener(TowerSlotSelected);
+        OnTowerLevelChanged.UnregisterListener(UpdateTowerSlotLevel);
+        OnTowerExpChanged.UnregisterListener(UpdateTowerSlotExp);
     }
 
     void RegisterListeners()
     {
         OnTowerSlotSelected.RegisterListener(TowerSlotSelected);
+        OnTowerLevelChanged.RegisterListener(UpdateTowerSlotLevel);
+        OnTowerExpChanged.RegisterListener(UpdateTowerSlotExp);
     }
 
     public void ResetClickedMark()
@@ -74,11 +80,35 @@ public class UI_TowerSelect : MonoBehaviour
         {
             foreach (var slot in slots)
             {
-                if (slot.data.id == index) slot.SetSelectedMark(true);
+                if (slot.id == index) slot.SetSelectedMark(true);
             }
         }
 
         ResetClickedMark();
+    }
+
+    void UpdateTowerSlotLevel(int towerID)
+    {
+        foreach(var slot in slots)
+        {
+            if (slot.id == towerID)
+            {
+                slot.UpdateLevel();
+                break;
+            }
+        }
+    }
+
+    void UpdateTowerSlotExp(int towerID)
+    {
+        foreach (var slot in slots)
+        {
+            if (slot.id == towerID)
+            {
+                slot.UpdateExp();
+                break;
+            }
+        }
     }
 
     public void Clear()
