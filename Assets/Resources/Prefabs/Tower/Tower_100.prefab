@@ -101,21 +101,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towerData:
     id: 100
-    name: "\uB3C4\uAD74\uAFBC"
+    name: "\uB3C4\uC801"
     description: "\uACF5\uACA9\uD558\uC9C0 \uC54A\uC73C\uB098 10\uCD08\uB9C8\uB2E4
       50 \uCF54\uC2A4\uD2B8 \uCD94\uAC00 \uD68C\uBCF5"
     targetType: 2
-    targetCount: 1
-    cost: 75
     targettingRule: 0
-    coolTime: 30
-    attackSpeed: 2
-    range: 50
-    valueTypes: c800000064000000
-    valueList:
-    - 50
-    - 10
-  cooldownTimer: 0
+    statTypes: 000000000100000002000000030000000400000005000000
+    statValue:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 30
+    - 75
+    effectID: 
+    effectValue: []
 --- !u!61 &-6891636743366010001
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -106,15 +106,17 @@ MonoBehaviour:
       \uC0AC\uAC70\uB9AC\uAC00 \uC9E7\uC9C0\uB9CC \uACF5\uACA9\uC18D\uB3C4\uAC00
       \uBE60\uB974\uB2E4"
     targetType: 3
-    targetCount: 1
-    cost: 70
     targettingRule: 0
-    coolTime: 20
-    attackSpeed: 6
-    range: 3
-    valueTypes: 00000000
-    valueList:
+    statTypes: 000000000100000002000000030000000400000005000000
+    statValue:
     - 7
+    - 3
+    - 6
+    - 1
+    - 20
+    - 70
+    effectID: 
+    effectValue: []
 --- !u!61 &-6891636743366010001
 BoxCollider2D:
   m_ObjectHideFlags: 0
