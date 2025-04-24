@@ -6,11 +6,13 @@ using UnityEngine;
 
 public abstract class BaseTower : MonoBehaviour
 {
-    public TowerData towerData;
+    public int ID;
+    protected TowerData towerData;
     protected float attackTimer;
 
     protected virtual void Start()
     {
+        towerData = DataManager.Instance.towerDict[ID];
         //attackTimer = towerData.attackSpeed;
         attackTimer = towerData.GetStatValue(TowerStatType.ActiveSpeed);
     }
