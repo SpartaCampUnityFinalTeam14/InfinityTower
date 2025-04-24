@@ -1898,11 +1898,11 @@ MonoBehaviour:
   backgroundButton: {fileID: 264992503127710519}
   championNameText: {fileID: 4892046907835017141}
   championIcon: {fileID: 6912385589209846020}
-  levelText: {fileID: 0}
+  levelText: {fileID: 5319710503175432132}
   expBar: {fileID: 7738777337106725025}
   expText: {fileID: 1311487445876201041}
   levelupButton: {fileID: 7687579611013838960}
-  tempGetExpButton: {fileID: 0}
+  tempGetExpButton: {fileID: 4836840324940529088}
   championHPText: {fileID: 1774081120821171420}
   skill1Icon: {fileID: 4721514094229542924}
   skill1Button: {fileID: 4510610774020511632}

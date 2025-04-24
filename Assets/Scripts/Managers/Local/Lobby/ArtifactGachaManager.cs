@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class ArtifactGachaManager
 {
-    public int artifactCount;
-    List<List<int>> artifactPool = new(3)
+    private int artifactCount;
+    private List<List<int>> artifactPool = new(3)
     {
         new List<int>(),
         new List<int>(),

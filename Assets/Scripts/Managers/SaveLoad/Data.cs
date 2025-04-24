@@ -409,6 +409,7 @@ public class LevelUpData
     public int level;
     public int requiredExp;
     public float multiplier;
+    public int remainedExp;
 }
 
 [Serializable]
