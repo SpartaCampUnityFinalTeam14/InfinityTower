@@ -24,6 +24,24 @@ public class PlayerData
         selectedChampionIndex = 0;
     }
 
+    public bool CheckGold(int amount)
+    {
+        if (amount <= gold) return true;
+        else return false;
+    }
+
+    public bool UseGold(int amount)
+    {
+        if (CheckGold(amount))
+        {
+            gold -= amount;
+            SaveManager.Instance.SavePlayerData();
+            
+            return true;
+        }
+        else return false;
+    }
+
     public int AddTower(int pos, int towerIndex)
     {
         int beforeId = selectedTowerIndex.IndexOf(towerIndex);

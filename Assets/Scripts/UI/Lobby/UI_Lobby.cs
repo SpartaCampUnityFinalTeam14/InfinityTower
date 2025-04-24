@@ -27,7 +27,7 @@ public class UI_Lobby : UI
         championSelectButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Deck>().SetDeckTab(false));
         deckSelectButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Deck>().SetDeckTab(true));
         artifactButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Artifact>());
-        gachaButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Gacha>());
+        gachaButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Gacha>().Init());
 
         UnregisterListeners();
         RegisterListeners();

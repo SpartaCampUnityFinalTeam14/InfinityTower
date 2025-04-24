@@ -24,6 +24,7 @@ public class UI_Gacha : UI
     [SerializeField] private List<UI_GachaResult> gachaAllResult;
 
     private GachaManager gachaManager;
+    private int requiredGold = 1;
     private Coroutine showResult;
     private bool isShowResultPlaying = false;
     private bool isSkipButtonClicked = false;
@@ -32,24 +33,36 @@ public class UI_Gacha : UI
     {
         base.Awake();
 
-        gachaManager = new();
-        gachaList.Clear();
-        isSkipButtonClicked = false;
-        gachaEachBackground.SetActive(false);
-        gachaAllBackground.SetActive(false);
-
         closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Gacha>());
         gacha1Button.onClick.AddListener(Gacha1);
         gacha10Button.onClick.AddListener(Gacha10);
         gachaEachBackgroundButton.onClick.AddListener(SkipEach);
         gachaAllBackgroundButton.onClick.AddListener(CloseAllResult);
 
-        SetGold(SaveManager.Instance.playerData.gold);
+        Init();
     }
 
-    void Init()
+    public void Init()
     {
+        gachaManager = new();
+        gachaList.Clear();
+        isSkipButtonClicked = false;
+        gachaEachBackground.SetActive(false);
+        gachaAllBackground.SetActive(false);
 
+        SetGold(SaveManager.Instance.playerData.gold);
+        CheckGacha1Gold();
+        CheckGacha10Gold();
+    }
+
+    void CheckGacha1Gold()
+    {
+        gacha1Button.interactable = SaveManager.Instance.playerData.CheckGold(requiredGold);
+    }
+
+    void CheckGacha10Gold()
+    {
+        gacha10Button.interactable = SaveManager.Instance.playerData.CheckGold(requiredGold * 10);
     }
 
     void SetGold(int gold)
@@ -59,6 +72,11 @@ public class UI_Gacha : UI
 
     void Gacha1()
     {
+        if (!SaveManager.Instance.playerData.CheckGold(requiredGold)) return;
+        SaveManager.Instance.playerData.UseGold(requiredGold);
+        CheckGacha1Gold();
+        SetGold(SaveManager.Instance.playerData.gold);
+
         gachaList.Clear();
 
         gachaList.Add(gachaManager.GetRandomGacha());
@@ -68,6 +86,11 @@ public class UI_Gacha : UI
 
     void Gacha10()
     {
+        if (!SaveManager.Instance.playerData.CheckGold(requiredGold * 10)) return;
+        SaveManager.Instance.playerData.UseGold(requiredGold * 10);
+        CheckGacha10Gold();
+        SetGold(SaveManager.Instance.playerData.gold);
+
         gachaList.Clear();
 
         for (int i = 0; i < 10; i++)
