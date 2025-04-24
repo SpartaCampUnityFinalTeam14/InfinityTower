@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 449354123031738309}
   - component: {fileID: 3334006284583778846}
-  - component: {fileID: -495282547741510930}
+  - component: {fileID: 9043882192910342220}
   - component: {fileID: -6891636743366010001}
   m_Layer: 0
-  m_Name: Tower_12
+  m_Name: Tower_100
   m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,7 +87,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-495282547741510930
+--- !u!114 &9043882192910342220
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,24 +96,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 253202321465364093}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 750cdd646c6fe7949b05a67c773c0de3, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a5b2b8c4e800e241ac5f052e0052272, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   towerData:
-    id: 12
-    name: "\uB300\uD3EC"
-    description: "\uB300\uD3EC\uB97C \uC0AC\uC6A9\uD574 \uB113\uC740 \uBC94\uC704\uC758
-      \uC801\uC744 \uACF5\uACA9\uD558\uC5EC \uC9C4\uC601\uC744 \uBB34\uB108\uB728\uB9B0\uB2E4"
-    targetType: 3
-    targettingRule: 3
+    id: 100
+    name: "\uB3C4\uC801"
+    description: "\uACF5\uACA9\uD558\uC9C0 \uC54A\uC73C\uB098 10\uCD08\uB9C8\uB2E4
+      50 \uCF54\uC2A4\uD2B8 \uCD94\uAC00 \uD68C\uBCF5"
+    targetType: 2
+    targettingRule: 0
     statTypes: 000000000100000002000000030000000400000005000000
     statValue:
-    - 8
-    - 7
-    - 2
-    - 1
-    - 20
-    - 150
+    - 0
+    - 0
+    - 0
+    - 0
+    - 30
+    - 75
     effectID: 
     effectValue: []
 --- !u!61 &-6891636743366010001

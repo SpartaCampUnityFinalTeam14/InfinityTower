@@ -7,15 +7,15 @@ public class UtilityTower : BaseTower
     private float buffDuration;
     private Coroutine buffCoroutine;
 
-    public override void Initialize(TowerData data)
+    protected override void Start()
     {
-        base.Initialize(data);
+        base.Start();
 
-        buffAmount = towerData.GetValue(BuffEffectType.CostRecovery);   // ex: +0.5
-        buffDuration = towerData.GetValue(BuffEffectType.Duration);    // ex: 5초
+        //buffAmount = towerData.GetBuffValue(EffectType.CostRecovery);   // ex: +0.5
+        //buffDuration = towerData.GetBuffValue(EffectType.Duration);    // ex: 5초
     }
 
-    public override void Activate()
+    protected override void Activate()
     {
         // 여러 타워가 동시에 영향을 미칠 수 있게 조정
         if (buffCoroutine == null)
