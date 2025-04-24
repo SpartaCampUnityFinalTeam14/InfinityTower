@@ -25,6 +25,7 @@ public class UI_Gacha : UI
 
     private GachaManager gachaManager;
     private Coroutine showResult;
+    private bool isShowResultPlaying = false;
     private bool isSkipButtonClicked = false;
 
     protected override void Awake()
@@ -82,9 +83,12 @@ public class UI_Gacha : UI
         foreach (var result in gachaList)
         {
             isSkipButtonClicked = false;
+            isShowResultPlaying = false;
 
             showResult = StartCoroutine(ShowEachResult(result));
-            yield return showResult;
+            yield return new WaitUntil(() => isShowResultPlaying);
+
+            yield return new WaitUntil(() => isSkipButtonClicked);
         }
 
         if(gachaList.Count > 1)
@@ -95,39 +99,44 @@ public class UI_Gacha : UI
 
     IEnumerator ShowEachResult(KeyValuePair<bool, int> result)
     {
+        isShowResultPlaying = true;
+
+        Debug.Log($"{result.Key}, {result.Value}");
+
         gachaEachBackground.SetActive(true);
         gachaEachResult.Init(result.Key, result.Value);
         gachaEachResult.Hide();
 
         boxAnimator.SetInteger("BoxID", Random.Range(0, 4));
-        yield return new WaitForFixedUpdate();
+        boxAnimator.Update(0f);
         boxAnimator.SetTrigger("Open");
-        yield return new WaitForFixedUpdate();
+        boxAnimator.Update(0f);
         float clipLength = boxAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
         yield return new WaitForSeconds(clipLength);
 
         gachaEachResult.Show();
 
-        yield return new WaitUntil(() => isSkipButtonClicked);
-        showResult = null;
+        isShowResultPlaying = false;
     }
 
     void SkipEach()
     {
         boxAnimator.SetInteger("BoxID", -1);
 
-        if (showResult != null)
+        if (isShowResultPlaying)
         {
             StopCoroutine(showResult);
-            showResult = null;
+            isShowResultPlaying = false;
 
             boxAnimator.SetTrigger("Skip");
+            boxAnimator.Update(0f);
 
             gachaEachResult.Show();
         }
         else
         {
             boxAnimator.SetTrigger("Close");
+            boxAnimator.Update(0f);
 
             isSkipButtonClicked = true;
 
