@@ -14,10 +14,11 @@ public class UI_Gacha : UI
     [SerializeField] private Button gacha10Button;
     
     [SerializeField] private GameObject gachaEachBackground;
-    [SerializeField] private Button gachaEachBackgroundButton;
     [SerializeField] private Animator boxAnimator;
     private List<KeyValuePair<bool, int>> gachaList = new();
     [SerializeField] private UI_GachaResult gachaEachResult;
+    [SerializeField] private Button gachaEachBackgroundButton;
+    [SerializeField] private Button skipAllButton;
 
     [SerializeField] private GameObject gachaAllBackground;
     [SerializeField] private Button gachaAllBackgroundButton;
@@ -25,7 +26,8 @@ public class UI_Gacha : UI
 
     private GachaManager gachaManager;
     private int requiredGold = 1;
-    private Coroutine showResult;
+    private Coroutine showEachResult;
+    private Coroutine showResults;
     private bool isShowResultPlaying = false;
     private bool isSkipButtonClicked = false;
 
@@ -37,6 +39,7 @@ public class UI_Gacha : UI
         gacha1Button.onClick.AddListener(Gacha1);
         gacha10Button.onClick.AddListener(Gacha10);
         gachaEachBackgroundButton.onClick.AddListener(SkipEach);
+        skipAllButton.onClick.AddListener(SkipAll);
         gachaAllBackgroundButton.onClick.AddListener(CloseAllResult);
 
         Init();
@@ -77,11 +80,13 @@ public class UI_Gacha : UI
         CheckGacha1Gold();
         SetGold(SaveManager.Instance.playerData.gold);
 
+        skipAllButton.gameObject.SetActive(false);
+
         gachaList.Clear();
 
         gachaList.Add(gachaManager.GetRandomGacha());
 
-        StartCoroutine(ShowResults());
+        showResults = StartCoroutine(ShowResults());
     }
 
     void Gacha10()
@@ -91,6 +96,8 @@ public class UI_Gacha : UI
         CheckGacha10Gold();
         SetGold(SaveManager.Instance.playerData.gold);
 
+        skipAllButton.gameObject.SetActive(true);
+
         gachaList.Clear();
 
         for (int i = 0; i < 10; i++)
@@ -98,17 +105,18 @@ public class UI_Gacha : UI
             gachaList.Add(gachaManager.GetRandomGacha());
         }
 
-        StartCoroutine(ShowResults());
+        showResults = StartCoroutine(ShowResults());
     }
 
     IEnumerator ShowResults()
     {
+        gachaEachBackground.SetActive(true);
         foreach (var result in gachaList)
         {
             isSkipButtonClicked = false;
             isShowResultPlaying = false;
 
-            showResult = StartCoroutine(ShowEachResult(result));
+            showEachResult = StartCoroutine(ShowEachResult(result));
             yield return new WaitUntil(() => isShowResultPlaying);
 
             yield return new WaitUntil(() => isSkipButtonClicked);
@@ -126,7 +134,6 @@ public class UI_Gacha : UI
 
         Debug.Log($"{result.Key}, {result.Value}");
 
-        gachaEachBackground.SetActive(true);
         gachaEachResult.Init(result.Key, result.Value);
         gachaEachResult.Hide();
 
@@ -148,7 +155,7 @@ public class UI_Gacha : UI
 
         if (isShowResultPlaying)
         {
-            StopCoroutine(showResult);
+            StopCoroutine(showEachResult);
             isShowResultPlaying = false;
 
             boxAnimator.SetTrigger("Skip");
@@ -167,8 +174,25 @@ public class UI_Gacha : UI
         }
     }
 
+    void SkipAll()
+    {
+        boxAnimator.SetInteger("BoxID", -1);
+        boxAnimator.Update(0f);
+        boxAnimator.SetTrigger("Skip");
+        boxAnimator.Update(0f);
+        boxAnimator.SetTrigger("Close");
+
+        StopCoroutine(showResults);
+
+        if (gachaList.Count > 1)
+        {
+            ShowAllResult();
+        }
+    }
+
     void ShowAllResult()
     {
+        gachaEachBackground.SetActive(false);
         gachaAllBackground.SetActive(true);
 
         for(int i = 0; i < gachaAllResult.Count; i++)
