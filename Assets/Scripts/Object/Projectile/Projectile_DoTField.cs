@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Projectile_DoTField : Projectile
 {
-    // 👇 장판 관련 설정값
     private float dotDuration;
     private float dotDamagePerTick;
     private float dotTickInterval;
@@ -11,9 +10,11 @@ public class Projectile_DoTField : Projectile
     private Vector3 targetPos;
     private bool hasExploded = false;
 
-    public override void Init(ProjectileDataSO data)
+    public override void Init(ProjectileData data, ProjectileDataSO visual, float customDamage)
     {
-        base.Init(data);
+        base.Init(data, visual, customDamage);
+
+        // 🧠 ProjectileData에서 장판 세팅
         dotDuration = data.dotDuration;
         dotDamagePerTick = data.dotDamagePerTick;
         dotTickInterval = data.dotTickInterval;
@@ -23,7 +24,7 @@ public class Projectile_DoTField : Projectile
     public override void SetTarget(Transform t)
     {
         if (t != null)
-            targetPos = t.position; // 🧠 타겟이 사라져도 위치는 기억
+            targetPos = t.position;
     }
 
     protected override void Move()
@@ -45,7 +46,7 @@ public class Projectile_DoTField : Projectile
         hasExploded = true;
         Debug.Log("💥 장판 생성됨!");
 
-        if (impactEffect != null) // ✅ SO에 연결된 프리팹 사용
+        if (impactEffect != null)
         {
             GameObject field = Instantiate(impactEffect, transform.position, Quaternion.identity);
 
@@ -66,5 +67,4 @@ public class Projectile_DoTField : Projectile
 
         Destroy(gameObject);
     }
-
 }

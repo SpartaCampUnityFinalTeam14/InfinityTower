@@ -15,6 +15,7 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<int, EventData> eventDict = new();
     public Dictionary<int, EventData> eventResultDict = new();
     public Dictionary<int, ProbabilityEventData> eventProbabilityDict = new();
+    public Dictionary<int, ProjectileData> projectileDataDict = new();
     public List<Dictionary<int, ArtifactData>> artifactDicts = new(3)
     {
         new Dictionary<int, ArtifactData>(),
@@ -37,6 +38,7 @@ public class DataManager : Singleton<DataManager>
         eventDict = LoadJson<EventDataLoader, int, EventData>().MakeDict();
         eventResultDict = LoadJson<EventDataLoader, int, EventData>("EventResultData").MakeDict();
         eventProbabilityDict = LoadJson<ProbabilityEventDataLoader, int, ProbabilityEventData>("EventProbabilityData").MakeDict();
+        projectileDataDict = LoadJson<ProjectileDataLoader, int, ProjectileData>().MakeDict();
         artifactDicts[0] = LoadJson<ArtifactDataLoader, int, ArtifactData>("Artifact_Common").MakeDict();
         artifactDicts[1] = LoadJson<ArtifactDataLoader, int, ArtifactData>("Artifact_Rare").MakeDict();
         artifactDicts[2] = LoadJson<ArtifactDataLoader, int, ArtifactData>("Artifact_Epic").MakeDict();
