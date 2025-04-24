@@ -6,8 +6,10 @@ public class ProjectileTower : TargettingTower
     public Transform firePoint;
     private ProjectileData projectileData;
 
-    public void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         if (DataManager.Instance.projectileDataDict.TryGetValue(projectileDataSO.id, out var data))
         {
             projectileData = data;

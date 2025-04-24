@@ -105,8 +105,6 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                 Debug.LogWarning("❌ 드랍하려 했지만 코스트 부족으로 설치 실패");
             }
         }
-            
-        }
 
         if (previewObj != null)
             Destroy(previewObj);
