@@ -11,8 +11,8 @@ public class UtilityTower : BaseTower
     {
         base.Start();
 
-        buffAmount = towerData.GetBuffValue(BuffEffectType.CostRecovery);   // ex: +0.5
-        buffDuration = towerData.GetBuffValue(BuffEffectType.Duration);    // ex: 5초
+        //buffAmount = towerData.GetBuffValue(EffectType.CostRecovery);   // ex: +0.5
+        //buffDuration = towerData.GetBuffValue(EffectType.Duration);    // ex: 5초
     }
 
     protected override void Activate()

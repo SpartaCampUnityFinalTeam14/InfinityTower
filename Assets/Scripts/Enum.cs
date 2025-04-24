@@ -33,7 +33,7 @@ public enum TowerStatType
     Cost
 }
 
-public enum BuffEffectType
+public enum EffectType
 {
     // === 스탯 변경 ===
     ATKPowerUP = 1,           // 공격력 증감

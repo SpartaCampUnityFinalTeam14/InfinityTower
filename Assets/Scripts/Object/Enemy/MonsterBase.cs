@@ -23,7 +23,7 @@ public class MonsterBase : Poolable, ISkillUser
     private Image hpBar;
 
     // 디버프 관련 상태 저장
-    private Dictionary<BuffEffectType, Coroutine> debuffCoroutines = new Dictionary<BuffEffectType, Coroutine>();
+    private Dictionary<EffectType, Coroutine> debuffCoroutines = new Dictionary<EffectType, Coroutine>();
     private float originalMoveSpeed;
     private float originalDefense;
 
@@ -133,7 +133,7 @@ public class MonsterBase : Poolable, ISkillUser
 
     
     //디버프 적용메서드
-    public void ApplyDebuff(BuffEffectType type, float amount, float duration)
+    public void ApplyDebuff(EffectType type, float amount, float duration)
     {
         // 기존 디버프가 있으면 정지
         if (debuffCoroutines.TryGetValue(type, out Coroutine running))
@@ -146,15 +146,15 @@ public class MonsterBase : Poolable, ISkillUser
         debuffCoroutines[type] = routine;
     }
 
-    private IEnumerator DebuffRoutine(BuffEffectType type, float amount, float duration)
+    private IEnumerator DebuffRoutine(EffectType type, float amount, float duration)
     {
         switch (type)
         {
-            case BuffEffectType.Slow:
+            case EffectType.Slow:
                 moveSpeed = Mathf.Max(0.1f, originalMoveSpeed - amount);
                 break;
 
-            case BuffEffectType.DefenseDown:
+            case EffectType.DefenseDown:
                 defense = Mathf.Max(0, originalDefense - amount);
                 break;
         }
@@ -164,11 +164,11 @@ public class MonsterBase : Poolable, ISkillUser
         // 원래 값으로 복원
         switch (type)
         {
-            case BuffEffectType.Slow:
+            case EffectType.Slow:
                 moveSpeed = originalMoveSpeed;
                 break;
 
-            case BuffEffectType.DefenseDown:
+            case EffectType.DefenseDown:
                 defense = originalDefense;
                 break;
         }
