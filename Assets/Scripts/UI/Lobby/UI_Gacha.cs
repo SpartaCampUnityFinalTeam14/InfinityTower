@@ -110,7 +110,6 @@ public class UI_Gacha : UI
 
     IEnumerator ShowResults()
     {
-        gachaEachBackground.SetActive(true);
         foreach (var result in gachaList)
         {
             isSkipButtonClicked = false;
@@ -134,6 +133,7 @@ public class UI_Gacha : UI
 
         Debug.Log($"{result.Key}, {result.Value}");
 
+        gachaEachBackground.SetActive(true);
         gachaEachResult.Init(result.Key, result.Value);
         gachaEachResult.Hide();
 
