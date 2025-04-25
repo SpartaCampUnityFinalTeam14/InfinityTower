@@ -100,25 +100,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f1f13920ce7ac4e8ed1dc3ce9c3e27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerData:
-    id: 1
-    name: "\uACAC\uC2B5 \uB9C8\uBC95\uC0AC"
-    description: "\uD654\uC5FC \uB9C8\uBC95\uC744 \uC0AC\uC6A9\uD558\uC5EC \uC801
-      \uD558\uB098\uB97C \uACF5\uACA9\uD55C\uB2E4. \uACF5\uACA9\uD55C \uC801 \uC8FC\uC704\uC5D0\uB3C4
-      \uD53C\uD574\uB97C \uC900\uB2E4."
-    targetType: 3
-    targetCount: 1
-    cost: 100
-    targettingRule: 0
-    coolTime: 20
-    range: 3
-    valueTypes: 00000000
-    valueList:
-    - 8
-  cooldownTimer: 0
+  ID: 1
   anim: {fileID: 0}
-  spriteRange: {fileID: 0}
-  projectileData: {fileID: 11400000, guid: 26a74d10ce67a473cbda1eebdf5596f1, type: 2}
+  spriteRenderer: {fileID: 0}
+  projectileDataSO: {fileID: 11400000, guid: e92844389e3074bbeb66070749ba7eb7, type: 2}
   firePoint: {fileID: 47152423553481607}
 --- !u!61 &-5899432786219981154
 BoxCollider2D:

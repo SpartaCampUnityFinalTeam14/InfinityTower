@@ -12,6 +12,8 @@ public class UI_ChampionSelect : MonoBehaviour
     private List<UI_ChampionSlot> slots = new();
 
     [SerializeField] private IntEventChannel OnChampionSelected;
+    [SerializeField] private IntEventChannel OnChampionLevelChanged;
+    [SerializeField] private IntEventChannel OnChampionExpChanged;
 
     private void Awake()
     {
@@ -24,14 +26,18 @@ public class UI_ChampionSelect : MonoBehaviour
     void UnregisterEvent()
     {
         OnChampionSelected.UnregisterListener(SetSelectedChampion);
+        OnChampionLevelChanged.UnregisterListener(UpdateChampionSlotLevel);
+        OnChampionExpChanged.UnregisterListener(UpdateChampionSlotExp);
     }
 
     void RegisterEvent()
     {
         OnChampionSelected.RegisterListener(SetSelectedChampion);
+        OnChampionLevelChanged.RegisterListener(UpdateChampionSlotLevel);
+        OnChampionExpChanged.RegisterListener(UpdateChampionSlotExp);
     }
 
-    void Init()
+    public void Init()
     {
         foreach(Transform child in slotParent) Destroy(child.gameObject);
         slots.Clear();
@@ -57,6 +63,30 @@ public class UI_ChampionSelect : MonoBehaviour
         }
 
         SaveManager.Instance.SavePlayerData();
+    }
+
+    void UpdateChampionSlotLevel(int championID)
+    {
+        foreach (var slot in slots)
+        {
+            if (slot.id == championID)
+            {
+                slot.UpdateLevel();
+                break;
+            }
+        }
+    }
+
+    void UpdateChampionSlotExp(int championID)
+    {
+        foreach (var slot in slots)
+        {
+            if (slot.id == championID)
+            {
+                slot.UpdateExp();
+                break;
+            }
+        }
     }
 
     public void Clear()

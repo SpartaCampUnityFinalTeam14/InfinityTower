@@ -15,7 +15,7 @@ public abstract class TargettingTower : BaseTower
     //범위 안에 있는 아군 타워 리스트
     List<TargettingTower> towerInRange;
 
-    public override void Update()
+    protected override void Update()
     {
         base.Update();
     }
@@ -24,12 +24,11 @@ public abstract class TargettingTower : BaseTower
     {
         // targetingRule, targetType, targetCount 등을 이용해 타겟팅
         targets = new List<GameObject>();
-
-        //범위 내 유닛 탐색
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.range);
-
         enemiesInRange = new List<MonsterBase>();
         towerInRange = new List<TargettingTower>();
+
+        //범위 내 유닛 탐색
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.GetStatValue(TowerStatType.Range));        
 
         //범위 안에 있는 적과 아군 판별
         foreach (Collider2D hit in hits)
@@ -124,7 +123,8 @@ public abstract class TargettingTower : BaseTower
         switch (towerData.TargetType)
         {
             case TargetType.Enemy:
-                maxCount = Mathf.Min(towerData.targetCount, enemiesInRange.Count);
+                //maxCount = Mathf.Min(towerData.targetCount, enemiesInRange.Count);
+                maxCount = Mathf.Min((int)towerData.GetStatValue(TowerStatType.TargetCount), enemiesInRange.Count);
                 for (int i = 0; i < maxCount; i++)
                 {
                     targets.Add(enemiesInRange[i].gameObject);
@@ -132,7 +132,7 @@ public abstract class TargettingTower : BaseTower
                 break;
 
             case TargetType.Tower:
-                maxCount = Mathf.Min(towerData.targetCount, towerInRange.Count);
+                maxCount = Mathf.Min((int)towerData.GetStatValue(TowerStatType.TargetCount), towerInRange.Count);
                 for (int i = 0; i < maxCount; i++)
                 {
                     targets.Add(towerInRange[i].gameObject);
@@ -144,7 +144,7 @@ public abstract class TargettingTower : BaseTower
         }
     }
 
-    public override void Activate()
+    protected override void Activate()
     {
         FindTargets();
 
@@ -169,47 +169,68 @@ public abstract class TargettingTower : BaseTower
 
     protected abstract void UseActOnTargets(); // 공격/버프 등을 하위에서 정의
 
-    //버프 적용메서드
-    public void ApplyBuff(BuffEffectType type, float amount, float duration)
-    {
-        //중복 적용 안되게 스탑코루틴 작성
-        StopCoroutine("BuffCoroutine");
-        StartCoroutine(BuffCoroutine(type, amount, duration));
-    }
+    ////버프 적용메서드
+    //private Dictionary<EffectType, Coroutine> activeBuffs = new();
 
-    private IEnumerator BuffCoroutine(BuffEffectType type, float amount, float duration)
-    {
-        switch (type)
-        {
-            case BuffEffectType.AttackSpeed:
-                towerData.coolTime = Mathf.Max(0.1f, towerData.coolTime - amount);
-                break;
+    //public void ApplyBuff(EffectType type, float amount, float duration)
+    //{
+    //    // 이미 해당 타입의 버프가 있다면 중단
+    //    if (activeBuffs.ContainsKey(type))
+    //    {
+    //        StopCoroutine(activeBuffs[type]);
+    //        activeBuffs.Remove(type);
+    //    }
 
-            case BuffEffectType.Range:
-                towerData.range += amount;
-                break;
+    //    Coroutine newBuff = StartCoroutine(BuffCoroutine(type, amount, duration));
+    //    activeBuffs[type] = newBuff;
+    //}
 
-            case BuffEffectType.CooldownReduction:
-                cooldownTimer -= amount;
-                break;
-        }
+    //private IEnumerator BuffCoroutine(EffectType type, float amount, float duration)
+    //{
+    //    int index = towerData.statTypes.FindIndex(v => (EffectType)v == type);
+    //    bool isNew = index == -1;
 
-        yield return new WaitForSeconds(duration);
+    //    if (isNew)
+    //    {
+    //        // 기존에 해당 타입이 없다면 새로 추가
+    //        towerData.statTypes.Add((int)type);
+    //        towerData.statValue.Add(amount);
+    //    }
+    //    else
+    //    {
+    //        // 기존 값에 더하기
+    //        towerData.statValue[index] += amount;
+    //    }
 
-        // 버프 종료 시 원래대로 복구
-        switch (type)
-        {
-            case BuffEffectType.AttackSpeed:
-                towerData.coolTime += amount;
-                break;
+    //    yield return new WaitForSeconds(duration);
 
-            case BuffEffectType.Range:
-                towerData.range -= amount;
-                break;
+    //    // 버프 종료 시 복구
+    //    if (isNew)
+    //    {
+    //        // 추가했던 걸 다시 제거
+    //        int removeIndex = towerData.statTypes.FindIndex(v => (EffectType)v == type);
+    //        if (removeIndex != -1)
+    //        {
+    //            towerData.statTypes.RemoveAt(removeIndex);
+    //            towerData.statValue.RemoveAt(removeIndex);
+    //        }
+    //    }
+    //    else
+    //    {
+    //        // 기존 값에서 차감
+    //        int updateIndex = towerData.statTypes.FindIndex(v => (EffectType)v == type);
+    //        if (updateIndex != -1)
+    //        {
+    //            towerData.statValue[updateIndex] -= amount;
+    //        }
+    //        towerData.statValue[index] -= amount;
+    //    }
 
-            case BuffEffectType.CooldownReduction:
-                // 이건 타이머에 영향을 주는 일회성이라 되돌릴 필요 없음
-                break;
-        }
-    }
+    //    // 코루틴 종료 시 Dictionary에서 제거
+    //    if (activeBuffs.ContainsKey(type))
+    //    {
+    //        activeBuffs.Remove(type);
+    //    }
+    //}
+
 }

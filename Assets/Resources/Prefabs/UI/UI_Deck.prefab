@@ -637,16 +637,17 @@ MonoBehaviour:
   closeButton: {fileID: 1494064476751634651}
   towerTab: {fileID: 8082433223452073933}
   championTab: {fileID: 8002174265781848526}
+  championImage: {fileID: 1693813530393750443}
+  championButton: {fileID: 5410847451172332618}
+  championNameText: {fileID: 7855593808621096769}
+  towerSelectMask: {fileID: 4306316844702516868}
+  towerSelectMaskButton: {fileID: 7477950956385535279}
   selectedTowerSlots:
   - {fileID: 2627949811198823591}
   - {fileID: 7352124712807807258}
   - {fileID: 5695125684506839288}
   - {fileID: 4293352272165918093}
   - {fileID: 4803612710098405698}
-  championImage: {fileID: 1693813530393750443}
-  championNameText: {fileID: 7855593808621096769}
-  towerSelectMask: {fileID: 4306316844702516868}
-  towerSelectMaskButton: {fileID: 7477950956385535279}
   OnTowerSelected: {fileID: 11400000, guid: 3d3d03c6f697a7243a0e6d973c759b95, type: 2}
   OnTowerSlotSelected: {fileID: 11400000, guid: 9ff77bc744710c7468ea64e62a7b21b7, type: 2}
   OnChampionSelected: {fileID: 11400000, guid: ab69cc0aaf635254cabc3f202eabb7ff, type: 2}
@@ -1798,6 +1799,8 @@ MonoBehaviour:
   scrollView: {fileID: 6777772916315083771}
   slotParent: {fileID: 2157857880050192035}
   OnTowerSlotSelected: {fileID: 11400000, guid: 9ff77bc744710c7468ea64e62a7b21b7, type: 2}
+  OnTowerLevelChanged: {fileID: 11400000, guid: b25f75fc0801dbb41ad8b4aa4a821daa, type: 2}
+  OnTowerExpChanged: {fileID: 11400000, guid: 7c84f6743c7218f49af971b2bdb05ca2, type: 2}
 --- !u!1 &6926339996907771002
 GameObject:
   m_ObjectHideFlags: 0
@@ -2167,6 +2170,7 @@ GameObject:
   - component: {fileID: 1928898974367179252}
   - component: {fileID: 3322162418282529676}
   - component: {fileID: 1693813530393750443}
+  - component: {fileID: 5410847451172332618}
   m_Layer: 5
   m_Name: ChampionImage
   m_TagString: Untagged
@@ -2232,6 +2236,50 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5410847451172332618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7354052988541436555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1693813530393750443}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7563615991279781307
 GameObject:
   m_ObjectHideFlags: 0
@@ -2612,6 +2660,8 @@ MonoBehaviour:
   scrollView: {fileID: 8734565106407631462}
   slotParent: {fileID: 4887853732397831449}
   OnChampionSelected: {fileID: 11400000, guid: ab69cc0aaf635254cabc3f202eabb7ff, type: 2}
+  OnChampionLevelChanged: {fileID: 11400000, guid: 29a901d57fd2e994ab3307cc32efa944, type: 2}
+  OnChampionExpChanged: {fileID: 11400000, guid: 188f567372c02cc459cef09cfeaf22f4, type: 2}
 --- !u!1 &9009712519627325336
 GameObject:
   m_ObjectHideFlags: 0

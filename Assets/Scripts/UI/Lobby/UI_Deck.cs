@@ -13,18 +13,19 @@ public class UI_Deck : UI
     [SerializeField] private Button towerTab;
     [SerializeField] private Button championTab;
 
-    [SerializeField] private List<UI_SelectedTowerSlot> selectedTowerSlots = new(5);
     [SerializeField] private Image championImage;
+    [SerializeField] private Button championButton;
     [SerializeField] private TextMeshProUGUI championNameText;
 
     [SerializeField] private GameObject towerSelectMask;
     [SerializeField] private Button towerSelectMaskButton;
 
+    [SerializeField] private List<UI_SelectedTowerSlot> selectedTowerSlots = new(5);
+
     [SerializeField] private IntEventChannel OnTowerSelected;
     [SerializeField] private IntEventChannel OnTowerSlotSelected;
     [SerializeField] private IntEventChannel OnChampionSelected;
-
-
+    
     private int selectedTowerIndex = -1;
 
     protected override void Awake()
@@ -37,6 +38,8 @@ public class UI_Deck : UI
         closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Deck>());
         towerTab.onClick.AddListener(() => SetDeckTab(true));
         championTab.onClick.AddListener(() => SetDeckTab(false));
+
+        championButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_ChampionInfo>().Init(SaveManager.Instance.playerData.selectedChampionIndex));
         towerSelectMaskButton.onClick.AddListener(() => {
             towerSelectMask.SetActive(false);
             selectedTowerIndex = -1;
@@ -63,6 +66,12 @@ public class UI_Deck : UI
         OnChampionSelected.RegisterListener(SetChampion);
     }
 
+    public void InitTab()
+    {
+        towerSelect.Init();
+        championSelect.Init();
+    }
+
     public void SetDeckTab(bool isTower)
     {
         if (isTower)
@@ -75,6 +84,12 @@ public class UI_Deck : UI
             towerSelect.gameObject.SetActive(false);
             championSelect.gameObject.SetActive(true);
         }
+    }
+
+    void SetChampion(int index)
+    {
+        //스프라이트 세팅해야 함
+        championNameText.text = DataManager.Instance.championDict[index].name;
     }
 
     void InitSelectedTowers()
@@ -94,7 +109,12 @@ public class UI_Deck : UI
 
     void SelectedSlot(int index)
     {
-        if (selectedTowerIndex < 0) return;
+        if (selectedTowerIndex < 0)
+        {
+            int towerId = selectedTowerSlots[index].towerId;
+            UIManager.Instance.ShowStackUI<UI_TowerInfo>().Init(towerId);
+            return;
+        }
 
         SelectTower(index, selectedTowerIndex);
         selectedTowerIndex = -1;
@@ -102,7 +122,7 @@ public class UI_Deck : UI
         towerSelectMask.SetActive(false);
     }
 
-    public void SelectTower(int selectedPos, int selectedTowerIndex)
+    void SelectTower(int selectedPos, int selectedTowerIndex)
     {
         int posTowerIndex = selectedTowerSlots[selectedPos].towerId;
         int exIndex = SaveManager.Instance.playerData.AddTower(selectedPos, selectedTowerIndex);//교체된 타워가 원래 있던 슬롯 위치
@@ -115,12 +135,6 @@ public class UI_Deck : UI
 
         //현재 선택된 슬롯 업데이트
         selectedTowerSlots[selectedPos].SetSelectedTower(selectedTowerIndex);
-    }
-
-    public void SetChampion(int index)
-    {
-        //스프라이트 세팅해야 함
-        championNameText.text = DataManager.Instance.championDict[index].name;
     }
 
     public override void Clear()
