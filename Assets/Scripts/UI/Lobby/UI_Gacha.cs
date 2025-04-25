@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,7 +24,7 @@ public class UI_Gacha : UI
     [SerializeField] private List<UI_GachaResult> gachaAllResult;
 
     private GachaManager gachaManager;
-    private int requiredGold = 1;
+    private int requiredGold = 50;
     private Coroutine showEachResult;
     private Coroutine showResults;
     private bool isShowResultPlaying = false;
@@ -60,12 +59,12 @@ public class UI_Gacha : UI
 
     void CheckGacha1Gold()
     {
-        gacha1Button.interactable = SaveManager.Instance.playerData.CheckGold(requiredGold);
+        //gacha1Button.interactable = SaveManager.Instance.playerData.CheckGold(requiredGold);
     }
 
     void CheckGacha10Gold()
     {
-        gacha10Button.interactable = SaveManager.Instance.playerData.CheckGold(requiredGold * 10);
+        //gacha10Button.interactable = SaveManager.Instance.playerData.CheckGold(requiredGold * 10);
     }
 
     void SetGold(int gold)
@@ -75,7 +74,11 @@ public class UI_Gacha : UI
 
     void Gacha1()
     {
-        if (!SaveManager.Instance.playerData.CheckGold(requiredGold)) return;
+        if (!SaveManager.Instance.playerData.CheckGold(requiredGold))
+        {
+            UIManager.Instance.ShowUI<UI_Alert>().Alert("골드가 부족합니다.");
+            return;
+        }
         SaveManager.Instance.playerData.UseGold(requiredGold);
         CheckGacha1Gold();
         SetGold(SaveManager.Instance.playerData.gold);
@@ -91,7 +94,11 @@ public class UI_Gacha : UI
 
     void Gacha10()
     {
-        if (!SaveManager.Instance.playerData.CheckGold(requiredGold * 10)) return;
+        if (!SaveManager.Instance.playerData.CheckGold(requiredGold * 10))
+        {
+            UIManager.Instance.ShowUI<UI_Alert>().Alert("골드가 부족합니다.");
+            return;
+        }
         SaveManager.Instance.playerData.UseGold(requiredGold * 10);
         CheckGacha10Gold();
         SetGold(SaveManager.Instance.playerData.gold);
