@@ -67,7 +67,8 @@ public class UI_TowerInfo : UI
         //스프라이트 세팅
         for(int i = 0; i < statTexts.Count; i++)
         {
-            statTexts[i].text = data.GetStatValue(i).ToString();
+            if (data.statTypes.Contains(i)) statTexts[i].text = data.GetStatValue(i).ToString();
+            else statTexts[i].text = 0.ToString();
         }
     }
 
