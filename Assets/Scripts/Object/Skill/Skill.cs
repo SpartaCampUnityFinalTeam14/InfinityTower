@@ -6,6 +6,7 @@ public interface ISkillUser
     string GetName();
     void TakeDamage(float amount);
     Vector3 GetPosition(); // 추가!
+    int GetTeam();
 }
 
 
@@ -35,23 +36,6 @@ public abstract class Skill
         }
 
         return result.Count > max ? result.GetRange(0, max) : result;
-    }
-
-
-    public List<ISkillUser> FindEnemiesInArea(Vector3 center, float radius)
-    {
-        List<ISkillUser> results = new();
-
-        Collider2D[] hits = Physics2D.OverlapCircleAll(center, radius);
-
-        foreach (var h in hits)
-        {
-            ISkillUser target = h.GetComponent<ISkillUser>();
-            if (target != null)
-                results.Add(target);
-        }
-
-        return results;
     }
     
     public List<ISkillUser> FindNearestEnemies(ISkillUser caster, int maxCount)

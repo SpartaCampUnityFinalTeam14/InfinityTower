@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MeteorSkill : TargetPositionSkill
+public class TargetPositionDamage : TargetPositionSkill
 {
     public float multiplier;
     public float baseDamage = 20f;
@@ -22,7 +22,7 @@ public class MeteorSkill : TargetPositionSkill
         if (effectPrefab != null)
         {
             GameObject meteor = GameObject.Instantiate(effectPrefab, pos + Vector3.up * 10f, Quaternion.identity);
-            MeteorEffect effect = meteor.GetComponent<MeteorEffect>();
+            TargetPositionEffect effect = meteor.GetComponent<TargetPositionEffect>();
 
             if (effect != null)
             {

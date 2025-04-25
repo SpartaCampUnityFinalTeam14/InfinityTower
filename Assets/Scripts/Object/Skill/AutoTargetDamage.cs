@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ChainLightningSkill : AutoTargetSkill
+public class AutoTargetDamage : AutoTargetSkill
 {
     public float multiplier = 1f;
     public float baseDamage = 10f;

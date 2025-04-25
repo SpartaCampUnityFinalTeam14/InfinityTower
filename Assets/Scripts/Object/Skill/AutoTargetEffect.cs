@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ChainLightningEffect : MonoBehaviour
+public class AutoTargetEffect : MonoBehaviour
 {
     public float duration = 0.3f;
 
