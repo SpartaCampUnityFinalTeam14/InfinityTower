@@ -25,9 +25,9 @@ public enum TargetType
 
 public enum TowerStatType
 {
-    Damage,
+    Damage = 0,
     Range,
-    ActiveSpeed,
+    AttackSpeed,
     TargetCount,
     CoolTime,
     Cost

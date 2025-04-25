@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,10 +23,7 @@ public class UI_TowerInfo : UI
     [SerializeField] private TextMeshProUGUI descriptionText;
 
     [Header("우측 하단")]
-    [SerializeField] private TextMeshProUGUI towerCostText;
-    [SerializeField] private TextMeshProUGUI towerDamageText;
-    [SerializeField] private TextMeshProUGUI towerAttackSpeedText;
-    [SerializeField] private TextMeshProUGUI towerRangeText;
+    [SerializeField] private List<TextMeshProUGUI> statTexts;
 
     [Header("하단")]
     [SerializeField] private Button selectButton;
@@ -67,10 +65,10 @@ public class UI_TowerInfo : UI
         SetLevel(SaveManager.Instance.towerLevelDict[data.id].level);
         SetExp(SaveManager.Instance.towerLevelDict[data.id].exp);
         //스프라이트 세팅
-        towerCostText.text = data.GetStatValue(TowerStatType.Cost).ToString();
-        towerDamageText.text = data.GetStatValue(TowerStatType.Damage).ToString();
-        towerAttackSpeedText.text = data.GetStatValue(TowerStatType.ActiveSpeed).ToString();
-        towerRangeText.text = data.GetStatValue(TowerStatType.Range).ToString();
+        for(int i = 0; i < statTexts.Count; i++)
+        {
+            statTexts[i].text = data.GetStatValue(i).ToString();
+        }
     }
 
     void Levelup()

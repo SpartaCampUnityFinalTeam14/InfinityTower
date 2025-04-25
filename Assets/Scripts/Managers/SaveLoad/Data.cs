@@ -148,7 +148,7 @@ public class TowerData
             if ((EffectType)effectID[i] == type)
                 return effectValue[i];
         }
-        return 0f;
+        throw new InvalidOperationException($"{type.ToString()}에 해당하는 효과 없음");
     }
 
     // 유틸 메서드: 특정 타입의 스탯 값 가져오기
@@ -159,7 +159,17 @@ public class TowerData
             if ((TowerStatType)statTypes[i] == type)
                 return statValue[i];
         }
-        return 0f;
+        throw new InvalidOperationException($"{type.ToString()}에 해당하는 스탯 없음");
+    }
+
+    public float GetStatValue(int typeID)
+    {
+        for (int i = 0; i < statTypes.Count; i++)
+        {
+            if (statTypes[i] == typeID)
+                return statValue[i];
+        }
+        throw new InvalidOperationException($"ID:{typeID}에 해당하는 스탯 없음");
     }
 }
 

@@ -14,7 +14,7 @@ public abstract class BaseTower : MonoBehaviour
     {
         towerData = DataManager.Instance.towerDict[ID];
         //attackTimer = towerData.attackSpeed;
-        attackTimer = towerData.GetStatValue(TowerStatType.ActiveSpeed);
+        attackTimer = towerData.GetStatValue(TowerStatType.AttackSpeed);
     }
 
     protected virtual void Update()
@@ -25,7 +25,7 @@ public abstract class BaseTower : MonoBehaviour
         {
             Activate();
             //attackTimer = towerData.attackSpeed;
-            attackTimer = towerData.GetStatValue(TowerStatType.ActiveSpeed);
+            attackTimer = towerData.GetStatValue(TowerStatType.AttackSpeed);
         }
     }
 
