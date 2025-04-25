@@ -1,9 +1,88 @@
 {
   "data": [
-    {
-      "id": 0,
-      "name": "HP",
-      "description": "체력"
-    }
+      {
+          "id": 0,
+          "name": "타워 공격력 1",
+          "valueType": 0,
+          "value": 2,
+          "prob": 5
+      },
+      {
+          "id": 1,
+          "name": "타워 공격 속도 1",
+          "valueType": 2,
+          "value": 2,
+          "prob": 5
+      },
+      {
+          "id": 2,
+          "name": "타워 사거리 1",
+          "valueType": 1,
+          "value": 5,
+          "prob": 5
+      },
+      {
+          "id": 3,
+          "name": "타워 재설치 쿨타임 감소 1",
+          "valueType": 12,
+          "value": 2,
+          "prob": 5
+      },
+      {
+          "id": 4,
+          "name": "시작 코스트 추가 1",
+          "valueType": 4,
+          "value": 15,
+          "prob": 5
+      },
+      {
+          "id": 5,
+          "name": "코스트 회복 속도 증가1",
+          "valueType": 5,
+          "value": 3,
+          "prob": 5
+      },
+      {
+          "id": 6,
+          "name": "플레이어 체력 증가 1",
+          "valueType": 7,
+          "value": 3,
+          "prob": 5
+      },
+      {
+          "id": 7,
+          "name": "플레이어 체력 회복량 증가 1",
+          "valueType": 6,
+          "value": 5,
+          "prob": 5
+      },
+      {
+          "id": 8,
+          "name": "적 체력 감소1",
+          "valueType": 8,
+          "value": 2,
+          "prob": 5
+      },
+      {
+          "id": 9,
+          "name": "적 이동 속도 감소 1",
+          "valueType": 9,
+          "value": 2,
+          "prob": 5
+      },
+      {
+          "id": 10,
+          "name": "적 방어력 감소 1",
+          "valueType": 10,
+          "value": 2,
+          "prob": 5
+      },
+      {
+          "id": 11,
+          "name": "캐릭터 공격력 1",
+          "valueType": 13,
+          "value": 5,
+          "prob": 5
+      }
   ]
 }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEngine.Rendering.DebugUI;
 
 public interface ILoader<Key, Value>
 {
@@ -129,27 +130,46 @@ public class TowerData
     public string name;
     public string description;
     public int targetType;
-    public int targetCount;
-    public int cost;
     public int targettingRule;
-    public float coolTime;
-    public float range;
     //변경
-    public List<int> valueTypes;    // BuffEffectType의 int 값들
-    public List<float> valueList;   // 각 효과에 대한 수치
+    public List<int> statTypes;    // TowerStatType의 int 값들
+    public List<float> statValue;   // 각 스탯에 대한 수치
+    public List<int> effectID;      // EffectType의 int 값들
+    public List<float> effectValue; // 각 효과에 대한 수치
 
     public TargettingRule TargettingRule => (TargettingRule)targettingRule;
     public TargetType TargetType => (TargetType)targetType;
 
-    // 유틸 메서드: 특정 타입의 값 가져오기
-    public float GetValue(BuffEffectType type)
+    // 유틸 메서드: 특정 타입의 효과 값 가져오기
+    public float GetBuffValue(EffectType type)
     {
-        for (int i = 0; i < valueTypes.Count; i++)
+        for (int i = 0; i < effectID.Count; i++)
         {
-            if ((BuffEffectType)valueTypes[i] == type)
-                return valueList[i];
+            if ((EffectType)effectID[i] == type)
+                return effectValue[i];
         }
-        return 0f;
+        throw new InvalidOperationException($"{type.ToString()}에 해당하는 효과 없음");
+    }
+
+    // 유틸 메서드: 특정 타입의 스탯 값 가져오기
+    public float GetStatValue(TowerStatType type)
+    {
+        for (int i = 0; i < statTypes.Count; i++)
+        {
+            if ((TowerStatType)statTypes[i] == type)
+                return statValue[i];
+        }
+        throw new InvalidOperationException($"{type.ToString()}에 해당하는 스탯 없음");
+    }
+
+    public float GetStatValue(int typeID)
+    {
+        for (int i = 0; i < statTypes.Count; i++)
+        {
+            if (statTypes[i] == typeID)
+                return statValue[i];
+        }
+        throw new InvalidOperationException($"ID:{typeID}에 해당하는 스탯 없음");
     }
 }
 
@@ -412,7 +432,9 @@ public class ArtifactData
 {
     public int id;
     public string name;
-    public string description;
+    public int valueType;
+    public int value;
+    public float prob;
 }
 
 [Serializable]
@@ -426,6 +448,34 @@ public class ArtifactDataLoader : ILoader<int, ArtifactData>
         foreach (ArtifactData artifact in data)
         {
             dict.Add(artifact.id, artifact);
+        }
+
+        return dict;
+    }
+}
+#endregion
+
+#region LevelUpData
+[Serializable]
+public class LevelUpData
+{
+    public int level;
+    public int requiredExp;
+    public float multiplier;
+    public int remainedExp;
+}
+
+[Serializable]
+public class LevelUpDataLoader : ILoader<int, LevelUpData>
+{
+    public List<LevelUpData> data = new();
+
+    public Dictionary<int, LevelUpData> MakeDict()
+    {
+        Dictionary<int, LevelUpData> dict = new();
+        foreach (LevelUpData levelUp in data)
+        {
+            dict.Add(levelUp.level, levelUp);
         }
 
         return dict;
