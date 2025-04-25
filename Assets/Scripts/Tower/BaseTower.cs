@@ -7,8 +7,9 @@ using UnityEngine.EventSystems;
 
 public abstract class BaseTower : Poolable
 {
-    public TowerData towerData;
-    public float cooldownTimer;
+    public int ID;
+    protected TowerData towerData;
+    protected float attackTimer;
 
     protected Animator anim;
     protected SpriteRenderer spriteRenderer;
@@ -23,26 +24,32 @@ public abstract class BaseTower : Poolable
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    public virtual void Initialize(TowerData data)
+    protected virtual void Start()
     {
-        towerData = data;
-        cooldownTimer = 0f;
+        Initialize();
     }
 
-    // Update is called once per frame
-    public virtual void Update()
+    public virtual void Initialize()
+    {
+        towerData = DataManager.Instance.towerDict[ID];
+        //attackTimer = towerData.attackSpeed;
+        attackTimer = towerData.GetStatValue(TowerStatType.AttackSpeed);
+    }
+
+    protected virtual void Update()
     {
         ShowTowerInfo();
 
-        cooldownTimer -= Time.deltaTime;
-        if (cooldownTimer <= 0)
+        attackTimer -= Time.deltaTime;
+        if (attackTimer <= 0)
         {
-            cooldownTimer = towerData.coolTime;
             Activate();
+            //attackTimer = towerData.attackSpeed;
+            attackTimer = towerData.GetStatValue(TowerStatType.AttackSpeed);
         }
     }
 
-    public abstract void Activate(); //실제행동은 하위 클래스에서 정의
+    protected abstract void Activate(); //실제행동은 하위 클래스에서 정의
 
     public void UpgradeTower()
     {
@@ -52,7 +59,7 @@ public abstract class BaseTower : Poolable
 
     public void RemoveTower()
     {
-        StageManager.Instance.GetCost(towerData.cost);
+        StageManager.Instance.GetCost((int)towerData.GetStatValue(TowerStatType.Cost));
         PoolManager.Instance.Release(this);
     }
 
@@ -79,7 +86,7 @@ public abstract class BaseTower : Poolable
 
                 // 사거리표시
                 rangeIndicator = PoolManager.Instance.Get(rangePrefab, 1, transform).GetComponent<RangeIndicator>();
-                rangeIndicator.Init(towerData.range);
+                rangeIndicator.Init(towerData.GetStatValue(TowerStatType.Cost));
 
                 StageManager.Instance.timeScaleManager.PushTimeScale(0.2f);
             }
@@ -88,6 +95,6 @@ public abstract class BaseTower : Poolable
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.position, towerData.range);
+        Gizmos.DrawWireSphere(transform.position, towerData.GetStatValue(TowerStatType.Cost));
     }
 }

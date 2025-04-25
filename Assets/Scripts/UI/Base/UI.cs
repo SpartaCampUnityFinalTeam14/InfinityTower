@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class UI : MonoBehaviour
 {
-    GameObject panel;
+    protected GameObject panel;
 
     protected virtual void Awake()
     {

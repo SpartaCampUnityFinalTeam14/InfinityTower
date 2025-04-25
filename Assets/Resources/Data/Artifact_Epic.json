@@ -1,9 +1,102 @@
 {
   "data": [
-    {
-      "id": 2000,
-      "name": "AttackSpeed",
-      "description": "공격속도"
-    }
+      {
+          "id": 2000,
+          "name": "타워 공격력 3",
+          "valueType": 0,
+          "value": "",
+          "prob": 0.71
+      },
+      {
+          "id": 2001,
+          "name": "타워 공격 속도 3",
+          "valueType": 2,
+          "value": "",
+          "prob": 0.71
+      },
+      {
+          "id": 2002,
+          "name": "타워 사거리 3",
+          "valueType": 1,
+          "value": "",
+          "prob": 0.71
+      },
+      {
+          "id": 2003,
+          "name": "타워 재설치 쿨타임 감소 1",
+          "valueType": 12,
+          "value": "",
+          "prob": 0.71
+      },
+      {
+          "id": 2004,
+          "name": "코스트 추가 3",
+          "valueType": 4,
+          "value": "",
+          "prob": 0.71
+      },
+      {
+          "id": 2005,
+          "name": "코스트 회복 속도 증가 3",
+          "valueType": 5,
+          "value": "",
+          "prob": 0.71
+      },
+      {
+          "id": 2006,
+          "name": "플레이어 체력 증가 1",
+          "valueType": 7,
+          "value": "",
+          "prob": 0.71
+      },
+      {
+          "id": 2007,
+          "name": "플레이어 체력 회복량 증가 1",
+          "valueType": 6,
+          "value": "",
+          "prob": 0.71
+      },
+      {
+          "id": 2008,
+          "name": "적 체력 감소 3",
+          "valueType": 8,
+          "value": "",
+          "prob": 0.71
+      },
+      {
+          "id": 2009,
+          "name": "적 이동 속도 감소 3",
+          "valueType": 9,
+          "value": "",
+          "prob": 0.71
+      },
+      {
+          "id": 2010,
+          "name": "적 방어력 감소 3",
+          "valueType": 10,
+          "value": "",
+          "prob": 0.71
+      },
+      {
+          "id": 2011,
+          "name": "캐릭터 공격력 3",
+          "valueType": 13,
+          "value": "",
+          "prob": 0.71
+      },
+      {
+          "id": 2012,
+          "name": "스킬 쿨타임 감소 2",
+          "valueType": 11,
+          "value": "",
+          "prob": 0.71
+      },
+      {
+          "id": 2013,
+          "name": "게임 시작 시 특성 1개 선택",
+          "valueType": "",
+          "value": "",
+          "prob": 0.71
+      }
   ]
 }

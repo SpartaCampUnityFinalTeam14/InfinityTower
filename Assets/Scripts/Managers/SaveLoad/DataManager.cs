@@ -22,6 +22,7 @@ public class DataManager : Singleton<DataManager>
         new Dictionary<int, ArtifactData>(),
         new Dictionary<int, ArtifactData>()
     };
+    public Dictionary<int, LevelUpData> levelUpDict = new();
 
     protected override void Awake()
     {
@@ -42,6 +43,7 @@ public class DataManager : Singleton<DataManager>
         artifactDicts[0] = LoadJson<ArtifactDataLoader, int, ArtifactData>("Artifact_Common").MakeDict();
         artifactDicts[1] = LoadJson<ArtifactDataLoader, int, ArtifactData>("Artifact_Rare").MakeDict();
         artifactDicts[2] = LoadJson<ArtifactDataLoader, int, ArtifactData>("Artifact_Epic").MakeDict();
+        levelUpDict = LoadJson<LevelUpDataLoader, int, LevelUpData>().MakeDict();
     }
 
     Loader LoadJson<Loader, Key, Value>(string fileName = default) where Loader : ILoader<Key, Value>

@@ -20,7 +20,7 @@ public class ProjectileTower : TargettingTower
         }
     }
     
-    public override void Update()
+    protected override void Update()
     {
         base.Update();
     }
@@ -47,7 +47,7 @@ public class ProjectileTower : TargettingTower
             }
 
             // 여기! valueList[0] = 데미지
-            float projectileDamage = (towerData.valueList.Count > 0) ? towerData.valueList[0] : 0f;
+            float projectileDamage = (towerData.statTypes.Contains((int)TowerStatType.Damage)) ? towerData.GetStatValue(TowerStatType.Damage) : 0f;
             
             proj.Init(projectileData, projectileDataSO, projectileDamage);  // ⚡ 데미지 넘겨줌
             proj.SetTarget(target.transform);
