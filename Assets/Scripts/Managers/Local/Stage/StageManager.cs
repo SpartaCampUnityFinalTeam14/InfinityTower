@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -19,6 +20,7 @@ public class StageManager : Singleton<StageManager>
 
     public AbilityManager abilityManager;
     public EventManager eventManager;
+    public TimeScaleManager timeScaleManager;
 
     [SerializeField] private int floorCount = 2;
     private GameObject floorGO;
@@ -27,7 +29,8 @@ public class StageManager : Singleton<StageManager>
     [SerializeField] private IntEventChannel OnFloorCountChanged;
 
     public bool isEventEnd;
-    public bool isPause;
+    public bool isIntroEnd;
+    public bool isAdditionalFloor;
 
     protected override void Awake()
     {
@@ -47,15 +50,11 @@ public class StageManager : Singleton<StageManager>
 
     void Init()
     {
-        UIManager.Instance.HideUI<UIPause>();
-
+        timeScaleManager = new TimeScaleManager();
         abilityManager = gameObject.AddComponent<AbilityManager>();
         eventManager = gameObject.AddComponent<EventManager>();
-    }
 
-    public void AddFloorCount(int count)
-    {
-        floorCount += count;
+        UIManager.Instance.HideUI<UIPause>();
     }
 
     public void TakeDamage(int damage)
@@ -143,6 +142,9 @@ public class StageManager : Singleton<StageManager>
 
         for(int i = 0; i < floorCount; i++)
         {
+            ShowFloorIntro();
+            yield return new WaitUntil(() => isIntroEnd);
+            
             OnFloorCountChanged.RaiseEvent(i + 1);
 
             if(floorGO != null) Destroy(floorGO);
@@ -151,23 +153,62 @@ public class StageManager : Singleton<StageManager>
             curFloor.StartFloor();
 
             curCost = 0;
-
+            
             yield return new WaitUntil(() => curFloor.isFloorEnd);
 
-            //if (i != 0 && (i + 1) % 2 == 0) ShowEvent();
-            ShowEvent();
+            if (i != 0 && (i + 1) % 2 == 0)
+            {
+                ShowFloorIntro();
+                yield return new WaitUntil(() => isIntroEnd);
 
-            yield return new WaitUntil(() => isEventEnd);
+                ShowEvent();
+                yield return new WaitUntil(() => isEventEnd);
+            }
+
+            // 추가 플로어
+            if (isAdditionalFloor)
+            {
+                StartAdditionalFloor();
+
+                yield return new WaitUntil(() => !isAdditionalFloor);
+            }
         }
 
         EndStage();
     }
-   
+
+    void StartAdditionalFloor()
+    {
+        StartCoroutine(AdditionalStageRoutine());
+    }
+
+    IEnumerator AdditionalStageRoutine()
+    {
+        if (floorGO != null) Destroy(floorGO);
+        floorGO = Util.InstantiatePrefab("Floors/TestFloor");
+        curFloor = floorGO.GetComponent<Floor>();
+        curFloor.StartFloor();
+
+        yield return new WaitUntil(() => curFloor.isFloorEnd);
+
+        isAdditionalFloor = false;
+    }
+
     void ShowEvent()
     {
         Debug.Log("<color=white>이벤트 선택</color>");
 
+        isEventEnd = false;
         eventManager.ShowEvent();
+    }
+
+    void ShowFloorIntro()
+    {
+        Debug.Log("<color=white>플로어 진입 인트로</color>");
+
+        isIntroEnd = false;
+        var ui = UIManager.Instance.ShowUI<UIFloorIntro>();
+        //ui.Show();
     }
 
     void GetReward()

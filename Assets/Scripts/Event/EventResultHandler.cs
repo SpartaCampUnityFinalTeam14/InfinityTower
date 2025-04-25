@@ -27,7 +27,7 @@ public class EventResultHandler
 
     void HandleBattle(EventData data)
     {
-        StageManager.Instance.AddFloorCount(1);
+        StageManager.Instance.isAdditionalFloor = true;
         UIManager.Instance.HideUI<UIEvent>();
     }
 

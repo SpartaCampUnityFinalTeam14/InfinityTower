@@ -108,7 +108,7 @@ MonoBehaviour:
       \uC9C0\uB2C8\uACE0 \uC788\uB2E4."
     targetType: 3
     targetCount: 1
-    cost: 50
+    cost: 5
     targettingRule: 0
     coolTime: 2
     range: 5
@@ -116,9 +116,7 @@ MonoBehaviour:
     valueList:
     - 8
   cooldownTimer: 0
-  anim: {fileID: 5765603005157225429}
-  spriteRenderer: {fileID: 0}
-  projectileData: {fileID: 11400000, guid: e92844389e3074bbeb66070749ba7eb7, type: 2}
+  projectileDataSO: {fileID: 11400000, guid: e92844389e3074bbeb66070749ba7eb7, type: 2}
   firePoint: {fileID: 47152423553481607}
 --- !u!61 &-5899432786219981154
 BoxCollider2D:

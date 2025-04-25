@@ -10,8 +10,8 @@ public abstract class BaseTower : Poolable
     public TowerData towerData;
     public float cooldownTimer;
 
-    [SerializeField] protected Animator anim;
-    [SerializeField] protected SpriteRenderer spriteRenderer;
+    protected Animator anim;
+    protected SpriteRenderer spriteRenderer;
 
     GameObject rangePrefab;
     RangeIndicator rangeIndicator;
@@ -59,7 +59,7 @@ public abstract class BaseTower : Poolable
     public void CloseTowerInfo()
     {
         PoolManager.Instance.Release(rangeIndicator);
-        Time.timeScale = 1f;
+        StageManager.Instance.timeScaleManager.PopTimeScale();
     }
 
     void ShowTowerInfo()
@@ -81,7 +81,7 @@ public abstract class BaseTower : Poolable
                 rangeIndicator = PoolManager.Instance.Get(rangePrefab, 1, transform).GetComponent<RangeIndicator>();
                 rangeIndicator.Init(towerData.range);
 
-                Time.timeScale = 0.2f;
+                StageManager.Instance.timeScaleManager.PushTimeScale(0.2f);
             }
         }
     }
