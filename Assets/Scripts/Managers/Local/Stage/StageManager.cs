@@ -8,7 +8,9 @@ using UnityEngine.SceneManagement;
 public class StageManager : Singleton<StageManager>
 {
     private int hp;
-    private float curCost = 100f;
+    private float curCost = 1f;
+    public float CurrentCost => curCost;
+
     //private float maxCost = 10f;
     [SerializeField] private float costRecoveryMultiplier = 100f;  // Cost 얻는 속도 - 기본 1배속
     [SerializeField] private FloatEventChannel OnCostChanged;

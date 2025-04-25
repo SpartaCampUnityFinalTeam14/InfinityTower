@@ -86,7 +86,7 @@ SpriteRenderer:
   m_Size: {x: 0.64, y: 0.64}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &7858887257768860318
@@ -117,8 +117,9 @@ MonoBehaviour:
     valueList:
     - 8
   cooldownTimer: 0
-  spriteRange: {fileID: 3468486066688675145}
-  projectileData: {fileID: 11400000, guid: e92844389e3074bbeb66070749ba7eb7, type: 2}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
+  projectileDataSO: {fileID: 0}
   firePoint: {fileID: 47152423553481607}
 --- !u!61 &-5899432786219981154
 BoxCollider2D:
