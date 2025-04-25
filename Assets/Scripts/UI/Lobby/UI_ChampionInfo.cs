@@ -71,7 +71,8 @@ public class UI_ChampionInfo : UI
     {
         championNameText.text = data.name;
         //스프라이트 세팅해야 함
-        //EXP 세팅해야 함
+        SetLevel(SaveManager.Instance.championLevelDict[data.id].level);
+        SetExp(SaveManager.Instance.championLevelDict[data.id].exp);
         championHPText.text = data.hp.ToString();
 
         SetSkillInfo(data.skillId[0]);

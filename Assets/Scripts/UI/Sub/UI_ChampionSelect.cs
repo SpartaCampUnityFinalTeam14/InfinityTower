@@ -37,7 +37,7 @@ public class UI_ChampionSelect : MonoBehaviour
         OnChampionExpChanged.RegisterListener(UpdateChampionSlotExp);
     }
 
-    void Init()
+    public void Init()
     {
         foreach(Transform child in slotParent) Destroy(child.gameObject);
         slots.Clear();

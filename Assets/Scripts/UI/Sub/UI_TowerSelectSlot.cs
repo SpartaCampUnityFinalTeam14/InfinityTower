@@ -32,7 +32,6 @@ public class UI_TowerSelectSlot : MonoBehaviour
         nameText.text = data.name;
         //스프라이트 지정해줘야 함
 
-        //레벨 및 경험치 세팅해줘야 함
         SetLevel(SaveManager.Instance.towerLevelDict[id].level);
         SetExp(SaveManager.Instance.towerLevelDict[id].exp);
     }

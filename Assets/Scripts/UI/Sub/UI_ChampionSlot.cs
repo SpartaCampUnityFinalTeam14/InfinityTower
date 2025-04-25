@@ -30,7 +30,6 @@ public class UI_ChampionSlot : MonoBehaviour
         nameText.text = data.name;
         //아이디에 맞춰서 스프라이트 찾아와야 함
 
-        //레벨 및 경험치 세팅해야 함
         SetLevel(SaveManager.Instance.championLevelDict[id].level);
         SetExp(SaveManager.Instance.championLevelDict[id].exp);
     }

@@ -23,7 +23,7 @@ public class UI_TowerSelect : MonoBehaviour
         Init();
     }
 
-    void Init()
+    public void Init()
     {
         foreach (Transform child in slotParent) Destroy(child.gameObject);
         slots.Clear();

@@ -131,8 +131,6 @@ public class UI_Gacha : UI
     {
         isShowResultPlaying = true;
 
-        Debug.Log($"{result.Key}, {result.Value}");
-
         gachaEachBackground.SetActive(true);
         gachaEachResult.Init(result.Key, result.Value);
         gachaEachResult.Hide();
