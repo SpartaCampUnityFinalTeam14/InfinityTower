@@ -905,7 +905,8 @@ MonoBehaviour:
   floorCount: 4
   OnFloorCountChanged: {fileID: 11400000, guid: 488655e93354e78488197b1da7274906, type: 2}
   isEventEnd: 1
-  isPause: 0
+  isIntroEnd: 0
+  isAdditionalFloor: 0
 --- !u!4 &1859979434
 Transform:
   m_ObjectHideFlags: 0

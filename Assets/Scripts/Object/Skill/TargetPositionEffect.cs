@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class MeteorEffect : MonoBehaviour
+public class TargetPositionEffect : MonoBehaviour
 {
     // 🔥 설정값들
-    public float speed = 5f;
-    public float damageRadius = 2.5f;
-    public float damage = 30f;
-    public float multiplier = 1f;
+    private float speed = 5f;
+    private float damageRadius;
+    private float damage;
+    private float multiplier;
 
     // 🔧 내부 변수들
     private Vector3 targetPos;
@@ -61,9 +61,16 @@ public class MeteorEffect : MonoBehaviour
         foreach (var hit in hits)
         {
             ISkillUser target = hit.GetComponent<ISkillUser>();
-            if (target != null)
+            if (target != null && target != caster && target.GetTeam() != caster.GetTeam())
             {
-                target.TakeDamage(finalDamage);
+                if (target.GetTeam() == 1)
+                {
+                    target.TakeDamage(finalDamage);
+                }
+                else
+                {
+                    StageManager.Instance.TakeDamage(Mathf.RoundToInt(finalDamage));
+                }
                 Debug.Log($"💥 {target.GetName()}에게 {finalDamage} 피해!");
             }
         }

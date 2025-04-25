@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 public enum Rarity
@@ -73,6 +73,13 @@ public enum EnemyType
     Tank = 2,
     Boss = 3,
 }
+
+public enum SkillType
+{
+    AutoTarget = 0,
+    TargetPosition = 1,
+}
+
 
 public enum EventType
 {

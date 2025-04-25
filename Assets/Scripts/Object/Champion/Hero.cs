@@ -20,4 +20,9 @@ public class Hero : ISkillUser
     }
     public string GetName() => heroName;
     public Vector3 GetPosition() => fakePosition;
+    public int GetTeam()
+    {
+        return 1;
+    }
+
 }

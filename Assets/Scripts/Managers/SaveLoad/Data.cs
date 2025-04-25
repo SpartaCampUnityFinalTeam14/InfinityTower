@@ -23,7 +23,7 @@ public class MonsterData
     public List<float> value;
     public int enemyType;
     public bool hasSkill;
-
+    public List<int> skillIds; // 스킬 ID만 저장
     public Dictionary<int, float> dictValue;
 
     public MonsterData(MonsterData data)
@@ -35,6 +35,7 @@ public class MonsterData
         this.value = new List<float>(data.value);
         this.enemyType = data.enemyType;
         this.hasSkill = data.hasSkill;
+        this.skillIds = new List<int>(data.skillIds);
         this.dictValue = new Dictionary<int, float>(data.dictValue);
     }
 }
@@ -260,10 +261,10 @@ public class SkillData
 {
     public int id;
     public string name;
-    public string skillClassName;
     public string description;
     public float coolTime;
     public float multiplier;
+    public SkillType skillType;
     public float range;
 
     // 🔗 SO를 참조할 수 있는 필드 (Resources 또는 Addressable 기준 경로로 사용)

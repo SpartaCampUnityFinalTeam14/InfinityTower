@@ -14,7 +14,7 @@
       "name": "유령",
       "description": "유령이다.",
       "valueType": [ 0, 1, 2, 3 ],
-      "value":  [3, 1, 0, 2 ],
+      "value":  [3, 2, 0, 2 ],
       "enemyType": 1,
       "hasSkill": "false"
     },
@@ -25,7 +25,8 @@
       "valueType": [ 0, 1, 2, 3 ],
       "value":  [5, 1, 0, 3 ],
       "enemyType": 3,
-      "hasSkill": "true"
+      "hasSkill": "true",
+      "skillIds": [1]
     }
   ]
 }
