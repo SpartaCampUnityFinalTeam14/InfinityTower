@@ -10,6 +10,7 @@ public class UI_GachaResult : MonoBehaviour
     [SerializeField] List<Color> rarityColors = new();
 
     [SerializeField] private Image resultIcon;
+    [SerializeField] private TextMeshProUGUI typeText;
     [SerializeField] private TextMeshProUGUI nameText;
 
     private bool isChamp;
@@ -22,14 +23,14 @@ public class UI_GachaResult : MonoBehaviour
 
         if (isChampion)
         {
-            //스프라이트 세팅
-
+            //스프라이트 세팅해야 함
+            typeText.text = "영웅";
             nameText.text = DataManager.Instance.championDict[id].name;
         }
         else
         {
-            //스프라이트 세팅
-
+            //스프라이트 세팅해야 함
+            typeText.text = "타워";
             nameText.text = DataManager.Instance.towerDict[id].name;
         }
     }
