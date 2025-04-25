@@ -29,7 +29,9 @@ public class UIAbility : UI
     public override void Show()
     {
         base.Show();
-        Time.timeScale = 0f;
+
+        StageManager.Instance.timeScaleManager.PushTimeScale(0f);
+
         StageManager.Instance.CurFloor.isPerkSelected = false;
     }
 
@@ -37,8 +39,8 @@ public class UIAbility : UI
     {
         base.Hide();
 
-        if (!StageManager.Instance.isPause && StageManager.Instance.isEventEnd)
-            Time.timeScale = 1f;
+        StageManager.Instance.timeScaleManager.PopTimeScale();
+
         StageManager.Instance.CurFloor.isPerkSelected = true;
     }
 

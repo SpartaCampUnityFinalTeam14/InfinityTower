@@ -25,10 +25,10 @@ public class UITowerInfo : UI
         SetUIPos(seleted);
 
         seletedTower = seleted.GetComponent<BaseTower>();
-       
+        
         title.text = data.name;
         description.text = data.description;
-
+        
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < data.statTypes.Count; i++)
         {

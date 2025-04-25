@@ -44,17 +44,14 @@ public class UIEvent : UI
     {
         base.Show();
 
-        Time.timeScale = 0f;
-        StageManager.Instance.isEventEnd = false;
+        StageManager.Instance.timeScaleManager.PushTimeScale(0f);
     }
 
     public override void Hide()
     {
         base.Hide();
 
-        if (!StageManager.Instance.isPause && StageManager.Instance.CurFloor.isPerkSelected)
-            Time.timeScale = 1f;
-
+        StageManager.Instance.timeScaleManager.PopTimeScale();
         StageManager.Instance.isEventEnd = true;
     }
 
