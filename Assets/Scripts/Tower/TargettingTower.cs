@@ -156,8 +156,15 @@ public abstract class TargettingTower : BaseTower
         if (targets.Count > 0 )
         {
             UseActOnTargets();
+
+            // 공격 애니메이션 재생
+            anim?.SetTrigger("Attack");
+            // 공격 방향
+            Vector2 dir = (targets[0].transform.position - transform.position).normalized;
+            if (spriteRenderer)
+                spriteRenderer.flipX = dir.x < 0 ? true : false;
         }
-           
+
     }
 
     protected abstract void UseActOnTargets(); // 공격/버프 등을 하위에서 정의

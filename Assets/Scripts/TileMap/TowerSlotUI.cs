@@ -25,6 +25,10 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         nameText.text = $"타워 {towerID}";
 
         // 프리팹 로드 (예: Prefabs/TowerGhost_1, Prefabs/Tower_1)
+        Sprite icon = Resources.Load<Sprite>($"Icons/Tower/Tower_{towerID}");
+        if (icon)
+            iconImage.sprite = icon;
+
         previewPrefab = Resources.Load<GameObject>($"Prefabs/Tower/TowerGhost_{towerID}");
         placedTowerPrefab = Resources.Load<GameObject>($"Prefabs/Tower/Tower_{towerID}");
 
@@ -37,11 +41,27 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (!IsCostEnough()) return;
+        if (!IsCostEnough())
+        {
+            Debug.LogWarning("❌ 코스트 부족으로 드래그 취소");
+            return;
+        }
+
+        if (previewPrefab == null)
+        {
+            Debug.LogError("❌ previewPrefab이 null입니다!!");
+            return;
+        }
 
         previewObj = Instantiate(previewPrefab);
-    }
 
+        if (previewObj != null)
+        {
+            Vector3 spawnPos = previewObj.transform.position;
+            spawnPos.z = 0f;
+            previewObj.transform.position = spawnPos;
+        }
+    }
 
     public void OnDrag(PointerEventData eventData)
     {
@@ -64,29 +84,32 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (TilemapManager.Instance == null || TilemapManager.Instance.tilemap == null)
-        {
-            Debug.LogError("TilemapManager or tilemap is NULL!");
-            return;
-        }
-        
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(eventData.position);
         Vector3Int cellPos = TilemapManager.Instance.tilemap.WorldToCell(worldPos);
 
         if (TilemapManager.Instance.CanPlaceAt(cellPos))
         {
-            Vector3 spawnPos = TilemapManager.Instance.tilemap.CellToWorld(cellPos) +
-                               TilemapManager.Instance.tilemap.cellSize / 2;
+            if (IsCostEnough())
+            {
+                Vector3 spawnPos = TilemapManager.Instance.tilemap.CellToWorld(cellPos) +
+                                   TilemapManager.Instance.tilemap.cellSize / 2;
 
             if(IsCostEnough()) StageManager.Instance.UseCost((int)DataManager.Instance.towerDict[towerID].GetStatValue(TowerStatType.Cost));
 
-            Instantiate(placedTowerPrefab, spawnPos, Quaternion.identity);
+                //Instantiate(placedTowerPrefab, spawnPos, Quaternion.identity);
+                var tower = PoolManager.Instance.Get(placedTowerPrefab).GetComponent<BaseTower>();
+                tower.transform.position = spawnPos;
+            }
+            else
+            {
+                Debug.LogWarning("❌ 드랍하려 했지만 코스트 부족으로 설치 실패");
+            }
         }
 
         if (previewObj != null)
             Destroy(previewObj);
     }
-
+    
     bool IsCostEnough()
     {
         int cost = (int)DataManager.Instance.towerDict[towerID].GetStatValue(TowerStatType.Cost);

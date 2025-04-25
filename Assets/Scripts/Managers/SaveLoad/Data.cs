@@ -191,6 +191,39 @@ public class TowerDataLoader : ILoader<int, TowerData>
 }
 #endregion
 
+#region ProjectileData
+[Serializable]
+public class ProjectileData
+{
+    public int id;
+    public float speed;
+
+    public bool hasDoT;
+    public float dotDuration;
+    public float dotTickInterval;
+    public float dotDamagePerTick;
+    public float dotRadius;
+
+    public bool hasSplash;
+    public float splashRadius;
+}
+
+[Serializable]
+public class ProjectileDataLoader : ILoader<int, ProjectileData>
+{
+    public List<ProjectileData> data = new();
+
+    public Dictionary<int, ProjectileData> MakeDict()
+    {
+        Dictionary<int, ProjectileData> dict = new();
+        foreach (var item in data)
+            dict.Add(item.id, item);
+        return dict;
+    }
+}
+#endregion
+
+
 #region ChampionData
 [Serializable]
 public class ChampionData

@@ -1,0 +1,37 @@
+{
+  "data": [
+    {
+      "id": 0,
+      "speed": 15.0,
+      "hasDoT": false,
+      "dotDuration": 0.0,
+      "dotTickInterval": 0.0,
+      "dotDamagePerTick": 0.0,
+      "dotRadius": 0.0,
+      "hasSplash": false,
+      "splashRadius": 0.0
+    },
+    {
+      "id": 1,
+      "speed": 13.0,
+      "hasDoT": false,
+      "dotDuration": 0.0,
+      "dotTickInterval": 0.0,
+      "dotDamagePerTick": 0.0,
+      "dotRadius": 0.0,
+      "hasSplash": true,
+      "splashRadius": 1.5
+    },
+    {
+      "id": 2,
+      "speed": 2.0,
+      "hasDoT": true,
+      "dotDuration": 5.0,
+      "dotTickInterval": 1.0,
+      "dotDamagePerTick": 5.0,
+      "dotRadius": 2.0,
+      "hasSplash": false,
+      "splashRadius": 0
+    }
+  ]
+}

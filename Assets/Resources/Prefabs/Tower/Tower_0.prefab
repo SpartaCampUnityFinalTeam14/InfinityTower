@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7331671327176091102}
   - component: {fileID: 7858887257768860318}
   - component: {fileID: -5899432786219981154}
+  - component: {fileID: 5765603005157225429}
   m_Layer: 0
   m_Name: Tower_0
   m_TagString: Tower
@@ -28,9 +29,9 @@ Transform:
   m_GameObject: {fileID: 1619349885832587825}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 420.66, y: 53.356037, z: -4.1298623}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 420.66, y: 53.308, z: -4.1298623}
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 47152423553481607}
   m_Father: {fileID: 0}
@@ -76,12 +77,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 50
-  m_Sprite: {fileID: 1124090890, guid: 4d5b9b104a674384ba8238098b48511b, type: 3}
+  m_Sprite: {fileID: 252309453, guid: 02ee4db91ec582a44b33bc8dbe35ed4f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.28, y: 0.36}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -99,25 +100,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f1f13920ce7ac4e8ed1dc3ce9c3e27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerData:
-    id: 0
-    name: "\uAD81\uC218"
-    description: "\uD65C\uC744 \uC0AC\uC6A9\uD574 \uC801 \uD558\uB098\uB97C \uACF5\uACA9\uD55C\uB2E4.
-      \uC77C\uBC18\uC801\uC778 \uACF5\uACA9\uB825\uACFC \uACF5\uACA9\uC18D\uB3C4\uB97C
-      \uC9C0\uB2C8\uACE0 \uC788\uB2E4."
-    targetType: 3
-    targettingRule: 0
-    statTypes: 000000000100000002000000030000000400000005000000
-    statValue:
-    - 10
-    - 8
-    - 2
-    - 1
-    - 20
-    - 100
-    effectID: 
-    effectValue: []
-  projectileData: {fileID: 11400000, guid: e92844389e3074bbeb66070749ba7eb7, type: 2}
+  ID: 0
+  anim: {fileID: 5765603005157225429}
+  spriteRenderer: {fileID: 0}
+  projectileDataSO: {fileID: 11400000, guid: e92844389e3074bbeb66070749ba7eb7, type: 2}
   firePoint: {fileID: 47152423553481607}
 --- !u!61 &-5899432786219981154
 BoxCollider2D:
@@ -155,15 +141,36 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 0.28, y: 0.36}
+    newSize: {x: 0.28, y: 0.36}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.5, y: 0.5}
   m_EdgeRadius: 0
+--- !u!95 &5765603005157225429
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1619349885832587825}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2bd05428ba0f56c40a1671840646d21a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &9166725788285522853
 GameObject:
   m_ObjectHideFlags: 0

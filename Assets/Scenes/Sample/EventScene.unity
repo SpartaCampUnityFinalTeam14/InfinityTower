@@ -897,6 +897,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OnCostChanged: {fileID: 11400000, guid: 8861c2d9b4b5f53449900531b454b226, type: 2}
+  costRecoveryMultiplier: 1
   selectedTowers: 
   selectedChampion: 0
   abilityManager: {fileID: 0}
