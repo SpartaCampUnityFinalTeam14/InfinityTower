@@ -57,6 +57,10 @@ public class StageManager : Singleton<StageManager>
         eventManager = gameObject.AddComponent<EventManager>();
 
         UIManager.Instance.HideUI<UIPause>();
+        UIManager.Instance.HideUI<UIFloorIntro>();
+
+        var ui = UIManager.Instance.GetUI<UIFloorIntro>();
+        ui.Init(floorCount);
     }
 
     public void TakeDamage(int damage)

@@ -86,7 +86,7 @@ public abstract class BaseTower : Poolable
 
                 // 사거리표시
                 rangeIndicator = PoolManager.Instance.Get(rangePrefab, 1, transform).GetComponent<RangeIndicator>();
-                rangeIndicator.Init(towerData.GetStatValue(TowerStatType.Cost));
+                rangeIndicator.Init(towerData.GetStatValue(TowerStatType.Range));
 
                 StageManager.Instance.timeScaleManager.PushTimeScale(0.2f);
             }
@@ -95,6 +95,6 @@ public abstract class BaseTower : Poolable
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.position, towerData.GetStatValue(TowerStatType.Cost));
+        Gizmos.DrawWireSphere(transform.position, towerData.GetStatValue(TowerStatType.Range));
     }
 }
