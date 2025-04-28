@@ -134,22 +134,11 @@ public class TowerData
     //변경
     public List<int> statTypes;    // TowerStatType의 int 값들
     public List<float> statValue;   // 각 스탯에 대한 수치
-    public List<int> effectID;      // EffectType의 int 값들
-    public List<float> effectValue; // 각 효과에 대한 수치
+    public List<int> effectID;      // 효과가 변경해주는 스탯 타입
+    public List<float[]> effectInfo; // 각 효과의 수치, 지속시간, 중첩여부
 
     public TargettingRule TargettingRule => (TargettingRule)targettingRule;
     public TargetType TargetType => (TargetType)targetType;
-
-    // 유틸 메서드: 특정 타입의 효과 값 가져오기
-    public float GetBuffValue(EffectType type)
-    {
-        for (int i = 0; i < effectID.Count; i++)
-        {
-            if ((EffectType)effectID[i] == type)
-                return effectValue[i];
-        }
-        return 0f;
-    }
 
     // 유틸 메서드: 특정 타입의 스탯 값 가져오기
     public float GetStatValue(TowerStatType type)
@@ -160,6 +149,28 @@ public class TowerData
                 return statValue[i];
         }
         return 0f;
+    }
+
+    public List<EffectBase> ReturnEffectList()
+    {
+        List<EffectBase> ret = new List<EffectBase>();
+
+        for (int i = 0; i < effectID.Count; i++)
+        {
+            int targetStatusID = effectID[i]; //이펙트 아이디를 타겟스테이터스 아이디로 변경
+            float[] values = effectInfo[i];
+            EffectBase effect = null;
+
+            switch (targetStatusID)
+            {
+                case 0:
+                    effect = new AttackDamageEffecter(targetStatusID, values[0], values[1], values[2]>0);
+                    break;
+            }
+
+            ret.Add(effect);
+        }
+        return ret;
     }
 }
 

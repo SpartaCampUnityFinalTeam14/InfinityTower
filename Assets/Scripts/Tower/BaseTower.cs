@@ -9,10 +9,12 @@ public abstract class BaseTower : MonoBehaviour
     public int ID;
     protected TowerData towerData;
     protected float attackTimer;
+    protected List<EffectBase> myEffect;
 
     protected virtual void Start()
     {
         towerData = DataManager.Instance.towerDict[ID];
+        myEffect = towerData.ReturnEffectList();
         //attackTimer = towerData.attackSpeed;
         attackTimer = towerData.GetStatValue(TowerStatType.ActiveSpeed);
     }

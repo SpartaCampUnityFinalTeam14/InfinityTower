@@ -33,28 +33,43 @@ public enum TowerStatType
     Cost
 }
 
+public enum TargetStatType
+{
+    //타워 스탯
+    AttackDamage = 0,
+    AttackRange = 1,
+    AttackSpeed = 2,
+    TargetCount = 3,
+    TowerCooldown = 4,
+    Cost = 5,
+
+    //플레이어 스탯
+    CostHeal = 6,
+    PlayerHeal = 7,
+    PlayerHP = 8,
+    
+    //몬스터 스탯
+    HP = 9,
+    MoveSpeed = 10,
+    Armor = 11,
+    Damage = 12,
+
+    //플레이어 스탯
+    Cooldown = 13,
+    Atk = 14,
+    HasCost = 15,
+    cleargoldDrop = 16
+}
+
+
 public enum EffectType
 {
-    // === 스탯 변경 ===
-    ATKPowerUP = 1,           // 공격력 증감
-    ATKSpeedUP = 2,           // 공격 속도
-    RangeUP = 3,                 // 사거리
-    CooltimeDown = 4,     // 스킬 쿨타임 감소
-
-    // === 방어 관련 ===
-    DefenseDown = 10,              // 방어력
-    MagicResistanceDown = 11,      // 마법 저항
-
-    // === 이동 및 행동 관련 ===
-    Stun = 20,                 // 기절 (시간 동안 행동 불가)
-    Slow = 21,                 // 이동 속도 감소
-
-    // === 특수 ===
-    Duration = 100,            // 지속 시간 (버프/디버프 적용 시간)
-    Stackable = 101,           // 중첩 가능 여부 (별도 처리 필요 시)
-    
-    // === 유틸 ===
-    CostRecovery = 200            // 일정 시간동안 코스트 회복속도 증가
+    Slow,
+    Burn,
+    GetCost,
+    DamageBuff,
+    AttackSpeedBuff,
+    DefenseDown
 }
 
 public enum StatType
