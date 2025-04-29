@@ -69,7 +69,7 @@ public class UI_Gacha : UI
 
     void SetGold(int gold)
     {
-        goldText.text = gold.ToString();
+        goldText.text = string.Format("{0:N0}", gold);
     }
 
     void Gacha1()
