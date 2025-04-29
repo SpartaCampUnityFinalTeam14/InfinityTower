@@ -12,7 +12,7 @@ public class EventResultHandler
         resultHandlers = new Dictionary<EventType, Action<EventData>>
         {
             { EventType.Battle, HandleBattle},
-            { EventType.Probablity, HandleProbabilty},
+            //{ EventType.Probablity, HandleProbabilty},
             { EventType.PerkChange, HandlePerkChange }
         };
     }
@@ -31,10 +31,10 @@ public class EventResultHandler
         UIManager.Instance.HideUI<UIEvent>();
     }
 
-    void HandleProbabilty(EventData data)
-    {
-        StageManager.Instance.eventManager.SetChoiceEvent(data);
-    }
+    //void HandleProbabilty(EventData data)
+    //{
+    //    StageManager.Instance.eventManager.SetChoiceEvent(data);
+    //}
 
     void HandlePerkChange(EventData data)
     {
