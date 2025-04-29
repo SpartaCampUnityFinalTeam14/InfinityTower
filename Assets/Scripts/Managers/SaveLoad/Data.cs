@@ -131,21 +131,24 @@ public class TowerData
     public string description;
     public int targetType;
     public int targettingRule;
-    //변경
-    public List<int> statTypes;    // TowerStatType의 int 값들
+
+    // 기본 스텟
+    public List<int> statTypes;    // statType의 int 값들
     public List<float> statValue;   // 각 스탯에 대한 수치
-    public List<int> effectID;      // 효과가 변경해주는 스탯 타입
+
+    // 보유 효과
+    public List<int> effectID;      // effctType의 int 값들
     public List<float[]> effectInfo; // 각 효과의 수치, 지속시간, 중첩여부
 
     public TargettingRule TargettingRule => (TargettingRule)targettingRule;
     public TargetType TargetType => (TargetType)targetType;
 
     // 유틸 메서드: 특정 타입의 스탯 값 가져오기
-    public float GetStatValue(TowerStatType type)
+    public float GetStatValue(StatType type)
     {
         for (int i = 0; i < statTypes.Count; i++)
         {
-            if ((TowerStatType)statTypes[i] == type)
+            if ((StatType)statTypes[i] == type)
                 return statValue[i];
         }
         return 0f;
@@ -157,14 +160,15 @@ public class TowerData
 
         for (int i = 0; i < effectID.Count; i++)
         {
-            int targetStatusID = effectID[i]; //이펙트 아이디를 타겟스테이터스 아이디로 변경
+            //이펙트 아이디를 타겟스테이터스 아이디로 변경
+            int targetStatusID = DataManager.Instance.effectDict[effectID[i]].targetStatusID;
             float[] values = effectInfo[i];
             EffectBase effect = null;
 
             switch (targetStatusID)
             {
                 case 0:
-                    effect = new AttackDamageEffecter(targetStatusID, values[0], values[1], values[2]>0);
+                    effect = new AttackDamageEffecter(targetStatusID);
                     break;
             }
 

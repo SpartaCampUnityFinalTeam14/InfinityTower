@@ -78,7 +78,7 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             Vector3 spawnPos = TilemapManager.Instance.tilemap.CellToWorld(cellPos) +
                                TilemapManager.Instance.tilemap.cellSize / 2;
 
-            if(IsCostEnough()) StageManager.Instance.UseCost((int)DataManager.Instance.towerDict[towerID].GetStatValue(TowerStatType.Cost));
+            if(IsCostEnough()) StageManager.Instance.UseCost((int)DataManager.Instance.towerDict[towerID].GetStatValue(StatType.Cost));
 
             Instantiate(placedTowerPrefab, spawnPos, Quaternion.identity);
         }
@@ -89,7 +89,7 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     bool IsCostEnough()
     {
-        int cost = (int)DataManager.Instance.towerDict[towerID].GetStatValue(TowerStatType.Cost);
+        int cost = (int)DataManager.Instance.towerDict[towerID].GetStatValue(StatType.Cost);
 
         return StageManager.Instance.CheckCost(cost);
     }

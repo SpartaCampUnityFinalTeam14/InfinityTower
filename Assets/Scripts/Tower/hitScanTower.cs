@@ -27,8 +27,8 @@ public class hitScanTower : TargettingTower
 
                 if (enemy != null/*isAttackTower*/)
                 {
-                    float damage = towerData.GetStatValue(TowerStatType.Damage);
-                    float attackPowerBuff =0 /*= towerData.GetBuffValue(EffectType.ATKPowerUP)*/;
+                    float damage = towerData.GetStatValue(StatType.Damage);
+                    float attackPowerBuff = 0 /*= towerData.GetBuffValue(EffectType.ATKPowerUP)*/;
                     float totalDamage = damage + attackPowerBuff;
 
                     enemy.TakeDamage(totalDamage);

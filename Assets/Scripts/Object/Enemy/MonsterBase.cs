@@ -22,11 +22,6 @@ public class MonsterBase : Poolable, ISkillUser
 
     private Image hpBar;
 
-    // 디버프 관련 상태 저장
-    private Dictionary<EffectType, Coroutine> debuffCoroutines = new Dictionary<EffectType, Coroutine>();
-    private float originalMoveSpeed;
-    private float originalDefense;
-
     public virtual void Init(int id, List<Vector3> path, Transform startPos, Floor floor)
     {
         this.floor = floor;
@@ -41,10 +36,6 @@ public class MonsterBase : Poolable, ISkillUser
 
         transform.position = startPos.position;
         SetPath(path);
-        
-        //디버프 해제 후 원상복구를 위한 저장
-        originalMoveSpeed = moveSpeed;
-        originalDefense = defense/* = data.defense*/; //몬스터 데이터에 방어력 추가 시 주석 해제
 
         // ✅ HP바 연결
         hpBar = transform.Find("HPBar/Image").GetComponent<Image>();
@@ -129,52 +120,6 @@ public class MonsterBase : Poolable, ISkillUser
 
         floor.SubrtactMonsterCount(1);
         PoolManager.Instance.Release(this);
-    }
-
-    
-    //디버프 적용메서드
-    public void ApplyDebuff(EffectType type, float amount, float duration)
-    {
-        // 기존 디버프가 있으면 정지
-        if (debuffCoroutines.TryGetValue(type, out Coroutine running))
-        {
-            StopCoroutine(running);
-        }
-
-        // 새로운 디버프 적용
-        Coroutine routine = StartCoroutine(DebuffRoutine(type, amount, duration));
-        debuffCoroutines[type] = routine;
-    }
-
-    private IEnumerator DebuffRoutine(EffectType type, float amount, float duration)
-    {
-        switch (type)
-        {
-            case EffectType.Slow:
-                moveSpeed = Mathf.Max(0.1f, originalMoveSpeed - amount);
-                break;
-
-            case EffectType.DefenseDown:
-                defense = Mathf.Max(0, originalDefense - amount);
-                break;
-        }
-
-        yield return new WaitForSeconds(duration);
-
-        // 원래 값으로 복원
-        switch (type)
-        {
-            case EffectType.Slow:
-                moveSpeed = originalMoveSpeed;
-                break;
-
-            case EffectType.DefenseDown:
-                defense = originalDefense;
-                break;
-        }
-
-        // 디버프 딕셔너리에서 제거
-        debuffCoroutines.Remove(type);
     }
 
     protected void ApplyTypeBonus(EnemyType type)

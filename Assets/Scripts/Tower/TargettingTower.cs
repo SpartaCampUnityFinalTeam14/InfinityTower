@@ -28,7 +28,7 @@ public abstract class TargettingTower : BaseTower
         towerInRange = new List<TargettingTower>();
 
         //범위 내 유닛 탐색
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.GetStatValue(TowerStatType.Range));        
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.GetStatValue(StatType.Range));        
 
         //범위 안에 있는 적과 아군 판별
         foreach (Collider2D hit in hits)
@@ -124,7 +124,7 @@ public abstract class TargettingTower : BaseTower
         {
             case TargetType.Enemy:
                 //maxCount = Mathf.Min(towerData.targetCount, enemiesInRange.Count);
-                maxCount = Mathf.Min((int)towerData.GetStatValue(TowerStatType.TargetCount), enemiesInRange.Count);
+                maxCount = Mathf.Min((int)towerData.GetStatValue(StatType.TargetCount), enemiesInRange.Count);
                 for (int i = 0; i < maxCount; i++)
                 {
                     targets.Add(enemiesInRange[i].gameObject);
@@ -132,7 +132,7 @@ public abstract class TargettingTower : BaseTower
                 break;
 
             case TargetType.Tower:
-                maxCount = Mathf.Min((int)towerData.GetStatValue(TowerStatType.TargetCount), towerInRange.Count);
+                maxCount = Mathf.Min((int)towerData.GetStatValue(StatType.TargetCount), towerInRange.Count);
                 for (int i = 0; i < maxCount; i++)
                 {
                     targets.Add(towerInRange[i].gameObject);
