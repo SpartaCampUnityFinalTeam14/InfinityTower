@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor.Playables;
 using UnityEngine;
@@ -192,21 +193,24 @@ public class StageManager : Singleton<StageManager>
     IEnumerator ProgressStage()
     {
         Debug.Log("<color=white>스테이지 시작</color>");
+        List<int> floorDictKeys = DataManager.Instance.floorDict.Keys.ToList();
 
-        for(int i = 0; i < floorCount; i++)
+        for (int i = 0; i < floorCount; i++)
         {
             ShowFloorIntro();
             yield return new WaitUntil(() => isIntroEnd);
-            
+        
             OnFloorCountChanged.RaiseEvent(i + 1);
 
-            if(floorGO != null) Destroy(floorGO);
-            floorGO = Util.InstantiatePrefab("Floors/TestFloor");//랜덤 ID에 맞는 플로어 생성하게 변경해야 함
+            if (floorGO != null) Destroy(floorGO);
+            int randomId = Random.Range(0, floorDictKeys.Count);
+            int floorId = floorDictKeys[randomId];
+            floorGO = Util.InstantiatePrefab($"Floors/Floor_{floorId}");//랜덤 ID에 맞는 플로어 생성하게 변경해야 함
             curFloor = floorGO.GetComponent<Floor>();
             curFloor.StartFloor();
 
             curCost = 0;
-            
+        
             yield return new WaitUntil(() => curFloor.isFloorEnd);
 
             if (i != 0 && (i + 1) % 2 == 0)
