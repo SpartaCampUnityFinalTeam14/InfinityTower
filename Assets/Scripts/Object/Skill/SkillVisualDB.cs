@@ -5,9 +5,7 @@ public class SkillVisualDB : MonoBehaviour
 {
     public static SkillVisualDB Instance { get; private set; }
 
-    [SerializeField]
     private List<SkillVisualDataSO> visualDataList = new();
-
     private Dictionary<string, SkillVisualDataSO> visualDict = new();
 
     private void Awake()
@@ -19,10 +17,15 @@ public class SkillVisualDB : MonoBehaviour
         }
         Instance = this;
 
+        // ✅ Resources 폴더에서 SkillVisualDataSO 전부 찾아서 등록
+        visualDataList = new List<SkillVisualDataSO>(Resources.LoadAll<SkillVisualDataSO>("ScriptableObjects/SkillVisuals"));
+
         foreach (var so in visualDataList)
         {
             if (!visualDict.ContainsKey(so.id))
                 visualDict.Add(so.id, so);
+            else
+                Debug.LogWarning($"⚠️ 중복된 SkillVisual ID 발견: {so.id}");
         }
     }
 
@@ -39,5 +42,4 @@ public class SkillVisualDB : MonoBehaviour
 
         return so;
     }
-
 }

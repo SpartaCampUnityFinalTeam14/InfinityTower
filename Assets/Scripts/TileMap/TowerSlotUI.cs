@@ -143,19 +143,19 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                 Vector3 spawnPos = TilemapManager.Instance.tilemap.CellToWorld(cellPos) +
                                    TilemapManager.Instance.tilemap.cellSize / 2;
 
-            if(IsCostEnough()) StageManager.Instance.UseCost((int)DataManager.Instance.towerDict[towerID].GetStatValue(TowerStatType.Cost));
+                if(IsCostEnough()) 
+                    StageManager.Instance.UseCost((int)DataManager.Instance.towerDict[towerID].GetStatValue(TowerStatType.Cost));
 
-                //Instantiate(placedTowerPrefab, spawnPos, Quaternion.identity);
                 var tower = PoolManager.Instance.Get(placedTowerPrefab).GetComponent<BaseTower>();
                 tower.transform.position = spawnPos;
-                
+
+                // 셀 등록
+                TilemapManager.Instance.RegisterOccupiedCell(cellPos);
+
                 StartCooldown();
             }
-            else
-            {
-                Debug.LogWarning("❌ 드랍하려 했지만 코스트 부족으로 설치 실패");
-            }
         }
+
 
         if (previewObj != null)
             Destroy(previewObj);

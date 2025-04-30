@@ -23,6 +23,13 @@ public class StageManager : Singleton<StageManager>
     public AbilityManager abilityManager;
     public EventManager eventManager;
     public TimeScaleManager timeScaleManager;
+    
+    public SkillTargetingSystem skillTargetingSystem;
+    public SkillVisualDB skillVisualDB;
+    private Hero hero;
+    
+    [SerializeField]
+    private HeroSkillPanel skillPanel;
 
     [SerializeField] private int floorCount = 2;
     private GameObject floorGO;
@@ -55,12 +62,52 @@ public class StageManager : Singleton<StageManager>
         timeScaleManager = new TimeScaleManager();
         abilityManager = gameObject.AddComponent<AbilityManager>();
         eventManager = gameObject.AddComponent<EventManager>();
+        
+        skillTargetingSystem = gameObject.AddComponent<SkillTargetingSystem>();
+        skillVisualDB = gameObject.AddComponent<SkillVisualDB>();
+        
+        InitHero();
 
         UIManager.Instance.HideUI<UIPause>();
         UIManager.Instance.HideUI<UIFloorIntro>();
 
         var ui = UIManager.Instance.GetUI<UIFloorIntro>();
         ui.Init(floorCount);
+    }
+    
+    private void InitHero()
+    {
+        hero = new Hero();
+        Debug.Log("👤 챔피언 생성됨: " + selectedChampion);
+
+        ChampionData champData = DataManager.Instance.championDict[selectedChampion];
+
+        Debug.Log($"{champData.skillId.Count} 개의 스킬을 가지고 있습니다.");
+
+        foreach (int skillId in champData.skillId)
+        {
+            if (DataManager.Instance.skillDict.TryGetValue(skillId, out SkillData skillData))
+            {
+                Debug.Log($"⚡ 스킬 ID: {skillId}");
+                Skill skill = SkillFactory.CreateSkill(skillData);
+                if (skill != null)
+                    hero.skills.Add(skill);
+            }
+            else
+            {
+                Debug.LogWarning($"⚠️ SkillData ID {skillId} 를 찾을 수 없습니다.");
+            }
+        }
+
+        // ✅ 영웅 스킬 패널에 연결 (SerializeField 연결 기준)
+        if (skillPanel != null)
+        {
+            skillPanel.InitHero(hero);
+        }
+        else
+        {
+            Debug.LogWarning("⚠️ HeroSkillPanel이 연결되어 있지 않습니다!");
+        }
     }
 
     public void TakeDamage(int damage)

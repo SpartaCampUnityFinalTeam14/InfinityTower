@@ -6,38 +6,50 @@ public class TilemapManager : MonoBehaviour
 {
     public static TilemapManager Instance;
 
-    public Tilemap tilemap; // 여기에 's' 타일맵을 연결해놓은 상태
+    public Tilemap tilemap; // 설치 타일맵
+    private HashSet<Vector3Int> occupiedCells = new(); // 설치된 셀 정보
 
     private void Awake()
     {
         Instance = this;
     }
 
+    /// 이 셀이 타워 설치 가능한지 여부
     public bool CanPlaceAt(Vector3Int cellPos)
     {
         TileBase tile = tilemap.GetTile(cellPos);
 
-        if (tile != null)
-        {
-            return true; // 배치 가능
-        }
-        return false;
+        if (tile == null) return false; // 타일 없음
+        if (occupiedCells.Contains(cellPos)) return false; // 이미 설치된 셀
+
+        return true;
     }
-    
+
+    /// 이 셀에 타워를 설치함 → 타워 설치 후 호출
+    public void RegisterOccupiedCell(Vector3Int cellPos)
+    {
+        if (!occupiedCells.Contains(cellPos))
+            occupiedCells.Add(cellPos);
+    }
+
+    /// 이 셀을 비움 (예: 타워 파괴 시)
+    public void UnregisterOccupiedCell(Vector3Int cellPos)
+    {
+        if (occupiedCells.Contains(cellPos))
+            occupiedCells.Remove(cellPos);
+    }
+
     public List<Vector3Int> GetAllPlaceableCells()
     {
         List<Vector3Int> result = new();
-
         BoundsInt bounds = tilemap.cellBounds;
 
         foreach (var pos in bounds.allPositionsWithin)
         {
             if (!tilemap.HasTile(pos)) continue;
-            if (CanPlaceAt(pos))
-            {
-                result.Add(pos);
-            }
+            if (CanPlaceAt(pos)) result.Add(pos);
         }
+
         Debug.Log($"📦 설치 가능한 셀 개수: {result.Count}");
         return result;
     }
