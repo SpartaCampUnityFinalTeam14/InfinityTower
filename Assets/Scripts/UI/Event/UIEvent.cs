@@ -1,21 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIEvent : UI
 {
+    [Header("PanelPositions")]
+    [SerializeField] RectTransform firstPanelPos;
+    [SerializeField] RectTransform secondPanelPos;
+
     [Header ("Event Panel")]
-    [SerializeField] GameObject pageMain1;
-    [SerializeField] GameObject pageMain2;
+    [SerializeField] GameObject pageMain;
     [SerializeField] GameObject pageChoice;
     [SerializeField] GameObject pageResult;
+    [SerializeField] GameObject pageReward;
 
     [Header("MainEvent")]
     [SerializeField] TextMeshProUGUI eventTitle;
     [SerializeField] TextMeshProUGUI eventDesc;
-    [SerializeField] Button btnNext;
+    //[SerializeField] Button btnNext;
     [SerializeField] Image image;
 
     [Header ("ChoiceEvent")]
@@ -33,7 +38,6 @@ public class UIEvent : UI
     {
         base.Awake();
 
-        btnNext.onClick.AddListener(OnClickNextButton);
         btnChoice1.onClick.AddListener(() => StageManager.Instance.eventManager.SelectChoice(0));
         btnChoice2.onClick.AddListener(() => StageManager.Instance.eventManager.SelectChoice(1));
         btnChoice3.onClick.AddListener(() => StageManager.Instance.eventManager.SelectChoice(2));
@@ -55,23 +59,22 @@ public class UIEvent : UI
         StageManager.Instance.isEventEnd = true;
     }
 
-    public void SetEventPanel(EventData data)
+    public void SetEvent(EventData data)
     {
+        // 메인 이벤트 UI 설정
         eventTitle.text = data.title;
         eventDesc.text = data.description;
 
         var sprite = Resources.Load<Sprite>($"Event/{data.image}");
         if (sprite) image.sprite = sprite;
 
-        SetChoicePanel(data);
+        // 이벤트 선택지 설정
+        UpdateChoicePanel(data);
 
-        pageMain1.SetActive(true);
-        pageMain2.SetActive(true);
-        pageChoice.SetActive(false);
-        pageResult.SetActive(false);
+        SetPanelsPostion(pageMain, pageChoice);
     }
 
-    public void SetChoicePanel(EventData data)
+    public void UpdateChoicePanel(EventData data)
     {
         choiceTitle.text = data.choiceTitle;
 
@@ -79,40 +82,49 @@ public class UIEvent : UI
         if (!string.IsNullOrEmpty(data.choice1))
         {
             btnChoice1.GetComponentInChildren<TextMeshProUGUI>().text = data.choice1;
-            btnChoice1.enabled = true;
+            //btnChoice1.enabled = true;
             btnChoice1.gameObject.SetActive(true);
         }
 
         if (!string.IsNullOrEmpty(data.choice2))
         {
             btnChoice2.GetComponentInChildren<TextMeshProUGUI>().text = data.choice2;
-            btnChoice2.enabled = true;
+            //btnChoice2.enabled = true;
             btnChoice2.gameObject.SetActive(true);
         }
 
         if (!string.IsNullOrEmpty(data.choice3))
         {
             btnChoice3.GetComponentInChildren<TextMeshProUGUI>().text = data.choice3;
-            btnChoice3.enabled = true;
+            //btnChoice3.enabled = true;
             btnChoice3.gameObject.SetActive(true);
         }
     }
 
-    public void SetResultPanel(EventData resultEvent)
+    public void SetResult(EventData resultEvent, string reward)
     {
+        // Update ResultPanel
         resultTitle.text = resultEvent.title;
         resultDesc.text = resultEvent.description;
-        btnResult.GetComponentInChildren<TextMeshProUGUI>().text = string.IsNullOrEmpty(resultEvent.result) ? "다음 페이지로" : resultEvent.result;
+
+        // Update RewardPanel
+        resultReward.text = string.IsNullOrEmpty(reward) ? "" : reward;
+        btnResult.GetComponentInChildren<TextMeshProUGUI>().text = string.IsNullOrEmpty(resultEvent.result) ? "Event Close" : resultEvent.result;
+
+        // Update Panel Postion
+        SetPanelsPostion(pageResult, pageReward);
     }
 
-    public void SetRewadText(string str)
+    public void SetProbabilityEvent(EventData data)
     {
-        if (!string.IsNullOrEmpty(str))
-            resultReward.text = str;
-        else
-        {
-            resultReward.text = "";
-        }
+        // Update ResultPanel
+        resultTitle.text = data.title;
+        resultDesc.text = data.description;
+        
+        UpdateChoicePanel(data);
+
+        // Update Panel Position
+        SetPanelsPostion(pageResult, pageChoice);
     }
 
     public void SetActiveResultPanel(bool isActive)
@@ -120,25 +132,28 @@ public class UIEvent : UI
         pageResult.SetActive(isActive);
     }
 
-    public void OnClickNextButton()
-    {
-        pageMain1.SetActive(false);
-        pageMain2.SetActive(false);
-        pageChoice.SetActive(true);
-        pageResult.SetActive(false);
-    }
-
-    public void EnableAllChoiceButton(bool isEnabled)
-    {
-        btnChoice1.enabled = isEnabled;
-        btnChoice2.enabled = isEnabled;
-        btnChoice3.enabled = isEnabled;
-    }
-
     void ClearAllChoiceButton()
     {
         btnChoice1.gameObject.SetActive(false);
         btnChoice2.gameObject.SetActive(false);
         btnChoice3.gameObject.SetActive(false);
+    }
+
+    void ActiveFalseAllPanels()
+    {
+        pageMain.SetActive(false);
+        pageChoice.SetActive(false);
+        pageResult.SetActive(false);
+        pageReward.SetActive(false);
+    }
+
+    void SetPanelsPostion(GameObject first, GameObject second)
+    {
+        ActiveFalseAllPanels();
+        first.SetActive(true);
+        second.SetActive(true);
+
+        first.transform.position = firstPanelPos.position;
+        second.transform.position = secondPanelPos.position;
     }
 }

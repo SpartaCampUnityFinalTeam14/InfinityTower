@@ -1,0 +1,34 @@
+{
+  "data": [
+      {
+          "id": 0,
+          "type": "attackDamage",
+          "name": "공격력"
+      },
+      {
+          "id": 1,
+          "type": "attackRange",
+          "name": "공격 사거리"
+      },
+      {
+          "id": 2,
+          "type": "attackSpeed",
+          "name": "공격 속도"
+      },
+      {
+          "id": 3,
+          "type": "targetCount",
+          "name": "목표 수"
+      },
+      {
+          "id": 4,
+          "type": "towerCooldown",
+          "name": "배치 대기시간"
+      },
+      {
+          "id": 5,
+          "type": "cost",
+          "name": "코스트"
+      }
+  ]
+}

@@ -2,10 +2,6 @@
 using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEngine.Rendering.DebugUI;
 
 public interface ILoader<Key, Value>
 {
@@ -152,6 +148,16 @@ public class TowerData
         throw new InvalidOperationException($"{type.ToString()}에 해당하는 효과 없음");
     }
 
+    public string GetStatName(TowerStatType type)
+    {
+        return DataManager.Instance.statusDict[(int)type].name;
+    }
+
+    public string GetStatName(int typeID)
+    {
+        return DataManager.Instance.statusDict[typeID].name;
+    }
+
     // 유틸 메서드: 특정 타입의 스탯 값 가져오기
     public float GetStatValue(TowerStatType type)
     {
@@ -160,7 +166,7 @@ public class TowerData
             if ((TowerStatType)statTypes[i] == type)
                 return statValue[i];
         }
-        throw new InvalidOperationException($"{type.ToString()}에 해당하는 스탯 없음");
+        throw new InvalidOperationException($"{(int)type}: {type.ToString()}에 해당하는 스탯 없음");
     }
 
     public float GetStatValue(int typeID)
@@ -294,16 +300,18 @@ public class SkillDataLoader : ILoader<int, SkillData>
 [Serializable]
 public class AbilityData
 {
-    public int id;
-    public int rarity;
+    public int perkID;
     public string name;
     public string description;
     public List<int> valueType;
     public List<int> value;
-    public int targetType;
+    public List<int> effectType;
+    public List<int> effectValue;
+    public int projectile;
+    public string targetType;
     public int targetID;
-    public int stackable;
-    public int maxStack;
+    public int rarity;
+    public int stackLimit;
     public string image;
 
     public AbilityData DeepCopy()
@@ -326,7 +334,7 @@ public class AbilityDataLoader : ILoader<int, AbilityData>
         Dictionary<int, AbilityData> dict = new();
         foreach (AbilityData ability in data)
         {
-            dict.Add(ability.id, ability);
+            dict.Add(ability.perkID, ability);
         }
 
         return dict;
@@ -477,6 +485,33 @@ public class LevelUpDataLoader : ILoader<int, LevelUpData>
         foreach (LevelUpData levelUp in data)
         {
             dict.Add(levelUp.level, levelUp);
+        }
+
+        return dict;
+    }
+}
+#endregion
+
+#region StatusData
+[Serializable]
+public class StatusData
+{
+    public int id;
+    public string type;
+    public string name;
+}
+
+[Serializable]
+public class StatusDataLoader : ILoader<int, StatusData>
+{
+    public List<StatusData> data = new();
+
+    public Dictionary<int, StatusData> MakeDict()
+    {
+        Dictionary<int, StatusData> dict = new();
+        foreach (StatusData status in data)
+        {
+            dict.Add(status.id, status);
         }
 
         return dict;

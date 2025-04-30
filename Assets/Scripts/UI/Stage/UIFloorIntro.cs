@@ -5,42 +5,69 @@ using UnityEngine;
 
 public class UIFloorIntro : UI
 {
-    [SerializeField] List<RectTransform> pathPoint;
+    [SerializeField] RectTransform layerGroup;
     [SerializeField] RectTransform player;
     [SerializeField] GameObject eventSign;
 
     int curFloor = 0;
     CanvasGroup canvasGroup;
+    List<RectTransform> pathPoint;
 
     protected override void Awake()
     {
         base.Awake();
 
-        player.transform.position = pathPoint[0].transform.position;
         canvasGroup = GetComponent<CanvasGroup>();
+    }
+
+    public void Init(int floorCnt)
+    {
+        pathPoint = new List<RectTransform>();
+
+        GameObject floor = Resources.Load<GameObject>("Prefabs/UI/FloorIntro/FloorIcon");
+        GameObject iconEvent = Resources.Load<GameObject>("Prefabs/UI/FloorIntro/EventIcon");
+        GameObject bossFloor = Resources.Load<GameObject>("Prefabs/UI/FloorIntro/FloorIcon");
+
+        for (int i = 0; i < floorCnt; i++) 
+        {
+            int floorNum = i + 1;
+
+            // 플로어 아이콘 생성
+            var floorIcon = Instantiate(floor, layerGroup);
+            pathPoint.Add(floorIcon.GetComponent<RectTransform>());
+
+            // 짝수 플로어일 경우 이벤트 아이콘 생성
+            if (floorNum != 0 && floorNum % 2 == 0)
+            {
+                var evnetIcon = Instantiate(iconEvent, layerGroup);
+                pathPoint.Add(evnetIcon.GetComponent<RectTransform>());
+            }
+        }
+
+        // 플로어 아이콘 생성
+        var bossIcon = Instantiate(bossFloor, layerGroup);
+        pathPoint.Add(bossIcon.GetComponent<RectTransform>());
+
+        // 두 프레임 뒤에 플레이어 아이콘 위치 초기화
+        StartCoroutine(InitPlayerPosition());
+        canvasGroup.alpha = 0f;
     }
 
     public override void Show()
     {
         base.Show();
 
-        ShowFloorIntro();
-    }
-
-    public void ShowFloorIntro()
-    {
-        //StageManager.Instance.timeScaleManager.PushTimeScale(0f);
-
-        canvasGroup.DOFade(1f, 0.5f);
-        NextFloor();
+        Sequence sequence = DOTween.Sequence();
+        sequence.Append(canvasGroup.DOFade(1f, 0.5f))
+            .AppendCallback(NextFloor)
+            .AppendInterval(2f)
+            .AppendCallback(CloseIntro);
     }
 
     void NextFloor()
     {
         curFloor++;
-
         player.DOMove(pathPoint[curFloor - 1].transform.position, 1f).SetUpdate(true);
-        Invoke(nameof(CloseIntro), 2f);
     }
 
     void CloseIntro()
@@ -49,7 +76,14 @@ public class UIFloorIntro : UI
 
         canvasGroup.DOFade(0f, 0.5f).SetUpdate(true);
         StageManager.Instance.isIntroEnd = true;
-        //StageManager.Instance.timeScaleManager.PopTimeScale();
+    }
+
+    IEnumerator InitPlayerPosition()
+    {
+        yield return null;
+        yield return null;
+
+        player.transform.position = pathPoint[0].transform.position;
     }
 
     void CheckEvent()

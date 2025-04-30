@@ -23,11 +23,12 @@ public class UI_TowerInfo : UI
     [SerializeField] private TextMeshProUGUI descriptionText;
 
     [Header("우측 하단")]
-    [SerializeField] private List<TextMeshProUGUI> statTexts;
+    [SerializeField] private Transform statInfoBackgroundTransform;
+    private List<UI_StatEach> stats = new();
 
     [Header("하단")]
-    [SerializeField] private Button selectButton;
     [SerializeField] private Button closeButton;
+    [SerializeField] private Button selectButton;
 
     [Header("이벤트채널")]
     [SerializeField] private IntEventChannel OnTowerSelected;
@@ -65,10 +66,17 @@ public class UI_TowerInfo : UI
         SetLevel(SaveManager.Instance.towerLevelDict[data.id].level);
         SetExp(SaveManager.Instance.towerLevelDict[data.id].exp);
         //스프라이트 세팅
-        for(int i = 0; i < statTexts.Count; i++)
+
+        foreach(Transform child in statInfoBackgroundTransform)
         {
-            if (data.statTypes.Contains(i)) statTexts[i].text = data.GetStatValue(i).ToString();
-            else statTexts[i].text = 0.ToString();
+            Destroy(child.gameObject);
+        }
+
+        foreach(int id in data.statTypes)
+        {
+            UI_StatEach stat = Util.InstantiatePrefabAndGetComponent<UI_StatEach>(path: "UI/Sub/UI_StatEach", parent: statInfoBackgroundTransform);
+            stat.Init((TowerStatType)id, data.GetStatName(id), data.GetStatValue(id));
+            stats.Add(stat);
         }
     }
 
