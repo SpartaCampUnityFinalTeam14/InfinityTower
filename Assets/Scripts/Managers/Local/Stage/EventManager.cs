@@ -34,7 +34,7 @@ public class EventManager : MonoBehaviour
         eventData = eventDict[Random.Range(0, eventDict.Count)];
 
         uiEvent = UIManager.Instance.ShowUI<UIEvent>();
-        uiEvent.SetEventPanel(eventData);
+        uiEvent.SetEvent(eventData);
     }
 
     public void SelectChoice(int choiceIdx)
@@ -42,34 +42,34 @@ public class EventManager : MonoBehaviour
         int[] arrID = new int[] { eventData.choice1ID, eventData.choice2ID, eventData.choice3ID };
         int choiceID = arrID[choiceIdx];
 
-        // 선택지 이벤트 가져오기
-        if (eventData.type == (int)EventType.Probablity && choiceIdx == 0)
+        // 이벤트 타입이 확률형이고 첫번째 선택지를 선택했을 경우, 첫번째 선택지가 무조건 확률 계산 이벤트
+        if (eventData.type == (int)EventType.Probablity && choiceIdx == 0) 
         {
             resultData = GetProbabilityEvent(choiceID);
-            eventData = resultData;
+
+            // 랜덤으로 뽑힌 이벤트가 확률형 이벤트일 경우 다시 선택지 업데이트
+            if (resultData.type == (int)EventType.Probablity) // 뽑기 성공
+            {
+                eventData = resultData;
+                uiEvent.SetProbabilityEvent(eventData);
+                return;
+            }
         }
         else
-            resultData = DataManager.Instance.eventResultDict[choiceID];
-
-        // 보상 지급
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < resultData.rewardType.Count; i++)
         {
-            sb.AppendLine(rewardHandler.HandleReward(resultData.rewardType[i], resultData.reward[i]));
+            // 나머지 이벤트
+            resultData = DataManager.Instance.eventResultDict[choiceID];
         }
 
-        // UI 업데이트
-        uiEvent.SetResultPanel(resultData);
-        uiEvent.SetRewadText(sb.ToString());
-        uiEvent.SetActiveResultPanel(true);
-        uiEvent.EnableAllChoiceButton(false);
-    }
+        // 보상 지급
+        StringBuilder sbReward = new StringBuilder();
+        for (int i = 0; i < resultData.rewardType.Count; i++)
+        {
+            sbReward.AppendLine(rewardHandler.HandleReward(resultData.rewardType[i], resultData.reward[i]));
+        }
 
-    public void SetChoiceEvent(EventData data)
-    {
-        uiEvent.SetChoicePanel(data);
-        uiEvent.SetActiveResultPanel(false);
-        uiEvent.EnableAllChoiceButton(true);
+        // 결과 UI 업데이트
+        uiEvent.SetResult(resultData, sbReward.ToString());
     }
 
     public void OnClickResultButton()

@@ -300,16 +300,18 @@ public class SkillDataLoader : ILoader<int, SkillData>
 [Serializable]
 public class AbilityData
 {
-    public int id;
-    public int rarity;
+    public int perkID;
     public string name;
     public string description;
     public List<int> valueType;
     public List<int> value;
-    public int targetType;
+    public List<int> effectType;
+    public List<int> effectValue;
+    public int projectile;
+    public string targetType;
     public int targetID;
-    public int stackable;
-    public int maxStack;
+    public int rarity;
+    public int stackLimit;
     public string image;
 
     public AbilityData DeepCopy()
@@ -332,7 +334,7 @@ public class AbilityDataLoader : ILoader<int, AbilityData>
         Dictionary<int, AbilityData> dict = new();
         foreach (AbilityData ability in data)
         {
-            dict.Add(ability.id, ability);
+            dict.Add(ability.perkID, ability);
         }
 
         return dict;
