@@ -222,6 +222,8 @@ GameObject:
   - component: {fileID: 3016885691207312483}
   - component: {fileID: 3882999821946611407}
   - component: {fileID: 180960141176764293}
+  - component: {fileID: 8705665227098605701}
+  - component: {fileID: 2952373978045292975}
   m_Layer: 5
   m_Name: AbilitySlot
   m_TagString: Untagged
@@ -350,6 +352,37 @@ MonoBehaviour:
   title: {fileID: 1081510860423261255}
   description: {fileID: 3705479991823970609}
   value: {fileID: 6798178780586356247}
+  outline: {fileID: 8705665227098605701}
+  canvasGroup: {fileID: 2952373978045292975}
+  icon: {fileID: 1816718315298187211}
+  fadeDuration: 0.3
+--- !u!114 &8705665227098605701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461075446963148684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 0, a: 1}
+  m_EffectDistance: {x: 10, y: -10}
+  m_UseGraphicAlpha: 1
+--- !u!225 &2952373978045292975
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461075446963148684}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2453960892653196809
 GameObject:
   m_ObjectHideFlags: 0
@@ -415,7 +448,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uACF5\uACA9\uB825 (10)\n\uACF5\uACA9\uC18D\uB3C4 (10)\n\uD22C\uC0AC\uCCB4
+  m_text: "\uACF5\uACA9\uB825 10%\n\uACF5\uACA9\uC18D\uB3C4 (10)\n\uD22C\uC0AC\uCCB4
     (1)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 82d90b1a31dfe1c468cc0fac3c4101ec, type: 2}

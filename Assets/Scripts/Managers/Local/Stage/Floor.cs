@@ -33,6 +33,13 @@ public class Floor : MonoBehaviour
         floorData = DataManager.Instance.floorDict[id];
     }
 
+    private void Start()
+    {
+        // 특성 초기화
+        UIManager.Instance.HideUI<UIAbility>();
+        var ui = UIManager.Instance.HideUI<UIAbility>();
+    }
+
     public void StartFloor()
     {
         Debug.Log("<color=cyan>플로어 시작</color>");
