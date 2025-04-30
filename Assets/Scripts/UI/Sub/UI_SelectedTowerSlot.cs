@@ -8,6 +8,7 @@ public class UI_SelectedTowerSlot : MonoBehaviour
     [HideInInspector] public int towerId = -1;
     [HideInInspector] public UI_Deck deck;
 
+    [SerializeField] private RectTransform towerSlotTransform;
     [SerializeField] private Button towerSlotButton;
     [SerializeField] private Image towerIcon;
     [SerializeField] private TextMeshProUGUI towerNameText;
@@ -37,6 +38,8 @@ public class UI_SelectedTowerSlot : MonoBehaviour
         //스프라이트 설정해야 함
         towerId = index;
         towerNameText.text = DataManager.Instance.towerDict[index].name;
+
+        RotateSlotRandom();
     }
 
     void ClearSlot()
@@ -44,5 +47,12 @@ public class UI_SelectedTowerSlot : MonoBehaviour
         towerId = -1;
         towerIcon.sprite = null;
         towerNameText.text = null;
+    }
+
+    void RotateSlotRandom()
+    {
+        float randomRotZ = Random.Range(-5f, 5f);
+        Vector3 curRot = towerSlotTransform.eulerAngles;
+        towerSlotTransform.eulerAngles = new Vector3(curRot.x, curRot.y, randomRotZ);
     }
 }
