@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class UI_Artifact : UI
 {
     [SerializeField] private Button closeButton;
+    [SerializeField] private TextMeshProUGUI goldText;
 
     [SerializeField] private Transform slotParent;
     private List<UI_ArtifactSlot> slots = new();
@@ -61,6 +62,8 @@ public class UI_Artifact : UI
 
             slot.Init(data.Value.id);
         }
+
+        UpdateGold();
     }
 
     void Dirty(int id)
@@ -73,6 +76,14 @@ public class UI_Artifact : UI
                 return;
             }
         }
+
+        UpdateGold();
+    }
+
+    void UpdateGold()
+    {
+        int gold = SaveManager.Instance.playerData.gold;
+        goldText.text = string.Format("{0:N0}", gold);
     }
 
     void CheckGachaAble()
