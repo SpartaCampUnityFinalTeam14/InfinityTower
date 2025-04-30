@@ -11,7 +11,7 @@ public class UI_ChampionSlot : MonoBehaviour
     [SerializeField] private Image championImage;
     [SerializeField] private GameObject selectedMark;
     [SerializeField] private TextMeshProUGUI nameText;
-
+    [SerializeField] private TextMeshProUGUI descriptionText;
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private Image expBar;
     [SerializeField] private TextMeshProUGUI expText;
@@ -28,6 +28,7 @@ public class UI_ChampionSlot : MonoBehaviour
         data = DataManager.Instance.championDict[id];
 
         nameText.text = data.name;
+        descriptionText.text = data.description;
         //아이디에 맞춰서 스프라이트 찾아와야 함
 
         SetLevel(SaveManager.Instance.championLevelDict[id].level);

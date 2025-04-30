@@ -13,6 +13,7 @@ public class UI_Deck : UI
     [SerializeField] private Button towerTab;
     [SerializeField] private Button championTab;
 
+    [SerializeField] private RectTransform championBackgroundTransform;
     [SerializeField] private Image championImage;
     [SerializeField] private Button championButton;
     [SerializeField] private TextMeshProUGUI championNameText;
@@ -78,18 +79,31 @@ public class UI_Deck : UI
         {
             towerSelect.gameObject.SetActive(true);
             championSelect.gameObject.SetActive(false);
+            towerTab.GetComponent<Image>().color = Color.gray;
+            championTab.GetComponent<Image>().color = Color.white;
         }
         else
         {
             towerSelect.gameObject.SetActive(false);
             championSelect.gameObject.SetActive(true);
+            towerTab.GetComponent<Image>().color = Color.white;
+            championTab.GetComponent<Image>().color = Color.gray;
         }
     }
 
     void SetChampion(int index)
     {
         //스프라이트 세팅해야 함
+        RotateChampionSlotRandom();
+
         championNameText.text = DataManager.Instance.championDict[index].name;
+    }
+
+    void RotateChampionSlotRandom()
+    {
+        float randomRotZ = Random.Range(-5f, 5f);
+        Vector3 curRot = championBackgroundTransform.eulerAngles;
+        championBackgroundTransform.eulerAngles = new Vector3(curRot.x, curRot.y, randomRotZ);
     }
 
     void InitSelectedTowers()

@@ -12,7 +12,7 @@ public class UI_TowerSelectSlot : MonoBehaviour
     [SerializeField] private GameObject selectedMark;
     [SerializeField] private GameObject clickedMark;
     [SerializeField] private TextMeshProUGUI nameText;
-
+    [SerializeField] private TextMeshProUGUI descriptionText;
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private Image expBar;
     [SerializeField] private TextMeshProUGUI expText;
@@ -29,8 +29,9 @@ public class UI_TowerSelectSlot : MonoBehaviour
         this.id = id;
         data = DataManager.Instance.towerDict[id];
 
-        nameText.text = data.name;
         //스프라이트 지정해줘야 함
+        nameText.text = data.name;
+        descriptionText.text = data.description;
 
         SetLevel(SaveManager.Instance.towerLevelDict[id].level);
         SetExp(SaveManager.Instance.towerLevelDict[id].exp);
