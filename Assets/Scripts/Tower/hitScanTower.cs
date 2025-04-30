@@ -27,9 +27,9 @@ public class hitScanTower : TargettingTower
 
                 if (enemy != null/*isAttackTower*/)
                 {
-                    float damage = towerData.GetStatValue(StatType.Damage);
-                    float attackPowerBuff = 0 /*= towerData.GetBuffValue(EffectType.ATKPowerUP)*/;
-                    float totalDamage = damage + attackPowerBuff;
+                    float damage = towerData.GetStatValue(StatType.attackDamage);
+                    float attackPowerBuff = GetAddModifierValue(StatType.attackDamage);
+                    float totalDamage = GetFinalStatValue(StatType.attackDamage);
 
                     enemy.TakeDamage(totalDamage);
                     Debug.Log($"[hitScanTower] 데미지 {totalDamage} 적용 (기본:{damage}, 추가:{attackPowerBuff}) -> {enemy.name}");

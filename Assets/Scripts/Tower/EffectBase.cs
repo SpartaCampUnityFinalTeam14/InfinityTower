@@ -108,14 +108,35 @@ public class AttackDamageEffecter : EffectBase
 
     protected override void OnEffectStart_Tower(BaseTower tower, float value)
     {
-        if (!tower.AddModifierStat.TryAdd((int)StatType.Damage, value))
+        if (!tower.AddModifierStat.TryAdd((int)StatType.attackDamage, value))
         {
-            tower.AddModifierStat[(int)StatType.Damage] += value;
+            tower.AddModifierStat[(int)StatType.attackDamage] += value;
         }
     }
 
     protected override void OnEffectEnd_Tower(BaseTower tower, float value)
     {
-        tower.AddModifierStat[(int)StatType.Damage] -= value;
+        tower.AddModifierStat[(int)StatType.attackDamage] -= value;
+    }
+}
+
+public class AttackRangeEffecter : EffectBase
+{
+    public AttackRangeEffecter(int statusID) : base(statusID)
+    {
+
+    }
+
+    protected override void OnEffectStart_Tower(BaseTower tower, float value)
+    {
+        if (!tower.AddModifierStat.TryAdd((int)StatType.attackRange, value))
+        {
+            tower.AddModifierStat[(int)StatType.attackRange] += value;
+        }
+    }
+
+    protected override void OnEffectEnd_Tower(BaseTower tower, float value)
+    {
+        tower.AddModifierStat[(int)StatType.attackRange] -= value;
     }
 }

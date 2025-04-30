@@ -28,9 +28,9 @@ public class MonsterBase : Poolable, ISkillUser
         isDead = false;
         data = new(DataManager.Instance.monsterDict[id]);
 
-        currentHP = (int)GetStat(StatType.Health);
-        moveSpeed = GetStat(StatType.Speed);
-        defense = GetStat(StatType.Armor);
+        currentHP = (int)GetStat(StatType.HP);
+        moveSpeed = GetStat(StatType.moveSpeed);
+        defense = GetStat(StatType.armor);
 
         ApplyTypeBonus((EnemyType)data.enemyType);
 
@@ -46,7 +46,7 @@ public class MonsterBase : Poolable, ISkillUser
     {
         if (hpBar != null)
         {
-            hpBar.fillAmount = Mathf.Clamp01((float)currentHP / GetStat(StatType.Health));
+            hpBar.fillAmount = Mathf.Clamp01((float)currentHP / GetStat(StatType.HP));
         }
     }
     
@@ -83,7 +83,7 @@ public class MonsterBase : Poolable, ISkillUser
 
             while (Vector3.Distance(transform.position, target) > 0.05f)
             {
-                transform.position = Vector3.MoveTowards(transform.position, target, GetStat(StatType.Speed) * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, target, GetStat(StatType.moveSpeed) * Time.deltaTime);
                 yield return null;
             }
 
@@ -92,7 +92,7 @@ public class MonsterBase : Poolable, ISkillUser
             yield return null;
         }
 
-        StageManager.Instance.TakeDamage((int)GetStat(StatType.Attack));
+        StageManager.Instance.TakeDamage((int)GetStat(StatType.damage));
         Dead();
     }
 

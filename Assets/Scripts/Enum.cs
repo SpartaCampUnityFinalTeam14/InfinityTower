@@ -23,50 +23,32 @@ public enum TargetType
     Enemy    //적 데미지, 디버프
 }
 
-public enum TargetStatType
+public enum StatType
 {
-    //타워 스탯
-    attackDamage = 0,
-    attackRange = 1,
-    attackSpeed = 2,
-    targetCount = 3,
-    towerCooldown = 4,
-    cost = 5,
+    //Tower
+    attackDamage,
+    attackRange,
+    attackSpeed,
+    targetCount,
+    towerCooldown,
+    cost,
 
-    //플레이어 스탯
+    //Player
     costHeal = 6,
     playerHeal = 7,
     playerHP = 8,
-    
-    //몬스터 스탯
+
+    //Monster
     HP = 9,
     moveSpeed = 10,
     armor = 11,
     damage = 12,
 
-    //플레이어 스탯
+    //Player
     cooldown = 13,
     atk = 14,
     cash = 15,
     cleargoldDrop = 16
-}
-
-public enum StatType
-{
-    //Tower
-    Damage,
-    Range,
-    ActiveSpeed,
-    TargetCount,
-    CoolTime,
-    Cost,
-
-    //Moster
-    Health,
-    Speed,
-    Armor,
-    Attack,
-    AttackSpeed
 }
 
 public enum EffectType

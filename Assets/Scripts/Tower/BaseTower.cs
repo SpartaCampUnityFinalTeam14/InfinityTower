@@ -29,7 +29,7 @@ public abstract class BaseTower : MonoBehaviour
         nowEffectedDict = new Dictionary<int, int>();
         AddModifierStat = new Dictionary<int, float>();
 
-        attackTimer = towerData.GetStatValue(StatType.ActiveSpeed);
+        attackTimer = towerData.GetStatValue(StatType.attackSpeed);
     }
 
     protected virtual void Update()
@@ -39,7 +39,7 @@ public abstract class BaseTower : MonoBehaviour
         if (attackTimer <= 0)
         {
             Activate();
-            attackTimer = towerData.GetStatValue(StatType.ActiveSpeed);
+            attackTimer = towerData.GetStatValue(StatType.attackSpeed);
         }
     }
 
