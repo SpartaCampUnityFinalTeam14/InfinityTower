@@ -18,7 +18,7 @@ public enum TargettingRule
 
 public enum TargetType
 {
-    Tower=1,    //아군 타워 버프
+    Tower = 1,    //아군 타워 버프
     Player,  //플레이어 코스트 회복, 체력 회복
     Enemy    //적 데미지, 디버프
 }
@@ -26,12 +26,12 @@ public enum TargetType
 public enum StatType
 {
     //Tower
-    attackDamage,
-    attackRange,
-    attackSpeed,
-    targetCount,
-    towerCooldown,
-    cost,
+    attackDamage = 0,
+    attackRange = 1,
+    attackSpeed = 2,
+    targetCount = 3,
+    towerCooldown = 4,
+    cost = 5,
 
     //Player
     costHeal = 6,
@@ -43,9 +43,9 @@ public enum StatType
     moveSpeed = 10,
     armor = 11,
     damage = 12,
+    cooldown = 13,
 
     //Player
-    cooldown = 13,
     atk = 14,
     cash = 15,
     cleargoldDrop = 16

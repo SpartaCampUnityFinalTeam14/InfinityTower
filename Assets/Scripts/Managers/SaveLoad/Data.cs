@@ -170,6 +170,26 @@ public class TowerData
                 case 0:
                     effect = new AttackDamageEffecter(targetStatusID);
                     break;
+
+                case 1:
+                    effect = new AttackRangeEffecter(targetStatusID);
+                    break;
+
+                case 2:
+                    effect = new AttackSpeedEffecter(targetStatusID);
+                    break;
+
+                case 3:
+                    effect = new TargetCountEffecter(targetStatusID);
+                    break;
+
+                case 4:
+                    effect = new TowerCooldownEffecter(targetStatusID);
+                    break;
+
+                case 5:
+                    effect = new CostEffecter(targetStatusID);
+                    break;
             }
 
             ret.Add(effect);

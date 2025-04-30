@@ -124,7 +124,7 @@ public abstract class TargettingTower : BaseTower
         {
             case TargetType.Enemy:
                 //maxCount = Mathf.Min(towerData.targetCount, enemiesInRange.Count);
-                maxCount = Mathf.Min((int)towerData.GetStatValue(StatType.targetCount), enemiesInRange.Count);
+                maxCount = Mathf.Min((int)GetFinalStatValue(StatType.targetCount), enemiesInRange.Count);
                 for (int i = 0; i < maxCount; i++)
                 {
                     targets.Add(enemiesInRange[i].gameObject);
@@ -132,7 +132,7 @@ public abstract class TargettingTower : BaseTower
                 break;
 
             case TargetType.Tower:
-                maxCount = Mathf.Min((int)towerData.GetStatValue(StatType.targetCount), towerInRange.Count);
+                maxCount = Mathf.Min((int)GetFinalStatValue(StatType.targetCount), towerInRange.Count);
                 for (int i = 0; i < maxCount; i++)
                 {
                     targets.Add(towerInRange[i].gameObject);

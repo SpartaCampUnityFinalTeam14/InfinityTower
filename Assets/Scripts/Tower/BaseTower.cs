@@ -29,7 +29,7 @@ public abstract class BaseTower : MonoBehaviour
         nowEffectedDict = new Dictionary<int, int>();
         AddModifierStat = new Dictionary<int, float>();
 
-        attackTimer = towerData.GetStatValue(StatType.attackSpeed);
+        attackTimer = GetFinalStatValue(StatType.attackSpeed);
     }
 
     protected virtual void Update()
@@ -46,10 +46,17 @@ public abstract class BaseTower : MonoBehaviour
     // 효과 적용 후 종합 수치
     public float GetFinalStatValue(StatType statType)
     {
-        return towerData.GetStatValue(statType) * (1 + GetAddModifierValue(statType));
+        if (statType == StatType.targetCount)
+        {
+            return towerData.GetStatValue(statType) + GetAddModifierValue(statType);
+        }
+        else
+        {
+            return towerData.GetStatValue(statType) * (1 + GetAddModifierValue(statType));
+        }
     }
 
-    private float GetAddModifierValue(StatType type)
+    public float GetAddModifierValue(StatType type)
     {
         if (AddModifierStat.TryGetValue((int)type,out float value))
         {

@@ -12,26 +12,11 @@ public class EffectBase
     {
         this.statusID = statusID;
     }
-
-    public void ApplyEffect_Monster(MonsterBase tarMonster, float value, float duration, bool stackable)
+}
+public abstract class EffectBase_Tower : EffectBase
+{
+    protected EffectBase_Tower(int statusID) : base(statusID)
     {
-        //// 효과 적용 가능 여부 판단, 타워에 효과 받음 표시
-        //if (tarMonster.nowEffectedDict.TryGetValue(statusID, out int cnt))
-        //{
-        //    if (stackable == false)
-        //    {
-        //        Debug.Log("이미 활성화된 이펙트, 스택 불가");
-        //        return;
-        //    }
-        //    tarMonster.nowEffectedDict[statusID] = cnt + 1;
-        //}
-        //else
-        //{
-        //    tarMonster.nowEffectedDict.Add(statusID, 1);
-        //}
-
-        //// 실제 효과 적용 코루틴
-        //tarMonster.StartCoroutine(OnEffectCo_Monster(tarMonster, value, duration));
     }
 
     public void ApplyEffect_Tower(BaseTower tarTower, float value, float duration, bool stackable)
@@ -59,11 +44,13 @@ public class EffectBase
     {
         // 실제 효과 적용
         OnEffectStart_Tower(tarTower, value);
+
         // 적용시간 음수 시 지속시간 무한(특성)
         if (duration < 0)
         {
             yield break;
         }
+
         yield return new WaitForSeconds(duration);
         OnEffectEnd_Tower(tarTower, value);
 
@@ -73,6 +60,38 @@ public class EffectBase
 
         if (nowCnt == 0) tarTower.nowEffectedDict.Remove(statusID);
         else tarTower.nowEffectedDict[statusID] = nowCnt;
+    }
+
+    protected virtual void OnEffectStart_Tower(BaseTower tower, float value) { }
+    protected virtual void OnEffectEnd_Tower(BaseTower tower, float value) { }
+}
+
+public abstract class EffectBase_Monster : EffectBase
+{
+    protected EffectBase_Monster(int statusID) : base(statusID)
+    {
+
+    }
+
+    public void ApplyEffect_Monster(MonsterBase tarMonster, float value, float duration, bool stackable)
+    {
+        //// 효과 적용 가능 여부 판단, 타워에 효과 받음 표시
+        //if (tarMonster.nowEffectedDict.TryGetValue(statusID, out int cnt))
+        //{
+        //    if (stackable == false)
+        //    {
+        //        Debug.Log("이미 활성화된 이펙트, 스택 불가");
+        //        return;
+        //    }
+        //    tarMonster.nowEffectedDict[statusID] = cnt + 1;
+        //}
+        //else
+        //{
+        //    tarMonster.nowEffectedDict.Add(statusID, 1);
+        //}
+
+        //// 실제 효과 적용 코루틴
+        //tarMonster.StartCoroutine(OnEffectCo_Monster(tarMonster, value, duration));
     }
 
     private IEnumerator OnEffectCo_Monster(MonsterBase tarMonster, float value, float duration)
@@ -92,14 +111,11 @@ public class EffectBase
         //else tarMonster.nowEffectedDict[statusID] = nowCnt;
     }
 
-    protected virtual void OnEffectStart_Tower(BaseTower tower, float value) { }
-    protected virtual void OnEffectEnd_Tower(BaseTower tower, float value) { }
-
-    protected virtual void OnEffectStart_Monster(MonsterBase monster, float value) { }
-    protected virtual void OnEffectEnd_Monster(MonsterBase monster, float value) { }
+    protected abstract void OnEffectStart_Monster(MonsterBase monster, float value);
+    protected abstract void OnEffectEnd_Monster(MonsterBase monster, float value);
 }
 
-public class AttackDamageEffecter : EffectBase
+public class AttackDamageEffecter : EffectBase_Tower
 {
     public AttackDamageEffecter(int statusID) : base(statusID)
     {
@@ -120,7 +136,7 @@ public class AttackDamageEffecter : EffectBase
     }
 }
 
-public class AttackRangeEffecter : EffectBase
+public class AttackRangeEffecter : EffectBase_Tower
 {
     public AttackRangeEffecter(int statusID) : base(statusID)
     {
@@ -138,5 +154,89 @@ public class AttackRangeEffecter : EffectBase
     protected override void OnEffectEnd_Tower(BaseTower tower, float value)
     {
         tower.AddModifierStat[(int)StatType.attackRange] -= value;
+    }
+}
+
+public class AttackSpeedEffecter : EffectBase_Tower
+{
+    public AttackSpeedEffecter(int statusID) : base(statusID)
+    {
+
+    }
+
+    protected override void OnEffectStart_Tower(BaseTower tower, float value)
+    {
+        if (!tower.AddModifierStat.TryAdd((int)StatType.attackSpeed, value))
+        {
+            tower.AddModifierStat[(int)StatType.attackSpeed] += value;
+        }
+    }
+
+    protected override void OnEffectEnd_Tower(BaseTower tower, float value)
+    {
+        tower.AddModifierStat[(int)StatType.attackSpeed] -= value;
+    }
+}
+
+public class TargetCountEffecter : EffectBase_Tower
+{
+    public TargetCountEffecter(int statusID) : base(statusID)
+    {
+
+    }
+
+    protected override void OnEffectStart_Tower(BaseTower tower, float value)
+    {
+        if (!tower.AddModifierStat.TryAdd((int)StatType.targetCount, value))
+        {
+            tower.AddModifierStat[(int)StatType.targetCount] += value;
+        }
+    }
+
+    protected override void OnEffectEnd_Tower(BaseTower tower, float value)
+    {
+        tower.AddModifierStat[(int)StatType.targetCount] -= value;
+    }
+}
+
+public class TowerCooldownEffecter : EffectBase_Tower
+{
+    public TowerCooldownEffecter(int statusID) : base(statusID)
+    {
+
+    }
+
+    protected override void OnEffectStart_Tower(BaseTower tower, float value)
+    {
+        if (!tower.AddModifierStat.TryAdd((int)StatType.towerCooldown, value))
+        {
+            tower.AddModifierStat[(int)StatType.towerCooldown] += value;
+        }
+    }
+
+    protected override void OnEffectEnd_Tower(BaseTower tower, float value)
+    {
+        tower.AddModifierStat[(int)StatType.towerCooldown] -= value;
+    }
+}
+
+public class CostEffecter : EffectBase_Tower
+{
+    public CostEffecter(int statusID) : base(statusID)
+    {
+
+    }
+
+    protected override void OnEffectStart_Tower(BaseTower tower, float value)
+    {
+        if (!tower.AddModifierStat.TryAdd((int)StatType.cost, value))
+        {
+            tower.AddModifierStat[(int)StatType.cost] += value;
+        }
+    }
+
+    protected override void OnEffectEnd_Tower(BaseTower tower, float value)
+    {
+        tower.AddModifierStat[(int)StatType.cost] -= value;
     }
 }
