@@ -138,7 +138,9 @@ public class TowerData
 
     // 보유 효과
     public List<int> effectID;      // effctType의 int 값들
-    public List<float[]> effectInfo; // 각 효과의 수치, 지속시간, 중첩여부
+
+    // 각 효과의 수치, 지속시간, 중첩여부 (지속시간이 음수면 무한, 중첩여부가 0이하면 중첩안됨)
+    public List<float[]> effectInfo;
 
     public TargettingRule TargettingRule => (TargettingRule)targettingRule;
     public TargetType TargetType => (TargetType)targetType;
