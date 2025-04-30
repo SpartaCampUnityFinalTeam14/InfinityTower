@@ -27,8 +27,8 @@ public class UI_TowerInfo : UI
     private List<UI_StatEach> stats = new();
 
     [Header("하단")]
-    [SerializeField] private Button selectButton;
     [SerializeField] private Button closeButton;
+    [SerializeField] private Button selectButton;
 
     [Header("이벤트채널")]
     [SerializeField] private IntEventChannel OnTowerSelected;
