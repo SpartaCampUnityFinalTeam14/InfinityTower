@@ -99,24 +99,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 750cdd646c6fe7949b05a67c773c0de3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerData:
-    id: 11
-    name: "\uAC80\uC0AC"
-    description: "\uAC80\uC744 \uD718\uB458\uB7EC \uC801 \uD558\uB098\uB97C \uACF5\uACA9\uD55C\uB2E4.
-      \uC0AC\uAC70\uB9AC\uAC00 \uC9E7\uC9C0\uB9CC \uACF5\uACA9\uC18D\uB3C4\uAC00
-      \uBE60\uB974\uB2E4"
-    targetType: 3
-    targettingRule: 0
-    statTypes: 000000000100000002000000030000000400000005000000
-    statValue:
-    - 7
-    - 3
-    - 6
-    - 1
-    - 20
-    - 70
-    effectID: 
-    effectValue: []
+  ID: 11
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!61 &-6891636743366010001
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -25,7 +25,7 @@ public class AbilityManager : MonoBehaviour
         {
             if (this.monsterAbilities.ContainsKey(data.valueType[i]))
             {
-                this.monsterAbilities[data.valueType[i]] += DataManager.Instance.abilityDict[data.id].value[i]; ;
+                this.monsterAbilities[data.valueType[i]] += DataManager.Instance.abilityDict[data.perkID].value[i]; ;
             }
             else
             {
@@ -40,7 +40,7 @@ public class AbilityManager : MonoBehaviour
 
         foreach (var ability in abilities.Values)
         {
-            if (ability.Data.targetType == (int)TargetType.Enemy)
+            if (ability.Data.targetType == /*(int)TargetType.Enemy*/"enemy")
                 listData.Add(ability);
         }
         
@@ -57,7 +57,7 @@ public class AbilityManager : MonoBehaviour
             if (!filterAbilityPool.ContainsKey(data.rarity))
                 filterAbilityPool.Add(data.rarity, new Dictionary<int, AbilityData>());
 
-            filterAbilityPool[data.rarity].Add(data.id, data);
+            filterAbilityPool[data.rarity].Add(data.perkID, data);
         }
 
         // 현재 덱에 관련된 특성만 남기기
@@ -69,7 +69,7 @@ public class AbilityManager : MonoBehaviour
             foreach (var data in ability.Values)
             {
                 if (data.targetID != -1 && data.targetType.Equals((int)TargetType.Tower) && !StageManager.Instance.selectedTowers.Contains(data.targetID))
-                    removeKey.Add(data.id);
+                    removeKey.Add(data.perkID);
             }
 
             foreach (var key in removeKey)
@@ -81,32 +81,32 @@ public class AbilityManager : MonoBehaviour
 
     public void AddAbillity(AbilityData data)
     {
-        if (abilities.ContainsKey(data.id))
+        if (abilities.ContainsKey(data.perkID))
         {
             for (int i = 0; i < data.valueType.Count; i++)
             {
-                abilities[data.id].Data.value[i] += DataManager.Instance.abilityDict[data.id].value[i];
+                abilities[data.perkID].Data.value[i] += DataManager.Instance.abilityDict[data.perkID].value[i];
             }
         }
         else
         {
             Ability ability = new Ability();
             ability.Init(data);
-            abilities.Add(data.id, ability);
+            abilities.Add(data.perkID, ability);
         }
 
         // 특성 스택 증가
-        abilities[data.id].AddStackCount(1);
+        abilities[data.perkID].AddStackCount(1);
 
         // 특성 가챠 풀에서 스택형이 아니거나 최대 스택이면 제거
         CheckStackable(data);
 
         // 타겟타입으로 특성 업데이트 분류
-        if (data.targetType == (int)TargetType.Tower)
+        if (data.targetType == "tower"/*(int)TargetType.Tower*/)
         {
             OnAbilityChanged?.Invoke();
         }
-        else if (data.targetType == (int)TargetType.Enemy)
+        else if (data.targetType == "enemy"/*(int)TargetType.Enemy*/)
         {
             UpdateMonsterAbility(data);
         }
@@ -114,18 +114,18 @@ public class AbilityManager : MonoBehaviour
 
     public void RemoveAbility(AbilityData data)
     {
-        if (abilities.ContainsKey(data.id))
+        if (abilities.ContainsKey(data.perkID))
         {
-            abilities[data.id].SubStackCount(1);
+            abilities[data.perkID].SubStackCount(1);
 
-            if (abilities[data.id].CurStackCount <= 0)
+            if (abilities[data.perkID].CurStackCount <= 0)
             {
-                abilities.Remove(data.id);
+                abilities.Remove(data.perkID);
                 
                 // 제거한 특성이 가챠풀 안에 없으면 추가
-                if (!filterAbilityPool[data.rarity].ContainsKey(data.id))
+                if (!filterAbilityPool[data.rarity].ContainsKey(data.perkID))
                 {
-                    filterAbilityPool[data.rarity].Add(data.id, DataManager.Instance.abilityDict[data.id]);
+                    filterAbilityPool[data.rarity].Add(data.perkID, DataManager.Instance.abilityDict[data.perkID]);
                 }
             }
         }
@@ -137,7 +137,7 @@ public class AbilityManager : MonoBehaviour
 
         foreach (var ability in abilities.Values)
         {
-            if (ability.Data.targetType == (int)TargetType.Tower && (ability.Data.targetID == -1 || ability.Data.targetID.Equals(towerData.id)))
+            if (ability.Data.targetType == "tower"/*(int)TargetType.Tower*/ && (ability.Data.targetID == -1 || ability.Data.targetID.Equals(towerData.id)))
                 listData.Add(ability);
         }
 
@@ -166,7 +166,7 @@ public class AbilityManager : MonoBehaviour
 
     public void CheckStackable(AbilityData data)
     {
-        if (DataManager.Instance.abilityDict[data.id].maxStack <= abilities[data.id].CurStackCount)
-            filterAbilityPool[data.rarity].Remove(data.id);
+        if (DataManager.Instance.abilityDict[data.perkID].stackLimit <= abilities[data.perkID].CurStackCount)
+            filterAbilityPool[data.rarity].Remove(data.perkID);
     }
 }

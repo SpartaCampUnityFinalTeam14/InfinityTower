@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,7 +31,7 @@ public class AbilityIcon : Poolable
     {
         this.data = data;
 
-        icon.sprite = Resources.Load<Sprite>($"Prefabs/Icons/{data.image}");
+        icon.sprite = Resources.Load<Sprite>($"Icons/Ability/{Path.ChangeExtension(data.image, null)}");
         button.enabled = buttonEnabled;
     }
 

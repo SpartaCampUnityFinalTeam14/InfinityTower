@@ -1,0 +1,220 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class UI_Gacha : UI
+{
+    [SerializeField] private Button closeButton;
+    [SerializeField] private TextMeshProUGUI goldText;
+    [SerializeField] private Image boxImage;
+    [SerializeField] private Button gacha1Button;
+    [SerializeField] private Button gacha10Button;
+    
+    [SerializeField] private GameObject gachaEachBackground;
+    [SerializeField] private Animator boxAnimator;
+    private List<KeyValuePair<bool, int>> gachaList = new();
+    [SerializeField] private UI_GachaResult gachaEachResult;
+    [SerializeField] private Button gachaEachBackgroundButton;
+    [SerializeField] private Button skipAllButton;
+
+    [SerializeField] private GameObject gachaAllBackground;
+    [SerializeField] private Button gachaAllBackgroundButton;
+    [SerializeField] private List<UI_GachaResult> gachaAllResult;
+
+    private GachaManager gachaManager;
+    private int requiredGold = 50;
+    private Coroutine showEachResult;
+    private Coroutine showResults;
+    private bool isShowResultPlaying = false;
+    private bool isSkipButtonClicked = false;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Gacha>());
+        gacha1Button.onClick.AddListener(Gacha1);
+        gacha10Button.onClick.AddListener(Gacha10);
+        gachaEachBackgroundButton.onClick.AddListener(SkipEach);
+        skipAllButton.onClick.AddListener(SkipAll);
+        gachaAllBackgroundButton.onClick.AddListener(CloseAllResult);
+
+        Init();
+    }
+
+    public void Init()
+    {
+        gachaManager = new();
+        gachaList.Clear();
+        isSkipButtonClicked = false;
+        gachaEachBackground.SetActive(false);
+        gachaAllBackground.SetActive(false);
+
+        SetGold(SaveManager.Instance.playerData.gold);
+        CheckGacha1Gold();
+        CheckGacha10Gold();
+    }
+
+    void CheckGacha1Gold()
+    {
+        //gacha1Button.interactable = SaveManager.Instance.playerData.CheckGold(requiredGold);
+    }
+
+    void CheckGacha10Gold()
+    {
+        //gacha10Button.interactable = SaveManager.Instance.playerData.CheckGold(requiredGold * 10);
+    }
+
+    void SetGold(int gold)
+    {
+        goldText.text = string.Format("{0:N0}", gold);
+    }
+
+    void Gacha1()
+    {
+        if (!SaveManager.Instance.playerData.CheckGold(requiredGold))
+        {
+            UIManager.Instance.ShowUI<UI_Alert>().Alert("골드가 부족합니다.");
+            return;
+        }
+        SaveManager.Instance.playerData.UseGold(requiredGold);
+        CheckGacha1Gold();
+        SetGold(SaveManager.Instance.playerData.gold);
+
+        skipAllButton.gameObject.SetActive(false);
+
+        gachaList.Clear();
+
+        gachaList.Add(gachaManager.GetRandomGacha());
+
+        showResults = StartCoroutine(ShowResults());
+    }
+
+    void Gacha10()
+    {
+        if (!SaveManager.Instance.playerData.CheckGold(requiredGold * 10))
+        {
+            UIManager.Instance.ShowUI<UI_Alert>().Alert("골드가 부족합니다.");
+            return;
+        }
+        SaveManager.Instance.playerData.UseGold(requiredGold * 10);
+        CheckGacha10Gold();
+        SetGold(SaveManager.Instance.playerData.gold);
+
+        skipAllButton.gameObject.SetActive(true);
+
+        gachaList.Clear();
+
+        for (int i = 0; i < 10; i++)
+        {
+            gachaList.Add(gachaManager.GetRandomGacha());
+        }
+
+        showResults = StartCoroutine(ShowResults());
+    }
+
+    IEnumerator ShowResults()
+    {
+        foreach (var result in gachaList)
+        {
+            isSkipButtonClicked = false;
+            isShowResultPlaying = false;
+
+            showEachResult = StartCoroutine(ShowEachResult(result));
+            yield return new WaitUntil(() => isShowResultPlaying);
+
+            yield return new WaitUntil(() => isSkipButtonClicked);
+        }
+
+        if(gachaList.Count > 1)
+        {
+            ShowAllResult();
+        }
+    }
+
+    IEnumerator ShowEachResult(KeyValuePair<bool, int> result)
+    {
+        isShowResultPlaying = true;
+
+        gachaEachBackground.SetActive(true);
+        gachaEachResult.Init(result.Key, result.Value);
+        gachaEachResult.Hide();
+
+        boxAnimator.SetInteger("BoxID", Random.Range(0, 4));
+        boxAnimator.Update(0f);
+        boxAnimator.SetTrigger("Open");
+        boxAnimator.Update(0f);
+        float clipLength = boxAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+        yield return new WaitForSeconds(clipLength);
+
+        gachaEachResult.Show();
+
+        isShowResultPlaying = false;
+    }
+
+    void SkipEach()
+    {
+        boxAnimator.SetInteger("BoxID", -1);
+
+        if (isShowResultPlaying)
+        {
+            StopCoroutine(showEachResult);
+            isShowResultPlaying = false;
+
+            boxAnimator.SetTrigger("Skip");
+            boxAnimator.Update(0f);
+
+            gachaEachResult.Show();
+        }
+        else
+        {
+            boxAnimator.SetTrigger("Close");
+            boxAnimator.Update(0f);
+
+            isSkipButtonClicked = true;
+
+            gachaEachBackground.SetActive(false);
+        }
+    }
+
+    void SkipAll()
+    {
+        boxAnimator.SetInteger("BoxID", -1);
+        boxAnimator.Update(0f);
+        boxAnimator.SetTrigger("Skip");
+        boxAnimator.Update(0f);
+        boxAnimator.SetTrigger("Close");
+
+        StopCoroutine(showResults);
+
+        if (gachaList.Count > 1)
+        {
+            ShowAllResult();
+        }
+    }
+
+    void ShowAllResult()
+    {
+        gachaEachBackground.SetActive(false);
+        gachaAllBackground.SetActive(true);
+
+        for(int i = 0; i < gachaAllResult.Count; i++)
+        {
+            gachaAllResult[i].Init(gachaList[i].Key, gachaList[i].Value);
+        }
+
+        gachaList.Clear();
+    }
+
+    void CloseAllResult()
+    {
+        gachaAllBackground.SetActive(false);
+    }
+
+    public override void Clear()
+    {
+        base.Clear();
+    }
+}

@@ -43,7 +43,7 @@
             "value": "[15, 1.1, 2, 5]",
             "enemyType": "Normal",
             "hasSkill": "null",
-            "sprite ": "Enemy_027 ",
+            "sprite ": "Enemy_027 "
         },
         {
             "ID": "5",
@@ -52,7 +52,7 @@
             "value": "[18, 1.1, 2, 6]",
             "enemyType": "Normal",
             "hasSkill": "null",
-            "sprite ": "Enemy_032 ",
+            "sprite ": "Enemy_032 "
         },
         {
             "ID": "6",
@@ -61,7 +61,7 @@
             "value": "[12, 1, 5, 5]",
             "enemyType": "Normal",
             "hasSkill": "null",
-            "sprite ": "Enemy_034 ",
+            "sprite ": "Enemy_034 "
         },
         {
             "ID": "7",

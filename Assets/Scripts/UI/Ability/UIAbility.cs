@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,28 +9,33 @@ using UnityEngine;
 
 public class UIAbility : UI
 {
-    [SerializeField] Transform layout;
-    [SerializeField] int abilitySlotCount;
+    //[SerializeField] Transform layout;
+    [SerializeField] List<AbilitySlot> abilitySlots;
+    [SerializeField] List<RectTransform> listEndPos;
+    [SerializeField] float slideInterval = 0.5f;
+    [SerializeField] float slideDuration = 1f;
 
-    List<AbilitySlot> slots;
+    Vector3[] arrstartPos;
+    WaitForSecondsRealtime wait;
     const string prefabPath = "Ability/AbilitySlot";
 
-    protected override void Awake()
+    private void Start()
     {
-        base.Awake();
-        slots = new List<AbilitySlot>();
-
-        for (int i = 0; i < abilitySlotCount; i++)
+        arrstartPos = new Vector3[abilitySlots.Count];
+        for (int i = 0; i < abilitySlots.Count; i++)
         {
-            Util.InstantiatePrefab(prefabPath, Vector3.zero, Quaternion.identity, layout).TryGetComponent(out AbilitySlot ability);
-            slots.Add(ability);
+            arrstartPos[i] = abilitySlots[i].transform.position;
         }
+
+        wait = new WaitForSecondsRealtime(1f);
     }
 
     public override void Show()
     {
         base.Show();
-        Time.timeScale = 0f;
+
+        StageManager.Instance.timeScaleManager.PushTimeScale(0f);
+
         StageManager.Instance.CurFloor.isPerkSelected = false;
     }
 
@@ -37,8 +43,8 @@ public class UIAbility : UI
     {
         base.Hide();
 
-        if (!StageManager.Instance.isPause && StageManager.Instance.isEventEnd)
-            Time.timeScale = 1f;
+        StageManager.Instance.timeScaleManager.PopTimeScale();
+
         StageManager.Instance.CurFloor.isPerkSelected = true;
     }
 
@@ -63,25 +69,67 @@ public class UIAbility : UI
         }
 
         // 특성 생성
-        for (int i = 0; i < listDraw.Count; i++)
-        {
-            CreateAbilitySlot(listDraw[i], i);
-        }
+        InitAbilitySlot(listDraw);
     }
 
-    void CreateAbilitySlot(AbilityData data, int slotIdx)
+    void InitAbilitySlot(List<AbilityData> datas)
     {
-        AbilitySlot ability;
-        if (slots.Count <= slotIdx)
+        for (int i = 0; i < datas.Count; i++)
         {
-            Util.InstantiatePrefab(prefabPath, Vector3.zero, Quaternion.identity, layout).TryGetComponent(out ability);
-            slots.Add(ability);
-        }
-        else
-        {
-            ability = slots[slotIdx];
+            // 특성 UI 초기화
+            abilitySlots[i].Init(datas[i]);
+
+            // 특성 시작 위치 초기화
+            abilitySlots[i].transform.position = arrstartPos[i];
+
+            // 이벤트 구독
+            abilitySlots[i].actionClick += SeletedAbility;
         }
 
-        ability.Init(data);
+        Sequence seq = DOTween.Sequence();
+        seq.SetUpdate(true);
+
+        // 0.5초 대기
+        seq.AppendInterval(slideInterval)
+            // 슬롯 1번 배치
+            .Append(abilitySlots[0].transform.DOMove(listEndPos[0].transform.position, slideDuration))
+            // 1초 후 슬롯 2번 배치
+            .Insert(slideInterval * 2, abilitySlots[1].transform.DOMove(listEndPos[1].transform.position, slideDuration))
+            // 1.5초후 슬롯 3번 배치
+            .Insert(slideInterval * 3, abilitySlots[2].transform.DOMove(listEndPos[2].transform.position, slideDuration))
+            // 슬롯이 전부 올라오면 특성 선택 활성화
+            .AppendCallback(() =>
+            {
+                abilitySlots[0].EnabledButton(true);
+                abilitySlots[1].EnabledButton(true);
+                abilitySlots[2].EnabledButton(true);
+            });
+    }
+
+    public void SeletedAbility(AbilitySlot selected)
+    {
+        // 매니저에 특성 추가
+        StageManager.Instance.abilityManager.AddAbillity(selected.Data);
+
+        // 특성 종료 연출
+        StartCoroutine(CloseAbilityUI(selected));
+    }
+
+    IEnumerator CloseAbilityUI(AbilitySlot selected)
+    {
+        for (int i = 0; i < abilitySlots.Count; i++)
+        {
+            abilitySlots[i].EnabledButton(false);
+
+            if (abilitySlots[i].Equals(selected))
+                abilitySlots[i].EnabledOutline(true);
+            else
+                abilitySlots[i].FadeOut();
+
+        }
+
+        yield return wait;
+
+        Hide();
     }
 }

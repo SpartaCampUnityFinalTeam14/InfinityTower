@@ -1,5 +1,7 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor.Playables;
 using UnityEngine;
@@ -9,16 +11,26 @@ public class StageManager : Singleton<StageManager>
 {
     private int hp;
     private float curCost = 1f;
-    private float maxCost = 10f;
+    public float CurrentCost => curCost;
+
+    //private float maxCost = 10f;
+    [SerializeField] private float costRecoveryMultiplier = 100f;  // Cost 얻는 속도 - 기본 1배속
     [SerializeField] private FloatEventChannel OnCostChanged;
     private List<float> activeCostRecoveryMultipliers = new List<float>(); // 여러 타워의 버프들을 저장
-    [SerializeField] private float costRecoveryMultiplier = 1f;  // Cost 얻는 속도 - 기본 1배속
 
     public List<int> selectedTowers = new();
     public int selectedChampion;
 
     public AbilityManager abilityManager;
     public EventManager eventManager;
+    public TimeScaleManager timeScaleManager;
+    
+    public SkillTargetingSystem skillTargetingSystem;
+    public SkillVisualDB skillVisualDB;
+    private Hero hero;
+    
+    [SerializeField]
+    private HeroSkillPanel skillPanel;
 
     [SerializeField] private int floorCount = 2;
     private GameObject floorGO;
@@ -27,7 +39,8 @@ public class StageManager : Singleton<StageManager>
     [SerializeField] private IntEventChannel OnFloorCountChanged;
 
     public bool isEventEnd;
-    public bool isPause;
+    public bool isIntroEnd;
+    public bool isAdditionalFloor;
 
     protected override void Awake()
     {
@@ -47,15 +60,55 @@ public class StageManager : Singleton<StageManager>
 
     void Init()
     {
-        UIManager.Instance.HideUI<UIPause>();
-
+        timeScaleManager = new TimeScaleManager();
         abilityManager = gameObject.AddComponent<AbilityManager>();
         eventManager = gameObject.AddComponent<EventManager>();
-    }
+        
+        skillTargetingSystem = gameObject.AddComponent<SkillTargetingSystem>();
+        skillVisualDB = gameObject.AddComponent<SkillVisualDB>();
+        
+        InitHero();
 
-    public void AddFloorCount(int count)
+        UIManager.Instance.HideUI<UIPause>();
+        UIManager.Instance.HideUI<UIFloorIntro>();
+
+        var ui = UIManager.Instance.GetUI<UIFloorIntro>();
+        ui.Init(floorCount);
+    }
+    
+    private void InitHero()
     {
-        floorCount += count;
+        hero = new Hero();
+        Debug.Log("👤 챔피언 생성됨: " + selectedChampion);
+
+        ChampionData champData = DataManager.Instance.championDict[selectedChampion];
+
+        Debug.Log($"{champData.skillId.Count} 개의 스킬을 가지고 있습니다.");
+
+        foreach (int skillId in champData.skillId)
+        {
+            if (DataManager.Instance.skillDict.TryGetValue(skillId, out SkillData skillData))
+            {
+                Debug.Log($"⚡ 스킬 ID: {skillId}");
+                Skill skill = SkillFactory.CreateSkill(skillData);
+                if (skill != null)
+                    hero.skills.Add(skill);
+            }
+            else
+            {
+                Debug.LogWarning($"⚠️ SkillData ID {skillId} 를 찾을 수 없습니다.");
+            }
+        }
+
+        // ✅ 영웅 스킬 패널에 연결 (SerializeField 연결 기준)
+        if (skillPanel != null)
+        {
+            skillPanel.InitHero(hero);
+        }
+        else
+        {
+            Debug.LogWarning("⚠️ HeroSkillPanel이 연결되어 있지 않습니다!");
+        }
     }
 
     public void TakeDamage(int damage)
@@ -94,8 +147,8 @@ public class StageManager : Singleton<StageManager>
     {
         while (true)
         {
-            curCost = Mathf.Min(curCost + Time.deltaTime * costRecoveryMultiplier, maxCost);
-            OnCostChanged.RaiseEvent(curCost / maxCost);
+            curCost = curCost + Time.deltaTime * costRecoveryMultiplier;
+            OnCostChanged.RaiseEvent(curCost);
             yield return null;
         }
     }
@@ -117,6 +170,11 @@ public class StageManager : Singleton<StageManager>
         return true;
     }
 
+    public void GetCost(int amount)
+    {
+        curCost += amount;
+    }
+
     void GameOver()
     {
         Debug.Log("게임오버!");
@@ -135,34 +193,79 @@ public class StageManager : Singleton<StageManager>
     IEnumerator ProgressStage()
     {
         Debug.Log("<color=white>스테이지 시작</color>");
+        List<int> floorDictKeys = DataManager.Instance.floorDict.Keys.ToList();
 
-        for(int i = 0; i < floorCount; i++)
+        for (int i = 0; i < floorCount; i++)
         {
+            ShowFloorIntro();
+            yield return new WaitUntil(() => isIntroEnd);
+        
             OnFloorCountChanged.RaiseEvent(i + 1);
 
-            if(floorGO != null) Destroy(floorGO);
-            floorGO = Util.InstantiatePrefab("Floors/TestFloor");//랜덤 ID에 맞는 플로어 생성하게 변경해야 함
+            if (floorGO != null) Destroy(floorGO);
+            int randomId = Random.Range(0, floorDictKeys.Count);
+            int floorId = floorDictKeys[randomId];
+            floorGO = Util.InstantiatePrefab($"Floors/Floor_{floorId}");//랜덤 ID에 맞는 플로어 생성하게 변경해야 함
             curFloor = floorGO.GetComponent<Floor>();
             curFloor.StartFloor();
 
             curCost = 0;
-
+        
             yield return new WaitUntil(() => curFloor.isFloorEnd);
 
-            //if (i != 0 && (i + 1) % 2 == 0) ShowEvent();
-            ShowEvent();
+            if (i != 0 && (i + 1) % 2 == 0)
+            {
+                ShowFloorIntro();
+                yield return new WaitUntil(() => isIntroEnd);
 
-            yield return new WaitUntil(() => isEventEnd);
+                ShowEvent();
+                yield return new WaitUntil(() => isEventEnd);
+            }
+
+            // 추가 플로어
+            if (isAdditionalFloor)
+            {
+                StartAdditionalFloor();
+
+                yield return new WaitUntil(() => !isAdditionalFloor);
+            }
         }
 
         EndStage();
     }
-   
+
+    void StartAdditionalFloor()
+    {
+        StartCoroutine(AdditionalStageRoutine());
+    }
+
+    IEnumerator AdditionalStageRoutine()
+    {
+        if (floorGO != null) Destroy(floorGO);
+        floorGO = Util.InstantiatePrefab("Floors/TestFloor");
+        curFloor = floorGO.GetComponent<Floor>();
+        curFloor.StartFloor();
+
+        yield return new WaitUntil(() => curFloor.isFloorEnd);
+
+        isAdditionalFloor = false;
+    }
+
     void ShowEvent()
     {
         Debug.Log("<color=white>이벤트 선택</color>");
 
+        isEventEnd = false;
         eventManager.ShowEvent();
+    }
+
+    void ShowFloorIntro()
+    {
+        Debug.Log("<color=white>플로어 진입 인트로</color>");
+
+        isIntroEnd = false;
+        var ui = UIManager.Instance.ShowUI<UIFloorIntro>();
+        //ui.Show();
     }
 
     void GetReward()

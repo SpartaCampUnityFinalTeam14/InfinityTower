@@ -7,6 +7,7 @@ public class UI_Hud : UI
     [SerializeField] private TextMeshProUGUI floorText;
     [SerializeField] private TextMeshProUGUI waveText;
     [SerializeField] private TextMeshProUGUI monsterCountText;
+    [SerializeField] private TextMeshProUGUI costText;
 
     [SerializeField] private Image costBar;
 
@@ -25,7 +26,8 @@ public class UI_Hud : UI
 
     void UnSubscribe()
     {
-        OnCostChanged.UnregisterListener(SetCostBar);
+        //OnCostChanged.UnregisterListener(SetCostBar);
+        OnCostChanged.UnregisterListener(SetCostText);
         OnFloorCountChanged.UnregisterListener(SetFloorText);
         OnWaveCountChanged.UnregisterListener(SetWaveText);
         OnMonsterCountChanged.UnregisterListener(SetMonsterCountText);
@@ -33,7 +35,8 @@ public class UI_Hud : UI
 
     void Subscribe()
     {
-        OnCostChanged.RegisterListener(SetCostBar);
+        //OnCostChanged.RegisterListener(SetCostBar);
+        OnCostChanged.RegisterListener(SetCostText);
         OnFloorCountChanged.RegisterListener(SetFloorText);
         OnWaveCountChanged.RegisterListener(SetWaveText);
         OnMonsterCountChanged.RegisterListener(SetMonsterCountText);
@@ -42,6 +45,11 @@ public class UI_Hud : UI
     void SetCostBar(float ratio)
     {
         costBar.fillAmount = ratio;
+    }
+
+    void SetCostText(float costAmount)
+    {
+        costText.text = $"코스트: {costAmount.ToString("N0")}";
     }
 
     void SetFloorText(int floorCount)

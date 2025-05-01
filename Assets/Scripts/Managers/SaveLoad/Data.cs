@@ -2,10 +2,6 @@
 using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEngine.Rendering.DebugUI;
 
 public interface ILoader<Key, Value>
 {
@@ -23,7 +19,7 @@ public class MonsterData
     public List<float> value;
     public int enemyType;
     public bool hasSkill;
-
+    public List<int> skillIds; // 스킬 ID만 저장
     public Dictionary<int, float> dictValue;
 
     public MonsterData(MonsterData data)
@@ -35,6 +31,7 @@ public class MonsterData
         this.value = new List<float>(data.value);
         this.enemyType = data.enemyType;
         this.hasSkill = data.hasSkill;
+        this.skillIds = new List<int>(data.skillIds);
         this.dictValue = new Dictionary<int, float>(data.dictValue);
     }
 }
@@ -153,9 +150,20 @@ public class TowerData
             if ((StatType)statTypes[i] == type)
                 return statValue[i];
         }
-        return 0f;
+        throw new InvalidOperationException($"{type.ToString()}에 해당하는 효과 없음");
     }
 
+    public string GetStatName(TowerStatType type)
+    {
+        return DataManager.Instance.statusDict[(int)type].name;
+    }
+
+    public string GetStatName(int typeID)
+    {
+        return DataManager.Instance.statusDict[typeID].name;
+    }
+
+    // 유틸 메서드: 특정 타입의 스탯 값 가져오기
     public List<EffectBase> ReturnEffectList()
     {
         List<EffectBase> ret = new List<EffectBase>();
@@ -196,7 +204,25 @@ public class TowerData
 
             ret.Add(effect);
         }
-        return ret;
+    }
+    public float GetStatValue(TowerStatType type)
+    { 
+        for (int i = 0; i<statTypes.Count; i++)
+        {
+            if ((TowerStatType) statTypes[i] == type)
+                return statValue[i];
+        }
+        throw new InvalidOperationException($"{(int)type}: {type.ToString()}에 해당하는 스탯 없음");
+    }
+
+    public float GetStatValue(int typeID)
+    {
+        for (int i = 0; i < statTypes.Count; i++)
+        {
+            if (statTypes[i] == typeID)
+                return statValue[i];
+        }
+        throw new InvalidOperationException($"ID:{typeID}에 해당하는 스탯 없음");
     }
 }
 
@@ -217,6 +243,39 @@ public class TowerDataLoader : ILoader<int, TowerData>
     }
 }
 #endregion
+
+#region ProjectileData
+[Serializable]
+public class ProjectileData
+{
+    public int id;
+    public float speed;
+
+    public bool hasDoT;
+    public float dotDuration;
+    public float dotTickInterval;
+    public float dotDamagePerTick;
+    public float dotRadius;
+
+    public bool hasSplash;
+    public float splashRadius;
+}
+
+[Serializable]
+public class ProjectileDataLoader : ILoader<int, ProjectileData>
+{
+    public List<ProjectileData> data = new();
+
+    public Dictionary<int, ProjectileData> MakeDict()
+    {
+        Dictionary<int, ProjectileData> dict = new();
+        foreach (var item in data)
+            dict.Add(item.id, item);
+        return dict;
+    }
+}
+#endregion
+
 
 #region ChampionData
 [Serializable]
@@ -254,10 +313,10 @@ public class SkillData
 {
     public int id;
     public string name;
-    public string skillClassName;
     public string description;
     public float coolTime;
     public float multiplier;
+    public SkillType skillType;
     public float range;
 
     // 🔗 SO를 참조할 수 있는 필드 (Resources 또는 Addressable 기준 경로로 사용)
@@ -287,16 +346,18 @@ public class SkillDataLoader : ILoader<int, SkillData>
 [Serializable]
 public class AbilityData
 {
-    public int id;
-    public int rarity;
+    public int perkID;
     public string name;
     public string description;
     public List<int> valueType;
     public List<int> value;
-    public int targetType;
+    public List<int> effectType;
+    public List<int> effectValue;
+    public int projectile;
+    public string targetType;
     public int targetID;
-    public int stackable;
-    public int maxStack;
+    public int rarity;
+    public int stackLimit;
     public string image;
 
     public AbilityData DeepCopy()
@@ -319,7 +380,7 @@ public class AbilityDataLoader : ILoader<int, AbilityData>
         Dictionary<int, AbilityData> dict = new();
         foreach (AbilityData ability in data)
         {
-            dict.Add(ability.id, ability);
+            dict.Add(ability.perkID, ability);
         }
 
         return dict;
@@ -426,7 +487,9 @@ public class ArtifactData
 {
     public int id;
     public string name;
-    public string description;
+    public int valueType;
+    public int value;
+    public float prob;
 }
 
 [Serializable]
@@ -440,6 +503,61 @@ public class ArtifactDataLoader : ILoader<int, ArtifactData>
         foreach (ArtifactData artifact in data)
         {
             dict.Add(artifact.id, artifact);
+        }
+
+        return dict;
+    }
+}
+#endregion
+
+#region LevelUpData
+[Serializable]
+public class LevelUpData
+{
+    public int level;
+    public int requiredExp;
+    public float multiplier;
+    public int remainedExp;
+}
+
+[Serializable]
+public class LevelUpDataLoader : ILoader<int, LevelUpData>
+{
+    public List<LevelUpData> data = new();
+
+    public Dictionary<int, LevelUpData> MakeDict()
+    {
+        Dictionary<int, LevelUpData> dict = new();
+        foreach (LevelUpData levelUp in data)
+        {
+            dict.Add(levelUp.level, levelUp);
+        }
+
+        return dict;
+    }
+}
+#endregion
+
+#region StatusData
+[Serializable]
+public class StatusData
+{
+    public int id;
+    public string type;
+    public string name;
+}
+
+[Serializable]
+public class StatusDataLoader : ILoader<int, StatusData>
+{
+    public List<StatusData> data = new();
+
+    public Dictionary<int, StatusData> MakeDict()
+    {
+        Dictionary<int, StatusData> dict = new();
+        foreach (StatusData status in data)
+        {
+            dict.Add(status.id, status);
         }
 
         return dict;

@@ -33,8 +33,8 @@ public class UIPause : UI
     public override void Show()
     {
         base.Show();
-        Time.timeScale = 0f;
-        StageManager.Instance.isPause = true;
+
+        StageManager.Instance.timeScaleManager.PushTimeScale(0f);
 
         // 특성 리스트 업데이트
         UpdateAbilityIcon();
@@ -44,10 +44,8 @@ public class UIPause : UI
     {
         base.Hide();
 
-        //if (StageManager.Instance.isEventEnd && StageManager.Instance.CurFloor.isPerkSelected)
-            Time.timeScale = 1f;
-
-        StageManager.Instance.isPause = false;
+        if (StageManager.Instance)
+            StageManager.Instance.timeScaleManager.PopTimeScale();
 
         ReleaseAbilityIcon();
     }

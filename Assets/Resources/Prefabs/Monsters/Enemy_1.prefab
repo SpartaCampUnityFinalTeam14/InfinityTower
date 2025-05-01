@@ -86,7 +86,6 @@ GameObject:
   - component: {fileID: 8422063642821514094}
   - component: {fileID: 4695599153074002471}
   - component: {fileID: 6590863609242540843}
-  - component: {fileID: 5673682507671554876}
   - component: {fileID: 1728341935007874818}
   - component: {fileID: 2043237245701420628}
   m_Layer: 0
@@ -209,27 +208,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.32, y: 0.34}
   m_EdgeRadius: 0
---- !u!95 &5673682507671554876
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6613567235377377287}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 48046c8a3dce94d11ba56cef736c233a, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &1728341935007874818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243,7 +221,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHP: 0
-  damageTextPrefab: {fileID: 5461050441660892626, guid: 923aa20eedfae440abbe34c41840b204, type: 3}
+  spriteSet: {fileID: 11400000, guid: 1ee12c1b65df54dd38f97f94263e42fa, type: 2}
+  spriteRenderer: {fileID: 4695599153074002471}
 --- !u!210 &2043237245701420628
 SortingGroup:
   m_ObjectHideFlags: 0

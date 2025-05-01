@@ -4,8 +4,11 @@ using UnityEngine.UI;
 
 public class UI_ArtifactSlot : MonoBehaviour
 {
+    public int id;
     ArtifactData data;
 
+    [SerializeField] private Image artifactBackground;
+    [SerializeField] private Color[] rarityColors;
     [SerializeField] private Button selectButton;
     [SerializeField] private Image artifactImage;
     [SerializeField] private TextMeshProUGUI nameText;
@@ -13,7 +16,9 @@ public class UI_ArtifactSlot : MonoBehaviour
 
     public void Init(int id)
     {
+        this.id = id;
         int rarity = id / 1000;
+        artifactBackground.color = rarityColors[rarity];
 
         data = DataManager.Instance.artifactDicts[rarity][id];
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -21,6 +22,20 @@ public class MonsterBase : Poolable, ISkillUser
     public bool IsDead => isDead;
 
     private Image hpBar;
+
+    private Dictionary<EffectType, Coroutine> debuffCoroutines = new Dictionary<EffectType, Coroutine>();
+    private float originalMoveSpeed;
+    private float originalDefense;
+    
+    [SerializeField] private MonsterSpriteSetSO spriteSet;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+
+    private Sprite[] currentAnimation = null;
+    private int currentFrame = 0;
+    private float frameTimer = 0f;
+    private float frameRate = 0.15f;
+    
+    protected List<Skill> skills = new();
 
     public virtual void Init(int id, List<Vector3> path, Transform startPos, Floor floor)
     {
@@ -83,7 +98,14 @@ public class MonsterBase : Poolable, ISkillUser
 
             while (Vector3.Distance(transform.position, target) > 0.05f)
             {
-                transform.position = Vector3.MoveTowards(transform.position, target, GetStat(StatType.moveSpeed) * Time.deltaTime);
+                Vector3 dir = (target - transform.position).normalized;
+
+                // ✅ 이동
+                transform.position = Vector3.MoveTowards(transform.position, target, GetStat(StatType.Speed) * Time.deltaTime);
+
+                // ✅ 방향에 따른 스프라이트 업데이트
+                UpdateDirectionSprite(dir);
+
                 yield return null;
             }
 
@@ -95,7 +117,41 @@ public class MonsterBase : Poolable, ISkillUser
         StageManager.Instance.TakeDamage((int)GetStat(StatType.damage));
         Dead();
     }
+    
+    private void AnimateWalk(Sprite[] walkSprites)
+    {
+        if (walkSprites == null || walkSprites.Length == 0)
+        {
+            Debug.LogWarning("🛑 걷기 스프라이트 배열이 비어있음!");
+            return;
+        }
 
+        if (currentAnimation != walkSprites)
+        {
+            currentAnimation = walkSprites;
+            currentFrame = 0;
+            frameTimer = 0f;
+        }
+
+        frameTimer += Time.deltaTime;
+        if (frameTimer >= frameRate)
+        {
+            currentFrame = (currentFrame + 1) % walkSprites.Length;
+            spriteRenderer.sprite = currentAnimation[currentFrame];
+            frameTimer = 0f;
+        }
+    }
+
+    private void UpdateDirectionSprite(Vector3 dir)
+    {
+        if (spriteRenderer == null || spriteSet == null) return;
+
+        if (Mathf.Abs(dir.x) > Mathf.Abs(dir.y))
+            AnimateWalk(dir.x > 0 ? spriteSet.walkRight : spriteSet.walkLeft);    
+        else
+            AnimateWalk(dir.y > 0 ? spriteSet.walkUp : spriteSet.walkDown);   
+    }
+    
     void Dead()
     {
         if (isDead) return;
@@ -115,8 +171,14 @@ public class MonsterBase : Poolable, ISkillUser
     
     private IEnumerator Co_Dead()
     {
-        // 애니메이션 길이만큼 기다리기 (예시 0.5초)
-        yield return new WaitForSeconds(0.5f);
+        var deathSprites = spriteSet.death;
+        for (int i = 0; i < deathSprites.Length; i++)
+        {
+            spriteRenderer.sprite = deathSprites[i];
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        yield return new WaitForSeconds(0.2f);
 
         floor.SubrtactMonsterCount(1);
         PoolManager.Instance.Release(this);
@@ -137,12 +199,60 @@ public class MonsterBase : Poolable, ISkillUser
                 break;
             case EnemyType.Boss:
                 Debug.Log($"보스몬스터, {data.hasSkill} ");
+                BossSkill();
                 break;
             case EnemyType.Normal:
             default:
                 break;
         }
         Debug.Log($"적의 타입 : {type}, 이동속도 : {moveSpeed}, 체력 : {currentHP}, 방어력 : {defense}");
+    }
+
+    protected void BossSkill()
+    {
+        if (data.hasSkill && data.skillIds != null)
+        {
+            foreach (var skillId in data.skillIds)
+            {
+                if (DataManager.Instance.skillDict.TryGetValue(skillId, out var skillData))
+                {
+                    Skill newSkill = SkillFactory.CreateSkill(skillData);
+                    if (newSkill != null)
+                    {
+                        skills.Add(newSkill);
+                        Debug.Log($"⚡ {data.name} 스킬 추가됨: {newSkill.skillName}");
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning($"⚠️ 스킬 ID {skillId}는 SkillDict에 존재하지 않음");
+                }
+            }
+
+            if (skills.Count > 0)
+            {
+                Debug.Log($"🔥 {data.name} 의 스킬 목록: {string.Join(", ", skills.Select(s => s.skillName))}");
+                StartCoroutine(SkillRoutine());
+            }
+        }
+    }
+
+    private IEnumerator SkillRoutine()
+    {
+        while (!isDead)
+        {
+            foreach (Skill skill in skills)
+            {
+                if (skill is ActiveSkill activeSkill && activeSkill.CanUse())
+                {
+                    if (skill is TargetPositionSkill tp)
+                        tp.TryStartSkill(this, transform.position);
+                    else
+                        activeSkill.Trigger(this);
+                }
+            }
+            yield return new WaitForSeconds(10f);
+        }
     }
     
     public float GetStat(StatType type)
@@ -170,4 +280,10 @@ public class MonsterBase : Poolable, ISkillUser
     {
         return transform.position;
     }
+    
+    public int GetTeam()
+    {
+        return 0; // 몬스터는 팀 0
+    }
+
 }

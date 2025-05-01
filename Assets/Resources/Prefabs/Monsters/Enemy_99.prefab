@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2919956826630603841}
   - component: {fileID: 1210221499431705547}
   - component: {fileID: 3099528707871743133}
-  - component: {fileID: 6865041843538291599}
   - component: {fileID: 856670385769441196}
   m_Layer: 0
   m_Name: Enemy_99
@@ -147,28 +146,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHP: 0
-  damageTextPrefab: {fileID: 5461050441660892626, guid: 923aa20eedfae440abbe34c41840b204, type: 3}
---- !u!95 &6865041843538291599
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1330407312606887938}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e2f9097245c544acfa041c5d359bb49b, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  spriteSet: {fileID: 11400000, guid: bd442edfb12bb486ebe081e0d9b1e400, type: 2}
+  spriteRenderer: {fileID: 2919956826630603841}
 --- !u!210 &856670385769441196
 SortingGroup:
   m_ObjectHideFlags: 0

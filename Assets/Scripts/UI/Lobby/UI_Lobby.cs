@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -7,6 +8,7 @@ public class UI_Lobby : UI
 {
     [SerializeField] private TextMeshProUGUI goldText;
 
+    [SerializeField] private RectTransform championBackgroundTransform;
     [SerializeField] private Image championImage;
     [SerializeField] private TextMeshProUGUI championNameText;
 
@@ -14,6 +16,7 @@ public class UI_Lobby : UI
     [SerializeField] private Button championSelectButton;
     [SerializeField] private Button deckSelectButton;
     [SerializeField] private Button artifactButton;
+    [SerializeField] private Button gachaButton;
 
     [SerializeField] private IntEventChannel OnChampionSelected;
 
@@ -21,11 +24,16 @@ public class UI_Lobby : UI
     {
         base.Awake();
 
-        goldText.text = SaveManager.Instance.playerData.gold.ToString();
+        UpdateGold();
         stageStartButton.onClick.AddListener(() => GameManager.Instance.LoadScene("KSM_Stage"));
-        championSelectButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Deck>().SetDeckTab(false));
+        championSelectButton.onClick.AddListener(() => 
+        {
+            UIManager.Instance.ShowStackUI<UI_Deck>().SetDeckTab(false);
+            UIManager.Instance.GetUI<UI_Deck>().InitTab();
+        });
         deckSelectButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Deck>().SetDeckTab(true));
         artifactButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Artifact>());
+        gachaButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Gacha>().Init());
 
         UnregisterListeners();
         RegisterListeners();
@@ -46,7 +54,22 @@ public class UI_Lobby : UI
     void SetChampion(int index)
     {
         //스프라이트 세팅
+        RotateSlotRandom();
+
         championNameText.text = DataManager.Instance.championDict[index].name;
+    }
+
+    void RotateSlotRandom()
+    {
+        float randomRotZ = Random.Range(-5f, 5f);
+        Vector3 curRot = championBackgroundTransform.eulerAngles;
+        championBackgroundTransform.eulerAngles = new Vector3(curRot.x, curRot.y, randomRotZ);
+    }
+
+    void UpdateGold()
+    {
+        int gold = SaveManager.Instance.playerData.gold;
+        goldText.text = string.Format("{0:N0}", gold);
     }
 
     public override void Clear()

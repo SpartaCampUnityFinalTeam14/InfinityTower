@@ -5,22 +5,22 @@ public static class SkillFactory
 {
     public static Skill CreateSkill(SkillData data)
     {
-        Type skillType = Type.GetType(data.skillClassName);
-        if (skillType == null)
+        Skill skill = data.skillType switch
         {
-            Debug.LogError($"❌ Skill 클래스 '{data.skillClassName}' 을(를) 찾을 수 없습니다.");
-            return null;
-        }
+            SkillType.AutoTarget => new AutoTargetDamage(),
+            SkillType.TargetPosition => new TargetPositionDamage(),
+            // SkillType.BossBuff => new BossBuffSkill(),
+            _ => null
+        };
 
-        Skill skill = Activator.CreateInstance(skillType) as Skill;
         if (skill == null)
         {
-            Debug.LogError($"❌ Skill 클래스 '{data.skillClassName}' 는 Skill을 상속받지 않았습니다.");
+            Debug.LogError($"❌ 알 수 없는 SkillType: {data.skillType}");
             return null;
         }
 
         // 공통 필드 세팅
-        skill.skillName = data.skillClassName;
+        skill.skillName = data.visualId;
         skill.description = data.description;
 
         if (skill is ActiveSkill active)
