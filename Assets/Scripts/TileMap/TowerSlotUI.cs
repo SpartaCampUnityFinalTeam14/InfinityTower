@@ -33,7 +33,10 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         towerID = id;
         cooldownDuration = DataManager.Instance.towerDict[towerID].GetStatValue(StatType.towerCooldown);
         requiredCost = DataManager.Instance.towerDict[towerID].GetStatValue(StatType.cost);
-        
+
+        // 슬롯 정보 StageManager에 전달
+        StageManager.Instance.AddTowerSlot(this);
+
         cooldownOverlay.gameObject.SetActive(false);
         cooldownText.gameObject.SetActive(false);
         
@@ -80,6 +83,11 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         
         // 커버로 막아주기
         coverOverlay.SetActive(!isEnough);
+    }
+
+    public void ResetCooldown()
+    {
+        cooldownTimer = 0f;
     }
 
     public void OnBeginDrag(PointerEventData eventData)

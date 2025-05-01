@@ -78,6 +78,7 @@ public class Floor : MonoBehaviour
         Debug.Log("<color=cyan>플로어 종료</color>");
         
         ReleaseTower();
+        StageManager.Instance.ResetDropTowerCooldown();
 
         isFloorEnd = true;
     }

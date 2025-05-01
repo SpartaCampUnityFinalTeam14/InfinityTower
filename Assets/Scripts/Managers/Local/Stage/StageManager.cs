@@ -38,6 +38,8 @@ public class StageManager : Singleton<StageManager>
     public Floor CurFloor => curFloor;
     [SerializeField] private IntEventChannel OnFloorCountChanged;
 
+    private List<TowerSlotUI> towerSlots;
+
     public bool isEventEnd;
     public bool isIntroEnd;
     public bool isAdditionalFloor;
@@ -63,7 +65,9 @@ public class StageManager : Singleton<StageManager>
         timeScaleManager = new TimeScaleManager();
         abilityManager = new AbilityManager();
         eventManager = new EventManager();
-        
+
+        towerSlots = new List<TowerSlotUI>();
+
         skillTargetingSystem = gameObject.AddComponent<SkillTargetingSystem>();
         skillVisualDB = gameObject.AddComponent<SkillVisualDB>();
         
@@ -182,7 +186,18 @@ public class StageManager : Singleton<StageManager>
         EndStage();
     }
 
-    
+    public void AddTowerSlot(TowerSlotUI towerSlot)
+    {
+        towerSlots.Add(towerSlot);
+    }
+
+    public void ResetDropTowerCooldown()
+    {
+        foreach (var towerSlot in towerSlots)
+        {
+            towerSlot.ResetCooldown();
+        }
+    }
 
     public void StartStage()
     {

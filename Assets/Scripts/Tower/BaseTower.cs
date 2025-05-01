@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using UnityEditor.Playables;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -34,6 +35,7 @@ public abstract class BaseTower : Poolable
     protected virtual void Start()
     {
         TowerInit();
+        InitAbilityStat();
     }
 
     public void TowerInit()
@@ -44,6 +46,10 @@ public abstract class BaseTower : Poolable
         AddModifierStat = new Dictionary<int, float>();
 
         attackTimer = GetFinalStatValue(StatType.attackSpeed);
+
+        // Ability Event
+        StageManager.Instance.abilityManager.OnAddTowerAbility += AddAbilityStat;
+        StageManager.Instance.abilityManager.OnRemoveTowerAbility += RemoveAbilityStat;
     }
 
     protected virtual void Update()
@@ -123,9 +129,47 @@ public abstract class BaseTower : Poolable
             }
         }
     }
+    
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.DrawWireSphere(transform.position, towerData.GetStatValue(StatType.attackRange));
+    //}
 
-    private void OnDrawGizmos()
+    private void InitAbilityStat()
     {
-        Gizmos.DrawWireSphere(transform.position, towerData.GetStatValue(StatType.attackRange));
+        var manager = StageManager.Instance.abilityManager;
+
+        foreach (Ability ability in manager.CurAbilities.Values)
+        {
+            AddAbilityStat(ability.Data);
+        }
+    }
+
+    private void AddAbilityStat(AbilityData data)
+    {
+        if (data.targetID.Equals(-1) || towerData.id.Equals(data.targetID))
+        {
+            for (int i = 0; i < data.valueType.Count; i++)
+            {
+                if (!AddModifierStat.TryAdd(data.valueType[i], data.value[i]))
+                {
+                    AddModifierStat[data.valueType[i]] += data.value[i];
+                }
+            }
+        }
+    }
+
+    private void RemoveAbilityStat(AbilityData data)
+    {
+        if (data.targetID.Equals(-1) || towerData.id.Equals(data.targetID))
+        {
+            for (int i = 0; i < data.valueType.Count; i++)
+            {
+                if (AddModifierStat.ContainsKey(data.valueType[i]))
+                {
+                    AddModifierStat[data.valueType[i]] -= DataManager.Instance.abilityDict[data.perkID].value[i];
+                }
+            }
+        }
     }
 }
