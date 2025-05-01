@@ -23,6 +23,11 @@ public class MonsterBase : Poolable, ISkillUser
 
     private Image hpBar;
 
+    // <key : 받는 이펙트의 statusID / value: 현재 적용된 이펙트 카운트> 본인이 받고있는 이펙트를 저장
+    public Dictionary<int, int> nowEffectedDict;
+    // 적용되는 statType의 ID 값들 , 변동되는 스탯에 대한 수치
+    public Dictionary<int, float> AddModifierStat;
+
     private Dictionary<EffectType, Coroutine> debuffCoroutines = new Dictionary<EffectType, Coroutine>();
     private float originalMoveSpeed;
     private float originalDefense;
@@ -254,7 +259,29 @@ public class MonsterBase : Poolable, ISkillUser
             yield return new WaitForSeconds(10f);
         }
     }
-    
+
+    // 효과 적용 후 종합 수치
+    public float GetFinalStatValue(StatType statType)
+    {
+        if (statType == StatType.targetCount)
+        {
+            return GetStat(statType) + GetAddModifierValue(statType);
+        }
+        else
+        {
+            return GetStat(statType) * (1 + GetAddModifierValue(statType));
+        }
+    }
+
+    public float GetAddModifierValue(StatType type)
+    {
+        if (AddModifierStat.TryGetValue((int)type, out float value))
+        {
+            return value;
+        }
+        return 0f;
+    }
+
     public float GetStat(StatType type)
     {
         int iType = (int)type;

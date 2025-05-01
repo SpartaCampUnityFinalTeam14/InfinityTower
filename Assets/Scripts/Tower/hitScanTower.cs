@@ -41,7 +41,7 @@ public class hitScanTower : TargettingTower
                     {
                         continue;
                     }
-                    float[] effectValues = towerData.effectInfo[towerData.effectID.IndexOf(T.statusID)];
+                    float[] effectValues = towerData.effectValue[towerData.effectID.IndexOf(T.statusID)];
                     monsterEffect.ApplyEffect_Monster(enemy, effectValues[0], effectValues[1], effectValues[2] > 0);
                 }
                 //// 디버프는 항상 적용
@@ -64,7 +64,7 @@ public class hitScanTower : TargettingTower
                     {
                         continue;
                     }
-                    float[] effectValues = towerData.effectInfo[towerData.effectID.IndexOf(T.statusID)];
+                    float[] effectValues = towerData.effectValue[towerData.effectID.IndexOf(T.statusID)];
                     towerEffect.ApplyEffect_Tower(ally, effectValues[0], effectValues[1], effectValues[2] > 0);
                 }
 

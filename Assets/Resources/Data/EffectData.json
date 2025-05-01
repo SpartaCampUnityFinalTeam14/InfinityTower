@@ -2,30 +2,30 @@
     "data": [
         {
             "id": 0,
-            "effectType": "slow",
+            "effectType": "Slow",
             "targetStatusID": 10
         },
 
         {
             "id": 1,
-            "effectType": "burn",
+            "effectType": "Burn",
             "targetStatusID": 9
         },
 
         {
             "id": 2,
-            "effectType": "getCost",
+            "effectType": "GetCost",
             "targetStatusID": 15
         },
 
         {
             "id": 3,
-            "effectType": "damageBuff",
+            "effectType": "DamageBuff",
             "targetStatusID": 0
         },
         {
             "id": 4,
-            "effectType": "attackSpeedBuff",
+            "effectType": "AttackSpeedBuff",
             "targetStatusID": 2
         }
     ]

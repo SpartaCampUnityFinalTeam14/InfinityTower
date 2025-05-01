@@ -75,23 +75,23 @@ public abstract class EffectBase_Monster : EffectBase
 
     public void ApplyEffect_Monster(MonsterBase tarMonster, float value, float duration, bool stackable)
     {
-        //// 효과 적용 가능 여부 판단, 타워에 효과 받음 표시
-        //if (tarMonster.nowEffectedDict.TryGetValue(statusID, out int cnt))
-        //{
-        //    if (stackable == false)
-        //    {
-        //        Debug.Log("이미 활성화된 이펙트, 스택 불가");
-        //        return;
-        //    }
-        //    tarMonster.nowEffectedDict[statusID] = cnt + 1;
-        //}
-        //else
-        //{
-        //    tarMonster.nowEffectedDict.Add(statusID, 1);
-        //}
+        // 효과 적용 가능 여부 판단, 몬스터에 효과 받음 표시
+        if (tarMonster.nowEffectedDict.TryGetValue(statusID, out int cnt))
+        {
+            if (stackable == false)
+            {
+                Debug.Log("이미 활성화된 이펙트, 스택 불가");
+                return;
+            }
+            tarMonster.nowEffectedDict[statusID] = cnt + 1;
+        }
+        else
+        {
+            tarMonster.nowEffectedDict.Add(statusID, 1);
+        }
 
-        //// 실제 효과 적용 코루틴
-        //tarMonster.StartCoroutine(OnEffectCo_Monster(tarMonster, value, duration));
+        // 실제 효과 적용 코루틴
+        tarMonster.StartCoroutine(OnEffectCo_Monster(tarMonster, value, duration));
     }
 
     private IEnumerator OnEffectCo_Monster(MonsterBase tarMonster, float value, float duration)
@@ -104,11 +104,11 @@ public abstract class EffectBase_Monster : EffectBase
         yield return new WaitForSeconds(duration);
         OnEffectEnd_Monster(tarMonster, value);
 
-        // 마찬가지 처리
-        //int nowCnt = tarMonster.nowEffectedDict[statusID] - 1;
+        //마찬가지 처리
+        int nowCnt = tarMonster.nowEffectedDict[statusID] - 1;
 
-        //if (nowCnt == 0) tarMonster.nowEffectedDict.Remove(statusID);
-        //else tarMonster.nowEffectedDict[statusID] = nowCnt;
+        if (nowCnt == 0) tarMonster.nowEffectedDict.Remove(statusID);
+        else tarMonster.nowEffectedDict[statusID] = nowCnt;
     }
 
     protected abstract void OnEffectStart_Monster(MonsterBase monster, float value);
@@ -238,5 +238,110 @@ public class CostEffecter : EffectBase_Tower
     protected override void OnEffectEnd_Tower(BaseTower tower, float value)
     {
         tower.AddModifierStat[(int)StatType.costHeal] -= value;
+    }
+}
+
+public class HPEffecter : EffectBase_Monster
+{
+    public HPEffecter(int statusID) : base(statusID)
+    {
+
+    }
+
+    protected override void OnEffectStart_Monster(MonsterBase monster, float value)
+    {
+        if (!monster.AddModifierStat.TryAdd((int)StatType.HP, value))
+        {
+            monster.AddModifierStat[(int)StatType.HP] += value;
+        }
+    }
+
+    protected override void OnEffectEnd_Monster(MonsterBase monster, float value)
+    {
+        monster.AddModifierStat[(int)StatType.HP] -= value;
+    }
+}
+
+public class MoveSpeedEffecter : EffectBase_Monster
+{
+    public MoveSpeedEffecter(int statusID) : base(statusID)
+    {
+
+    }
+
+    protected override void OnEffectStart_Monster(MonsterBase monster, float value)
+    {
+        if (!monster.AddModifierStat.TryAdd((int)StatType.moveSpeed, value))
+        {
+            monster.AddModifierStat[(int)StatType.moveSpeed] += value;
+        }
+    }
+
+    protected override void OnEffectEnd_Monster(MonsterBase monster, float value)
+    {
+        monster.AddModifierStat[(int)StatType.moveSpeed] -= value;
+    }
+}
+
+public class ArmorEffecter : EffectBase_Monster
+{
+    public ArmorEffecter(int statusID) : base(statusID)
+    {
+
+    }
+
+    protected override void OnEffectStart_Monster(MonsterBase monster, float value)
+    {
+        if (!monster.AddModifierStat.TryAdd((int)StatType.armor, value))
+        {
+            monster.AddModifierStat[(int)StatType.armor] += value;
+        }
+    }
+
+    protected override void OnEffectEnd_Monster(MonsterBase monster, float value)
+    {
+        monster.AddModifierStat[(int)StatType.armor] -= value;
+    }
+}
+
+public class DamageEffecter : EffectBase_Monster
+{
+    public DamageEffecter(int statusID) : base(statusID)
+    {
+
+    }
+
+    protected override void OnEffectStart_Monster(MonsterBase monster, float value)
+    {
+        if (!monster.AddModifierStat.TryAdd((int)StatType.damage, value))
+        {
+            monster.AddModifierStat[(int)StatType.damage] += value;
+        }
+    }
+
+    protected override void OnEffectEnd_Monster(MonsterBase monster, float value)
+    {
+        monster.AddModifierStat[(int)StatType.damage] -= value;
+    }
+}
+
+public class CooldownEffecter : EffectBase_Monster
+{
+    public CooldownEffecter(int statusID) : base(statusID)
+    {
+
+    }
+
+    protected override void OnEffectStart_Monster(MonsterBase monster, float value)
+    {
+        if (!monster.AddModifierStat.TryAdd((int)StatType.cooldown, value))
+        {
+            monster.AddModifierStat[(int)StatType.cooldown] += value;
+        }
+    }
+
+    protected override void OnEffectEnd_Monster(MonsterBase monster, float value)
+    {
+        monster.AddModifierStat[(int)StatType.cooldown] -= value;
     }
 }
