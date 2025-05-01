@@ -352,9 +352,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1167617892}
   - component: {fileID: 1167617891}
-  - component: {fileID: 1167617890}
-  - component: {fileID: 1167617889}
-  - component: {fileID: 1167617888}
   m_Layer: 0
   m_Name: StageManager
   m_TagString: Untagged
@@ -362,46 +359,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1167617888
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1167617887}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18fbf6f353fb4332b5c19a6868f67eeb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  visualDataList:
-  - {fileID: 11400000, guid: 46d25991d7d6c4d4191dd70aad87c409, type: 2}
-  - {fileID: 11400000, guid: b2a5b1fedcc7640b4a955e2c2843f5af, type: 2}
---- !u!114 &1167617889
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1167617887}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afa3a70948704085a95119a4e22403cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1167617890
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1167617887}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43db46acd7b749d1bdf687f3c19c8887, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skillPanel: {fileID: 1771241197}
 --- !u!114 &1167617891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -420,6 +377,9 @@ MonoBehaviour:
   selectedChampion: 0
   abilityManager: {fileID: 0}
   eventManager: {fileID: 0}
+  skillTargetingSystem: {fileID: 0}
+  skillVisualDB: {fileID: 0}
+  skillPanel: {fileID: 1771241197}
   floorCount: 2
   OnFloorCountChanged: {fileID: 11400000, guid: 488655e93354e78488197b1da7274906, type: 2}
   isEventEnd: 0
