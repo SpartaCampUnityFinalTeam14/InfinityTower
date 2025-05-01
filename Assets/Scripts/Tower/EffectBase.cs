@@ -229,14 +229,14 @@ public class CostEffecter : EffectBase_Tower
 
     protected override void OnEffectStart_Tower(BaseTower tower, float value)
     {
-        if (!tower.AddModifierStat.TryAdd((int)StatType.cost, value))
+        if (!tower.AddModifierStat.TryAdd((int)StatType.costHeal, value))
         {
-            tower.AddModifierStat[(int)StatType.cost] += value;
+            tower.AddModifierStat[(int)StatType.costHeal] += value;
         }
     }
 
     protected override void OnEffectEnd_Tower(BaseTower tower, float value)
     {
-        tower.AddModifierStat[(int)StatType.cost] -= value;
+        tower.AddModifierStat[(int)StatType.costHeal] -= value;
     }
 }
