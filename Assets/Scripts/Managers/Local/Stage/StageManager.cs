@@ -61,8 +61,8 @@ public class StageManager : Singleton<StageManager>
     void Init()
     {
         timeScaleManager = new TimeScaleManager();
-        abilityManager = gameObject.AddComponent<AbilityManager>();
-        eventManager = gameObject.AddComponent<EventManager>();
+        abilityManager = new AbilityManager();
+        eventManager = new EventManager();
         
         skillTargetingSystem = gameObject.AddComponent<SkillTargetingSystem>();
         skillVisualDB = gameObject.AddComponent<SkillVisualDB>();

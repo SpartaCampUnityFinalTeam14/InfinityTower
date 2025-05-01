@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-public class EventManager : MonoBehaviour
+public class EventManager
 {
     EventData eventData;
     EventData resultData;
@@ -11,7 +11,7 @@ public class EventManager : MonoBehaviour
     EventRewardHandler rewardHandler;
     EventResultHandler resultHandler;
 
-    private void Awake()
+    public EventManager()
     {
         rewardHandler = new EventRewardHandler();
         resultHandler = new EventResultHandler();
