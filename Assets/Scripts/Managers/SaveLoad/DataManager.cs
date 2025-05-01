@@ -24,6 +24,7 @@ public class DataManager : Singleton<DataManager>
     };
     public Dictionary<int, LevelUpData> levelUpDict = new();
     public Dictionary<int, StatusData> statusDict = new();
+    public Dictionary<int, EffectData> effectDict = new();
 
     protected override void Awake()
     {
@@ -46,6 +47,7 @@ public class DataManager : Singleton<DataManager>
         artifactDicts[2] = LoadJson<ArtifactDataLoader, int, ArtifactData>("Artifact_Epic").MakeDict();
         levelUpDict = LoadJson<LevelUpDataLoader, int, LevelUpData>().MakeDict();
         statusDict = LoadJson<StatusDataLoader, int, StatusData>().MakeDict();
+        effectDict = LoadJson<EffectDataLoader, int, EffectData>().MakeDict();
     }
 
     Loader LoadJson<Loader, Key, Value>(string fileName = default) where Loader : ILoader<Key, Value>

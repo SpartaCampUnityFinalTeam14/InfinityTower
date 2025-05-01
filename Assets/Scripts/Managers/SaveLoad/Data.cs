@@ -14,13 +14,13 @@ public class MonsterData
 {
     public int id;
     public string name;
-    public string description;
     public List<int> valueType;
     public List<float> value;
     public int enemyType;
     public bool hasSkill;
     public List<int> skillIds; // 스킬 ID만 저장
     public Dictionary<int, float> dictValue;
+    public string description;
 
     public MonsterData(MonsterData data)
     {
@@ -128,45 +128,29 @@ public class TowerData
     public string description;
     public int targetType;
     public int targettingRule;
-    //변경
-    public List<int> statTypes;    // TowerStatType의 int 값들
+
+    // 기본 스텟
+    public List<int> statTypes;    // statType의 int 값들
     public List<float> statValue;   // 각 스탯에 대한 수치
-    public List<int> effectID;      // EffectType의 int 값들
-    public List<float> effectValue; // 각 효과에 대한 수치
+
+    // 보유 효과
+    public List<int> effectID;      // effctType의 int 값들
+
+    // 각 효과의 수치, 지속시간, 중첩여부 (지속시간이 음수면 무한, 중첩여부가 0이하면 중첩안됨)
+    public List<float[]> effectInfo;
 
     public TargettingRule TargettingRule => (TargettingRule)targettingRule;
     public TargetType TargetType => (TargetType)targetType;
 
-    // 유틸 메서드: 특정 타입의 효과 값 가져오기
-    public float GetBuffValue(EffectType type)
-    {
-        for (int i = 0; i < effectID.Count; i++)
-        {
-            if ((EffectType)effectID[i] == type)
-                return effectValue[i];
-        }
-        throw new InvalidOperationException($"{type.ToString()}에 해당하는 효과 없음");
-    }
-
-    public string GetStatName(TowerStatType type)
-    {
-        return DataManager.Instance.statusDict[(int)type].name;
-    }
-
-    public string GetStatName(int typeID)
-    {
-        return DataManager.Instance.statusDict[typeID].name;
-    }
-
     // 유틸 메서드: 특정 타입의 스탯 값 가져오기
-    public float GetStatValue(TowerStatType type)
+    public float GetStatValue(StatType type)
     {
         for (int i = 0; i < statTypes.Count; i++)
         {
-            if ((TowerStatType)statTypes[i] == type)
+            if ((StatType)statTypes[i] == type)
                 return statValue[i];
         }
-        throw new InvalidOperationException($"{(int)type}: {type.ToString()}에 해당하는 스탯 없음");
+        throw new InvalidOperationException($"{type.ToString()}에 해당하는 효과 없음");
     }
 
     public float GetStatValue(int typeID)
@@ -177,6 +161,60 @@ public class TowerData
                 return statValue[i];
         }
         throw new InvalidOperationException($"ID:{typeID}에 해당하는 스탯 없음");
+    }
+
+    public string GetStatName(StatType type)
+    {
+        return DataManager.Instance.statusDict[(int)type].name;
+    }
+
+    public string GetStatName(int typeID)
+    {
+        return DataManager.Instance.statusDict[typeID].name;
+    }
+
+    // 유틸 메서드: 특정 타입의 스탯 값 가져오기
+    public List<EffectBase> ReturnEffectList()
+    {
+        List<EffectBase> ret = new List<EffectBase>();
+
+        for (int i = 0; i < effectID.Count; i++)
+        {
+            //이펙트 아이디를 타겟스테이터스 아이디로 변경
+            int targetStatusID = DataManager.Instance.effectDict[effectID[i]].targetStatusID;
+            float[] values = effectInfo[i];
+            EffectBase effect = null;
+
+            switch (targetStatusID)
+            {
+                case 0:
+                    effect = new AttackDamageEffecter(targetStatusID);
+                    break;
+
+                case 1:
+                    effect = new AttackRangeEffecter(targetStatusID);
+                    break;
+
+                case 2:
+                    effect = new AttackSpeedEffecter(targetStatusID);
+                    break;
+
+                case 3:
+                    effect = new TargetCountEffecter(targetStatusID);
+                    break;
+
+                case 4:
+                    effect = new TowerCooldownEffecter(targetStatusID);
+                    break;
+
+                case 5:
+                    effect = new CostEffecter(targetStatusID);
+                    break;
+            }
+
+            ret.Add(effect);
+        }
+        return ret;
     }
 }
 

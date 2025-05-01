@@ -31,8 +31,8 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     public void Init(int id)
     {
         towerID = id;
-        cooldownDuration = DataManager.Instance.towerDict[towerID].statValue[4];
-        requiredCost = DataManager.Instance.towerDict[towerID].statValue[5];
+        cooldownDuration = DataManager.Instance.towerDict[towerID].GetStatValue(StatType.towerCooldown);
+        requiredCost = DataManager.Instance.towerDict[towerID].GetStatValue(StatType.cost);
         
         cooldownOverlay.gameObject.SetActive(false);
         cooldownText.gameObject.SetActive(false);
@@ -144,7 +144,7 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                                    TilemapManager.Instance.tilemap.cellSize / 2;
 
                 if(IsCostEnough()) 
-                    StageManager.Instance.UseCost((int)DataManager.Instance.towerDict[towerID].GetStatValue(TowerStatType.Cost));
+                    StageManager.Instance.UseCost((int)DataManager.Instance.towerDict[towerID].GetStatValue(StatType.cost));
 
                 var tower = PoolManager.Instance.Get(placedTowerPrefab).GetComponent<BaseTower>();
                 tower.transform.position = spawnPos;
@@ -165,7 +165,7 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     
     bool IsCostEnough()
     {
-        int cost = (int)DataManager.Instance.towerDict[towerID].GetStatValue(TowerStatType.Cost);
+        int cost = (int)DataManager.Instance.towerDict[towerID].GetStatValue(StatType.cost);
 
         return StageManager.Instance.CheckCost(cost);
     }
