@@ -135,7 +135,6 @@ public class TowerData
 
     // 보유 효과
     public List<int> effectID;      // effctType의 int 값들
-
     // 각 효과의 수치, 지속시간, 중첩여부 (지속시간이 음수면 무한, 중첩여부가 0이하면 중첩안됨)
     public List<float[]> effectInfo;
 
@@ -173,7 +172,6 @@ public class TowerData
         return DataManager.Instance.statusDict[typeID].name;
     }
 
-    // 유틸 메서드: 특정 타입의 스탯 값 가져오기
     public List<EffectBase> ReturnEffectList()
     {
         List<EffectBase> ret = new List<EffectBase>();

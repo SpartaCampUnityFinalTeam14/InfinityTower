@@ -90,7 +90,7 @@ public abstract class TargettingTower : BaseTower
                     default:
                         break;
                 }
-                break;
+            break;
 
             //타겟이 아군일 경우
             case TargetType.Tower:
@@ -111,7 +111,7 @@ public abstract class TargettingTower : BaseTower
                     default:
                         break;
                 }
-                break;
+            break;
 
             default:
                 break;
