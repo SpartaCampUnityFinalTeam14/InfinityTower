@@ -90,7 +90,7 @@ public abstract class BaseTower : Poolable
 
     public void RemoveTower()
     {
-        StageManager.Instance.GetCost((int)towerData.GetStatValue(TowerStatType.Cost));
+        StageManager.Instance.GetCost((int)towerData.GetStatValue(StatType.cost));
         PoolManager.Instance.Release(this);
     }
 
@@ -117,7 +117,7 @@ public abstract class BaseTower : Poolable
 
                 // 사거리표시
                 rangeIndicator = PoolManager.Instance.Get(rangePrefab, 1, transform).GetComponent<RangeIndicator>();
-                rangeIndicator.Init(towerData.GetStatValue(TowerStatType.Range));
+                rangeIndicator.Init(towerData.GetStatValue(StatType.attackRange));
 
                 StageManager.Instance.timeScaleManager.PushTimeScale(0.2f);
             }
@@ -126,6 +126,6 @@ public abstract class BaseTower : Poolable
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.position, towerData.GetStatValue(TowerStatType.Range));
+        Gizmos.DrawWireSphere(transform.position, towerData.GetStatValue(StatType.attackRange));
     }
 }

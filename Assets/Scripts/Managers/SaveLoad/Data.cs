@@ -14,13 +14,13 @@ public class MonsterData
 {
     public int id;
     public string name;
-    public string description;
     public List<int> valueType;
     public List<float> value;
     public int enemyType;
     public bool hasSkill;
     public List<int> skillIds; // 스킬 ID만 저장
     public Dictionary<int, float> dictValue;
+    public string description;
 
     public MonsterData(MonsterData data)
     {
@@ -153,7 +153,17 @@ public class TowerData
         throw new InvalidOperationException($"{type.ToString()}에 해당하는 효과 없음");
     }
 
-    public string GetStatName(TowerStatType type)
+    public float GetStatValue(int typeID)
+    {
+        for (int i = 0; i < statTypes.Count; i++)
+        {
+            if (statTypes[i] == typeID)
+                return statValue[i];
+        }
+        throw new InvalidOperationException($"ID:{typeID}에 해당하는 스탯 없음");
+    }
+
+    public string GetStatName(StatType type)
     {
         return DataManager.Instance.statusDict[(int)type].name;
     }
@@ -204,25 +214,7 @@ public class TowerData
 
             ret.Add(effect);
         }
-    }
-    public float GetStatValue(TowerStatType type)
-    { 
-        for (int i = 0; i<statTypes.Count; i++)
-        {
-            if ((TowerStatType) statTypes[i] == type)
-                return statValue[i];
-        }
-        throw new InvalidOperationException($"{(int)type}: {type.ToString()}에 해당하는 스탯 없음");
-    }
-
-    public float GetStatValue(int typeID)
-    {
-        for (int i = 0; i < statTypes.Count; i++)
-        {
-            if (statTypes[i] == typeID)
-                return statValue[i];
-        }
-        throw new InvalidOperationException($"ID:{typeID}에 해당하는 스탯 없음");
+        return ret;
     }
 }
 

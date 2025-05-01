@@ -101,7 +101,7 @@ public class MonsterBase : Poolable, ISkillUser
                 Vector3 dir = (target - transform.position).normalized;
 
                 // ✅ 이동
-                transform.position = Vector3.MoveTowards(transform.position, target, GetStat(StatType.Speed) * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, target, GetStat(StatType.moveSpeed) * Time.deltaTime);
 
                 // ✅ 방향에 따른 스프라이트 업데이트
                 UpdateDirectionSprite(dir);
