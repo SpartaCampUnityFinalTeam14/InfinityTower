@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class UI_Deck : UI
 {
+    private TabController tabController;
+
     [SerializeField] private UI_TowerSelect towerSelect;
     [SerializeField] private UI_ChampionSelect championSelect;
 
@@ -33,12 +35,14 @@ public class UI_Deck : UI
     {
         base.Awake();
 
+        tabController = GetComponent<TabController>();
+
         towerSelect.deck = this;
         championSelect.deck = this;
 
         closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Deck>());
-        towerTab.onClick.AddListener(() => SetDeckTab(true));
-        championTab.onClick.AddListener(() => SetDeckTab(false));
+        //towerTab.onClick.AddListener(() => SetDeckTab(true));
+        //championTab.onClick.AddListener(() => SetDeckTab(false));
 
         championButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_ChampionInfo>().Init(SaveManager.Instance.playerData.selectedChampionIndex));
         towerSelectMaskButton.onClick.AddListener(() => 
@@ -68,29 +72,29 @@ public class UI_Deck : UI
         OnChampionSelected.RegisterListener(SetChampion);
     }
 
-    public void SetDeckTab(bool isTower)
-    {
-        if (isTower)
-        {
-            towerSelect.gameObject.SetActive(true);
-            towerTab.GetComponent<Image>().color = Color.white;
+    //public void SetDeckTab(bool isTower)
+    //{
+    //    if (isTower)
+    //    {
+    //        towerSelect.gameObject.SetActive(true);
+    //        towerTab.GetComponent<Image>().color = Color.white;
 
-            championSelect.gameObject.SetActive(false);
-            championTab.GetComponent<Image>().color = Color.gray;
+    //        championSelect.gameObject.SetActive(false);
+    //        championTab.GetComponent<Image>().color = Color.gray;
 
-            towerSelect.UpdateSlots();
-        }
-        else
-        {
-            championSelect.gameObject.SetActive(true);
-            championTab.GetComponent<Image>().color = Color.white;
+    //        towerSelect.UpdateSlots();
+    //    }
+    //    else
+    //    {
+    //        championSelect.gameObject.SetActive(true);
+    //        championTab.GetComponent<Image>().color = Color.white;
 
-            towerSelect.gameObject.SetActive(false);
-            towerTab.GetComponent<Image>().color = Color.gray;
+    //        towerSelect.gameObject.SetActive(false);
+    //        towerTab.GetComponent<Image>().color = Color.gray;
 
-            championSelect.UpdateSlots();
-        }
-    }
+    //        championSelect.UpdateSlots();
+    //    }
+    //}
 
     void SetChampion(int index)
     {
