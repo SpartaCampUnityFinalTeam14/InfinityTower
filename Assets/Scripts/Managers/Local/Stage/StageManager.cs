@@ -29,8 +29,7 @@ public class StageManager : Singleton<StageManager>
     [HideInInspector] public SkillVisualDB skillVisualDB;
     private Hero hero;
     
-    [SerializeField]
-    private HeroSkillPanel skillPanel;
+    [SerializeField] private HeroSkillPanel skillPanel;
 
     [SerializeField] private int floorCount = 2;
     private GameObject floorGO;
@@ -218,14 +217,15 @@ public class StageManager : Singleton<StageManager>
             OnFloorCountChanged.RaiseEvent(i + 1);
 
             if (floorGO != null) Destroy(floorGO);
-            int randomId = Random.Range(0, floorDictKeys.Count);
-            int floorId = floorDictKeys[randomId];
+            int randomIndex = Random.Range(0, floorDictKeys.Count);
+            int floorId = floorDictKeys[randomIndex];
+            floorDictKeys.RemoveAt(randomIndex);
             floorGO = Util.InstantiatePrefab($"Floors/Floor_{floorId}");//랜덤 ID에 맞는 플로어 생성하게 변경해야 함
             curFloor = floorGO.GetComponent<Floor>();
             curFloor.StartFloor();
 
             curCost = 0;
-        
+            
             yield return new WaitUntil(() => curFloor.isFloorEnd);
 
             if (i != 0 && (i + 1) % 2 == 0)
