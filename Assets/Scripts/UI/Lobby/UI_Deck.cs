@@ -41,10 +41,11 @@ public class UI_Deck : UI
         championTab.onClick.AddListener(() => SetDeckTab(false));
 
         championButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_ChampionInfo>().Init(SaveManager.Instance.playerData.selectedChampionIndex));
-        towerSelectMaskButton.onClick.AddListener(() => {
+        towerSelectMaskButton.onClick.AddListener(() => 
+        {
             towerSelectMask.SetActive(false);
             selectedTowerIndex = -1;
-            });
+        });
 
         UnregisterListeners();
         RegisterListeners();
@@ -67,27 +68,27 @@ public class UI_Deck : UI
         OnChampionSelected.RegisterListener(SetChampion);
     }
 
-    public void InitTab()
-    {
-        towerSelect.Init();
-        championSelect.Init();
-    }
-
     public void SetDeckTab(bool isTower)
     {
         if (isTower)
         {
             towerSelect.gameObject.SetActive(true);
+            towerTab.GetComponent<Image>().color = Color.white;
+
             championSelect.gameObject.SetActive(false);
-            towerTab.GetComponent<Image>().color = Color.gray;
-            championTab.GetComponent<Image>().color = Color.white;
+            championTab.GetComponent<Image>().color = Color.gray;
+
+            towerSelect.UpdateSlots();
         }
         else
         {
-            towerSelect.gameObject.SetActive(false);
             championSelect.gameObject.SetActive(true);
-            towerTab.GetComponent<Image>().color = Color.white;
-            championTab.GetComponent<Image>().color = Color.gray;
+            championTab.GetComponent<Image>().color = Color.white;
+
+            towerSelect.gameObject.SetActive(false);
+            towerTab.GetComponent<Image>().color = Color.gray;
+
+            championSelect.UpdateSlots();
         }
     }
 

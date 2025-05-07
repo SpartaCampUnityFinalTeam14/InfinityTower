@@ -53,6 +53,14 @@ public class UI_ChampionSelect : MonoBehaviour
         SetSelectedChampion(SaveManager.Instance.playerData.selectedChampionIndex);
     }
 
+    public void UpdateSlots()
+    {
+        foreach (var slot in slots)
+        {
+            slot.UpdateSlot();
+        }
+    }
+
     void SetSelectedChampion(int id)
     {
         SaveManager.Instance.playerData.selectedChampionIndex = id;

@@ -52,14 +52,30 @@ public class GachaManager
         if(random < championProb)
         {//영웅
             id = championPool[Random.Range(0, championPool.Count)];
-            SaveManager.Instance.championLevelDict[id].exp += 1;
+            if(SaveManager.Instance.championLevelDict[id].exp == 0
+               && SaveManager.Instance.championLevelDict[id].level == 0)
+            {
+                SaveManager.Instance.championLevelDict[id].level = 1;
+            }
+            else
+            {
+                SaveManager.Instance.championLevelDict[id].exp += 1;
+            }
             SaveManager.Instance.SaveChampionLevelData();
             if(CheckChampionExp(id) == false) championPool.Remove(id);
         }
         else
         {//타워
             id = towerPool[Random.Range(0, towerPool.Count)];
-            SaveManager.Instance.towerLevelDict[id].exp += 1;
+            if (SaveManager.Instance.towerLevelDict[id].exp == 0
+                && SaveManager.Instance.towerLevelDict[id].level == 0)
+            {
+                SaveManager.Instance.towerLevelDict[id].level = 1;
+            }
+            else
+            {
+                SaveManager.Instance.towerLevelDict[id].exp += 1;
+            }
             SaveManager.Instance.SaveTowerLevelData();
             if (CheckTowerExp(id) == false) towerPool.Remove(id);
         }

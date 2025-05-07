@@ -83,7 +83,7 @@ public class UI_Artifact : UI
         UpdateGold();
     }
 
-    void UpdateGold()
+    public void UpdateGold()
     {
         int gold = SaveManager.Instance.playerData.gold;
         goldText.text = string.Format("{0:N0}", gold);

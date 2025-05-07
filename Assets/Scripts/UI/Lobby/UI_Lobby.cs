@@ -27,13 +27,9 @@ public class UI_Lobby : UI
 
         UpdateGold();
         stageStartButton.onClick.AddListener(() => GameManager.Instance.LoadScene("KSM_Stage"));
-        championSelectButton.onClick.AddListener(() => 
-        {
-            UIManager.Instance.ShowStackUI<UI_Deck>().SetDeckTab(false);
-            UIManager.Instance.GetUI<UI_Deck>().InitTab();
-        });
+        championSelectButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Deck>().SetDeckTab(false));
         deckSelectButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Deck>().SetDeckTab(true));
-        artifactButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Artifact>());
+        artifactButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Artifact>().UpdateGold());
         gachaButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Gacha>().Init());
 
         UnregisterListeners();

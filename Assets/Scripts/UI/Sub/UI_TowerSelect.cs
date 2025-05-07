@@ -23,6 +23,20 @@ public class UI_TowerSelect : MonoBehaviour
         Init();
     }
 
+    void UnregisterListeners()
+    {
+        OnTowerSlotSelected.UnregisterListener(TowerSlotSelected);
+        OnTowerLevelChanged.UnregisterListener(UpdateTowerSlotLevel);
+        OnTowerExpChanged.UnregisterListener(UpdateTowerSlotExp);
+    }
+
+    void RegisterListeners()
+    {
+        OnTowerSlotSelected.RegisterListener(TowerSlotSelected);
+        OnTowerLevelChanged.RegisterListener(UpdateTowerSlotLevel);
+        OnTowerExpChanged.RegisterListener(UpdateTowerSlotExp);
+    }
+
     public void Init()
     {
         foreach (Transform child in slotParent) Destroy(child.gameObject);
@@ -43,29 +57,13 @@ public class UI_TowerSelect : MonoBehaviour
                 if (slot.id == index) slot.SetSelectedMark(true);
             }
         }
-
-        ResetClickedMark();
     }
 
-    void UnregisterListeners()
+    public void UpdateSlots()
     {
-        OnTowerSlotSelected.UnregisterListener(TowerSlotSelected);
-        OnTowerLevelChanged.UnregisterListener(UpdateTowerSlotLevel);
-        OnTowerExpChanged.UnregisterListener(UpdateTowerSlotExp);
-    }
-
-    void RegisterListeners()
-    {
-        OnTowerSlotSelected.RegisterListener(TowerSlotSelected);
-        OnTowerLevelChanged.RegisterListener(UpdateTowerSlotLevel);
-        OnTowerExpChanged.RegisterListener(UpdateTowerSlotExp);
-    }
-
-    public void ResetClickedMark()
-    {
-        foreach (var slot in slots)
+        foreach(var slot in slots)
         {
-            slot.SetClickedMark(false);
+            slot.UpdateSlot();
         }
     }
 
@@ -83,8 +81,6 @@ public class UI_TowerSelect : MonoBehaviour
                 if (slot.id == index) slot.SetSelectedMark(true);
             }
         }
-
-        ResetClickedMark();
     }
 
     void UpdateTowerSlotLevel(int towerID)
