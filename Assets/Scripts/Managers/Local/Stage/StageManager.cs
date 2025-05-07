@@ -18,15 +18,15 @@ public class StageManager : Singleton<StageManager>
     [SerializeField] private FloatEventChannel OnCostChanged;
     private List<float> activeCostRecoveryMultipliers = new List<float>(); // 여러 타워의 버프들을 저장
 
-    public List<int> selectedTowers = new();
-    public int selectedChampion;
+    [HideInInspector] public List<int> selectedTowers = new();
+    [HideInInspector] public int selectedChampion;
 
-    public AbilityManager abilityManager;
-    public EventManager eventManager;
-    public TimeScaleManager timeScaleManager;
-    
-    public SkillTargetingSystem skillTargetingSystem;
-    public SkillVisualDB skillVisualDB;
+    [HideInInspector] public AbilityManager abilityManager;
+    [HideInInspector] public EventManager eventManager;
+    [HideInInspector] public TimeScaleManager timeScaleManager;
+
+    [HideInInspector] public SkillTargetingSystem skillTargetingSystem;
+    [HideInInspector] public SkillVisualDB skillVisualDB;
     private Hero hero;
     
     [SerializeField]
@@ -40,9 +40,9 @@ public class StageManager : Singleton<StageManager>
 
     private List<TowerSlotUI> towerSlots;
 
-    public bool isEventEnd;
-    public bool isIntroEnd;
-    public bool isAdditionalFloor;
+    [HideInInspector] public bool isEventEnd;
+    [HideInInspector] public bool isIntroEnd;
+    [HideInInspector] public bool isAdditionalFloor;
 
     protected override void Awake()
     {
