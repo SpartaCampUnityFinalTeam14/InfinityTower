@@ -1241,6 +1241,7 @@ MonoBehaviour:
   boxAnimator: {fileID: 4972123911638850481}
   boxIndex: 00000000010000000200000003000000
   gachaCloseButton: {fileID: 1889874332167695982}
+  OnGoldChanged: {fileID: 11400000, guid: 22399d8438eef5d41a9ff76ab0fc6068, type: 2}
 --- !u!1 &3854171351229803641
 GameObject:
   m_ObjectHideFlags: 0

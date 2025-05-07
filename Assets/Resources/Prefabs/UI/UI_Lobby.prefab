@@ -125,6 +125,7 @@ MonoBehaviour:
   artifactButton: {fileID: 333897538144573159}
   gachaButton: {fileID: 3882040746092798523}
   OnChampionSelected: {fileID: 11400000, guid: ab69cc0aaf635254cabc3f202eabb7ff, type: 2}
+  OnGoldChanged: {fileID: 11400000, guid: 22399d8438eef5d41a9ff76ab0fc6068, type: 2}
 --- !u!1 &34960729017219621
 GameObject:
   m_ObjectHideFlags: 0

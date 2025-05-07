@@ -26,6 +26,9 @@ public class UI_Artifact : UI
     [SerializeField] private List<int> boxIndex = new();
     [SerializeField] private Button gachaCloseButton;
 
+    [SerializeField] private EventChannel OnGoldChanged;
+    private int requiredGold = 10;
+
     private ArtifactGachaManager gachaManager;
 
     protected override void Awake()
@@ -35,7 +38,7 @@ public class UI_Artifact : UI
         gachaManager = new();
 
         closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Artifact>());
-        gachaButton.onClick.AddListener(() => StartCoroutine(Gacha()));
+        gachaButton.onClick.AddListener(GachaArtifact);
         gachaCloseButton.onClick.AddListener(() => 
         {
             boxAnimator.SetInteger("BoxID", -1);
@@ -73,7 +76,7 @@ public class UI_Artifact : UI
             if (slots[i].id == id)
             {
                 slots[i].SetCount(SaveManager.Instance.artifactSaveDict[id].count);
-                return;
+                break;
             }
         }
 
@@ -84,12 +87,25 @@ public class UI_Artifact : UI
     {
         int gold = SaveManager.Instance.playerData.gold;
         goldText.text = string.Format("{0:N0}", gold);
+
+        OnGoldChanged.RaiseEvent();
     }
 
     void CheckGachaAble()
     {
         gachaButton.interactable = !gachaManager.IsAllArtifactPulled();
         gachaButton.GetComponentInChildren<TextMeshProUGUI>().text = gachaButton.interactable ? "유물 뽑기" : "전부 뽑음";
+    }
+
+    void GachaArtifact()
+    {
+        if (!SaveManager.Instance.playerData.CheckGold(requiredGold))
+        {
+            UIManager.Instance.ShowUI<UI_Alert>().Alert("골드가 부족합니다.");
+            return;
+        }
+
+        StartCoroutine(Gacha());
     }
 
     IEnumerator Gacha()
@@ -104,6 +120,8 @@ public class UI_Artifact : UI
         Debug.Log(boxAnimator.GetInteger("BoxID"));
 
         int id = gachaManager.GetRandomArtifact();
+        SaveManager.Instance.playerData.UseGold(requiredGold);
+        UpdateGold();
         int rarity = id / 1000;
         resultBackground.color = rarityColors[rarity];
 

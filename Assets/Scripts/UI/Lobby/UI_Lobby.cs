@@ -19,6 +19,7 @@ public class UI_Lobby : UI
     [SerializeField] private Button gachaButton;
 
     [SerializeField] private IntEventChannel OnChampionSelected;
+    [SerializeField] private EventChannel OnGoldChanged;
 
     protected override void Awake()
     {
@@ -44,11 +45,13 @@ public class UI_Lobby : UI
     void UnregisterListeners()
     {
         OnChampionSelected.UnregisterListener(SetChampion);
+        OnGoldChanged.UnregisterListener(UpdateGold);
     }
 
     void RegisterListeners()
     {
         OnChampionSelected.RegisterListener(SetChampion);
+        OnGoldChanged.RegisterListener(UpdateGold);
     }
 
     void SetChampion(int index)
