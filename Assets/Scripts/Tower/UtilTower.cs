@@ -10,10 +10,10 @@ public class UtilityTower : BaseTower
     protected override void Start()
     {
         base.Start();
-        foreach (EffectBase T in myEffectDict)
+        foreach (var T in myEffectDict)
         {
-            if (T.statusID != (int)StatType.costHeal) continue;
-            float[] effectValues = towerData.effectValue[towerData.effectID.IndexOf(T.statusID)];
+            if (T.Key != (int)StatType.costHeal) continue;
+            float[] effectValues = towerData.effectValue[towerData.effectID.IndexOf(T.Key)];
             buffAmount = effectValues[0];   // ex: +0.5
             buffDuration = effectValues[1];    // ex: 5초
         }

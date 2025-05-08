@@ -136,7 +136,7 @@ public class TowerData
     // 보유 효과
     public List<int> effectID;      // effctType의 int 값들
     // 각 효과의 수치, 지속시간, 중첩여부 (지속시간이 음수면 무한, 중첩여부가 0이하면 중첩안됨)
-    public List<float[]> effectValue;
+    public List<effectValues> effectValue;
 
     public TargettingRule TargettingRule => (TargettingRule)targettingRule;
     public TargetType TargetType => (TargetType)targetType;
@@ -180,7 +180,7 @@ public class TowerData
         {
             //이펙트 아이디를 타겟스테이터스 아이디로 변경
             int targetStatusID = DataManager.Instance.effectDict[effectID[i]].targetStatusID;
-            float[] values = effectValue[i];
+            float[] values = effectValue[i].values;
             EffectBase effect = null;
 
             switch (targetStatusID)
@@ -231,6 +231,12 @@ public class TowerDataLoader : ILoader<int, TowerData>
 
         return dict;
     }
+}
+
+[Serializable]
+public class effectValues
+{
+    public float[] values;
 }
 #endregion
 

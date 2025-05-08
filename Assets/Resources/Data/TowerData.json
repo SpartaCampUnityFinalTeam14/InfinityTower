@@ -76,7 +76,15 @@
             "statTypes": [ 0, 1, 2, 3, 4, 5 ],
             "statValue": [ 5, 4, 3, 3, 30, 180 ],
             "effectID": [ 0 ],
-            "effectValue": [ 0.15, 1, 0 ]
+            "effectValue": [
+                {
+                    "values": [
+                        0.15,
+                        1,
+                        0
+                    ]
+                }
+            ]
         },
         {
             "id": 14,
@@ -87,7 +95,15 @@
             "statTypes": [ 0, 1, 2, 3, 4, 5 ],
             "statValue": [ 0, 3, 0, 100, 25, 100 ],
             "effectID": [ 3 ],
-            "effectValue": [ 2, 1, 0 ]
+            "effectValue": [
+                {
+                    "values": [
+                        2,
+                        1,
+                        0
+                    ]
+                }
+            ]
         },
         {
             "id": 100,
@@ -98,7 +114,15 @@
             "statTypes": [ 4, 5 ],
             "statValue": [ 30, 75 ],
             "effectID": [ 2 ],
-            "effectValue": [ 100, 15, 0 ]
+            "effectValue": [
+                {
+                    "values": [
+                        100,
+                        15,
+                        0
+                    ]
+                }
+            ]
         }
     ]
 }
