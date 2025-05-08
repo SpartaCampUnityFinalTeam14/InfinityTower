@@ -72,6 +72,12 @@ public class UI_Deck : UI
         OnChampionSelected.RegisterListener(SetChampion);
     }
 
+    public void UpdateTab()
+    {
+        towerSelect.UpdateSlots();
+        championSelect.UpdateSlots();
+    }
+
     //public void SetDeckTab(bool isTower)
     //{
     //    if (isTower)
