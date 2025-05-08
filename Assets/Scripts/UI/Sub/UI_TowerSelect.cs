@@ -15,8 +15,12 @@ public class UI_TowerSelect : MonoBehaviour
 
     public int slotWidth = 270;
     public int spacing = 20;
-    public int poolCount = 7;
-    private int prevIndex = -1;
+    private int slotSize;
+    private int visibleSlotCount;
+    //private int poolSize;
+    public int poolCount = 6;
+    private int prevIndex = 0;
+    private List<int> keys = new();
 
     [SerializeField] private IntEventChannel OnTowerSlotSelected;
     [SerializeField] private IntEventChannel OnTowerLevelChanged;
@@ -28,6 +32,11 @@ public class UI_TowerSelect : MonoBehaviour
 
         UnregisterListeners();
         RegisterListeners();
+
+        keys = DataManager.Instance.towerDict.Keys.ToList();
+        slotSize = slotWidth + spacing;
+        visibleSlotCount = Mathf.CeilToInt(scrollRect.GetComponent<RectTransform>().rect.width / slotSize);
+        //poolSize = poolCount * slotSize;
 
         Init();
     }
@@ -60,14 +69,32 @@ public class UI_TowerSelect : MonoBehaviour
             slot.gameObject.SetActive(false);
         }
 
-        UpdateSlots();
+        InitSlots();
     }
 
     void InitContentSize()
     {
-        int slotSize = slotWidth + spacing;
         int contentSize = DataManager.Instance.towerDict.Count * slotSize;
         content.sizeDelta = new Vector2(contentSize, content.sizeDelta.y);
+    }
+
+    void InitSlots()
+    {
+        for (int i = 0; i < poolCount; i++)
+        {
+            int dataIndex = i;
+            if (0 <= dataIndex && dataIndex < DataManager.Instance.towerDict.Count)
+            {
+                var slot = slots[i];
+                slot.Init(keys[dataIndex]);
+
+                slot.gameObject.SetActive(true);
+                RectTransform slotRectTransform = slot.GetComponent<RectTransform>();
+                float slotX = dataIndex * (slotSize);
+                slotRectTransform.anchoredPosition = new Vector2(slotX, 0);
+            }
+            else slots[i].gameObject.SetActive(false);
+        }
     }
 
     void UpdateSlots(Vector2 scroll)
@@ -77,30 +104,58 @@ public class UI_TowerSelect : MonoBehaviour
 
     public void UpdateSlots()
     {
-        float scrollX = content.anchoredPosition.x;
-        int slotSize = slotWidth + spacing;
-        int curIndex = (int)MathF.Floor(-scrollX / slotSize);
+        float scrollX = -content.anchoredPosition.x;
+        int curIndex = Mathf.FloorToInt(scrollX / slotSize);
 
-        if (prevIndex == curIndex) return;
-        prevIndex = curIndex;
-        Debug.Log(curIndex);
+        curIndex = Mathf.Clamp(curIndex, 0, Mathf.Max(0, keys.Count - visibleSlotCount));
 
-        for(int i = 0; i < poolCount; i++)
+        int delta = curIndex - prevIndex;
+
+        if (delta == 0) return;
+
+        Debug.Log(curIndex + ", " + delta);
+        if (delta > 0)
         {
-            int dataIndex = curIndex + i;
-            if(0 <= dataIndex && dataIndex < DataManager.Instance.towerDict.Count)
+            for(int i = 0; i < delta; i++)
             {
-                var slot = slots[i];
-                int dictKey = DataManager.Instance.towerDict.Keys.ToList()[dataIndex];
-                slot.Init(dictKey);
-
-                slot.gameObject.SetActive(true);
-                RectTransform slotRectTransform = slot.GetComponent<RectTransform>();
-                float slotX = dataIndex * slotSize;
-                slotRectTransform.anchoredPosition = new Vector2(slotX, 0);
+                RecycleToRight(curIndex + poolCount - 1 - i);
             }
-            else slots[i].gameObject.SetActive(false);
         }
+        else
+        {
+            for(int i = 0; i < -delta; i++)
+            {
+                RecycleToLeft(curIndex - i);
+            }
+        }
+
+        prevIndex = curIndex;
+    }
+
+    void RecycleToLeft(int dataIndex)
+    {
+        if (dataIndex < 0 || dataIndex >= keys.Count) return;
+
+        var rightSlot = slots[poolCount - 1];
+        slots.RemoveAt(poolCount - 1);
+        slots.Insert(0, rightSlot);
+        rightSlot.Init(keys[dataIndex]);
+
+        RectTransform rect = rightSlot.GetComponent<RectTransform>();
+        rect.anchoredPosition = new Vector2(dataIndex * slotSize, rect.anchoredPosition.y);
+    }
+
+    void RecycleToRight(int dataIndex)
+    {
+        if (dataIndex < 0 || dataIndex >= keys.Count) return;
+
+        var leftSlot = slots[0];
+        slots.RemoveAt(0);
+        slots.Add(leftSlot);
+        leftSlot.Init(keys[dataIndex]);
+
+        RectTransform rect = leftSlot.GetComponent<RectTransform>();
+        rect.anchoredPosition = new Vector2(dataIndex * slotSize, rect.anchoredPosition.y);
     }
 
     void TowerSlotSelected(int selectedIndex)

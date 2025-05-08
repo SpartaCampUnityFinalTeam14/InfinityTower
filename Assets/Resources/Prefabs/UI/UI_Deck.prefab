@@ -463,7 +463,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 9188102480124592602}
   m_HandleRect: {fileID: 6861664344026587372}
   m_Direction: 0
-  m_Value: 0
+  m_Value: -0.00030515715
   m_Size: 0.9996865
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -1054,7 +1054,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5936577932501063886
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1428,7 +1428,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -10}
+  m_AnchoredPosition: {x: 0.00009329817, y: -10}
   m_SizeDelta: {x: 1276, y: 850}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!1 &5048816639810125346
@@ -1627,7 +1627,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6303923224028128568}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
   m_Name: 
@@ -2020,7 +2020,7 @@ MonoBehaviour:
   content: {fileID: 2157857880050192035}
   slotWidth: 270
   spacing: 20
-  poolCount: 7
+  poolCount: 6
   OnTowerSlotSelected: {fileID: 11400000, guid: 9ff77bc744710c7468ea64e62a7b21b7, type: 2}
   OnTowerLevelChanged: {fileID: 11400000, guid: b25f75fc0801dbb41ad8b4aa4a821daa, type: 2}
   OnTowerExpChanged: {fileID: 11400000, guid: 7c84f6743c7218f49af971b2bdb05ca2, type: 2}
