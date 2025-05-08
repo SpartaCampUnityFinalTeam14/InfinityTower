@@ -112,9 +112,9 @@ public class PathManager : MonoBehaviour
         }
     }
 
-    float GetHeuristic(Vector3Int a, Vector3Int b)
+    float GetHeuristic(Vector3Int dest, Vector3Int source)
     {
-        return Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y); // 맨해튼 거리
+        return Mathf.Abs(dest.x - source.x) + Mathf.Abs(dest.y - source.y); // 맨해튼 거리
     }
     #endregion
 

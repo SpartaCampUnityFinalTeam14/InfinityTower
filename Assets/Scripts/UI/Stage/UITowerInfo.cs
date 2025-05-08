@@ -32,7 +32,7 @@ public class UITowerInfo : UI
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < data.statTypes.Count; i++)
         {
-            sb.AppendLine($"{(TowerStatType)data.statTypes[i]}: {data.statValue[i]}");
+            sb.AppendLine($"{(StatType)data.statTypes[i]}: {data.statValue[i]}");
         }
         statInfo.text = sb.ToString();
     }

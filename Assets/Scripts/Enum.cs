@@ -18,52 +18,47 @@ public enum TargettingRule
 
 public enum TargetType
 {
-    Tower=1,    //아군 타워 버프
+    Tower = 1,    //아군 타워 버프
     Player,  //플레이어 코스트 회복, 체력 회복
     Enemy    //적 데미지, 디버프
 }
 
-public enum TowerStatType
+public enum StatType
 {
-    Damage = 0,
-    Range,
-    AttackSpeed,
-    TargetCount,
-    CoolTime,
-    Cost
+    //Tower
+    attackDamage = 0,
+    attackRange = 1,
+    attackSpeed = 2,
+    targetCount = 3,
+    towerCooldown = 4,
+    cost = 5,
+
+    //Player
+    costHeal = 6,
+    playerHeal = 7,
+    playerHP = 8,
+
+    //Monster
+    HP = 9,
+    moveSpeed = 10,
+    armor = 11,
+    damage = 12,
+    cooldown = 13,
+
+    //Player
+    atk = 14,
+    cash = 15,
+    cleargoldDrop = 16
 }
 
 public enum EffectType
 {
-    // === 스탯 변경 ===
-    ATKPowerUP = 1,           // 공격력 증감
-    ATKSpeedUP = 2,           // 공격 속도
-    RangeUP = 3,                 // 사거리
-    CooltimeDown = 4,     // 스킬 쿨타임 감소
-
-    // === 방어 관련 ===
-    DefenseDown = 10,              // 방어력
-    MagicResistanceDown = 11,      // 마법 저항
-
-    // === 이동 및 행동 관련 ===
-    Stun = 20,                 // 기절 (시간 동안 행동 불가)
-    Slow = 21,                 // 이동 속도 감소
-
-    // === 특수 ===
-    Duration = 100,            // 지속 시간 (버프/디버프 적용 시간)
-    Stackable = 101,           // 중첩 가능 여부 (별도 처리 필요 시)
-    
-    // === 유틸 ===
-    CostRecovery = 200            // 일정 시간동안 코스트 회복속도 증가
-}
-
-public enum StatType
-{
-    Health,
-    Speed,
-    Armor,
-    Attack,
-    AttackSpeed,
+    Slow,
+    Burn,
+    GetCost,
+    DamageBuff,
+    AttackSpeedBuff,
+    DefenseDown
 }
 
 public enum EnemyType

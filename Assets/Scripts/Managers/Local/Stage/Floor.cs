@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Tilemaps;
@@ -22,6 +23,9 @@ public class Floor : MonoBehaviour
     [SerializeField] int monsterCnt = 0;
     private bool isWaveEnd;
 
+    // 플로어에 소환된 타워 리스트
+    private List<BaseTower> spawnTowerList;
+
     [SerializeField] private IntEventChannel OnWaveCountChanged;
     [SerializeField] private IntEventChannel OnMonsterCountChanged;
 
@@ -35,6 +39,8 @@ public class Floor : MonoBehaviour
 
     private void Start()
     {
+        spawnTowerList = new List<BaseTower>();
+
         // 특성 초기화
         UIManager.Instance.HideUI<UIAbility>();
         var ui = UIManager.Instance.HideUI<UIAbility>();
@@ -70,6 +76,9 @@ public class Floor : MonoBehaviour
     void EndFloor()
     {
         Debug.Log("<color=cyan>플로어 종료</color>");
+        
+        ReleaseTower();
+        StageManager.Instance.ResetDropTowerCooldown();
 
         isFloorEnd = true;
     }
@@ -109,6 +118,20 @@ public class Floor : MonoBehaviour
         Debug.Log("<color=red>몬스터 스폰함</color>");
     }
 
+    void ReleaseTower()
+    {
+        foreach (var tower in spawnTowerList) 
+        {
+            PoolManager.Instance.Release(tower);
+        }
+
+        spawnTowerList.Clear();
+    }
+
+    public void AddTowerInfo(BaseTower tower)
+    {
+        spawnTowerList.Add(tower);
+    }
 
     public void AddMonsterCount(int count)
     {

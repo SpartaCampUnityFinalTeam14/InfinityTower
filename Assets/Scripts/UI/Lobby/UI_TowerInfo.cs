@@ -75,7 +75,7 @@ public class UI_TowerInfo : UI
         foreach(int id in data.statTypes)
         {
             UI_StatEach stat = Util.InstantiatePrefabAndGetComponent<UI_StatEach>(path: "UI/Sub/UI_StatEach", parent: statInfoBackgroundTransform);
-            stat.Init((TowerStatType)id, data.GetStatName(id), data.GetStatValue(id));
+            stat.Init((StatType)id, data.GetStatName(id), data.GetStatValue(id));
             stats.Add(stat);
         }
     }

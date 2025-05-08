@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using UnityEditor.Playables;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -10,6 +11,13 @@ public abstract class BaseTower : Poolable
     public int ID;
     protected TowerData towerData;
     protected float attackTimer;
+    // 타워가 가지고 있는 이펙트
+    protected List<EffectBase> myEffect;
+
+    // <key : 받는 이펙트의 statusID / value: 현재 적용된 이펙트 카운트> 본인이 받고있는 이펙트를 저장
+    public Dictionary<int, int> nowEffectedDict;
+    // 적용되는 statType의 ID 값들 , 변동되는 스탯에 대한 수치
+    public Dictionary<int, float> AddModifierStat;
 
     protected Animator anim;
     protected SpriteRenderer spriteRenderer;
@@ -26,14 +34,22 @@ public abstract class BaseTower : Poolable
 
     protected virtual void Start()
     {
-        Initialize();
+        TowerInit();
+        InitAbilityStat();
     }
 
-    public virtual void Initialize()
+    public void TowerInit()
     {
         towerData = DataManager.Instance.towerDict[ID];
-        //attackTimer = towerData.attackSpeed;
-        attackTimer = towerData.GetStatValue(TowerStatType.AttackSpeed);
+        myEffect = towerData.ReturnEffectList();
+        nowEffectedDict = new Dictionary<int, int>();
+        AddModifierStat = new Dictionary<int, float>();
+
+        attackTimer = GetFinalStatValue(StatType.attackSpeed);
+
+        // Ability Event
+        StageManager.Instance.abilityManager.OnAddTowerAbility += AddAbilityStat;
+        StageManager.Instance.abilityManager.OnRemoveTowerAbility += RemoveAbilityStat;
     }
 
     protected virtual void Update()
@@ -44,9 +60,30 @@ public abstract class BaseTower : Poolable
         if (attackTimer <= 0)
         {
             Activate();
-            //attackTimer = towerData.attackSpeed;
-            attackTimer = towerData.GetStatValue(TowerStatType.AttackSpeed);
+            attackTimer = towerData.GetStatValue(StatType.attackSpeed);
         }
+    }
+
+    // 효과 적용 후 종합 수치
+    public float GetFinalStatValue(StatType statType)
+    {
+        if (statType == StatType.targetCount)
+        {
+            return towerData.GetStatValue(statType) + GetAddModifierValue(statType);
+        }
+        else
+        {
+            return towerData.GetStatValue(statType) * (1 + GetAddModifierValue(statType));
+        }
+    }
+
+    public float GetAddModifierValue(StatType type)
+    {
+        if (AddModifierStat.TryGetValue((int)type,out float value))
+        {
+            return value;
+        }
+        return 0f;
     }
 
     protected abstract void Activate(); //실제행동은 하위 클래스에서 정의
@@ -59,7 +96,7 @@ public abstract class BaseTower : Poolable
 
     public void RemoveTower()
     {
-        StageManager.Instance.GetCost((int)towerData.GetStatValue(TowerStatType.Cost));
+        StageManager.Instance.GetCost((int)towerData.GetStatValue(StatType.cost));
         PoolManager.Instance.Release(this);
     }
 
@@ -86,15 +123,53 @@ public abstract class BaseTower : Poolable
 
                 // 사거리표시
                 rangeIndicator = PoolManager.Instance.Get(rangePrefab, 1, transform).GetComponent<RangeIndicator>();
-                rangeIndicator.Init(towerData.GetStatValue(TowerStatType.Range));
+                rangeIndicator.Init(towerData.GetStatValue(StatType.attackRange));
 
                 StageManager.Instance.timeScaleManager.PushTimeScale(0.2f);
             }
         }
     }
+    
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.DrawWireSphere(transform.position, towerData.GetStatValue(StatType.attackRange));
+    //}
 
-    private void OnDrawGizmos()
+    private void InitAbilityStat()
     {
-        Gizmos.DrawWireSphere(transform.position, towerData.GetStatValue(TowerStatType.Range));
+        var manager = StageManager.Instance.abilityManager;
+
+        foreach (Ability ability in manager.CurAbilities.Values)
+        {
+            AddAbilityStat(ability.Data);
+        }
+    }
+
+    private void AddAbilityStat(AbilityData data)
+    {
+        if (data.targetID.Equals(-1) || towerData.id.Equals(data.targetID))
+        {
+            for (int i = 0; i < data.valueType.Count; i++)
+            {
+                if (!AddModifierStat.TryAdd(data.valueType[i], data.value[i]))
+                {
+                    AddModifierStat[data.valueType[i]] += data.value[i];
+                }
+            }
+        }
+    }
+
+    private void RemoveAbilityStat(AbilityData data)
+    {
+        if (data.targetID.Equals(-1) || towerData.id.Equals(data.targetID))
+        {
+            for (int i = 0; i < data.valueType.Count; i++)
+            {
+                if (AddModifierStat.ContainsKey(data.valueType[i]))
+                {
+                    AddModifierStat[data.valueType[i]] -= DataManager.Instance.abilityDict[data.perkID].value[i];
+                }
+            }
+        }
     }
 }
