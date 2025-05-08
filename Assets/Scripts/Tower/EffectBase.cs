@@ -12,12 +12,6 @@ public class EffectBase
     {
         this.statusID = statusID;
     }
-}
-public abstract class EffectBase_Tower : EffectBase
-{
-    protected EffectBase_Tower(int statusID) : base(statusID)
-    {
-    }
 
     public void ApplyEffect_Tower(BaseTower tarTower, float value, float duration, bool stackable)
     {
@@ -62,17 +56,6 @@ public abstract class EffectBase_Tower : EffectBase
         else tarTower.nowEffectedDict[statusID] = nowCnt;
     }
 
-    protected virtual void OnEffectStart_Tower(BaseTower tower, float value) { }
-    protected virtual void OnEffectEnd_Tower(BaseTower tower, float value) { }
-}
-
-public abstract class EffectBase_Monster : EffectBase
-{
-    protected EffectBase_Monster(int statusID) : base(statusID)
-    {
-
-    }
-
     public void ApplyEffect_Monster(MonsterBase tarMonster, float value, float duration, bool stackable)
     {
         // 효과 적용 가능 여부 판단, 몬스터에 효과 받음 표시
@@ -111,11 +94,13 @@ public abstract class EffectBase_Monster : EffectBase
         else tarMonster.nowEffectedDict[statusID] = nowCnt;
     }
 
-    protected abstract void OnEffectStart_Monster(MonsterBase monster, float value);
-    protected abstract void OnEffectEnd_Monster(MonsterBase monster, float value);
+    protected virtual void OnEffectStart_Tower(BaseTower tower, float value) { }
+    protected virtual void OnEffectEnd_Tower(BaseTower tower, float value) { }
+    protected virtual void OnEffectStart_Monster(MonsterBase monster, float value) { }
+    protected virtual void OnEffectEnd_Monster(MonsterBase monster, float value) { }
 }
 
-public class AttackDamageEffecter : EffectBase_Tower
+public class AttackDamageEffecter : EffectBase
 {
     public AttackDamageEffecter(int statusID) : base(statusID)
     {
@@ -136,7 +121,7 @@ public class AttackDamageEffecter : EffectBase_Tower
     }
 }
 
-public class AttackRangeEffecter : EffectBase_Tower
+public class AttackRangeEffecter : EffectBase
 {
     public AttackRangeEffecter(int statusID) : base(statusID)
     {
@@ -157,7 +142,7 @@ public class AttackRangeEffecter : EffectBase_Tower
     }
 }
 
-public class AttackSpeedEffecter : EffectBase_Tower
+public class AttackSpeedEffecter : EffectBase
 {
     public AttackSpeedEffecter(int statusID) : base(statusID)
     {
@@ -178,7 +163,7 @@ public class AttackSpeedEffecter : EffectBase_Tower
     }
 }
 
-public class TargetCountEffecter : EffectBase_Tower
+public class TargetCountEffecter : EffectBase
 {
     public TargetCountEffecter(int statusID) : base(statusID)
     {
@@ -199,7 +184,7 @@ public class TargetCountEffecter : EffectBase_Tower
     }
 }
 
-public class TowerCooldownEffecter : EffectBase_Tower
+public class TowerCooldownEffecter : EffectBase
 {
     public TowerCooldownEffecter(int statusID) : base(statusID)
     {
@@ -220,7 +205,7 @@ public class TowerCooldownEffecter : EffectBase_Tower
     }
 }
 
-public class CostEffecter : EffectBase_Tower
+public class CostEffecter : EffectBase
 {
     public CostEffecter(int statusID) : base(statusID)
     {
@@ -241,7 +226,7 @@ public class CostEffecter : EffectBase_Tower
     }
 }
 
-public class HPEffecter : EffectBase_Monster
+public class HPEffecter : EffectBase
 {
     public HPEffecter(int statusID) : base(statusID)
     {
@@ -262,7 +247,7 @@ public class HPEffecter : EffectBase_Monster
     }
 }
 
-public class MoveSpeedEffecter : EffectBase_Monster
+public class MoveSpeedEffecter : EffectBase
 {
     public MoveSpeedEffecter(int statusID) : base(statusID)
     {
@@ -283,7 +268,7 @@ public class MoveSpeedEffecter : EffectBase_Monster
     }
 }
 
-public class ArmorEffecter : EffectBase_Monster
+public class ArmorEffecter : EffectBase
 {
     public ArmorEffecter(int statusID) : base(statusID)
     {
@@ -304,7 +289,7 @@ public class ArmorEffecter : EffectBase_Monster
     }
 }
 
-public class DamageEffecter : EffectBase_Monster
+public class DamageEffecter : EffectBase
 {
     public DamageEffecter(int statusID) : base(statusID)
     {
@@ -325,7 +310,7 @@ public class DamageEffecter : EffectBase_Monster
     }
 }
 
-public class CooldownEffecter : EffectBase_Monster
+public class CooldownEffecter : EffectBase
 {
     public CooldownEffecter(int statusID) : base(statusID)
     {

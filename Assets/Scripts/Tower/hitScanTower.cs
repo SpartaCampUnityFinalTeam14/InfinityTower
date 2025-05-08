@@ -35,14 +35,10 @@ public class hitScanTower : TargettingTower
                     Debug.Log($"[hitScanTower] 데미지 {totalDamage} 적용 (기본:{damage}, 추가:{attackPowerBuff}) -> {enemy.name}");
                 }
 
-                foreach (EffectBase T in myEffect)
+                foreach (var T in myEffectDict)
                 {
-                    if (T is not EffectBase_Monster monsterEffect)
-                    {
-                        continue;
-                    }
-                    float[] effectValues = towerData.effectValue[towerData.effectID.IndexOf(T.statusID)];
-                    monsterEffect.ApplyEffect_Monster(enemy, effectValues[0], effectValues[1], effectValues[2] > 0);
+                    float[] effectValues = towerData.effectValue[towerData.effectID.IndexOf(T.Key)];
+                    T.Value.ApplyEffect_Monster(enemy, effectValues[0], effectValues[1], effectValues[2] > 0);
                 }
                 //// 디버프는 항상 적용
                 //foreach (int rawType in towerData.effectID)
@@ -58,14 +54,10 @@ public class hitScanTower : TargettingTower
             else if (towerData.TargetType == TargetType.Tower)
             {
                 TargettingTower ally = target.GetComponent<TargettingTower>();
-                foreach (EffectBase T in myEffect)
+                foreach (var T in myEffectDict)
                 {
-                    if (T is not EffectBase_Tower towerEffect)
-                    {
-                        continue;
-                    }
-                    float[] effectValues = towerData.effectValue[towerData.effectID.IndexOf(T.statusID)];
-                    towerEffect.ApplyEffect_Tower(ally, effectValues[0], effectValues[1], effectValues[2] > 0);
+                    float[] effectValues = towerData.effectValue[towerData.effectID.IndexOf(T.Key)];
+                    T.Value.ApplyEffect_Tower(ally, effectValues[0], effectValues[1], effectValues[2] > 0);
                 }
 
                 //// 아군 버프

@@ -10,7 +10,7 @@ public class UtilityTower : BaseTower
     protected override void Start()
     {
         base.Start();
-        foreach (EffectBase T in myEffect)
+        foreach (EffectBase T in myEffectDict)
         {
             if (T.statusID != (int)StatType.costHeal) continue;
             float[] effectValues = towerData.effectValue[towerData.effectID.IndexOf(T.statusID)];

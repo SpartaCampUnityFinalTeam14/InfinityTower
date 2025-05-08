@@ -172,9 +172,9 @@ public class TowerData
         return DataManager.Instance.statusDict[typeID].name;
     }
 
-    public List<EffectBase> ReturnEffectList()
+    public Dictionary<int, EffectBase> ReturnEffectList()
     {
-        List<EffectBase> ret = new List<EffectBase>();
+        Dictionary<int, EffectBase> ret = new Dictionary<int, EffectBase>();
 
         for (int i = 0; i < effectID.Count; i++)
         {
@@ -210,7 +210,7 @@ public class TowerData
                     break;
             }
 
-            ret.Add(effect);
+            ret.Add(targetStatusID, effect);
         }
         return ret;
     }

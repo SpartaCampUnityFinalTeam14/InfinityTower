@@ -10,8 +10,8 @@ public abstract class BaseTower : Poolable
     public int ID;
     protected TowerData towerData;
     protected float attackTimer;
-    // 타워가 가지고 있는 이펙트
-    protected List<EffectBase> myEffect;
+    // key : statusID / value : 타워가 가지고 있는 이펙트
+    protected Dictionary<int,EffectBase> myEffectDict;
 
     // <key : 받는 이펙트의 statusID / value: 현재 적용된 이펙트 카운트> 본인이 받고있는 이펙트를 저장
     public Dictionary<int, int> nowEffectedDict;
@@ -39,7 +39,7 @@ public abstract class BaseTower : Poolable
     public void TowerInit()
     {
         towerData = DataManager.Instance.towerDict[ID];
-        myEffect = towerData.ReturnEffectList();
+        myEffectDict = towerData.ReturnEffectList();
         nowEffectedDict = new Dictionary<int, int>();
         AddModifierStat = new Dictionary<int, float>();
 
