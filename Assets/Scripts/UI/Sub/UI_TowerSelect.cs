@@ -118,14 +118,24 @@ public class UI_TowerSelect : MonoBehaviour
         {
             for(int i = 0; i < delta; i++)
             {
-                RecycleToRight(curIndex + poolCount - 1 - i);
+                int targetIndex = curIndex + poolCount - 1 + i;
+                if(targetIndex < keys.Count)
+                {
+                    RecycleToRight(curIndex + poolCount - 1 + i);
+                    Debug.Log($"오른쪽으로, {i}, {curIndex + poolCount - 1 + i}");
+                }
             }
         }
         else
         {
             for(int i = 0; i < -delta; i++)
             {
-                RecycleToLeft(curIndex - i);
+                int targetIndex = curIndex - i;
+                if(targetIndex >= 0)
+                {
+                    RecycleToLeft(curIndex - i);
+                    Debug.Log($"왼쪽으로, {i}, {curIndex - i}");
+                }
             }
         }
 
@@ -134,8 +144,6 @@ public class UI_TowerSelect : MonoBehaviour
 
     void RecycleToLeft(int dataIndex)
     {
-        if (dataIndex < 0 || dataIndex >= keys.Count) return;
-
         var rightSlot = slots[poolCount - 1];
         slots.RemoveAt(poolCount - 1);
         slots.Insert(0, rightSlot);
@@ -147,8 +155,6 @@ public class UI_TowerSelect : MonoBehaviour
 
     void RecycleToRight(int dataIndex)
     {
-        if (dataIndex < 0 || dataIndex >= keys.Count) return;
-
         var leftSlot = slots[0];
         slots.RemoveAt(0);
         slots.Add(leftSlot);
