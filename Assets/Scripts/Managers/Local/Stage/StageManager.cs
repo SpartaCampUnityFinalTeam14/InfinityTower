@@ -18,19 +18,18 @@ public class StageManager : Singleton<StageManager>
     [SerializeField] private FloatEventChannel OnCostChanged;
     private List<float> activeCostRecoveryMultipliers = new List<float>(); // 여러 타워의 버프들을 저장
 
-    public List<int> selectedTowers = new();
-    public int selectedChampion;
+    [HideInInspector] public List<int> selectedTowers = new();
+    [HideInInspector] public int selectedChampion;
 
-    public AbilityManager abilityManager;
-    public EventManager eventManager;
-    public TimeScaleManager timeScaleManager;
-    
-    public SkillTargetingSystem skillTargetingSystem;
-    public SkillVisualDB skillVisualDB;
+    [HideInInspector] public AbilityManager abilityManager;
+    [HideInInspector] public EventManager eventManager;
+    [HideInInspector] public TimeScaleManager timeScaleManager;
+
+    [HideInInspector] public SkillTargetingSystem skillTargetingSystem;
+    [HideInInspector] public SkillVisualDB skillVisualDB;
     private Hero hero;
     
-    [SerializeField]
-    private HeroSkillPanel skillPanel;
+    [SerializeField] private HeroSkillPanel skillPanel;
 
     [SerializeField] private int floorCount = 2;
     private GameObject floorGO;
@@ -40,9 +39,9 @@ public class StageManager : Singleton<StageManager>
 
     private List<TowerSlotUI> towerSlots;
 
-    public bool isEventEnd;
-    public bool isIntroEnd;
-    public bool isAdditionalFloor;
+    [HideInInspector] public bool isEventEnd;
+    [HideInInspector] public bool isIntroEnd;
+    [HideInInspector] public bool isAdditionalFloor;
 
     protected override void Awake()
     {
@@ -218,14 +217,15 @@ public class StageManager : Singleton<StageManager>
             OnFloorCountChanged.RaiseEvent(i + 1);
 
             if (floorGO != null) Destroy(floorGO);
-            int randomId = Random.Range(0, floorDictKeys.Count);
-            int floorId = floorDictKeys[randomId];
+            int randomIndex = Random.Range(0, floorDictKeys.Count);
+            int floorId = floorDictKeys[randomIndex];
+            floorDictKeys.RemoveAt(randomIndex);
             floorGO = Util.InstantiatePrefab($"Floors/Floor_{floorId}");//랜덤 ID에 맞는 플로어 생성하게 변경해야 함
             curFloor = floorGO.GetComponent<Floor>();
             curFloor.StartFloor();
 
             curCost = 0;
-        
+            
             yield return new WaitUntil(() => curFloor.isFloorEnd);
 
             if (i != 0 && (i + 1) % 2 == 0)

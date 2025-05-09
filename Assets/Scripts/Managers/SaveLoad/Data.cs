@@ -96,7 +96,7 @@ public class WaveData
     public int id;
     public List<int> enemyID;
     public List<int> spawnCount;
-    public List<int> spawnDelayTime;
+    public List<float> spawnDelayTime;
 }
 
 [Serializable]

@@ -15,6 +15,7 @@ public class UI_ChampionSlot : MonoBehaviour
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private Image expBar;
     [SerializeField] private TextMeshProUGUI expText;
+    [SerializeField] private GameObject ownedMark;
 
     private void Awake()
     {
@@ -27,17 +28,38 @@ public class UI_ChampionSlot : MonoBehaviour
         this.id = id;
         data = DataManager.Instance.championDict[id];
 
+        UpdateSlot();
+    }
+
+    public void UpdateSlot()
+    {
         nameText.text = data.name;
         descriptionText.text = data.description;
         //아이디에 맞춰서 스프라이트 찾아와야 함
 
         SetLevel(SaveManager.Instance.championLevelDict[id].level);
         SetExp(SaveManager.Instance.championLevelDict[id].exp);
+        SetOwnedMark(SaveManager.Instance.championLevelDict[id].level == 0);
+        SetSelectedMark(false);
+        foreach (int i in SaveManager.Instance.playerData.selectedTowerIndex)
+        {
+            if (i == id)
+            {
+                SetSelectedMark(true);
+                break;
+            }
+        }
     }
 
     public void SetSelectedMark(bool flag)
     {
         selectedMark.SetActive(flag);
+    }
+
+    public void SetOwnedMark(bool flag)
+    {
+        ownedMark.SetActive(flag);
+        selectButton.interactable = !flag;
     }
 
     public void UpdateLevel()
