@@ -24,13 +24,9 @@ public class MonsterBase : Poolable, ISkillUser
     private Image hpBar;
 
     // <key : 받는 이펙트의 statusID / value: 현재 적용된 이펙트 카운트> 본인이 받고있는 이펙트를 저장
-    public Dictionary<int, int> nowEffectedDict;
+    public Dictionary<int, int> nowEffectedDict = new();
     // 적용되는 statType의 ID 값들 , 변동되는 스탯에 대한 수치
-    public Dictionary<int, float> AddModifierStat;
-
-    private Dictionary<EffectType, Coroutine> debuffCoroutines = new Dictionary<EffectType, Coroutine>();
-    private float originalMoveSpeed;
-    private float originalDefense;
+    public Dictionary<int, float> AddModifierStat = new();
     
     [SerializeField] private MonsterSpriteSetSO spriteSet;
     [SerializeField] private SpriteRenderer spriteRenderer;
@@ -48,9 +44,9 @@ public class MonsterBase : Poolable, ISkillUser
         isDead = false;
         data = new(DataManager.Instance.monsterDict[id]);
 
-        currentHP = (int)GetStat(StatType.HP);
-        moveSpeed = GetStat(StatType.moveSpeed);
-        defense = GetStat(StatType.armor);
+        currentHP = (int)GetFinalStatValue(StatType.HP);
+        moveSpeed = GetFinalStatValue(StatType.moveSpeed);
+        defense = GetFinalStatValue(StatType.armor);
 
         ApplyTypeBonus((EnemyType)data.enemyType);
 
@@ -66,7 +62,7 @@ public class MonsterBase : Poolable, ISkillUser
     {
         if (hpBar != null)
         {
-            hpBar.fillAmount = Mathf.Clamp01((float)currentHP / GetStat(StatType.HP));
+            hpBar.fillAmount = Mathf.Clamp01((float)currentHP / GetFinalStatValue(StatType.HP));
         }
     }
     
@@ -106,7 +102,7 @@ public class MonsterBase : Poolable, ISkillUser
                 Vector3 dir = (target - transform.position).normalized;
 
                 // ✅ 이동
-                transform.position = Vector3.MoveTowards(transform.position, target, GetStat(StatType.moveSpeed) * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, target, GetFinalStatValue(StatType.moveSpeed) * Time.deltaTime);
 
                 // ✅ 방향에 따른 스프라이트 업데이트
                 UpdateDirectionSprite(dir);
@@ -119,7 +115,7 @@ public class MonsterBase : Poolable, ISkillUser
             yield return null;
         }
 
-        StageManager.Instance.TakeDamage((int)GetStat(StatType.damage));
+        StageManager.Instance.TakeDamage((int)GetFinalStatValue(StatType.damage));
         Dead();
     }
     

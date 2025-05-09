@@ -10,7 +10,7 @@ public abstract class BaseTower : Poolable
     public int ID;
     protected TowerData towerData;
     protected float attackTimer;
-    // key : statusID / value : 타워가 가지고 있는 이펙트
+    // key : effectID / value : 타워가 가지고 있는 이펙트
     protected Dictionary<int,EffectBase> myEffectDict;
 
     // <key : 받는 이펙트의 statusID / value: 현재 적용된 이펙트 카운트> 본인이 받고있는 이펙트를 저장
@@ -54,7 +54,7 @@ public abstract class BaseTower : Poolable
         if (attackTimer <= 0)
         {
             Activate();
-            attackTimer = towerData.GetStatValue(StatType.attackSpeed);
+            attackTimer = GetFinalStatValue(StatType.attackSpeed);
         }
     }
 

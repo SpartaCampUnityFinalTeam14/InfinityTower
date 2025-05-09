@@ -13,7 +13,7 @@ public class UtilityTower : BaseTower
         foreach (var T in myEffectDict)
         {
             if (T.Key != (int)StatType.costHeal) continue;
-            float[] effectValues = towerData.effectValue[towerData.effectID.IndexOf(T.Key)];
+            float[] effectValues = towerData.effectValue[towerData.effectID.IndexOf(T.Key)].values;
             buffAmount = effectValues[0];   // ex: +0.5
             buffDuration = effectValues[1];    // ex: 5초
         }

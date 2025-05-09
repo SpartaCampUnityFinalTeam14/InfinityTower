@@ -37,7 +37,7 @@ public class hitScanTower : TargettingTower
 
                 foreach (var T in myEffectDict)
                 {
-                    float[] effectValues = towerData.effectValue[towerData.effectID.IndexOf(T.Key)];
+                    float[] effectValues = towerData.effectValue[towerData.effectID.IndexOf(T.Key)].values;
                     T.Value.ApplyEffect_Monster(enemy, effectValues[0], effectValues[1], effectValues[2] > 0);
                 }
                 //// 디버프는 항상 적용
@@ -56,7 +56,7 @@ public class hitScanTower : TargettingTower
                 TargettingTower ally = target.GetComponent<TargettingTower>();
                 foreach (var T in myEffectDict)
                 {
-                    float[] effectValues = towerData.effectValue[towerData.effectID.IndexOf(T.Key)];
+                    float[] effectValues = towerData.effectValue[towerData.effectID.IndexOf(T.Key)].values;
                     T.Value.ApplyEffect_Tower(ally, effectValues[0], effectValues[1], effectValues[2] > 0);
                 }
 

@@ -208,9 +208,29 @@ public class TowerData
                 case 5:
                     effect = new CostEffecter(targetStatusID);
                     break;
+
+                case 6:
+                    effect = new HPEffecter(targetStatusID);
+                    break;
+
+                case 7:
+                    effect = new MoveSpeedEffecter(targetStatusID);
+                    break;
+
+                case 8:
+                    effect = new ArmorEffecter(targetStatusID);
+                    break;
+
+                case 9:
+                    effect = new DamageEffecter(targetStatusID);
+                    break;
+
+                case 10:
+                    effect = new CooldownEffecter(targetStatusID);
+                    break;
             }
 
-            ret.Add(targetStatusID, effect);
+            ret.Add(effectID[i], effect);
         }
         return ret;
     }
