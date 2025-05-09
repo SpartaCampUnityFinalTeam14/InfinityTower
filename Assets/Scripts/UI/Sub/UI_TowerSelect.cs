@@ -107,7 +107,7 @@ public class UI_TowerSelect : MonoBehaviour
         float scrollX = -content.anchoredPosition.x;
         int curIndex = Mathf.FloorToInt(scrollX / slotSize);
 
-        curIndex = Mathf.Clamp(curIndex, 0, Mathf.Max(0, keys.Count - visibleSlotCount));
+        curIndex = Mathf.Clamp(curIndex, 0, Mathf.Max(0, keys.Count - visibleSlotCount - 1));
 
         int delta = curIndex - prevIndex;
 
@@ -118,23 +118,23 @@ public class UI_TowerSelect : MonoBehaviour
         {
             for(int i = 0; i < delta; i++)
             {
-                int targetIndex = curIndex + poolCount - 1 + i;
+                int targetIndex = curIndex + poolCount - delta + i;
                 if(targetIndex < keys.Count)
                 {
-                    RecycleToRight(curIndex + poolCount - 1 + i);
-                    Debug.Log($"오른쪽으로, {i}, {curIndex + poolCount - 1 + i}");
+                    RecycleToRight(targetIndex);
+                    Debug.Log($"오른쪽으로, {i}, {targetIndex}");
                 }
             }
         }
         else
         {
-            for(int i = 0; i < -delta; i++)
+            for(int i = 1; i <= -delta; i++)
             {
-                int targetIndex = curIndex - i;
+                int targetIndex = prevIndex - i;
                 if(targetIndex >= 0)
                 {
-                    RecycleToLeft(curIndex - i);
-                    Debug.Log($"왼쪽으로, {i}, {curIndex - i}");
+                    RecycleToLeft(targetIndex);
+                    Debug.Log($"왼쪽으로, {i}, {targetIndex}");
                 }
             }
         }
@@ -144,8 +144,8 @@ public class UI_TowerSelect : MonoBehaviour
 
     void RecycleToLeft(int dataIndex)
     {
-        var rightSlot = slots[poolCount - 1];
-        slots.RemoveAt(poolCount - 1);
+        var rightSlot = slots.Last();
+        slots.RemoveAt(slots.Count - 1);
         slots.Insert(0, rightSlot);
         rightSlot.Init(keys[dataIndex]);
 
