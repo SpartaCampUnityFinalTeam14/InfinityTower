@@ -32,6 +32,9 @@ public class Projectile_DoTField : Projectile
         if (hasExploded) return;
 
         Vector3 dir = (targetPos - transform.position).normalized;
+        
+        FlipByDirection(dir);
+        
         transform.position += dir * speed * Time.deltaTime;
 
         float dist = Vector3.Distance(transform.position, targetPos);
@@ -64,7 +67,6 @@ public class Projectile_DoTField : Projectile
         {
             Debug.LogWarning("⚠️ impactEffect가 비어있음!");
         }
-
         Destroy(gameObject);
     }
 }

@@ -101,8 +101,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 0
-  anim: {fileID: 5765603005157225429}
-  spriteRenderer: {fileID: 0}
   projectileDataSO: {fileID: 11400000, guid: e92844389e3074bbeb66070749ba7eb7, type: 2}
   firePoint: {fileID: 47152423553481607}
 --- !u!61 &-5899432786219981154

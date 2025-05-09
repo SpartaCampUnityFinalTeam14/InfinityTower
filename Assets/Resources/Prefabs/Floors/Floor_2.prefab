@@ -87,6 +87,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilemap: {fileID: 1657706131616323704}
+  cellIndicatorPrefab: {fileID: 4416180600113430464, guid: dda5378c541ff48299113ac2ab3218f9, type: 3}
 --- !u!114 &5301970629397482096
 MonoBehaviour:
   m_ObjectHideFlags: 0

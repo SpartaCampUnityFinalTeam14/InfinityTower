@@ -30,6 +30,9 @@ public class SingleTargetProjectile : Projectile
 
         // 타겟이 살아있거나, 죽었지만 위치 추적을 끝까지 하도록 이동
         Vector3 dir = (lastKnownPosition - transform.position).normalized;
+
+        FlipByDirection(dir);
+        
         transform.position += dir * speed * Time.deltaTime;
 
         if (Vector3.Distance(transform.position, lastKnownPosition) < 0.1f)
