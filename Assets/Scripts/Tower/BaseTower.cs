@@ -25,11 +25,19 @@ public abstract class BaseTower : Poolable
     GameObject rangePrefab;
     RangeIndicator rangeIndicator;
 
+    // 타워가 설치된 타일 위치
+    Vector3Int cellPos;
+
     protected virtual void Awake()
     {
         rangePrefab = Resources.Load<GameObject>("Prefabs/Tower/RangeIndicator");
         anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    private void OnDisable()
+    {
+        TilemapManager.Instance.UnregisterOccupiedCell(cellPos);
     }
 
     protected virtual void Start()
@@ -47,9 +55,11 @@ public abstract class BaseTower : Poolable
 
         attackTimer = GetFinalStatValue(StatType.attackSpeed);
 
-        // Ability Event
-        StageManager.Instance.abilityManager.OnAddTowerAbility += AddAbilityStat;
-        StageManager.Instance.abilityManager.OnRemoveTowerAbility += RemoveAbilityStat;
+        // Ability Event 등록
+        StageManager.Instance.abilityManager.AbilityHandler.ResisterAddAbilityEvent("tower", AddAbilityStat);
+        StageManager.Instance.abilityManager.AbilityHandler.ResisterRemoveAbilityEvent("tower", RemoveAbilityStat);
+        //StageManager.Instance.abilityManager.OnAddTowerAbility += AddAbilityStat;
+        //StageManager.Instance.abilityManager.OnRemoveTowerAbility += RemoveAbilityStat;
     }
 
     protected virtual void Update()
@@ -106,6 +116,11 @@ public abstract class BaseTower : Poolable
         StageManager.Instance.timeScaleManager.PopTimeScale();
     }
 
+    public void SetCellPos(Vector3Int cellPos)
+    {
+        this.cellPos = cellPos;
+    }
+
     void ShowTowerInfo()
     {
         if (Input.GetMouseButtonDown(0))
@@ -130,11 +145,6 @@ public abstract class BaseTower : Poolable
         }
     }
     
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.DrawWireSphere(transform.position, towerData.GetStatValue(StatType.attackRange));
-    //}
-
     private void InitAbilityStat()
     {
         var manager = StageManager.Instance.abilityManager;

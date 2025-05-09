@@ -20,7 +20,7 @@ public class PlayerData
     public PlayerData()
     {
         gold = 1000;
-        selectedTowerIndex = new List<int>(5) { -1, -1, -1, -1, -1 };
+        selectedTowerIndex = new List<int>(5) { 0, -1, -1, -1, -1 };
         selectedChampionIndex = 0;
     }
 

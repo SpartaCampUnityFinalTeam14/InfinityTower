@@ -23,6 +23,8 @@ public class UI_Gacha : UI
     [SerializeField] private Button gachaAllBackgroundButton;
     [SerializeField] private List<UI_GachaResult> gachaAllResult;
 
+    [SerializeField] private EventChannel OnGoldChanged;
+
     private GachaManager gachaManager;
     private int requiredGold = 50;
     private Coroutine showEachResult;
@@ -52,7 +54,7 @@ public class UI_Gacha : UI
         gachaEachBackground.SetActive(false);
         gachaAllBackground.SetActive(false);
 
-        SetGold(SaveManager.Instance.playerData.gold);
+        UpdateGold();
         CheckGacha1Gold();
         CheckGacha10Gold();
     }
@@ -67,9 +69,12 @@ public class UI_Gacha : UI
         //gacha10Button.interactable = SaveManager.Instance.playerData.CheckGold(requiredGold * 10);
     }
 
-    void SetGold(int gold)
+    void UpdateGold()
     {
+        int gold = SaveManager.Instance.playerData.gold;
         goldText.text = string.Format("{0:N0}", gold);
+
+        OnGoldChanged.RaiseEvent();
     }
 
     void Gacha1()
@@ -81,7 +86,7 @@ public class UI_Gacha : UI
         }
         SaveManager.Instance.playerData.UseGold(requiredGold);
         CheckGacha1Gold();
-        SetGold(SaveManager.Instance.playerData.gold);
+        UpdateGold();
 
         skipAllButton.gameObject.SetActive(false);
 
@@ -101,7 +106,7 @@ public class UI_Gacha : UI
         }
         SaveManager.Instance.playerData.UseGold(requiredGold * 10);
         CheckGacha10Gold();
-        SetGold(SaveManager.Instance.playerData.gold);
+        UpdateGold();
 
         skipAllButton.gameObject.SetActive(true);
 

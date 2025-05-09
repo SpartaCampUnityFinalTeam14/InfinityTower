@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7826269849375801239}
   - component: {fileID: 2719468640539822853}
   - component: {fileID: 8526564358008582145}
+  - component: {fileID: 2360976939312785554}
   m_Layer: 5
   m_Name: StageEntryUI
   m_TagString: Untagged
@@ -102,6 +103,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &2360976939312785554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2241602372544522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 315c15cd4a06f8641bee7c7596aa89aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillPanel: {fileID: 5782785531566406846}
 --- !u!1 &673596190144095873
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,7 +1,5 @@
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UI_Lobby : UI
@@ -17,8 +15,10 @@ public class UI_Lobby : UI
     [SerializeField] private Button deckSelectButton;
     [SerializeField] private Button artifactButton;
     [SerializeField] private Button gachaButton;
+    [SerializeField] private Button optionButton;
 
     [SerializeField] private IntEventChannel OnChampionSelected;
+    [SerializeField] private EventChannel OnGoldChanged;
 
     protected override void Awake()
     {
@@ -26,14 +26,11 @@ public class UI_Lobby : UI
 
         UpdateGold();
         stageStartButton.onClick.AddListener(() => GameManager.Instance.LoadScene("KSM_Stage"));
-        championSelectButton.onClick.AddListener(() => 
-        {
-            UIManager.Instance.ShowStackUI<UI_Deck>().SetDeckTab(false);
-            UIManager.Instance.GetUI<UI_Deck>().InitTab();
-        });
-        deckSelectButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Deck>().SetDeckTab(true));
-        artifactButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Artifact>());
+        //championSelectButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Deck>().SetDeckTab(false));
+        deckSelectButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Deck>().UpdateTab());
+        artifactButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Artifact>().UpdateGold());
         gachaButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Gacha>().Init());
+        optionButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Option>());
 
         UnregisterListeners();
         RegisterListeners();
@@ -44,11 +41,13 @@ public class UI_Lobby : UI
     void UnregisterListeners()
     {
         OnChampionSelected.UnregisterListener(SetChampion);
+        OnGoldChanged.UnregisterListener(UpdateGold);
     }
 
     void RegisterListeners()
     {
         OnChampionSelected.RegisterListener(SetChampion);
+        OnGoldChanged.RegisterListener(UpdateGold);
     }
 
     void SetChampion(int index)
