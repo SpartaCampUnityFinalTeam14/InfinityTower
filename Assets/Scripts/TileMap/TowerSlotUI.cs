@@ -156,6 +156,10 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
                 var tower = PoolManager.Instance.Get(placedTowerPrefab).GetComponent<BaseTower>();
                 tower.transform.position = spawnPos;
+                
+                // 셀 정보 타워에 전달
+                tower.SetCellPos(cellPos);
+
                 // 타워 정보 저장
                 StageManager.Instance.CurFloor.AddTowerInfo(tower);
 
