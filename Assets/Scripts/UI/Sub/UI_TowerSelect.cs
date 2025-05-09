@@ -17,7 +17,6 @@ public class UI_TowerSelect : MonoBehaviour
     public int spacing = 20;
     private int slotSize;
     private int visibleSlotCount;
-    //private int poolSize;
     public int poolCount = 6;
     private int prevIndex = 0;
     private List<int> keys = new();
@@ -36,7 +35,6 @@ public class UI_TowerSelect : MonoBehaviour
         keys = DataManager.Instance.towerDict.Keys.ToList();
         slotSize = slotWidth + spacing;
         visibleSlotCount = Mathf.CeilToInt(scrollRect.GetComponent<RectTransform>().rect.width / slotSize);
-        //poolSize = poolCount * slotSize;
 
         Init();
     }
@@ -97,6 +95,14 @@ public class UI_TowerSelect : MonoBehaviour
         }
     }
 
+    public void ResetAllSlot()
+    {
+        foreach(var slot in slots)
+        {
+            slot.UpdateSlot();
+        }
+    }
+
     void UpdateSlots(Vector2 scroll)
     {
         UpdateSlots();
@@ -113,7 +119,7 @@ public class UI_TowerSelect : MonoBehaviour
 
         if (delta == 0) return;
 
-        Debug.Log(curIndex + ", " + delta);
+        //Debug.Log(curIndex + ", " + delta);
         if (delta > 0)
         {
             for(int i = 0; i < delta; i++)
@@ -122,7 +128,7 @@ public class UI_TowerSelect : MonoBehaviour
                 if(targetIndex < keys.Count)
                 {
                     RecycleToRight(targetIndex);
-                    Debug.Log($"오른쪽으로, {i}, {targetIndex}");
+                    //Debug.Log($"오른쪽으로, {i}, {targetIndex}");
                 }
             }
         }
@@ -134,7 +140,7 @@ public class UI_TowerSelect : MonoBehaviour
                 if(targetIndex >= 0)
                 {
                     RecycleToLeft(targetIndex);
-                    Debug.Log($"왼쪽으로, {i}, {targetIndex}");
+                    //Debug.Log($"왼쪽으로, {i}, {targetIndex}");
                 }
             }
         }

@@ -41,6 +41,15 @@ public class UI_TowerSelectSlot : MonoBehaviour
         SetLevel(SaveManager.Instance.towerLevelDict[id].level);
         SetExp(SaveManager.Instance.towerLevelDict[id].exp);
         SetOwnedMark(SaveManager.Instance.towerLevelDict[id].level == 0);
+        SetSelectedMark(false);
+        foreach (int i in SaveManager.Instance.playerData.selectedTowerIndex)
+        {
+            if (i == id)
+            {
+                SetSelectedMark(true);
+                break;
+            }
+        }
     }
 
     public void SetSelectedMark(bool flag)

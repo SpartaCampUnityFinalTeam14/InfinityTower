@@ -40,6 +40,15 @@ public class UI_ChampionSlot : MonoBehaviour
         SetLevel(SaveManager.Instance.championLevelDict[id].level);
         SetExp(SaveManager.Instance.championLevelDict[id].exp);
         SetOwnedMark(SaveManager.Instance.championLevelDict[id].level == 0);
+        SetSelectedMark(false);
+        foreach (int i in SaveManager.Instance.playerData.selectedTowerIndex)
+        {
+            if (i == id)
+            {
+                SetSelectedMark(true);
+                break;
+            }
+        }
     }
 
     public void SetSelectedMark(bool flag)

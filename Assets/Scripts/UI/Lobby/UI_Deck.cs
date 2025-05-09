@@ -74,8 +74,8 @@ public class UI_Deck : UI
 
     public void UpdateTab()
     {
-        towerSelect.UpdateSlots();
-        championSelect.UpdateSlots();
+        towerSelect.ResetAllSlot();
+        championSelect.ResetAllSlot();
     }
 
     //public void SetDeckTab(bool isTower)
