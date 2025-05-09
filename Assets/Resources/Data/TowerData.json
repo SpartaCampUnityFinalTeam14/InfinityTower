@@ -117,6 +117,125 @@
                     "stackable": 0
                 }
             ]
+        },
+        {
+            "id": 101,
+            "name": "테스트",
+            "description": "공격하지 않으나 10초마다 50 코스트 추가 회복",
+            "targetType": 2,
+            "targetingRule": 0,
+            "statTypes": [ 4, 5 ],
+            "statValue": [ 30, 75 ],
+            "effectID": [2],
+            "effectValue": [
+                {
+                    "value": 100,
+                    "duration": 15,
+                    "stackable": 0
+                }
+            ]
+        },
+        {
+            "id": 102,
+            "name": "테스트",
+            "description": "공격하지 않으나 10초마다 50 코스트 추가 회복",
+            "targetType": 2,
+            "targetingRule": 0,
+            "statTypes": [ 4, 5 ],
+            "statValue": [ 30, 75 ],
+            "effectID": [2],
+            "effectValue": [
+                {
+                    "value": 100,
+                    "duration": 15,
+                    "stackable": 0
+                }
+            ]
+        },
+        {
+            "id": 103,
+            "name": "테스트",
+            "description": "공격하지 않으나 10초마다 50 코스트 추가 회복",
+            "targetType": 2,
+            "targetingRule": 0,
+            "statTypes": [ 4, 5 ],
+            "statValue": [ 30, 75 ],
+            "effectID": [2],
+            "effectValue": [
+                {
+                    "value": 100,
+                    "duration": 15,
+                    "stackable": 0
+                }
+            ]
+        },
+        {
+            "id": 104,
+            "name": "테스트",
+            "description": "공격하지 않으나 10초마다 50 코스트 추가 회복",
+            "targetType": 2,
+            "targetingRule": 0,
+            "statTypes": [ 4, 5 ],
+            "statValue": [ 30, 75 ],
+            "effectID": [2],
+            "effectValue": [
+                {
+                    "value": 100,
+                    "duration": 15,
+                    "stackable": 0
+                }
+            ]
+        },
+        {
+            "id": 105,
+            "name": "테스트",
+            "description": "공격하지 않으나 10초마다 50 코스트 추가 회복",
+            "targetType": 2,
+            "targetingRule": 0,
+            "statTypes": [ 4, 5 ],
+            "statValue": [ 30, 75 ],
+            "effectID": [2],
+            "effectValue": [
+                {
+                    "value": 100,
+                    "duration": 15,
+                    "stackable": 0
+                }
+            ]
+        },
+        {
+            "id": 106,
+            "name": "테스트",
+            "description": "공격하지 않으나 10초마다 50 코스트 추가 회복",
+            "targetType": 2,
+            "targetingRule": 0,
+            "statTypes": [ 4, 5 ],
+            "statValue": [ 30, 75 ],
+            "effectID": [2],
+            "effectValue": [
+                {
+                    "value": 100,
+                    "duration": 15,
+                    "stackable": 0
+                }
+            ]
+        },
+        {
+            "id": 107,
+            "name": "테스트",
+            "description": "공격하지 않으나 10초마다 50 코스트 추가 회복",
+            "targetType": 2,
+            "targetingRule": 0,
+            "statTypes": [ 4, 5 ],
+            "statValue": [ 30, 75 ],
+            "effectID": [2],
+            "effectValue": [
+                {
+                    "value": 100,
+                    "duration": 15,
+                    "stackable": 0
+                }
+            ]
         }
     ]
 }
