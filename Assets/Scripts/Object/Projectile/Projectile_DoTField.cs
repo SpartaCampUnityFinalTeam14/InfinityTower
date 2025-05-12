@@ -10,9 +10,9 @@ public class Projectile_DoTField : Projectile
     private Vector3 targetPos;
     private bool hasExploded = false;
 
-    public override void Init(ProjectileData data, ProjectileDataSO visual, float customDamage)
+    public override void Init(ProjectileData data, ProjectileDataSO visual, float customDamage, BaseTower towerData)
     {
-        base.Init(data, visual, customDamage);
+        base.Init(data, visual, customDamage, towerData);
 
         // 🧠 ProjectileData에서 장판 세팅
         dotDuration = data.dotDuration;

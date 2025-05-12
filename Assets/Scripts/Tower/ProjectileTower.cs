@@ -49,7 +49,7 @@ public class ProjectileTower : TargettingTower
             // 여기! valueList[0] = 데미지
             float projectileDamage = (towerData.statTypes.Contains((int)StatType.attackDamage)) ? GetFinalStatValue(StatType.attackDamage) : 0f;
             
-            proj.Init(projectileData, projectileDataSO, projectileDamage);  // ⚡ 데미지 넘겨줌
+            proj.Init(projectileData, projectileDataSO, projectileDamage, this);  // ⚡ 데미지 넘겨줌
             proj.SetTarget(target.transform);
 
             Debug.Log($"📌 SetTarget 호출됨 → {target.name}");

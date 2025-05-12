@@ -8,8 +8,16 @@
             "targetingRule": 0,
             "statTypes": [ 0, 1, 2, 3, 4, 5 ],
             "statValue": [ 8, 5, 1, 1, 20, 50 ],
-            "effectID": [],
-            "effectValue": []
+            "effectID": [0],
+            "effectValue": [
+                {
+                    "values": [
+                        2,
+                        1,
+                        0
+                    ]
+                }
+            ]
         },
         {
             "id": 1,

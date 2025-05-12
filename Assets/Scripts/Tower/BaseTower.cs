@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using static UnityEngine.GraphicsBuffer;
 
 
 public abstract class BaseTower : Poolable
@@ -78,6 +79,32 @@ public abstract class BaseTower : Poolable
             return value;
         }
         return 0f;
+    }
+
+    public void ApplyEffectOnAttack(GameObject target)
+    {
+        if (towerData.TargetType == TargetType.Enemy)
+        {
+            MonsterBase enemy = target.GetComponent<MonsterBase>();
+            foreach (var T in myEffectDict)
+            {
+                // 디버프는 항상 적용
+                float[] effectValues = towerData.effectValue[towerData.effectID.IndexOf(T.Key)].values;
+                T.Value.ApplyEffect_Monster(enemy, effectValues[0], effectValues[1], effectValues[2] > 0);
+                Debug.Log($"디버프 {(EffectType)T.Key} {effectValues[0]} 적용 (지속: {effectValues[1]}) -> {enemy.name}");
+            }
+        }
+        else if (towerData.TargetType == TargetType.Tower)
+        {
+            // 아군 버프
+            TargettingTower ally = target.GetComponent<TargettingTower>();
+            foreach (var T in myEffectDict)
+            {
+                float[] effectValues = towerData.effectValue[towerData.effectID.IndexOf(T.Key)].values;
+                T.Value.ApplyEffect_Tower(ally, effectValues[0], effectValues[1], effectValues[2] > 0);
+                Debug.Log($"버프 {(EffectType)T.Key} {effectValues[0]} 적용 (지속: {effectValues[1]}) -> {ally.name}");
+            }
+        }
     }
 
     protected abstract void Activate(); //실제행동은 하위 클래스에서 정의

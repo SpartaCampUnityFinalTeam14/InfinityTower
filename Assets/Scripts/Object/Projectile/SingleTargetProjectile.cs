@@ -38,7 +38,7 @@ public class SingleTargetProjectile : Projectile
             {
                 ISkillUser hit = target.GetComponent<ISkillUser>();
                 if (hit != null)
-                    Hit(hit);
+                    Hit(target.gameObject);
             }
             else
             {

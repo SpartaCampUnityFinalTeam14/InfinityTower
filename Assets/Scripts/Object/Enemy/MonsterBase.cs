@@ -17,7 +17,7 @@ public class MonsterBase : Poolable, ISkillUser
     //방어력 추가
     private float defense;
     // 이동속도 
-    private float moveSpeed;
+    [SerializeField]private float moveSpeed;
     private bool isDead;
     public bool IsDead => isDead;
 
@@ -103,6 +103,7 @@ public class MonsterBase : Poolable, ISkillUser
 
                 // ✅ 이동
                 transform.position = Vector3.MoveTowards(transform.position, target, GetFinalStatValue(StatType.moveSpeed) * Time.deltaTime);
+                moveSpeed = GetFinalStatValue(StatType.moveSpeed);
 
                 // ✅ 방향에 따른 스프라이트 업데이트
                 UpdateDirectionSprite(dir);
