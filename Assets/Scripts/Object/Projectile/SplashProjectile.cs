@@ -47,7 +47,7 @@ public class SplashProjectile : Projectile
             ISkillUser target = hit.GetComponent<ISkillUser>();
             if (target != null)
             {
-                Hit(hit.gameObject);
+                Hit(target);
                 Debug.Log($"💥 {target.GetName()}에게 스플래시 피해 {damage}!");
             }
         }

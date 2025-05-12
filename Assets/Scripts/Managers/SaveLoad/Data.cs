@@ -209,23 +209,23 @@ public class TowerData
                     effect = new CostEffecter(targetStatusID);
                     break;
 
-                case 6:
+                case 9:
                     effect = new HPEffecter(targetStatusID);
                     break;
 
-                case 7:
+                case 10:
                     effect = new MoveSpeedEffecter(targetStatusID);
                     break;
 
-                case 8:
+                case 11:
                     effect = new ArmorEffecter(targetStatusID);
                     break;
 
-                case 9:
+                case 12:
                     effect = new DamageEffecter(targetStatusID);
                     break;
 
-                case 10:
+                case 13:
                     effect = new CooldownEffecter(targetStatusID);
                     break;
             }

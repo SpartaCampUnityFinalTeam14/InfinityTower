@@ -14,11 +14,10 @@ public abstract class Projectile : MonoBehaviour
 
     protected abstract void Move();
 
-    protected void Hit(GameObject target)
+    protected void Hit(ISkillUser target)
     {
-        ISkillUser HitTarget = target.GetComponent<ISkillUser>();
-        HitTarget.TakeDamage(damage);
-        OnHitTarget(target);
+        target.TakeDamage(damage);
+        OnHitTarget(gameObject);
         Destroy(gameObject);
     }
 
