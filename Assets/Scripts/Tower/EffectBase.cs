@@ -259,11 +259,6 @@ public class MoveSpeedEffecter : EffectBase
         if (!monster.AddModifierStat.TryAdd((int)StatType.moveSpeed, value))
         {
             monster.AddModifierStat[(int)StatType.moveSpeed] += value;
-            Debug.Log(value);
-        }
-        else
-        {
-            Debug.Log(value);
         }
     }
 
