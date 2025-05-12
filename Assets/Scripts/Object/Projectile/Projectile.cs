@@ -17,7 +17,7 @@ public abstract class Projectile : MonoBehaviour
     protected void Hit(ISkillUser target)
     {
         target.TakeDamage(damage);
-        OnHitTarget(gameObject);
+        OnHitTarget((target as MonoBehaviour)?.gameObject);
         Destroy(gameObject);
     }
 
