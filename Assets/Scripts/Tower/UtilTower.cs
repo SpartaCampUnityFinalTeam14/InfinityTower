@@ -10,9 +10,13 @@ public class UtilityTower : BaseTower
     protected override void Start()
     {
         base.Start();
-
-        //buffAmount = towerData.GetBuffValue(EffectType.CostRecovery);   // ex: +0.5
-        //buffDuration = towerData.GetBuffValue(EffectType.Duration);    // ex: 5초
+        foreach (var T in myEffectDict)
+        {
+            if (T.Key != (int)StatType.costHeal) continue;
+            float[] effectValues = towerData.effectValue[towerData.effectID.IndexOf(T.Key)].values;
+            buffAmount = effectValues[0];   // ex: +0.5
+            buffDuration = effectValues[1];    // ex: 5초
+        }
     }
 
     protected override void Activate()

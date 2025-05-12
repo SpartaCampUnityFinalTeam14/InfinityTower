@@ -90,7 +90,7 @@ public abstract class TargettingTower : BaseTower
                     default:
                         break;
                 }
-                break;
+            break;
 
             //타겟이 아군일 경우
             case TargetType.Tower:
@@ -111,7 +111,7 @@ public abstract class TargettingTower : BaseTower
                     default:
                         break;
                 }
-                break;
+            break;
 
             default:
                 break;
@@ -168,69 +168,4 @@ public abstract class TargettingTower : BaseTower
     }
 
     protected abstract void UseActOnTargets(); // 공격/버프 등을 하위에서 정의
-
-    ////버프 적용메서드
-    //private Dictionary<EffectType, Coroutine> activeBuffs = new();
-
-    //public void ApplyBuff(EffectType type, float amount, float duration)
-    //{
-    //    // 이미 해당 타입의 버프가 있다면 중단
-    //    if (activeBuffs.ContainsKey(type))
-    //    {
-    //        StopCoroutine(activeBuffs[type]);
-    //        activeBuffs.Remove(type);
-    //    }
-
-    //    Coroutine newBuff = StartCoroutine(BuffCoroutine(type, amount, duration));
-    //    activeBuffs[type] = newBuff;
-    //}
-
-    //private IEnumerator BuffCoroutine(EffectType type, float amount, float duration)
-    //{
-    //    int index = towerData.statTypes.FindIndex(v => (EffectType)v == type);
-    //    bool isNew = index == -1;
-
-    //    if (isNew)
-    //    {
-    //        // 기존에 해당 타입이 없다면 새로 추가
-    //        towerData.statTypes.Add((int)type);
-    //        towerData.statValue.Add(amount);
-    //    }
-    //    else
-    //    {
-    //        // 기존 값에 더하기
-    //        towerData.statValue[index] += amount;
-    //    }
-
-    //    yield return new WaitForSeconds(duration);
-
-    //    // 버프 종료 시 복구
-    //    if (isNew)
-    //    {
-    //        // 추가했던 걸 다시 제거
-    //        int removeIndex = towerData.statTypes.FindIndex(v => (EffectType)v == type);
-    //        if (removeIndex != -1)
-    //        {
-    //            towerData.statTypes.RemoveAt(removeIndex);
-    //            towerData.statValue.RemoveAt(removeIndex);
-    //        }
-    //    }
-    //    else
-    //    {
-    //        // 기존 값에서 차감
-    //        int updateIndex = towerData.statTypes.FindIndex(v => (EffectType)v == type);
-    //        if (updateIndex != -1)
-    //        {
-    //            towerData.statValue[updateIndex] -= amount;
-    //        }
-    //        towerData.statValue[index] -= amount;
-    //    }
-
-    //    // 코루틴 종료 시 Dictionary에서 제거
-    //    if (activeBuffs.ContainsKey(type))
-    //    {
-    //        activeBuffs.Remove(type);
-    //    }
-    //}
-
 }

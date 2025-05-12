@@ -180,4 +180,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   splashRadius: 1
-  splashEffectPrefab: {fileID: 0}
