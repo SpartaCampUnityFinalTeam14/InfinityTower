@@ -23,7 +23,7 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
     //private float targetPos = 0.5f;
     private int curIndex = 2;
     private int targetIndex = 2;
-   
+
     private void Awake()
     {
         panelPoses.Clear();
@@ -31,7 +31,7 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
         count = content.childCount;
         distance = 1f / (count - 1);
         half = distance * 0.5f;
-        for(int i = count - 1; i >= 0; i--)
+        for (int i = count - 1; i >= 0; i--)
         {
             panelPoses.Add(distance * i);
         }
@@ -113,7 +113,7 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
         ChangeTab(index);
     }
 
-    void ChangeTab(int index)
+    public void ChangeTab(int index)
     {
         RectTransform curButton = tabRects[targetIndex];
         curButton.DOSizeDelta(new Vector2(curButton.sizeDelta.x, originalTabSize), 0.3f)
