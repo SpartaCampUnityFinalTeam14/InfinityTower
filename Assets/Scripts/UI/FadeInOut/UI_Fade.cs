@@ -17,7 +17,7 @@ public class UI_Fade : UI
         canvasGroup.DOFade(1f, duration).OnComplete(() =>
         {
             onComplete?.Invoke();
-            Hide();
+            //Hide();
         });
     }
 
@@ -25,7 +25,7 @@ public class UI_Fade : UI
     {
         canvasGroup.alpha = 1f;
 
-        StageManager.Instance.timeScaleManager.PushTimeScale(0f);
+        StageManager.Instance.timeScaleManager?.PushTimeScale(0f);
 
         Sequence sequence = DOTween.Sequence();
         sequence.SetUpdate(true);

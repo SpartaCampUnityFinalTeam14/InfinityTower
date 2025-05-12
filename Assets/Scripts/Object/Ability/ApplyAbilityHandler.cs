@@ -14,6 +14,9 @@ public class ApplyAbilityHandler
     event Action<AbilityData> OnRemoveEnemyAbility;
     event Action<AbilityData> OnRemoveCharacterAbility;
 
+    // Key: TargetType, Value: Dictionary<TargetID, Ability>
+    Dictionary<string, Dictionary<int, Ability>> Abilities;
+
     public ApplyAbilityHandler()
     {
         addAbilityHandlers = new Dictionary<string, Action<AbilityData>>

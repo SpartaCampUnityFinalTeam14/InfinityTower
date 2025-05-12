@@ -43,7 +43,6 @@ public class Floor : MonoBehaviour
 
         // 특성 초기화
         UIManager.Instance.HideUI<UIAbility>();
-        var ui = UIManager.Instance.HideUI<UIAbility>();
     }
 
     public void StartFloor()

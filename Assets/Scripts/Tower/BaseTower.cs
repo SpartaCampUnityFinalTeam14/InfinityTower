@@ -149,7 +149,7 @@ public abstract class BaseTower : Poolable
     {
         var manager = StageManager.Instance.abilityManager;
 
-        foreach (Ability ability in manager.CurAbilities.Values)
+        foreach (Ability ability in manager.allAbilities.Values)
         {
             AddAbilityStat(ability.Data);
         }

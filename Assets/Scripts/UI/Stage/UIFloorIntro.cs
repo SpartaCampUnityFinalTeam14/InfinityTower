@@ -12,7 +12,9 @@ public class UIFloorIntro : UI
     [SerializeField] LayoutGroup layoutGourp;
 
     [Header("Intro Settings")]
-    [SerializeField] float fadeDuration;
+    [SerializeField] float fadeInDuration;
+    [SerializeField] float moveDuration;
+    [SerializeField] float moveDelay;
 
     bool isFirstShow;
     int curFloor = 0;
@@ -64,7 +66,7 @@ public class UIFloorIntro : UI
 
         StageManager.Instance.timeScaleManager.PushTimeScale(0f);
 
-        // 플레이어 아이콘 위치 잡아주기
+        // 최초 실행 시 플레이어 아이콘 위치 잡아주기
         if (isFirstShow)
         {
             LayoutRebuilder.ForceRebuildLayoutImmediate(layoutGourp.GetComponent<RectTransform>());
@@ -72,23 +74,20 @@ public class UIFloorIntro : UI
             isFirstShow = false;
         }
 
+        // 시퀀스 연출
+        canvasGroup.alpha = 1f;
+        curFloor++;
+
         Sequence sequence = DOTween.Sequence();
         sequence.SetUpdate(true);
-
-        sequence.Append(canvasGroup.DOFade(1f, fadeDuration))
-            .AppendCallback(NextFloor)
-            .AppendInterval(2f)
-            .Append(canvasGroup.DOFade(0f, fadeDuration))
+        sequence.AppendInterval(moveDelay);
+        sequence.Append(player.DOMove(pathPoint[curFloor].transform.position, moveDuration))
+            .AppendInterval(moveDuration + 1f)
+            .Append(canvasGroup.DOFade(0f, fadeInDuration))
             .OnComplete(() =>
             {
                 CloseIntro();
             });
-    }
-
-    void NextFloor()
-    {
-        curFloor++;
-        player.DOMove(pathPoint[curFloor].transform.position, 1f).SetUpdate(true);
     }
 
     void CloseIntro()
