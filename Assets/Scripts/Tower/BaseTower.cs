@@ -106,7 +106,6 @@ public abstract class BaseTower : Poolable
 
     public void RemoveTower()
     {
-        Debug.Log("<UNK> remove Tower <UNK>");
         StageManager.Instance.GetCost((int)towerData.GetStatValue(StatType.cost));
         PoolManager.Instance.Release(this);
     }
