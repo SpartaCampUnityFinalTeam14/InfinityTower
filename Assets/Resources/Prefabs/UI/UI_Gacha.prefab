@@ -2626,6 +2626,7 @@ MonoBehaviour:
   - {fileID: 5200763841506210614}
   - {fileID: 2382326538278140067}
   - {fileID: 341892025232184324}
+  OnGoldChanged: {fileID: 11400000, guid: 22399d8438eef5d41a9ff76ab0fc6068, type: 2}
 --- !u!1001 &620610788590712247
 PrefabInstance:
   m_ObjectHideFlags: 0

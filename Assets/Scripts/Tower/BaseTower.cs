@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using UnityEditor.Playables;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using static UnityEngine.GraphicsBuffer;
@@ -25,6 +26,9 @@ public abstract class BaseTower : Poolable
     GameObject rangePrefab;
     RangeIndicator rangeIndicator;
 
+    // 타워가 설치된 타일 위치
+    Vector3Int cellPos;
+
     protected virtual void Awake()
     {
         rangePrefab = Resources.Load<GameObject>("Prefabs/Tower/RangeIndicator");
@@ -32,9 +36,15 @@ public abstract class BaseTower : Poolable
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
+    private void OnDisable()
+    {
+        TilemapManager.Instance.UnregisterOccupiedCell(cellPos);
+    }
+
     protected virtual void Start()
     {
         TowerInit();
+        InitAbilityStat();
     }
 
     public void TowerInit()
@@ -45,6 +55,12 @@ public abstract class BaseTower : Poolable
         AddModifierStat = new Dictionary<int, float>();
 
         attackTimer = GetFinalStatValue(StatType.attackSpeed);
+
+        // Ability Event 등록
+        StageManager.Instance.abilityManager.AbilityHandler.ResisterAddAbilityEvent("tower", AddAbilityStat);
+        StageManager.Instance.abilityManager.AbilityHandler.ResisterRemoveAbilityEvent("tower", RemoveAbilityStat);
+        //StageManager.Instance.abilityManager.OnAddTowerAbility += AddAbilityStat;
+        //StageManager.Instance.abilityManager.OnRemoveTowerAbility += RemoveAbilityStat;
     }
 
     protected virtual void Update()
@@ -127,6 +143,11 @@ public abstract class BaseTower : Poolable
         StageManager.Instance.timeScaleManager.PopTimeScale();
     }
 
+    public void SetCellPos(Vector3Int cellPos)
+    {
+        this.cellPos = cellPos;
+    }
+
     void ShowTowerInfo()
     {
         if (Input.GetMouseButtonDown(0))
@@ -150,9 +171,42 @@ public abstract class BaseTower : Poolable
             }
         }
     }
-
-    private void OnDrawGizmos()
+    
+    private void InitAbilityStat()
     {
-        Gizmos.DrawWireSphere(transform.position, GetFinalStatValue(StatType.attackRange));
+        var manager = StageManager.Instance.abilityManager;
+
+        foreach (Ability ability in manager.CurAbilities.Values)
+        {
+            AddAbilityStat(ability.Data);
+        }
+    }
+
+    private void AddAbilityStat(AbilityData data)
+    {
+        if (data.targetID.Equals(-1) || towerData.id.Equals(data.targetID))
+        {
+            for (int i = 0; i < data.valueType.Count; i++)
+            {
+                if (!AddModifierStat.TryAdd(data.valueType[i], data.value[i]))
+                {
+                    AddModifierStat[data.valueType[i]] += data.value[i];
+                }
+            }
+        }
+    }
+
+    private void RemoveAbilityStat(AbilityData data)
+    {
+        if (data.targetID.Equals(-1) || towerData.id.Equals(data.targetID))
+        {
+            for (int i = 0; i < data.valueType.Count; i++)
+            {
+                if (AddModifierStat.ContainsKey(data.valueType[i]))
+                {
+                    AddModifierStat[data.valueType[i]] -= DataManager.Instance.abilityDict[data.perkID].value[i];
+                }
+            }
+        }
     }
 }

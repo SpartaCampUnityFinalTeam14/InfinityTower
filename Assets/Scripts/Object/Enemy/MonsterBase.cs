@@ -54,16 +54,19 @@ public class MonsterBase : Poolable, ISkillUser
         SetPath(path);
 
         // ✅ HP바 연결
-        hpBar = transform.Find("HPBar/Image").GetComponent<Image>();
+        hpBar = transform.Find("HPBar/Image")?.GetComponent<Image>();
+        if (hpBar == null)
+            Debug.LogWarning("❌ HPBar 연결 실패! 경로 확인 필요.");
+
         UpdateHpUI(); // 시작할 때 체력바도 세팅
     }
 
     public void UpdateHpUI()
     {
-        if (hpBar != null)
-        {
-            hpBar.fillAmount = Mathf.Clamp01((float)currentHP / GetFinalStatValue(StatType.HP));
-        }
+        if (this == null || gameObject == null || hpBar == null || !hpBar.gameObject.activeInHierarchy)
+            return;
+
+        hpBar.fillAmount = Mathf.Clamp01((float)currentHP / GetFinalStatValue(StatType.HP));
     }
     
     public void TakeDamage(float amount)
@@ -72,11 +75,12 @@ public class MonsterBase : Poolable, ISkillUser
             return;
 
         currentHP -= Mathf.RoundToInt(amount);
-
-        UpdateHpUI(); // ✅ 체력 갱신
+        UpdateHpUI();
 
         if (currentHP <= 0)
+        {
             Dead();
+        }
     }
 
     public void SetPath(List<Vector3> path)
@@ -309,5 +313,4 @@ public class MonsterBase : Poolable, ISkillUser
     {
         return 0; // 몬스터는 팀 0
     }
-
 }

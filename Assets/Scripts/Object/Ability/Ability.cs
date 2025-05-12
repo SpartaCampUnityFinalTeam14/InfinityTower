@@ -10,7 +10,12 @@ public class Ability
     int curStackCount;
     public int CurStackCount => curStackCount;
 
-    public void Init(AbilityData data)
+    public Ability(AbilityData data)
+    {
+        Init(data);
+    }
+
+    private void Init(AbilityData data)
     {
         this.data = data.DeepCopy();
         curStackCount = 0;
