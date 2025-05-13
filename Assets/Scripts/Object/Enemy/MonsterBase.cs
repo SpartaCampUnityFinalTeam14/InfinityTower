@@ -76,11 +76,27 @@ public class MonsterBase : Poolable, ISkillUser
 
         currentHP -= Mathf.RoundToInt(amount);
         UpdateHpUI();
+        
+        ShowDamagePopup(Mathf.RoundToInt(amount));
 
         if (currentHP <= 0)
         {
             Dead();
         }
+    }
+    private void ShowDamagePopup(int damage)
+    {
+        GameObject popupPrefab = Resources.Load<GameObject>("Prefabs/UI/UI_DamagePopup");
+        if (popupPrefab == null)
+        {
+            Debug.LogWarning("❌ DamagePopup 프리팹을 불러올 수 없습니다.");
+            return;
+        }
+
+        Vector3 popupPos = transform.position + new Vector3(0f, 0.5f, 0f); // 몬스터 위쪽
+        GameObject popupGO = Instantiate(popupPrefab, popupPos, Quaternion.identity);
+        DamagePopup popup = popupGO.GetComponent<DamagePopup>();
+        popup.Setup(damage);
     }
 
     public void SetPath(List<Vector3> path)
