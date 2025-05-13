@@ -72,6 +72,12 @@ public class UI_Deck : UI
         OnChampionSelected.RegisterListener(SetChampion);
     }
 
+    public void ResetScrolls()
+    {
+        towerSelect.ResetScroll();
+        championSelect.ResetScroll();
+    }
+
     public void UpdateTab()
     {
         towerSelect.ResetAllSlot();

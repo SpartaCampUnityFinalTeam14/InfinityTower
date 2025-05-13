@@ -41,8 +41,8 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
             panelPoses.Add(distance * i);
         }
 
-        //towerScroll.scrollManager = this;
-        //championScroll.scrollManager = this;
+        towerScroll.scrollManager = this;
+        championScroll.scrollManager = this;
         artifactScroll.scrollManager = this;
     }
 
@@ -54,7 +54,7 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
 
     private void Update()
     {
-        if (!isDragging) scrollBar.value = Mathf.Lerp(scrollBar.value, panelPoses[targetIndex], 0.1f);
+        if (!isDragging) scrollBar.value = Mathf.Lerp(scrollBar.value, panelPoses[targetIndex], Time.deltaTime * 10f);
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -145,6 +145,8 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
 
     void ResetScrollChilds()
     {
+        towerScroll.ResetScroll();
+        championScroll.ResetScroll();
         artifactScroll.ResetScroll();
     }
 }

@@ -5,14 +5,12 @@ using UnityEngine.UI;
 public class ScrollChild : ScrollRect
 {
     private bool isMovingVertical;
-    private Scrollbar scrollbar;
     public NestedScrollManager scrollManager;
     private ScrollRect parentScrollRect;
 
     protected override void Start()
     {
         if(Application.isPlaying) parentScrollRect = scrollManager.GetComponent<ScrollRect>();
-        scrollbar = GetComponentInChildren<Scrollbar>();
 
         base.Start();
     }
@@ -52,6 +50,6 @@ public class ScrollChild : ScrollRect
 
     public void ResetScroll()
     {
-        scrollbar.value = 0;
+        this.horizontalScrollbar.value = 0;
     }
 }
