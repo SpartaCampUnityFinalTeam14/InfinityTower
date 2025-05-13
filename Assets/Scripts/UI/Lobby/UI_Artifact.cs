@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Artifact : UI
+public class UI_Artifact : UI, ScrollPanel
 {
     [SerializeField] private Button closeButton;
     [SerializeField] private TextMeshProUGUI goldText;
@@ -63,6 +63,17 @@ public class UI_Artifact : UI
             slots.Add(slot);
 
             slot.Init(data.Value.id);
+        }
+
+        UpdateGold();
+    }
+
+    public void ResetPanel()
+    {
+        int i = 0;
+        foreach (var data in SaveManager.Instance.artifactSaveDict)
+        {
+            slots[i++].Init(data.Value.id);
         }
 
         UpdateGold();

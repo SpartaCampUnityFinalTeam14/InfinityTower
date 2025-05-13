@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Option : UI
+public class UI_Option : UI, ScrollPanel
 {
     [SerializeField] private Button backgroundButton;
     [SerializeField] private Slider masterSlider;
@@ -25,6 +25,11 @@ public class UI_Option : UI
 
         backgroundButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Option>());
         closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Option>());
+    }
+
+    public void ResetPanel()
+    {
+
     }
 
     void OnMasterVolumeChanged(float value)

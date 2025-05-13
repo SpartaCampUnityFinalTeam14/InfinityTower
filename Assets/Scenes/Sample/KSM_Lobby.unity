@@ -7215,6 +7215,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   content: {fileID: 712315347}
+  panels:
+  - {fileID: 106572619}
+  - {fileID: 143174036}
+  - {fileID: 1168704941}
+  - {fileID: 5709074}
+  - {fileID: 210858889}
   scrollBar: {fileID: 1027077166}
   tabRects:
   - {fileID: 498695760}

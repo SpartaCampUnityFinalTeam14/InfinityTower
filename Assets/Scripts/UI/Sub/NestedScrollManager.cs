@@ -6,9 +6,15 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+public interface ScrollPanel
+{
+    public void ResetPanel();
+}
+
 public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [SerializeField] private RectTransform content;
+    [SerializeField] private List<GameObject> panels = new();
     [SerializeField] private Scrollbar scrollBar;
     [SerializeField] private List<RectTransform> tabRects;
 
@@ -24,8 +30,6 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
     private float half;
 
     private bool isDragging;
-    //private float curPos = 0.5f;
-    //private float targetPos = 0.5f;
     private int curIndex = 2;
     private int targetIndex = 2;
 
@@ -139,6 +143,8 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
         targetButton.GetComponent<Image>().DOColor(new Color(239 / 255f, 189 / 255f, 137 / 255f), 0.3f);
         targetButton.GetChild(0).GetComponent<TextMeshProUGUI>().fontSize = 72;
         targetButton.GetChild(0).GetComponent<TextMeshProUGUI>().fontStyle = TMPro.FontStyles.Bold;
+
+        panels[targetIndex].GetComponent<ScrollPanel>().ResetPanel();
 
         ResetScrollChilds();
     }

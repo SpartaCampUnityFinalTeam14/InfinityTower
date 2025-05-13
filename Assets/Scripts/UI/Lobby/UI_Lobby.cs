@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Lobby : UI
+public class UI_Lobby : UI, ScrollPanel
 {
     [SerializeField] private TextMeshProUGUI goldText;
 
@@ -25,11 +25,12 @@ public class UI_Lobby : UI
         base.Awake();
 
         UpdateGold();
+
         stageStartButton.onClick.AddListener(() => GameManager.Instance.LoadScene("KSM_Stage"));
         //championSelectButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Deck>().SetDeckTab(false));
         deckSelectButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Deck>().UpdateTab());
         artifactButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Artifact>().UpdateGold());
-        gachaButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Gacha>().Init());
+        gachaButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Gacha>().ResetPanel());
         optionButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Option>());
 
         UnregisterListeners();
@@ -49,6 +50,8 @@ public class UI_Lobby : UI
         OnChampionSelected.RegisterListener(SetChampion);
         OnGoldChanged.RegisterListener(UpdateGold);
     }
+
+    public void ResetPanel() => UpdateGold();
 
     void SetChampion(int index)
     {

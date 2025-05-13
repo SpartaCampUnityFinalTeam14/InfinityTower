@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Deck : UI
+public class UI_Deck : UI, ScrollPanel
 {
     private TabController tabController;
 
@@ -77,6 +77,8 @@ public class UI_Deck : UI
         towerSelect.ResetScroll();
         championSelect.ResetScroll();
     }
+
+    public void ResetPanel() => UpdateTab();
 
     public void UpdateTab()
     {
