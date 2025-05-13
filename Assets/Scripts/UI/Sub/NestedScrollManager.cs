@@ -11,6 +11,11 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
     [SerializeField] private RectTransform content;
     [SerializeField] private Scrollbar scrollBar;
     [SerializeField] private List<RectTransform> tabRects;
+
+    [SerializeField] private ScrollChild towerScroll;
+    [SerializeField] private ScrollChild championScroll;
+    [SerializeField] private ScrollChild artifactScroll;
+
     public int originalTabSize = 180;
 
     private int count;
@@ -35,6 +40,10 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
         {
             panelPoses.Add(distance * i);
         }
+
+        //towerScroll.scrollManager = this;
+        //championScroll.scrollManager = this;
+        artifactScroll.scrollManager = this;
     }
 
     private void Start()
@@ -130,5 +139,12 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
         targetButton.GetComponent<Image>().DOColor(new Color(239 / 255f, 189 / 255f, 137 / 255f), 0.3f);
         targetButton.GetChild(0).GetComponent<TextMeshProUGUI>().fontSize = 72;
         targetButton.GetChild(0).GetComponent<TextMeshProUGUI>().fontStyle = TMPro.FontStyles.Bold;
+
+        ResetScrollChilds();
+    }
+
+    void ResetScrollChilds()
+    {
+        artifactScroll.ResetScroll();
     }
 }
