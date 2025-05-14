@@ -25,6 +25,7 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<int, LevelUpData> levelUpDict = new();
     public Dictionary<int, StatusData> statusDict = new();
     public Dictionary<int, EffectData> effectDict = new();
+    public Dictionary<int, StageData> stageDict = new();
 
     protected override void Awake()
     {
@@ -48,6 +49,7 @@ public class DataManager : Singleton<DataManager>
         levelUpDict = LoadJson<LevelUpDataLoader, int, LevelUpData>().MakeDict();
         statusDict = LoadJson<StatusDataLoader, int, StatusData>().MakeDict();
         effectDict = LoadJson<EffectDataLoader, int, EffectData>().MakeDict();
+        stageDict = LoadJson<StageDataLoader, int, StageData>().MakeDict();
     }
 
     Loader LoadJson<Loader, Key, Value>(string fileName = default) where Loader : ILoader<Key, Value>

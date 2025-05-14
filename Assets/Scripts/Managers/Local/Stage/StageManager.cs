@@ -31,10 +31,14 @@ public class StageManager : Singleton<StageManager>
     
     [SerializeField] private HeroSkillPanel skillPanel;
 
-    [SerializeField] private int floorCount = 2;
+    private int stageIndex;
+    private int maxFloor;
+    private int floorCount = 0;
     private GameObject floorGO;
     private Floor curFloor;
     public Floor CurFloor => curFloor;
+    private Coroutine stageCoroutine;
+
     [SerializeField] private IntEventChannel OnFloorCountChanged;
 
     private List<TowerSlotUI> towerSlots;
@@ -70,6 +74,9 @@ public class StageManager : Singleton<StageManager>
         skillTargetingSystem = gameObject.AddComponent<SkillTargetingSystem>();
         skillVisualDB = gameObject.AddComponent<SkillVisualDB>();
 
+        stageIndex = SaveManager.Instance.playerData.selectedStageIndex;
+        maxFloor = DataManager.Instance.stageDict[stageIndex].floorCount;
+
         //InitHero();
         // tower skill panel 생성
         UIManager.Instance.ShowUI<StageEntryUI>();
@@ -78,7 +85,7 @@ public class StageManager : Singleton<StageManager>
         UIManager.Instance.HideUI<UIFloorIntro>();
 
         var ui = UIManager.Instance.GetUI<UIFloorIntro>();
-        ui.Init(floorCount);
+        ui.Init(maxFloor);
     }
     
     public void InitHero(HeroSkillPanel skillPanel)
@@ -186,6 +193,8 @@ public class StageManager : Singleton<StageManager>
     {
         Debug.Log("게임오버!");
 
+        StopCoroutine(stageCoroutine);
+
         EndStage();
     }
 
@@ -205,15 +214,15 @@ public class StageManager : Singleton<StageManager>
     public void StartStage()
     {
         StartCoroutine(RegainCost());
-        StartCoroutine(ProgressStage());
+        stageCoroutine = StartCoroutine(ProgressStage());
     }
 
     IEnumerator ProgressStage()
     {
         Debug.Log("<color=white>스테이지 시작</color>");
-        List<int> floorDictKeys = DataManager.Instance.floorDict.Keys.ToList();
+        List<int> floorDictKeys = new(DataManager.Instance.stageDict[stageIndex].floorPool);
 
-        for (int i = 0; i < floorCount; i++)
+        for (int i = 0; i < maxFloor; i++)
         {
             if (i != 0)
             {
@@ -223,9 +232,18 @@ public class StageManager : Singleton<StageManager>
             OnFloorCountChanged.RaiseEvent(i + 1);
 
             if (floorGO != null) Destroy(floorGO);
-            int randomIndex = Random.Range(0, floorDictKeys.Count);
-            int floorId = floorDictKeys[randomIndex];
-            floorDictKeys.RemoveAt(randomIndex);
+            int floorId = 0;
+            if (i == maxFloor - 1)
+            {
+                floorId = DataManager.Instance.stageDict[stageIndex].bossFloorID;
+            }
+            else
+            {
+                int randomIndex = Random.Range(0, floorDictKeys.Count);
+                floorId = floorDictKeys[randomIndex];
+                floorDictKeys.RemoveAt(randomIndex);
+            }
+            
             floorGO = Util.InstantiatePrefab($"Floors/Floor_{floorId}");//랜덤 ID에 맞는 플로어 생성하게 변경해야 함
             curFloor = floorGO.GetComponent<Floor>();
 
@@ -236,6 +254,7 @@ public class StageManager : Singleton<StageManager>
 
             yield return new WaitUntil(() => curFloor.isFloorEnd);
             curCost = 0;
+            floorCount += 1;
 
             if (i != 0 && (i + 1) % 2 == 0)
             {
@@ -294,7 +313,9 @@ public class StageManager : Singleton<StageManager>
 
     void GetReward()
     {
-        Debug.Log("<color=white>골드 지급</color>");
+        int gold = (int)(DataManager.Instance.stageDict[stageIndex].rewardGold * floorCount / (float)maxFloor);
+        if (floorCount >= maxFloor) gold *= 2;
+        Debug.Log($"<color=white>{gold}골드 지급</color>");
         //골드 챙겨줘야 함
     }
 

@@ -14,12 +14,14 @@ public abstract class ISaveLoader<Key, Value>
 public class PlayerData
 {
     public int gold;
+    public int selectedStageIndex;
     public List<int> selectedTowerIndex;
     public int selectedChampionIndex;
 
     public PlayerData()
     {
         gold = 1000;
+        selectedStageIndex = 0;
         selectedTowerIndex = new List<int>(5) { 0, -1, -1, -1, -1 };
         selectedChampionIndex = 0;
     }

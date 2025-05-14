@@ -2,6 +2,7 @@
 using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public interface ILoader<Key, Value>
 {
@@ -267,7 +268,6 @@ public class ProjectileDataLoader : ILoader<int, ProjectileData>
     }
 }
 #endregion
-
 
 #region ChampionData
 [Serializable]
@@ -550,6 +550,64 @@ public class StatusDataLoader : ILoader<int, StatusData>
         foreach (StatusData status in data)
         {
             dict.Add(status.id, status);
+        }
+
+        return dict;
+    }
+}
+#endregion
+
+#region StageData
+[Serializable]
+public class StageData
+{
+    public int id;
+    public string name;
+    public int floorCount;
+    public List<int> floorPool;
+    public List<int> eventPool;
+    public int bossFloorID;
+    public int rewardGold;
+}
+
+[Serializable]
+public class StageDataLoader : ILoader<int, StageData>
+{
+    public List<StageData> data = new();
+
+    public Dictionary<int, StageData> MakeDict()
+    {
+        Dictionary<int, StageData> dict = new();
+        foreach (StageData stage in data)
+        {
+            dict.Add(stage.id, stage);
+        }
+
+        return dict;
+    }
+}
+#endregion
+
+#region EffectData
+[SerializeField]
+public class EffectData
+{
+    public int id;
+    public EffectType effectType;
+    public int targetStatusID;
+}
+
+[Serializable]
+public class EffectDataLoader : ILoader<int, EffectData>
+{
+    public List<EffectData> data = new();
+
+    public Dictionary<int, EffectData> MakeDict()
+    {
+        Dictionary<int, EffectData> dict = new();
+        foreach (EffectData tower in data)
+        {
+            dict.Add(tower.id, tower);
         }
 
         return dict;

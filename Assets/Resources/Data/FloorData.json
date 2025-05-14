@@ -3,31 +3,31 @@
     {
       "id": 0,
       "waveCount": 1,
-      "waveID": [0,1],
+      "waveID": [1],
       "spawnPosition": [0.0,0.0]
     },
     {
       "id": 1,
       "waveCount": 1,
-      "waveID": [0,1],
+      "waveID": [1],
       "spawnPosition": [0.0,0.0]
     },
     {
       "id": 2,
       "waveCount": 1,
-      "waveID": [0,1],
+      "waveID": [1],
       "spawnPosition": [0.0,0.0]
     },
     {
       "id": 3,
       "waveCount": 1,
-      "waveID": [0,1],
+      "waveID": [1],
       "spawnPosition": [0.0,0.0]
     },
     {
       "id": 4,
       "waveCount": 1,
-      "waveID": [0,1],
+      "waveID": [0],
       "spawnPosition": [0.0,0.0]
     }
   ]
