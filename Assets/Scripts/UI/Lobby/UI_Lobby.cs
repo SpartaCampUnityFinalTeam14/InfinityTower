@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Lobby : UI, ScrollPanel
+public class UI_Lobby : MonoBehaviour, ScrollPanel
 {
     [SerializeField] private TextMeshProUGUI goldText;
 
@@ -20,18 +20,16 @@ public class UI_Lobby : UI, ScrollPanel
     [SerializeField] private IntEventChannel OnChampionSelected;
     [SerializeField] private EventChannel OnGoldChanged;
 
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
-
         UpdateGold();
 
         stageStartButton.onClick.AddListener(() => GameManager.Instance.LoadScene("KSM_Stage"));
         //championSelectButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Deck>().SetDeckTab(false));
-        deckSelectButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Deck>().UpdateTab());
-        artifactButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Artifact>().UpdateGold());
-        gachaButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Gacha>().ResetPanel());
-        optionButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Option>());
+        //deckSelectButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Deck>().UpdateTab());
+        //artifactButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Artifact>().UpdateGold());
+        //gachaButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Gacha>().ResetPanel());
+        //optionButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Option>());
 
         UnregisterListeners();
         RegisterListeners();
@@ -74,10 +72,8 @@ public class UI_Lobby : UI, ScrollPanel
         goldText.text = string.Format("{0:N0}", gold);
     }
 
-    public override void Clear()
+    private void OnDestroy()
     {
-        base.Clear();
-
         UnregisterListeners();
     }
 }

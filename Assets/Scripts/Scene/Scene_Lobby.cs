@@ -6,6 +6,6 @@ public class Scene_Lobby : Scene
     {
         base.Init();
 
-        UIManager.Instance.ShowUI<UI_Lobby>();
+        UIManager.Instance.ShowUI<UI_Main>();
     }
 }

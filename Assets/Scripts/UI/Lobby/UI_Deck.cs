@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Deck : UI, ScrollPanel
+public class UI_Deck : MonoBehaviour, ScrollPanel
 {
     private TabController tabController;
 
@@ -31,16 +31,14 @@ public class UI_Deck : UI, ScrollPanel
     
     private int selectedTowerIndex = -1;
 
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
-
         tabController = GetComponent<TabController>();
 
         towerSelect.deck = this;
         championSelect.deck = this;
 
-        closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Deck>());
+        //closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Deck>());
         //towerTab.onClick.AddListener(() => SetDeckTab(true));
         //championTab.onClick.AddListener(() => SetDeckTab(false));
 
@@ -170,10 +168,8 @@ public class UI_Deck : UI, ScrollPanel
         selectedTowerSlots[selectedPos].SetSelectedTower(selectedTowerIndex);
     }
 
-    public override void Clear()
+    private void OnDestroy()
     {
-        base.Clear();
-
         UnregisterListeners();
 
         towerSelect.Clear();

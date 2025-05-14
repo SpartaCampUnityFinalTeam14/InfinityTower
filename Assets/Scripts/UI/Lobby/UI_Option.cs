@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Option : UI, ScrollPanel
+public class UI_Option : MonoBehaviour, ScrollPanel
 {
     [SerializeField] private Button backgroundButton;
     [SerializeField] private Slider masterSlider;
@@ -9,10 +9,8 @@ public class UI_Option : UI, ScrollPanel
     [SerializeField] private Slider SFXSlider;
     [SerializeField] private Button closeButton;
 
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
-
         SoundManager.Instance.LoadVolume();
 
         masterSlider.value = SoundManager.Instance.GetMasterVolume();
@@ -23,8 +21,8 @@ public class UI_Option : UI, ScrollPanel
         BGMSlider.onValueChanged.AddListener(OnBGMVolumeChanged);
         SFXSlider.onValueChanged.AddListener(OnSFXVolumeChanged);
 
-        backgroundButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Option>());
-        closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Option>());
+        //backgroundButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Option>());
+        //closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Option>());
     }
 
     public void ResetPanel()

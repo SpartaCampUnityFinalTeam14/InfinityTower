@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Gacha : UI, ScrollPanel
+public class UI_Gacha : MonoBehaviour, ScrollPanel
 {
     [SerializeField] private Button closeButton;
     [SerializeField] private TextMeshProUGUI goldText;
@@ -33,13 +33,11 @@ public class UI_Gacha : UI, ScrollPanel
     private bool isShowResultPlaying = false;
     private bool isSkipButtonClicked = false;
 
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
-
         gachaManager = new();
 
-        closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Gacha>());
+        //closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Gacha>());
         gacha1Button.onClick.AddListener(Gacha1);
         gacha10Button.onClick.AddListener(Gacha10);
         gachaEachBackgroundButton.onClick.AddListener(SkipEach);
@@ -212,10 +210,5 @@ public class UI_Gacha : UI, ScrollPanel
         gachaAllBackground.SetActive(false);
 
         OnScrollStateChanged.RaiseEvent(true);
-    }
-
-    public override void Clear()
-    {
-        base.Clear();
     }
 }
