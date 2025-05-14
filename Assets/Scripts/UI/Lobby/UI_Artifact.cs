@@ -28,6 +28,7 @@ public class UI_Artifact : UI, ScrollPanel
     [SerializeField] private Button skipBackgroundButton;
 
     [SerializeField] private EventChannel OnGoldChanged;
+    [SerializeField] private BoolEventChannel OnScrollStateChanged;
     private int requiredGold = 10;
 
     private ArtifactGachaManager gachaManager;
@@ -120,6 +121,8 @@ public class UI_Artifact : UI, ScrollPanel
 
     IEnumerator Gacha()
     {
+        OnScrollStateChanged.RaiseEvent(false);
+
         isShowResultPlaying = true;
 
         gachaBackground.SetActive(true);
@@ -185,6 +188,8 @@ public class UI_Artifact : UI, ScrollPanel
         boxAnimator.SetInteger("BoxID", -1);
         boxAnimator.SetTrigger("Close");
         gachaBackground.SetActive(false);
+
+        OnScrollStateChanged.RaiseEvent(true);
     }
 
     public override void Clear()

@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class UI_Main : UI
 {
+    [SerializeField] private NestedScrollManager scrollManager;
+
     protected override void Awake()
     {
         base.Awake();
@@ -9,6 +11,8 @@ public class UI_Main : UI
 
     public override void Clear()
     {
+        scrollManager.UnregisterListeners();
+
         base.Clear();
     }
 }

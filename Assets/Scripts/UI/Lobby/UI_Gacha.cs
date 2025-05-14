@@ -24,6 +24,7 @@ public class UI_Gacha : UI, ScrollPanel
     [SerializeField] private List<UI_GachaResult> gachaAllResult;
 
     [SerializeField] private EventChannel OnGoldChanged;
+    [SerializeField] private BoolEventChannel OnScrollStateChanged;
 
     private GachaManager gachaManager;
     private int requiredGold = 50;
@@ -111,6 +112,8 @@ public class UI_Gacha : UI, ScrollPanel
     {
         foreach (var result in gachaList)
         {
+            OnScrollStateChanged.RaiseEvent(false);
+
             isSkipButtonClicked = false;
             isShowResultPlaying = false;
 
@@ -122,6 +125,8 @@ public class UI_Gacha : UI, ScrollPanel
 
         if(gachaList.Count > 1)
         {
+            OnScrollStateChanged.RaiseEvent(false);
+
             ShowAllResult();
         }
     }
@@ -168,6 +173,8 @@ public class UI_Gacha : UI, ScrollPanel
             isSkipButtonClicked = true;
 
             gachaEachBackground.SetActive(false);
+
+            OnScrollStateChanged.RaiseEvent(true);
         }
     }
 
@@ -203,6 +210,8 @@ public class UI_Gacha : UI, ScrollPanel
     void CloseAllResult()
     {
         gachaAllBackground.SetActive(false);
+
+        OnScrollStateChanged.RaiseEvent(true);
     }
 
     public override void Clear()

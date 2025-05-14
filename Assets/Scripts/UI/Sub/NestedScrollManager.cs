@@ -13,6 +13,7 @@ public interface ScrollPanel
 
 public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+    [SerializeField] private ScrollRect scrollRect;
     [SerializeField] private RectTransform content;
     [SerializeField] private List<GameObject> panels = new();
     [SerializeField] private Scrollbar scrollBar;
@@ -21,6 +22,8 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
     [SerializeField] private ScrollChild towerScroll;
     [SerializeField] private ScrollChild championScroll;
     [SerializeField] private ScrollChild artifactScroll;
+
+    [SerializeField] private BoolEventChannel OnScrollStateChanged;
 
     public int originalTabSize = 180;
 
@@ -33,8 +36,13 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
     private int curIndex = 2;
     private int targetIndex = 2;
 
+    private bool isDragPossible = true;
+
     private void Awake()
     {
+        UnregisterListeners();
+        RegisterListeners();
+
         panelPoses.Clear();
 
         count = content.childCount;
@@ -61,8 +69,20 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
         if (!isDragging) scrollBar.value = Mathf.Lerp(scrollBar.value, panelPoses[targetIndex], Time.deltaTime * 10f);
     }
 
+    public void UnregisterListeners()
+    {
+        OnScrollStateChanged.UnregisterListener(SetDragPossible);
+    }
+
+    void RegisterListeners()
+    {
+        OnScrollStateChanged.RegisterListener(SetDragPossible);
+    }
+
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (!isDragPossible) return;
+
         isDragging = true;
 
         curIndex = FindPos();
@@ -70,11 +90,13 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
 
     public void OnDrag(PointerEventData eventData)
     {
-
+        if (!isDragPossible) return;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (!isDragPossible) return;
+
         isDragging = false;
 
         if (curIndex == FindPos())
@@ -97,13 +119,13 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
     {
         for (int i = count - 1; i >= 0; i--)
         {
-            if (panelPoses[i] - half < scrollBar.value && scrollBar.value < panelPoses[i] + half)
+            if (panelPoses[i] - half <= scrollBar.value && scrollBar.value <= panelPoses[i] + half)
             {
                 return i;
             }
         }
 
-        throw new InvalidOperationException("존재하지 않는 범위");
+        return curIndex;
     }
 
     void SetPos(ref int Index)
@@ -128,6 +150,8 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
 
     public void ChangeTab(int index)
     {
+        if (!isDragPossible) return;
+
         RectTransform curButton = tabRects[targetIndex];
         curButton.DOSizeDelta(new Vector2(curButton.sizeDelta.x, originalTabSize), 0.3f)
             .SetEase(Ease.OutQuart);
@@ -154,5 +178,11 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
         towerScroll.ResetScroll();
         championScroll.ResetScroll();
         artifactScroll.ResetScroll();
+    }
+
+    void SetDragPossible(bool flag)
+    {
+        isDragPossible = flag;
+        scrollRect.enabled = flag;
     }
 }

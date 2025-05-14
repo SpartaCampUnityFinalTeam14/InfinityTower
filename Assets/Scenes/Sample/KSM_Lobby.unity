@@ -197,6 +197,7 @@ MonoBehaviour:
   gachaCloseButton: {fileID: 312664180}
   skipBackgroundButton: {fileID: 571092106}
   OnGoldChanged: {fileID: 11400000, guid: 22399d8438eef5d41a9ff76ab0fc6068, type: 2}
+  OnScrollStateChanged: {fileID: 11400000, guid: 44c5f3b493c68624fa6dc0bd48ebb985, type: 2}
 --- !u!114 &5709077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1331,6 +1332,7 @@ MonoBehaviour:
   - {fileID: 1838226222}
   - {fileID: 715122339}
   OnGoldChanged: {fileID: 11400000, guid: 22399d8438eef5d41a9ff76ab0fc6068, type: 2}
+  OnScrollStateChanged: {fileID: 11400000, guid: 44c5f3b493c68624fa6dc0bd48ebb985, type: 2}
 --- !u!114 &106572622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7214,6 +7216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de7240978558e0e41a23027f1db8020d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scrollRect: {fileID: 641034764}
   content: {fileID: 712315347}
   panels:
   - {fileID: 106572619}
@@ -7231,6 +7234,7 @@ MonoBehaviour:
   towerScroll: {fileID: 164667174}
   championScroll: {fileID: 561535887}
   artifactScroll: {fileID: 1013220036}
+  OnScrollStateChanged: {fileID: 11400000, guid: 44c5f3b493c68624fa6dc0bd48ebb985, type: 2}
   originalTabSize: 180
 --- !u!1 &673162899
 GameObject:
@@ -8979,6 +8983,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06cf2ca824946324586a8a4729c832b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scrollManager: {fileID: 641034767}
 --- !u!1001 &856507340
 PrefabInstance:
   m_ObjectHideFlags: 0
