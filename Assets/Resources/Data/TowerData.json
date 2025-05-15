@@ -7,7 +7,7 @@
             "targetType": 3,
             "targetingRule": 0,
             "statTypes": [ 0, 1, 2, 3, 4, 5 ],
-            "statValue": [ 8, 5, 1, 1, 20, 50 ],
+            "statValue": [ 8, 5, 1, 1, 5, 50 ],
             "effectID": [],
             "effectValue": []
         },
@@ -18,7 +18,7 @@
             "targetType": 3,
             "targetingRule": 0,
             "statTypes": [ 0, 1, 2, 3, 4, 5 ],
-            "statValue": [ 8, 3, 3, 1, 20, 100 ],
+            "statValue": [ 8, 3, 3, 1, 8, 100 ],
             "effectID": [],
             "effectValue": []
         },
@@ -29,7 +29,7 @@
             "targetType": 3,
             "targetingRule": 0,
             "statTypes": [ 0, 1, 2, 3, 4, 5 ],
-            "statValue": [ 1, 4, 3, 1, 20, 125 ],
+            "statValue": [ 1, 4, 3, 1, 15, 125 ],
             "effectID": [],
             "effectValue": []
 

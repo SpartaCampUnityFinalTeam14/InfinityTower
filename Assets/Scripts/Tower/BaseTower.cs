@@ -28,8 +28,8 @@ public abstract class BaseTower : Poolable
     protected virtual void Awake()
     {
         rangePrefab = Resources.Load<GameObject>("Prefabs/Tower/RangeIndicator");
-        anim = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        anim = GetComponentInChildren<Animator>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
     protected virtual void Start()
