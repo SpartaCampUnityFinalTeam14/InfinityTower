@@ -8,10 +8,12 @@ public class UI_Hud : UI
     [SerializeField] private TextMeshProUGUI waveText;
     [SerializeField] private TextMeshProUGUI monsterCountText;
     [SerializeField] private TextMeshProUGUI costText;
+    [SerializeField] private TextMeshProUGUI hpText;
 
     [SerializeField] private Image costBar;
 
     [SerializeField] private FloatEventChannel OnCostChanged;
+    [SerializeField] private IntEventChannel OnPlayerHPChanged;
     [SerializeField] private IntEventChannel OnFloorCountChanged;
     [SerializeField] private IntEventChannel OnWaveCountChanged;
     [SerializeField] private IntEventChannel OnMonsterCountChanged;
@@ -26,8 +28,8 @@ public class UI_Hud : UI
 
     void UnSubscribe()
     {
-        //OnCostChanged.UnregisterListener(SetCostBar);
         OnCostChanged.UnregisterListener(SetCostText);
+        OnPlayerHPChanged.UnregisterListener(SetHPText);
         OnFloorCountChanged.UnregisterListener(SetFloorText);
         OnWaveCountChanged.UnregisterListener(SetWaveText);
         OnMonsterCountChanged.UnregisterListener(SetMonsterCountText);
@@ -35,21 +37,21 @@ public class UI_Hud : UI
 
     void Subscribe()
     {
-        //OnCostChanged.RegisterListener(SetCostBar);
         OnCostChanged.RegisterListener(SetCostText);
+        OnPlayerHPChanged.RegisterListener(SetHPText);
         OnFloorCountChanged.RegisterListener(SetFloorText);
         OnWaveCountChanged.RegisterListener(SetWaveText);
         OnMonsterCountChanged.RegisterListener(SetMonsterCountText);
     }
 
-    void SetCostBar(float ratio)
-    {
-        costBar.fillAmount = ratio;
-    }
-
     void SetCostText(float costAmount)
     {
         costText.text = $"코스트: {costAmount.ToString("N0")}";
+    }
+
+    void SetHPText(int hp)
+    {
+        hpText.text = $"체력: {hp.ToString("N0")}";
     }
 
     void SetFloorText(int floorCount)

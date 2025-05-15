@@ -9,13 +9,13 @@ using UnityEngine.SceneManagement;
 
 public class StageManager : Singleton<StageManager>
 {
+    private int maxHp;
     private int hp;
     private float curCost = 1f;
     public float CurrentCost => curCost;
 
     //private float maxCost = 10f;
     [SerializeField] private float costRecoveryMultiplier = 100f;  // Cost 얻는 속도 - 기본 1배속
-    [SerializeField] private FloatEventChannel OnCostChanged;
     private List<float> activeCostRecoveryMultipliers = new List<float>(); // 여러 타워의 버프들을 저장
 
     [HideInInspector] public List<int> selectedTowers = new();
@@ -29,7 +29,7 @@ public class StageManager : Singleton<StageManager>
     [HideInInspector] public SkillVisualDB skillVisualDB;
     private Hero hero;
     
-    [SerializeField] private HeroSkillPanel skillPanel;
+    //private HeroSkillPanel skillPanel;
 
     private int stageIndex;
     private int maxFloor;
@@ -40,6 +40,8 @@ public class StageManager : Singleton<StageManager>
     private Coroutine stageCoroutine;
     private float timer;
 
+    [SerializeField] private FloatEventChannel OnCostChanged;
+    [SerializeField] private IntEventChannel OnPlayerHpChanged;
     [SerializeField] private IntEventChannel OnFloorCountChanged;
 
     private List<TowerSlotUI> towerSlots;
@@ -57,11 +59,17 @@ public class StageManager : Singleton<StageManager>
         //영웅 스킬 세팅 필요
         selectedTowers = SaveManager.Instance.playerData.selectedTowerIndex;
         selectedChampion = SaveManager.Instance.playerData.selectedChampionIndex;
-        hp = DataManager.Instance.championDict[selectedChampion].hp;
-        
+        maxHp = DataManager.Instance.championDict[selectedChampion].hp;
+        hp = maxHp;
+
         //abilityManager = GetComponent<AbilityManager>();
         Init();
         StartStage();//추후 awake가 아닌 다른 곳으로 이동 (예를 들어, 시작 버튼을 누른다든가 하는 식)
+    }
+
+    private void Start()
+    {
+        OnPlayerHpChanged.RaiseEvent(hp);
     }
 
     private void Update()
@@ -96,7 +104,7 @@ public class StageManager : Singleton<StageManager>
     
     public void InitHero(HeroSkillPanel skillPanel)
     {
-        this.skillPanel = skillPanel;
+        //this.skillPanel = skillPanel;
 
         hero = new Hero();
         Debug.Log("👤 챔피언 생성됨: " + selectedChampion);
@@ -134,8 +142,14 @@ public class StageManager : Singleton<StageManager>
     public void TakeDamage(int damage)
     {
         hp = Mathf.Max(hp - damage, 0);
-        Debug.Log(hp);
+        OnPlayerHpChanged.RaiseEvent(hp);
         if (hp <= 0) GameOver();
+    }
+
+    public void Heal(int amount)
+    {
+        hp = Mathf.Min(hp + amount, maxHp);
+        OnPlayerHpChanged.RaiseEvent(hp);
     }
 
     public void AddCostRecoveryMultiplier(float value)

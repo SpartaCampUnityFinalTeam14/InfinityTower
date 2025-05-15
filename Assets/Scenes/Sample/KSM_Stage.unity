@@ -372,12 +372,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   costRecoveryMultiplier: 100
-  OnCostChanged: {fileID: 11400000, guid: 8861c2d9b4b5f53449900531b454b226, type: 2}
   selectedTowers: 
   selectedChampion: 0
   skillTargetingSystem: {fileID: 0}
   skillVisualDB: {fileID: 0}
-  skillPanel: {fileID: 0}
+  OnCostChanged: {fileID: 11400000, guid: 8861c2d9b4b5f53449900531b454b226, type: 2}
+  OnPlayerHpChanged: {fileID: 11400000, guid: 08f232dd2d29348438b0140996bca5db, type: 2}
   OnFloorCountChanged: {fileID: 11400000, guid: 488655e93354e78488197b1da7274906, type: 2}
   isEventEnd: 0
   isIntroEnd: 0
