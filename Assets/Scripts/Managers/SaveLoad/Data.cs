@@ -2,6 +2,7 @@
 using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public interface ILoader<Key, Value>
 {
@@ -141,25 +142,50 @@ public class TowerData
     public TargettingRule TargettingRule => (TargettingRule)targettingRule;
     public TargetType TargetType => (TargetType)targetType;
 
-    // 유틸 메서드: 특정 타입의 스탯 값 가져오기
-    public float GetStatValue(StatType type)
+    public float GetStatValue(StatType type,int towerLevel)
     {
+        float multi;
+        switch (type)
+        {
+            case StatType.attackDamage:
+                multi = DataManager.Instance.levelUpDict[towerLevel].multiplier;
+                break;
+            default:
+                multi = 1;
+                break;
+        }
+
+        float value = 0.0f;
+        foreach (var saveData in SaveManager.Instance.artifactSaveDict)
+        {
+            int i = 0;
+            int id = SaveManager.Instance.artifactSaveDict[i].id;
+            StatType artifactStatType = new();
+
+            if (type == saveData.Value.ReturnMyStatType(i))
+            artifactStatType = saveData.Value.ReturnMyStatType(i);
+
+            value += saveData.Value.ReturnNowStatValue (id, artifactStatType);
+            i++;
+        }
+
         for (int i = 0; i < statTypes.Count; i++)
         {
             if ((StatType)statTypes[i] == type)
-                return statValue[i];
+                return statValue[i] * (1 + (0.1f * multi) * (0.01f * value));
         }
         throw new InvalidOperationException($"{type.ToString()}에 해당하는 효과 없음");
     }
 
+    // 유틸 메서드: 특정 타입의 스탯 값 가져오기
+    public float GetStatValue(StatType type)
+    {
+        return GetStatValue(type, SaveManager.Instance.towerLevelDict[id].level);
+    }
+
     public float GetStatValue(int typeID)
     {
-        for (int i = 0; i < statTypes.Count; i++)
-        {
-            if (statTypes[i] == typeID)
-                return statValue[i];
-        }
-        throw new InvalidOperationException($"ID:{typeID}에 해당하는 스탯 없음");
+        return GetStatValue((StatType)typeID, SaveManager.Instance.towerLevelDict[id].level);
     }
 
     public string GetStatName(StatType type)
@@ -181,55 +207,7 @@ public class TowerData
             //이펙트 아이디를 타겟스테이터스 아이디로 변경
             int targetStatusID = DataManager.Instance.effectDict[effectID[i]].targetStatusID;
             float[] values = effectValue[i].values;
-            EffectBase effect = null;
-
-            switch (targetStatusID)
-            {
-                case 0:
-                    effect = new AttackDamageEffecter(targetStatusID);
-                    break;
-
-                case 1:
-                    effect = new AttackRangeEffecter(targetStatusID);
-                    break;
-
-                case 2:
-                    effect = new AttackSpeedEffecter(targetStatusID);
-                    break;
-
-                case 3:
-                    effect = new TargetCountEffecter(targetStatusID);
-                    break;
-
-                case 4:
-                    effect = new TowerCooldownEffecter(targetStatusID);
-                    break;
-
-                case 5:
-                    effect = new CostEffecter(targetStatusID);
-                    break;
-
-                case 9:
-                    effect = new HPEffecter(targetStatusID);
-                    break;
-
-                case 10:
-                    effect = new MoveSpeedEffecter(targetStatusID);
-                    break;
-
-                case 11:
-                    effect = new ArmorEffecter(targetStatusID);
-                    break;
-
-                case 12:
-                    effect = new DamageEffecter(targetStatusID);
-                    break;
-
-                case 13:
-                    effect = new CooldownEffecter(targetStatusID);
-                    break;
-            }
-
+            EffectBase effect = DataManager.Instance.effectDict[effectID[i]].ReturnEffect(targetStatusID);
             ret.Add(effectID[i], effect);
         }
         return ret;
@@ -576,6 +554,87 @@ public class StatusDataLoader : ILoader<int, StatusData>
             dict.Add(status.id, status);
         }
 
+        return dict;
+    }
+}
+#endregion
+
+#region EffectData
+[Serializable]
+public class EffectData
+{
+    public int id;
+    public int targetStatusID;
+    public EffectType effectType;
+
+    public EffectBase ReturnEffect(int targetStatusID)
+    {
+        EffectBase effect = new(targetStatusID);
+        switch (targetStatusID)
+        {
+            case 0:
+                effect = new AttackDamageEffecter(targetStatusID);
+                break;
+
+            case 1:
+                effect = new AttackRangeEffecter(targetStatusID);
+                break;
+
+            case 2:
+                effect = new AttackSpeedEffecter(targetStatusID);
+                break;
+
+            case 3:
+                effect = new TargetCountEffecter(targetStatusID);
+                break;
+
+            case 4:
+                effect = new TowerCooldownEffecter(targetStatusID);
+                break;
+
+            case 5:
+                effect = new CostEffecter(targetStatusID);
+                break;
+
+            case 9:
+                effect = new HPEffecter(targetStatusID);
+                break;
+
+            case 10:
+                effect = new MoveSpeedEffecter(targetStatusID);
+                break;
+
+            case 11:
+                effect = new ArmorEffecter(targetStatusID);
+                break;
+
+            case 12:
+                effect = new DamageEffecter(targetStatusID);
+                break;
+
+            case 13:
+                effect = new CooldownEffecter(targetStatusID);
+                break;
+
+            default:
+                Debug.Log("이펙트가 없음");
+                break;
+        }
+        return effect;
+    }
+}
+[Serializable]
+public class EffectDataLoader : ILoader<int, EffectData>
+{
+    public List<EffectData> data = new();
+    public Dictionary<int, EffectData> MakeDict()
+    {
+        Dictionary<int, EffectData> dict = new();
+        foreach (EffectData effect in data)
+        {
+            effect.effectType = (EffectType)effect.id;
+            dict.Add(effect.id, effect);
+        }
         return dict;
     }
 }
