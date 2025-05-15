@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Artifact : UI
+public class UI_Artifact : MonoBehaviour, ScrollPanel
 {
     [SerializeField] private Button closeButton;
     [SerializeField] private TextMeshProUGUI goldText;
@@ -25,23 +25,24 @@ public class UI_Artifact : UI
     [SerializeField] private Animator boxAnimator;
     [SerializeField] private List<int> boxIndex = new();
     [SerializeField] private Button gachaCloseButton;
+    [SerializeField] private Button skipBackgroundButton;
+
+    [SerializeField] private EventChannel OnGoldChanged;
+    [SerializeField] private BoolEventChannel OnScrollStateChanged;
+    private int requiredGold = 10;
 
     private ArtifactGachaManager gachaManager;
+    private bool isShowResultPlaying;
+    private Coroutine showResult;
 
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
-
         gachaManager = new();
 
-        closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Artifact>());
-        gachaButton.onClick.AddListener(() => StartCoroutine(Gacha()));
-        gachaCloseButton.onClick.AddListener(() => 
-        {
-            boxAnimator.SetInteger("BoxID", -1);
-            boxAnimator.SetTrigger("Close");
-            gachaBackground.SetActive(false);
-        });
+        //closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Artifact>());
+        gachaButton.onClick.AddListener(GachaArtifact);
+        gachaCloseButton.onClick.AddListener(CloseResult);
+        skipBackgroundButton.onClick.AddListener(Skip);
 
         gachaBackground.SetActive(false);
 
@@ -66,6 +67,17 @@ public class UI_Artifact : UI
         UpdateGold();
     }
 
+    public void ResetPanel()
+    {
+        int i = 0;
+        foreach (var data in SaveManager.Instance.artifactSaveDict)
+        {
+            slots[i++].Init(data.Value.id);
+        }
+
+        UpdateGold();
+    }
+
     void Dirty(int id)
     {
         for(int i = 0; i < SaveManager.Instance.artifactSaveDict.Count; i++)
@@ -73,17 +85,19 @@ public class UI_Artifact : UI
             if (slots[i].id == id)
             {
                 slots[i].SetCount(SaveManager.Instance.artifactSaveDict[id].count);
-                return;
+                break;
             }
         }
 
         UpdateGold();
     }
 
-    void UpdateGold()
+    public void UpdateGold()
     {
         int gold = SaveManager.Instance.playerData.gold;
         goldText.text = string.Format("{0:N0}", gold);
+
+        OnGoldChanged.RaiseEvent();
     }
 
     void CheckGachaAble()
@@ -92,18 +106,33 @@ public class UI_Artifact : UI
         gachaButton.GetComponentInChildren<TextMeshProUGUI>().text = gachaButton.interactable ? "유물 뽑기" : "전부 뽑음";
     }
 
+    void GachaArtifact()
+    {
+        if (!SaveManager.Instance.playerData.CheckGold(requiredGold))
+        {
+            UIManager.Instance.ShowUI<UI_Alert>().Alert("골드가 부족합니다.");
+            return;
+        }
+
+        showResult = StartCoroutine(Gacha());
+    }
+
     IEnumerator Gacha()
     {
+        OnScrollStateChanged.RaiseEvent(false);
+
+        isShowResultPlaying = true;
+
         gachaBackground.SetActive(true);
         SetResultActive(false);
 
         int boxID = boxIndex[Random.Range(0, boxIndex.Count)];
-        Debug.Log(boxAnimator.GetInteger("BoxID"));
         boxAnimator.SetInteger("BoxID", boxID);
-        yield return new WaitForFixedUpdate();
-        Debug.Log(boxAnimator.GetInteger("BoxID"));
+        boxAnimator.Update(0f);
 
         int id = gachaManager.GetRandomArtifact();
+        SaveManager.Instance.playerData.UseGold(requiredGold);
+        UpdateGold();
         int rarity = id / 1000;
         resultBackground.color = rarityColors[rarity];
 
@@ -115,10 +144,35 @@ public class UI_Artifact : UI
         CheckGachaAble();
 
         boxAnimator.SetTrigger("Open");
-        yield return new WaitForFixedUpdate();
+        boxAnimator.Update(0f);
         float clipLength = boxAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
         yield return new WaitForSeconds(clipLength);
         SetResultActive(true);
+
+        isShowResultPlaying = false;
+    }
+
+    void Skip()
+    {
+        boxAnimator.SetInteger("BoxID", -1);
+
+        if (isShowResultPlaying)
+        {
+            StopCoroutine(showResult);
+            isShowResultPlaying = false;
+
+            boxAnimator.SetTrigger("Skip");
+            boxAnimator.Update(0f);
+
+            SetResultActive(true);
+        }
+        else
+        {
+            //boxAnimator.SetTrigger("Close");
+            //boxAnimator.Update(0f);
+
+            //CloseResult();
+        }
     }
 
     void SetResultActive(bool flag)
@@ -127,8 +181,12 @@ public class UI_Artifact : UI
         gachaCloseButton.gameObject.SetActive(flag);
     }
 
-    public override void Clear()
+    void CloseResult()
     {
+        boxAnimator.SetInteger("BoxID", -1);
+        boxAnimator.SetTrigger("Close");
+        gachaBackground.SetActive(false);
 
+        OnScrollStateChanged.RaiseEvent(true);
     }
 }

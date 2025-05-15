@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a5b2b8c4e800e241ac5f052e0052272, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 100
   towerData:
     id: 100
     name: "\uB3C4\uC801"

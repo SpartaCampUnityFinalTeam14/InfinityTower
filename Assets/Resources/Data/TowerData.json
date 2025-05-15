@@ -7,9 +7,17 @@
             "targetType": 3,
             "targetingRule": 0,
             "statTypes": [ 0, 1, 2, 3, 4, 5 ],
-            "statValue": [ 8, 5, 1, 1, 5, 50 ],
-            "effectID": [],
-            "effectValue": []
+            "statValue": [ 8, 5, 1, 1, 20, 50 ],
+            "effectID": [0],
+            "effectValue": [
+                {
+                    "values": [
+                        -2,
+                        1,
+                        0
+                    ]
+                }
+            ]
         },
         {
             "id": 1,
@@ -18,7 +26,7 @@
             "targetType": 3,
             "targetingRule": 0,
             "statTypes": [ 0, 1, 2, 3, 4, 5 ],
-            "statValue": [ 8, 3, 3, 1, 8, 100 ],
+            "statValue": [ 8, 3, 3, 1, 20, 100 ],
             "effectID": [],
             "effectValue": []
         },
@@ -29,7 +37,7 @@
             "targetType": 3,
             "targetingRule": 0,
             "statTypes": [ 0, 1, 2, 3, 4, 5 ],
-            "statValue": [ 1, 4, 3, 1, 15, 125 ],
+            "statValue": [ 1, 4, 3, 1, 20, 125 ],
             "effectID": [],
             "effectValue": []
 
@@ -75,12 +83,14 @@
             "targetingRule": 0,
             "statTypes": [ 0, 1, 2, 3, 4, 5 ],
             "statValue": [ 5, 4, 3, 3, 30, 180 ],
-            "effectID": [0],
+            "effectID": [ 0 ],
             "effectValue": [
                 {
-                    "value": 0.15,
-                    "duration": 1,
-                    "stackable" : 0
+                    "values": [
+                        0.15,
+                        1,
+                        0
+                    ]
                 }
             ]
         },
@@ -92,18 +102,141 @@
             "targetingRule": 0,
             "statTypes": [ 0, 1, 2, 3, 4, 5 ],
             "statValue": [ 0, 3, 0, 100, 25, 100 ],
-            "effectID": [3],
+            "effectID": [ 3 ],
             "effectValue": [
                 {
-                    "value": 2,
-                    "duration": 1,
-                    "stackable": 0
+                    "values": [
+                        2,
+                        1,
+                        0
+                    ]
                 }
             ]
         },
         {
             "id": 100,
             "name": "도적",
+            "description": "공격하지 않으나 10초마다 50 코스트 추가 회복",
+            "targetType": 2,
+            "targetingRule": 0,
+            "statTypes": [ 4, 5 ],
+            "statValue": [ 30, 75 ],
+            "effectID": [ 2 ],
+            "effectValue": [
+                {
+                    "values": [
+                        100,
+                        15,
+                        0
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 101,
+            "name": "테스트",
+            "description": "공격하지 않으나 10초마다 50 코스트 추가 회복",
+            "targetType": 2,
+            "targetingRule": 0,
+            "statTypes": [ 4, 5 ],
+            "statValue": [ 30, 75 ],
+            "effectID": [2],
+            "effectValue": [
+                {
+                    "value": 100,
+                    "duration": 15,
+                    "stackable": 0
+                }
+            ]
+        },
+        {
+            "id": 102,
+            "name": "테스트",
+            "description": "공격하지 않으나 10초마다 50 코스트 추가 회복",
+            "targetType": 2,
+            "targetingRule": 0,
+            "statTypes": [ 4, 5 ],
+            "statValue": [ 30, 75 ],
+            "effectID": [2],
+            "effectValue": [
+                {
+                    "value": 100,
+                    "duration": 15,
+                    "stackable": 0
+                }
+            ]
+        },
+        {
+            "id": 103,
+            "name": "테스트",
+            "description": "공격하지 않으나 10초마다 50 코스트 추가 회복",
+            "targetType": 2,
+            "targetingRule": 0,
+            "statTypes": [ 4, 5 ],
+            "statValue": [ 30, 75 ],
+            "effectID": [2],
+            "effectValue": [
+                {
+                    "value": 100,
+                    "duration": 15,
+                    "stackable": 0
+                }
+            ]
+        },
+        {
+            "id": 104,
+            "name": "테스트",
+            "description": "공격하지 않으나 10초마다 50 코스트 추가 회복",
+            "targetType": 2,
+            "targetingRule": 0,
+            "statTypes": [ 4, 5 ],
+            "statValue": [ 30, 75 ],
+            "effectID": [2],
+            "effectValue": [
+                {
+                    "value": 100,
+                    "duration": 15,
+                    "stackable": 0
+                }
+            ]
+        },
+        {
+            "id": 105,
+            "name": "테스트",
+            "description": "공격하지 않으나 10초마다 50 코스트 추가 회복",
+            "targetType": 2,
+            "targetingRule": 0,
+            "statTypes": [ 4, 5 ],
+            "statValue": [ 30, 75 ],
+            "effectID": [2],
+            "effectValue": [
+                {
+                    "value": 100,
+                    "duration": 15,
+                    "stackable": 0
+                }
+            ]
+        },
+        {
+            "id": 106,
+            "name": "테스트",
+            "description": "공격하지 않으나 10초마다 50 코스트 추가 회복",
+            "targetType": 2,
+            "targetingRule": 0,
+            "statTypes": [ 4, 5 ],
+            "statValue": [ 30, 75 ],
+            "effectID": [2],
+            "effectValue": [
+                {
+                    "value": 100,
+                    "duration": 15,
+                    "stackable": 0
+                }
+            ]
+        },
+        {
+            "id": 107,
+            "name": "테스트",
             "description": "공격하지 않으나 10초마다 50 코스트 추가 회복",
             "targetType": 2,
             "targetingRule": 0,

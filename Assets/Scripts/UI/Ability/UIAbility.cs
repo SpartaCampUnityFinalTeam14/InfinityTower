@@ -12,6 +12,7 @@ public class UIAbility : UI
     //[SerializeField] Transform layout;
     [SerializeField] List<AbilitySlot> abilitySlots;
     [SerializeField] List<RectTransform> listEndPos;
+    [SerializeField] float slideWaitTime = 2f;
     [SerializeField] float slideInterval = 0.5f;
     [SerializeField] float slideDuration = 1f;
 
@@ -43,9 +44,8 @@ public class UIAbility : UI
     {
         base.Hide();
 
-        StageManager.Instance.timeScaleManager.PopTimeScale();
-
-        StageManager.Instance.CurFloor.isPerkSelected = true;
+        //StageManager.Instance.timeScaleManager.PopTimeScale();
+        //StageManager.Instance.CurFloor.isPerkSelected = true;
     }
 
     public void DrawAbility(int drawCount = 3)
@@ -90,13 +90,13 @@ public class UIAbility : UI
         seq.SetUpdate(true);
 
         // 0.5초 대기
-        seq.AppendInterval(slideInterval)
+        seq.AppendInterval(slideWaitTime)
             // 슬롯 1번 배치
             .Append(abilitySlots[0].transform.DOMove(listEndPos[0].transform.position, slideDuration))
-            // 1초 후 슬롯 2번 배치
-            .Insert(slideInterval * 2, abilitySlots[1].transform.DOMove(listEndPos[1].transform.position, slideDuration))
-            // 1.5초후 슬롯 3번 배치
-            .Insert(slideInterval * 3, abilitySlots[2].transform.DOMove(listEndPos[2].transform.position, slideDuration))
+            // n초 후 슬롯 2번 배치
+            .Insert(slideWaitTime + slideInterval, abilitySlots[1].transform.DOMove(listEndPos[1].transform.position, slideDuration))
+            // n초후 슬롯 3번 배치
+            .Insert(slideWaitTime + slideInterval * 2, abilitySlots[2].transform.DOMove(listEndPos[2].transform.position, slideDuration))
             // 슬롯이 전부 올라오면 특성 선택 활성화
             .AppendCallback(() =>
             {
@@ -130,6 +130,8 @@ public class UIAbility : UI
 
         yield return wait;
 
+        StageManager.Instance.timeScaleManager.PopTimeScale();
+        StageManager.Instance.CurFloor.isPerkSelected = true;
         Hide();
     }
 }

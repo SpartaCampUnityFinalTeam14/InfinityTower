@@ -205,6 +205,7 @@ MonoBehaviour:
   - {fileID: 5016660887164936418}
   - {fileID: 7399980622076180463}
   - {fileID: 3586155687880174785}
+  slideWaitTime: 1.5
   slideInterval: 0.5
   slideDuration: 1
 --- !u!1 &3107781161911181461

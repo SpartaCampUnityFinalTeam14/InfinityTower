@@ -14,13 +14,15 @@ public abstract class ISaveLoader<Key, Value>
 public class PlayerData
 {
     public int gold;
+    public int selectedStageIndex;
     public List<int> selectedTowerIndex;
     public int selectedChampionIndex;
 
     public PlayerData()
     {
         gold = 1000;
-        selectedTowerIndex = new List<int>(5) { -1, -1, -1, -1, -1 };
+        selectedStageIndex = 0;
+        selectedTowerIndex = new List<int>(5) { 0, -1, -1, -1, -1 };
         selectedChampionIndex = 0;
     }
 
@@ -40,6 +42,12 @@ public class PlayerData
             return true;
         }
         else return false;
+    }
+
+    public void AddGold(int amount)
+    {
+        gold += amount;
+        SaveManager.Instance.SavePlayerData();
     }
 
     public int AddTower(int pos, int towerIndex)

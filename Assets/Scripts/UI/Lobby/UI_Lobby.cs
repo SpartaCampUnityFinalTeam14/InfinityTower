@@ -1,10 +1,8 @@
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class UI_Lobby : UI
+public class UI_Lobby : MonoBehaviour, ScrollPanel
 {
     [SerializeField] private TextMeshProUGUI goldText;
 
@@ -17,23 +15,21 @@ public class UI_Lobby : UI
     [SerializeField] private Button deckSelectButton;
     [SerializeField] private Button artifactButton;
     [SerializeField] private Button gachaButton;
+    [SerializeField] private Button optionButton;
 
     [SerializeField] private IntEventChannel OnChampionSelected;
+    [SerializeField] private EventChannel OnGoldChanged;
 
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
-
         UpdateGold();
+
         stageStartButton.onClick.AddListener(() => GameManager.Instance.LoadScene("KSM_Stage"));
-        championSelectButton.onClick.AddListener(() => 
-        {
-            UIManager.Instance.ShowStackUI<UI_Deck>().SetDeckTab(false);
-            UIManager.Instance.GetUI<UI_Deck>().InitTab();
-        });
-        deckSelectButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Deck>().SetDeckTab(true));
-        artifactButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Artifact>());
-        gachaButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Gacha>().Init());
+        //championSelectButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Deck>().SetDeckTab(false));
+        //deckSelectButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Deck>().UpdateTab());
+        //artifactButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Artifact>().UpdateGold());
+        //gachaButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Gacha>().ResetPanel());
+        //optionButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Option>());
 
         UnregisterListeners();
         RegisterListeners();
@@ -44,12 +40,16 @@ public class UI_Lobby : UI
     void UnregisterListeners()
     {
         OnChampionSelected.UnregisterListener(SetChampion);
+        OnGoldChanged.UnregisterListener(UpdateGold);
     }
 
     void RegisterListeners()
     {
         OnChampionSelected.RegisterListener(SetChampion);
+        OnGoldChanged.RegisterListener(UpdateGold);
     }
+
+    public void ResetPanel() => UpdateGold();
 
     void SetChampion(int index)
     {
@@ -72,10 +72,8 @@ public class UI_Lobby : UI
         goldText.text = string.Format("{0:N0}", gold);
     }
 
-    public override void Clear()
+    private void OnDestroy()
     {
-        base.Clear();
-
         UnregisterListeners();
     }
 }

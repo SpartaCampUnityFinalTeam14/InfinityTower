@@ -2,13 +2,19 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIFloorIntro : UI
 {
     [SerializeField] RectTransform layerGroup;
     [SerializeField] RectTransform player;
     [SerializeField] GameObject eventSign;
+    [SerializeField] LayoutGroup layoutGourp;
 
+    [Header("Intro Settings")]
+    [SerializeField] float fadeDuration;
+
+    bool isFirstShow;
     int curFloor = 0;
     CanvasGroup canvasGroup;
     List<RectTransform> pathPoint;
@@ -44,12 +50,11 @@ public class UIFloorIntro : UI
             }
         }
 
-        // 플로어 아이콘 생성
+        // 보스플로어 아이콘 생성
         var bossIcon = Instantiate(bossFloor, layerGroup);
         pathPoint.Add(bossIcon.GetComponent<RectTransform>());
 
-        // 두 프레임 뒤에 플레이어 아이콘 위치 초기화
-        StartCoroutine(InitPlayerPosition());
+        isFirstShow = true;
         canvasGroup.alpha = 0f;
     }
 
@@ -57,40 +62,39 @@ public class UIFloorIntro : UI
     {
         base.Show();
 
+        StageManager.Instance.timeScaleManager.PushTimeScale(0f);
+
+        // 플레이어 아이콘 위치 잡아주기
+        if (isFirstShow)
+        {
+            LayoutRebuilder.ForceRebuildLayoutImmediate(layoutGourp.GetComponent<RectTransform>());
+            player.transform.position = pathPoint[0].transform.position;
+            isFirstShow = false;
+        }
+
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(canvasGroup.DOFade(1f, 0.5f))
+        sequence.SetUpdate(true);
+
+        sequence.Append(canvasGroup.DOFade(1f, fadeDuration))
             .AppendCallback(NextFloor)
             .AppendInterval(2f)
-            .AppendCallback(CloseIntro);
+            .Append(canvasGroup.DOFade(0f, fadeDuration))
+            .OnComplete(() =>
+            {
+                CloseIntro();
+            });
     }
 
     void NextFloor()
     {
         curFloor++;
-        player.DOMove(pathPoint[curFloor - 1].transform.position, 1f).SetUpdate(true);
+        player.DOMove(pathPoint[curFloor].transform.position, 1f).SetUpdate(true);
     }
 
     void CloseIntro()
     {
-        Hide();
-
-        canvasGroup.DOFade(0f, 0.5f).SetUpdate(true);
+        StageManager.Instance.timeScaleManager.PopTimeScale();
         StageManager.Instance.isIntroEnd = true;
-    }
-
-    IEnumerator InitPlayerPosition()
-    {
-        yield return null;
-        yield return null;
-
-        player.transform.position = pathPoint[0].transform.position;
-    }
-
-    void CheckEvent()
-    {
-        if (curFloor == 3 || curFloor == 6)
-        {
-            eventSign.SetActive(true);
-        }
+        Hide();
     }
 }

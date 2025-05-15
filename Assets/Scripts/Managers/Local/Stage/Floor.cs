@@ -60,6 +60,9 @@ public class Floor : MonoBehaviour
         {
             OnWaveCountChanged.RaiseEvent(i + 1);
 
+            var ui = UIManager.Instance.ShowUI<UI_Wave>();
+            ui.ShowWaveNum(i + 1);
+
             yield return new WaitForSeconds(waveStartDelayTime);
 
             StartWave(floorData.waveID[i]);
@@ -156,6 +159,9 @@ public class Floor : MonoBehaviour
     void EndWave()
     {
         Debug.Log("<color=green>웨이브 종료</color>");
+
+        var ui = UIManager.Instance.ShowUI<UI_Wave>();
+        ui.ShowWaveClear();
 
         isWaveEnd = true;
     }

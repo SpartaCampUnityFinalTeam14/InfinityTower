@@ -11,16 +11,19 @@ public class AbilityManager
 
     public Dictionary<int, float> monsterAbilities = new();
 
-    public event Action<AbilityData> OnAddTowerAbility;
-    public event Action<AbilityData> OnAddEnemyAbility;
-    public event Action<AbilityData> OnAddCharacterAbility;
-    public event Action<AbilityData> OnRemoveTowerAbility;
-    public event Action<AbilityData> OnRemoveEnemyAbility;
-    public event Action<AbilityData> OnRemoveCharacterAbility;
+    ApplyAbilityHandler abilityHandler;
+    public ApplyAbilityHandler AbilityHandler => abilityHandler;
+    //public event Action<AbilityData> OnAddTowerAbility;
+    //public event Action<AbilityData> OnAddEnemyAbility;
+    //public event Action<AbilityData> OnAddCharacterAbility;
+    //public event Action<AbilityData> OnRemoveTowerAbility;
+    //public event Action<AbilityData> OnRemoveEnemyAbility;
+    //public event Action<AbilityData> OnRemoveCharacterAbility;
 
     public AbilityManager()
     {
         CurAbilities = new Dictionary<int, Ability>();
+        abilityHandler = new ApplyAbilityHandler();
 
         FilterAbilitiesByDeck();
     }
@@ -105,18 +108,19 @@ public class AbilityManager
         CheckStackable(data);
 
         // 추가된 특성 오브젝트에 적용
-        if (data.targetType == "tower"/*(int)TargetType.Tower*/)
-        {
-            OnAddTowerAbility?.Invoke(data);
-        }
-        else if (data.targetType == "enemy"/*(int)TargetType.Enemy*/)
-        {
-            OnAddEnemyAbility?.Invoke(data);
-        }
-        else if (data.targetType == "character"/*(int)TargetType.Enemy*/)
-        {
-            OnAddCharacterAbility?.Invoke(data);
-        }
+        abilityHandler.ApplyAddAbility(data.targetType, data);
+        //if (data.targetType == "tower"/*(int)TargetType.Tower*/)
+        //{
+        //    OnAddTowerAbility?.Invoke(data);
+        //}
+        //else if (data.targetType == "enemy"/*(int)TargetType.Enemy*/)
+        //{
+        //    OnAddEnemyAbility?.Invoke(data);
+        //}
+        //else if (data.targetType == "character"/*(int)TargetType.Enemy*/)
+        //{
+        //    OnAddCharacterAbility?.Invoke(data);
+        //}
     }
 
     public void RemoveAbility(AbilityData data)
@@ -139,18 +143,19 @@ public class AbilityManager
             }
 
             // 제거된 특성 적용 해제
-            if (data.targetType == "tower"/*(int)TargetType.Tower*/)
-            {
-                OnRemoveTowerAbility?.Invoke(data);
-            }
-            else if (data.targetType == "enemy"/*(int)TargetType.Enemy*/)
-            {
-                OnRemoveEnemyAbility?.Invoke(data);
-            }
-            else if (data.targetType == "character"/*(int)TargetType.Enemy*/)
-            {
-                OnRemoveCharacterAbility?.Invoke(data);
-            }
+            abilityHandler.ApplyRemoveAbility(data.targetType, data);
+            //if (data.targetType == "tower"/*(int)TargetType.Tower*/)
+            //{
+            //    OnRemoveTowerAbility?.Invoke(data);
+            //}
+            //else if (data.targetType == "enemy"/*(int)TargetType.Enemy*/)
+            //{
+            //    OnRemoveEnemyAbility?.Invoke(data);
+            //}
+            //else if (data.targetType == "character"/*(int)TargetType.Enemy*/)
+            //{
+            //    OnRemoveCharacterAbility?.Invoke(data);
+            //}
         }
     }
 

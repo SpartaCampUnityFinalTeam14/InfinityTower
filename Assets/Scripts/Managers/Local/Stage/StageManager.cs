@@ -9,40 +9,43 @@ using UnityEngine.SceneManagement;
 
 public class StageManager : Singleton<StageManager>
 {
+    private int maxHp;
     private int hp;
     private float curCost = 1f;
     public float CurrentCost => curCost;
 
     //private float maxCost = 10f;
     [SerializeField] private float costRecoveryMultiplier = 100f;  // Cost 얻는 속도 - 기본 1배속
-    [SerializeField] private FloatEventChannel OnCostChanged;
     private List<float> activeCostRecoveryMultipliers = new List<float>(); // 여러 타워의 버프들을 저장
 
-    public List<int> selectedTowers = new();
-    public int selectedChampion;
+    [HideInInspector] public List<int> selectedTowers = new();
+    [HideInInspector] public int selectedChampion;
 
-    public AbilityManager abilityManager;
-    public EventManager eventManager;
-    public TimeScaleManager timeScaleManager;
-    
-    public SkillTargetingSystem skillTargetingSystem;
-    public SkillVisualDB skillVisualDB;
-    private Hero hero;
-    
-    [SerializeField]
-    private HeroSkillPanel skillPanel;
+    [HideInInspector] public AbilityManager abilityManager;
+    [HideInInspector] public EventManager eventManager;
+    [HideInInspector] public TimeScaleManager timeScaleManager;
 
-    [SerializeField] private int floorCount = 2;
+    [HideInInspector] public SkillTargetingSystem skillTargetingSystem;
+    [HideInInspector] public SkillVisualDB skillVisualDB;
+    public Hero CurHero { get; set; }
+
+    private int stageIndex;
+    private int maxFloor;
+    private int floorCount = 0;
     private GameObject floorGO;
     private Floor curFloor;
     public Floor CurFloor => curFloor;
+    private Coroutine stageCoroutine;
+    private float timer;
+
+    [SerializeField] private FloatEventChannel OnCostChanged;
+    [SerializeField] private IntEventChannel OnPlayerHpChanged;
     [SerializeField] private IntEventChannel OnFloorCountChanged;
+    [SerializeField] private EventChannel OnResetTowerCoolDown;
 
-    private List<TowerSlotUI> towerSlots;
-
-    public bool isEventEnd;
-    public bool isIntroEnd;
-    public bool isAdditionalFloor;
+    [HideInInspector] public bool isEventEnd;
+    [HideInInspector] public bool isIntroEnd;
+    [HideInInspector] public bool isAdditionalFloor;
 
     protected override void Awake()
     {
@@ -53,11 +56,22 @@ public class StageManager : Singleton<StageManager>
         //영웅 스킬 세팅 필요
         selectedTowers = SaveManager.Instance.playerData.selectedTowerIndex;
         selectedChampion = SaveManager.Instance.playerData.selectedChampionIndex;
-        hp = DataManager.Instance.championDict[selectedChampion].hp;
-        
+        maxHp = DataManager.Instance.championDict[selectedChampion].hp;
+        hp = maxHp;
+
         //abilityManager = GetComponent<AbilityManager>();
         Init();
         StartStage();//추후 awake가 아닌 다른 곳으로 이동 (예를 들어, 시작 버튼을 누른다든가 하는 식)
+    }
+
+    private void Start()
+    {
+        OnPlayerHpChanged.RaiseEvent(hp);
+    }
+
+    private void Update()
+    {
+        timer += Time.deltaTime;
     }
 
     void Init()
@@ -66,60 +80,30 @@ public class StageManager : Singleton<StageManager>
         abilityManager = new AbilityManager();
         eventManager = new EventManager();
 
-        towerSlots = new List<TowerSlotUI>();
-
         skillTargetingSystem = gameObject.AddComponent<SkillTargetingSystem>();
         skillVisualDB = gameObject.AddComponent<SkillVisualDB>();
-        
-        InitHero();
+
+        stageIndex = SaveManager.Instance.playerData.selectedStageIndex;
+        maxFloor = DataManager.Instance.stageDict[stageIndex].floorCount;
 
         UIManager.Instance.HideUI<UIPause>();
         UIManager.Instance.HideUI<UIFloorIntro>();
 
         var ui = UIManager.Instance.GetUI<UIFloorIntro>();
-        ui.Init(floorCount);
-    }
-    
-    private void InitHero()
-    {
-        hero = new Hero();
-        Debug.Log("👤 챔피언 생성됨: " + selectedChampion);
-
-        ChampionData champData = DataManager.Instance.championDict[selectedChampion];
-
-        Debug.Log($"{champData.skillId.Count} 개의 스킬을 가지고 있습니다.");
-
-        foreach (int skillId in champData.skillId)
-        {
-            if (DataManager.Instance.skillDict.TryGetValue(skillId, out SkillData skillData))
-            {
-                Debug.Log($"⚡ 스킬 ID: {skillId}");
-                Skill skill = SkillFactory.CreateSkill(skillData);
-                if (skill != null)
-                    hero.skills.Add(skill);
-            }
-            else
-            {
-                Debug.LogWarning($"⚠️ SkillData ID {skillId} 를 찾을 수 없습니다.");
-            }
-        }
-
-        // ✅ 영웅 스킬 패널에 연결 (SerializeField 연결 기준)
-        if (skillPanel != null)
-        {
-            skillPanel.InitHero(hero);
-        }
-        else
-        {
-            Debug.LogWarning("⚠️ HeroSkillPanel이 연결되어 있지 않습니다!");
-        }
+        ui.Init(maxFloor);
     }
 
     public void TakeDamage(int damage)
     {
         hp = Mathf.Max(hp - damage, 0);
-        Debug.Log(hp);
+        OnPlayerHpChanged.RaiseEvent(hp);
         if (hp <= 0) GameOver();
+    }
+
+    public void Heal(int amount)
+    {
+        hp = Mathf.Min(hp + amount, maxHp);
+        OnPlayerHpChanged.RaiseEvent(hp);
     }
 
     public void AddCostRecoveryMultiplier(float value)
@@ -183,50 +167,60 @@ public class StageManager : Singleton<StageManager>
     {
         Debug.Log("게임오버!");
 
-        EndStage();
-    }
+        StopCoroutine(stageCoroutine);
 
-    public void AddTowerSlot(TowerSlotUI towerSlot)
-    {
-        towerSlots.Add(towerSlot);
+        EndStage();
     }
 
     public void ResetDropTowerCooldown()
     {
-        foreach (var towerSlot in towerSlots)
-        {
-            towerSlot.ResetCooldown();
-        }
+        OnResetTowerCoolDown.RaiseEvent();
     }
 
     public void StartStage()
     {
         StartCoroutine(RegainCost());
-        StartCoroutine(ProgressStage());
+        stageCoroutine = StartCoroutine(ProgressStage());
     }
 
     IEnumerator ProgressStage()
     {
         Debug.Log("<color=white>스테이지 시작</color>");
-        List<int> floorDictKeys = DataManager.Instance.floorDict.Keys.ToList();
+        List<int> floorDictKeys = new(DataManager.Instance.stageDict[stageIndex].floorPool);
 
-        for (int i = 0; i < floorCount; i++)
+        for (int i = 0; i < maxFloor; i++)
         {
-            ShowFloorIntro();
-            yield return new WaitUntil(() => isIntroEnd);
-        
+            if (i != 0)
+            {
+                ShowFloorIntro();
+            }
+
             OnFloorCountChanged.RaiseEvent(i + 1);
 
             if (floorGO != null) Destroy(floorGO);
-            int randomId = Random.Range(0, floorDictKeys.Count);
-            int floorId = floorDictKeys[randomId];
+            int floorId = 0;
+            if (i == maxFloor - 1)
+            {
+                floorId = DataManager.Instance.stageDict[stageIndex].bossFloorID;
+            }
+            else
+            {
+                int randomIndex = Random.Range(0, floorDictKeys.Count);
+                floorId = floorDictKeys[randomIndex];
+                floorDictKeys.RemoveAt(randomIndex);
+            }
+            
             floorGO = Util.InstantiatePrefab($"Floors/Floor_{floorId}");//랜덤 ID에 맞는 플로어 생성하게 변경해야 함
             curFloor = floorGO.GetComponent<Floor>();
-            curFloor.StartFloor();
 
+            yield return new WaitUntil(() => isIntroEnd);
+            
+            curFloor.StartFloor();
             curCost = 0;
-        
+
             yield return new WaitUntil(() => curFloor.isFloorEnd);
+            curCost = 0;
+            floorCount += 1;
 
             if (i != 0 && (i + 1) % 2 == 0)
             {
@@ -280,21 +274,24 @@ public class StageManager : Singleton<StageManager>
 
         isIntroEnd = false;
         var ui = UIManager.Instance.ShowUI<UIFloorIntro>();
-        //ui.Show();
     }
 
-    void GetReward()
+    int GetReward()
     {
-        Debug.Log("<color=white>골드 지급</color>");
-        //골드 챙겨줘야 함
+        int rewardGold = (int)(DataManager.Instance.stageDict[stageIndex].rewardGold * floorCount / (float)maxFloor);
+        if (floorCount >= maxFloor) rewardGold *= 2;
+        SaveManager.Instance.playerData.AddGold(rewardGold);
+        Debug.Log($"<color=white>{rewardGold}골드 지급</color>");
+
+        return rewardGold;
     }
 
     void EndStage()
     {
         //보상 챙겨주고 로비로 보내야 함
-        GetReward();
         Debug.Log("<color=white>스테이지 종료</color>");
 
-        GameManager.Instance.LoadScene("KSM_Lobby");
+        UIManager.Instance.ShowUI<UI_StageResult>().Init(floorCount >= maxFloor, (int)timer, floorCount, GetReward());
+        timeScaleManager.PushTimeScale(0f);
     }
 }

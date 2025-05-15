@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class AbilityIcon : Poolable
 {
     public event Action<AbilityData> clickEvent;
+    public event Action<AbilityData, Transform> clickEvent2;
 
     Image icon;
     Button button;
@@ -23,6 +24,7 @@ public class AbilityIcon : Poolable
     private void OnDisable()
     {
         clickEvent = null;
+        clickEvent2 = null;
         data = null;
         button.enabled = false;
     }
@@ -43,6 +45,7 @@ public class AbilityIcon : Poolable
     public void OnClickButton()
     {
         clickEvent?.Invoke(data);
+        clickEvent2?.Invoke(data, transform);
     }
 }
 
