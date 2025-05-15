@@ -62,6 +62,7 @@ public class UI_StageResult : UI
 
     void ToLobby()
     {
+        StageManager.Instance.timeScaleManager.PopTimeScale();
         GameManager.Instance.LoadScene("KSM_Lobby");
     }
 
