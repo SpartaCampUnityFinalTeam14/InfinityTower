@@ -32,7 +32,7 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
     private float distance;
     private float half;
 
-    private bool isDragging;
+    private bool isDragging = false;
     private int curIndex = 2;
     private int targetIndex = 2;
 
@@ -150,6 +150,8 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
 
     public void ChangeTab(int index)
     {
+        Debug.Log($"현재 index: {index}");
+
         if (!isDragPossible) return;
 
         RectTransform curButton = tabRects[targetIndex];

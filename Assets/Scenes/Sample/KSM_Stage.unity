@@ -378,7 +378,6 @@ MonoBehaviour:
   skillTargetingSystem: {fileID: 0}
   skillVisualDB: {fileID: 0}
   skillPanel: {fileID: 1771241197}
-  floorCount: 2
   OnFloorCountChanged: {fileID: 11400000, guid: 488655e93354e78488197b1da7274906, type: 2}
   isEventEnd: 0
   isIntroEnd: 0
@@ -464,6 +463,10 @@ PrefabInstance:
     - target: {fileID: 2241602372544522, guid: f3904c1286012419d90761a88262187c, type: 3}
       propertyPath: m_Name
       value: StageEntryUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 2241602372544522, guid: f3904c1286012419d90761a88262187c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5175282249864706051, guid: f3904c1286012419d90761a88262187c, type: 3}
       propertyPath: m_Pivot.x

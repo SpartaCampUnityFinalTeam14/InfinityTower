@@ -44,6 +44,12 @@ public class PlayerData
         else return false;
     }
 
+    public void AddGold(int amount)
+    {
+        gold += amount;
+        SaveManager.Instance.SavePlayerData();
+    }
+
     public int AddTower(int pos, int towerIndex)
     {
         int beforeId = selectedTowerIndex.IndexOf(towerIndex);

@@ -164,7 +164,6 @@ public abstract class TargettingTower : BaseTower
             if (spriteRenderer)
                 spriteRenderer.flipX = dir.x < 0 ? true : false;
         }
-
     }
 
     protected abstract void UseActOnTargets(); // 공격/버프 등을 하위에서 정의

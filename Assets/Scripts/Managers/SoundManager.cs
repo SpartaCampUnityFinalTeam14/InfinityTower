@@ -6,12 +6,12 @@ using UnityEngine.Audio;
 
 public enum BGM//BGM 폴더의 파일 이름과 동일하게
 {
-
+    
 }
 
 public enum SFX//SFX 폴더의 파일 이름과 동일하게
 {
-
+    
 }
 
 public class SoundManager : Singleton<SoundManager>

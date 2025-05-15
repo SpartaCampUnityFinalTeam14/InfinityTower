@@ -38,4 +38,9 @@ public static class Util
         }
         return comp;
     }
+
+    public static string FormatTimeMMSS(int seconds)
+    {
+        return $"{seconds / 60:D2}:{seconds % 60:D2}";
+    }
 }

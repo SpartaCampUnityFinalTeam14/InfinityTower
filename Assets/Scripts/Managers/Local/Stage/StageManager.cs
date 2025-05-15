@@ -38,6 +38,7 @@ public class StageManager : Singleton<StageManager>
     private Floor curFloor;
     public Floor CurFloor => curFloor;
     private Coroutine stageCoroutine;
+    private float timer;
 
     [SerializeField] private IntEventChannel OnFloorCountChanged;
 
@@ -61,6 +62,11 @@ public class StageManager : Singleton<StageManager>
         //abilityManager = GetComponent<AbilityManager>();
         Init();
         StartStage();//추후 awake가 아닌 다른 곳으로 이동 (예를 들어, 시작 버튼을 누른다든가 하는 식)
+    }
+
+    private void Update()
+    {
+        timer += Time.deltaTime;
     }
 
     void Init()
@@ -308,23 +314,24 @@ public class StageManager : Singleton<StageManager>
 
         isIntroEnd = false;
         var ui = UIManager.Instance.ShowUI<UIFloorIntro>();
-        //ui.Show();
     }
 
-    void GetReward()
+    int GetReward()
     {
-        int gold = (int)(DataManager.Instance.stageDict[stageIndex].rewardGold * floorCount / (float)maxFloor);
-        if (floorCount >= maxFloor) gold *= 2;
-        Debug.Log($"<color=white>{gold}골드 지급</color>");
-        //골드 챙겨줘야 함
+        int rewardGold = (int)(DataManager.Instance.stageDict[stageIndex].rewardGold * floorCount / (float)maxFloor);
+        if (floorCount >= maxFloor) rewardGold *= 2;
+        SaveManager.Instance.playerData.AddGold(rewardGold);
+        Debug.Log($"<color=white>{rewardGold}골드 지급</color>");
+
+        return rewardGold;
     }
 
     void EndStage()
     {
         //보상 챙겨주고 로비로 보내야 함
-        GetReward();
         Debug.Log("<color=white>스테이지 종료</color>");
 
-        GameManager.Instance.LoadScene("KSM_Lobby");
+        UIManager.Instance.ShowUI<UI_StageResult>().Init(floorCount >= maxFloor, (int)timer, floorCount, GetReward());
+        timeScaleManager.PushTimeScale(0f);
     }
 }
