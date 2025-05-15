@@ -1369,7 +1369,7 @@ MonoBehaviour:
   - {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 1}
   - {r: 0, g: 0.5882353, b: 1, a: 1}
   - {r: 0.5882353, g: 0, b: 1, a: 1}
-  resultImage: {fileID: 8613253722134477661}
+  resultImage: {fileID: 86968295179339278}
   nameText: {fileID: 6002369106952876617}
   boxImage: {fileID: 5179302367108431117}
   boxAnimator: {fileID: 4972123911638850481}
@@ -2030,7 +2030,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 3922319574166301039}
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []

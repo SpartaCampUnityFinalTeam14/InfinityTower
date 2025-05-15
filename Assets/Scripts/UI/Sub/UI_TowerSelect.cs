@@ -9,7 +9,7 @@ public class UI_TowerSelect : MonoBehaviour
     [HideInInspector] public UI_Deck deck;
 
     [SerializeField] private GameObject scrollView;
-    [SerializeField] private ScrollRect scrollRect;
+    [SerializeField] private ScrollChild scrollRect;
     [SerializeField] private RectTransform content;
     private List<UI_TowerSelectSlot> slots = new();
 
@@ -93,6 +93,11 @@ public class UI_TowerSelect : MonoBehaviour
             }
             else slots[i].gameObject.SetActive(false);
         }
+    }
+
+    public void ResetScroll()
+    {
+        scrollRect.ResetScroll();
     }
 
     public void ResetAllSlot()

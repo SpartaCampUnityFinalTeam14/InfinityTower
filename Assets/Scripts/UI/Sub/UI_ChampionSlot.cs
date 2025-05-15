@@ -33,6 +33,8 @@ public class UI_ChampionSlot : MonoBehaviour
 
     public void UpdateSlot()
     {
+        if (data == null) return;
+
         nameText.text = data.name;
         descriptionText.text = data.description;
         //아이디에 맞춰서 스프라이트 찾아와야 함
@@ -41,13 +43,10 @@ public class UI_ChampionSlot : MonoBehaviour
         SetExp(SaveManager.Instance.championLevelDict[id].exp);
         SetOwnedMark(SaveManager.Instance.championLevelDict[id].level == 0);
         SetSelectedMark(false);
-        foreach (int i in SaveManager.Instance.playerData.selectedTowerIndex)
+
+        if (id == SaveManager.Instance.playerData.selectedChampionIndex)
         {
-            if (i == id)
-            {
-                SetSelectedMark(true);
-                break;
-            }
+            SetSelectedMark(true);
         }
     }
 

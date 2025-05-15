@@ -1,0 +1,19 @@
+{
+  "data": [
+      {
+          "id": 0,
+          "name": "초원",
+          "floorCount": 2,
+          "floorPool": [
+              0,
+              1
+          ],
+          "eventPool": [
+              1,
+              2
+          ],
+          "bossFloorID": 4,
+          "rewardGold": 1000
+      }
+  ]
+}
