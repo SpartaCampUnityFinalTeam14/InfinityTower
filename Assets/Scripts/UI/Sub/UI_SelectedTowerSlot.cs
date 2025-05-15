@@ -17,7 +17,7 @@ public class UI_SelectedTowerSlot : MonoBehaviour
 
     private void Awake()
     {
-        towerSlotButton.onClick.AddListener(() => OnTowerSlotSelected.RaiseEvent(slotId));
+        towerSlotButton.onClick.AddListener(OpenInfoUI);
     }
 
     public void Init(int slotId, int towerId, UI_Deck deck)
@@ -54,5 +54,10 @@ public class UI_SelectedTowerSlot : MonoBehaviour
         float randomRotZ = Random.Range(-5f, 5f);
         Vector3 curRot = towerSlotTransform.eulerAngles;
         towerSlotTransform.eulerAngles = new Vector3(curRot.x, curRot.y, randomRotZ);
+    }
+
+    void OpenInfoUI()
+    {
+        if(towerId >= 0) OnTowerSlotSelected.RaiseEvent(slotId);
     }
 }
