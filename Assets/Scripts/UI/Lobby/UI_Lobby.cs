@@ -24,7 +24,7 @@ public class UI_Lobby : MonoBehaviour, ScrollPanel
     {
         UpdateGold();
 
-        stageStartButton.onClick.AddListener(() => GameManager.Instance.LoadScene("KSM_Stage"));
+        stageStartButton.onClick.AddListener(StartStage);
         //championSelectButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Deck>().SetDeckTab(false));
         //deckSelectButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Deck>().UpdateTab());
         //artifactButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_Artifact>().UpdateGold());
@@ -70,6 +70,20 @@ public class UI_Lobby : MonoBehaviour, ScrollPanel
     {
         int gold = SaveManager.Instance.playerData.gold;
         goldText.text = string.Format("{0:N0}", gold);
+    }
+
+    void StartStage()
+    {
+        foreach(int id in SaveManager.Instance.playerData.selectedTowerIndex)
+        {
+            if(id < 0)
+            {
+                UIManager.Instance.ShowUI<UI_Alert>().Alert("타워가 전부 편성돼 있어야 합니다.");
+                return;
+            }
+        }
+
+        GameManager.Instance.LoadScene("KSM_Stage");
     }
 
     private void OnDestroy()
