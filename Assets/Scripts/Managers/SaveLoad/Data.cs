@@ -136,9 +136,8 @@ public class TowerData
 
     // 보유 효과
     public List<int> effectID;      // effctType의 int 값들
-
     // 각 효과의 수치, 지속시간, 중첩여부 (지속시간이 음수면 무한, 중첩여부가 0이하면 중첩안됨)
-    public List<float[]> effectInfo;
+    public List<effectValues> effectValue;
 
     public TargettingRule TargettingRule => (TargettingRule)targettingRule;
     public TargetType TargetType => (TargetType)targetType;
@@ -174,16 +173,15 @@ public class TowerData
         return DataManager.Instance.statusDict[typeID].name;
     }
 
-    // 유틸 메서드: 특정 타입의 스탯 값 가져오기
-    public List<EffectBase> ReturnEffectList()
+    public Dictionary<int, EffectBase> ReturnEffectList()
     {
-        List<EffectBase> ret = new List<EffectBase>();
+        Dictionary<int, EffectBase> ret = new Dictionary<int, EffectBase>();
 
         for (int i = 0; i < effectID.Count; i++)
         {
             //이펙트 아이디를 타겟스테이터스 아이디로 변경
             int targetStatusID = DataManager.Instance.effectDict[effectID[i]].targetStatusID;
-            float[] values = effectInfo[i];
+            float[] values = effectValue[i].values;
             EffectBase effect = null;
 
             switch (targetStatusID)
@@ -211,9 +209,29 @@ public class TowerData
                 case 5:
                     effect = new CostEffecter(targetStatusID);
                     break;
+
+                case 9:
+                    effect = new HPEffecter(targetStatusID);
+                    break;
+
+                case 10:
+                    effect = new MoveSpeedEffecter(targetStatusID);
+                    break;
+
+                case 11:
+                    effect = new ArmorEffecter(targetStatusID);
+                    break;
+
+                case 12:
+                    effect = new DamageEffecter(targetStatusID);
+                    break;
+
+                case 13:
+                    effect = new CooldownEffecter(targetStatusID);
+                    break;
             }
 
-            ret.Add(effect);
+            ret.Add(effectID[i], effect);
         }
         return ret;
     }
@@ -234,6 +252,12 @@ public class TowerDataLoader : ILoader<int, TowerData>
 
         return dict;
     }
+}
+
+[Serializable]
+public class effectValues
+{
+    public float[] values;
 }
 #endregion
 
@@ -589,7 +613,7 @@ public class StageDataLoader : ILoader<int, StageData>
 #endregion
 
 #region EffectData
-[SerializeField]
+[Serializable]
 public class EffectData
 {
     public int id;
@@ -605,9 +629,10 @@ public class EffectDataLoader : ILoader<int, EffectData>
     public Dictionary<int, EffectData> MakeDict()
     {
         Dictionary<int, EffectData> dict = new();
-        foreach (EffectData tower in data)
+        foreach (EffectData effect in data)
         {
-            dict.Add(tower.id, tower);
+            effect.effectType = (EffectType)effect.id;
+            dict.Add(effect.id, effect);
         }
 
         return dict;

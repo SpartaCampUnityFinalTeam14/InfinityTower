@@ -8,8 +8,16 @@
             "targetingRule": 0,
             "statTypes": [ 0, 1, 2, 3, 4, 5 ],
             "statValue": [ 8, 5, 1, 1, 20, 50 ],
-            "effectID": [],
-            "effectValue": []
+            "effectID": [0],
+            "effectValue": [
+                {
+                    "values": [
+                        -2,
+                        1,
+                        0
+                    ]
+                }
+            ]
         },
         {
             "id": 1,
@@ -75,12 +83,14 @@
             "targetingRule": 0,
             "statTypes": [ 0, 1, 2, 3, 4, 5 ],
             "statValue": [ 5, 4, 3, 3, 30, 180 ],
-            "effectID": [0],
+            "effectID": [ 0 ],
             "effectValue": [
                 {
-                    "value": 0.15,
-                    "duration": 1,
-                    "stackable" : 0
+                    "values": [
+                        0.15,
+                        1,
+                        0
+                    ]
                 }
             ]
         },
@@ -92,12 +102,14 @@
             "targetingRule": 0,
             "statTypes": [ 0, 1, 2, 3, 4, 5 ],
             "statValue": [ 0, 3, 0, 100, 25, 100 ],
-            "effectID": [3],
+            "effectID": [ 3 ],
             "effectValue": [
                 {
-                    "value": 2,
-                    "duration": 1,
-                    "stackable": 0
+                    "values": [
+                        2,
+                        1,
+                        0
+                    ]
                 }
             ]
         },
@@ -109,12 +121,14 @@
             "targetingRule": 0,
             "statTypes": [ 4, 5 ],
             "statValue": [ 30, 75 ],
-            "effectID": [2],
+            "effectID": [ 2 ],
             "effectValue": [
                 {
-                    "value": 100,
-                    "duration": 15,
-                    "stackable": 0
+                    "values": [
+                        100,
+                        15,
+                        0
+                    ]
                 }
             ]
         },

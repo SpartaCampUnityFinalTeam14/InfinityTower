@@ -23,9 +23,10 @@ public class MonsterBase : Poolable, ISkillUser
 
     private Image hpBar;
 
-    private Dictionary<EffectType, Coroutine> debuffCoroutines = new Dictionary<EffectType, Coroutine>();
-    private float originalMoveSpeed;
-    private float originalDefense;
+    // <key : 받는 이펙트의 statusID / value: 현재 적용된 이펙트 카운트> 본인이 받고있는 이펙트를 저장
+    public Dictionary<int, int> nowEffectedDict = new();
+    // 적용되는 statType의 ID 값들 , 변동되는 스탯에 대한 수치
+    public Dictionary<int, float> AddModifierStat = new();
     
     [SerializeField] private MonsterSpriteSetSO spriteSet;
     [SerializeField] private SpriteRenderer spriteRenderer;
@@ -43,9 +44,9 @@ public class MonsterBase : Poolable, ISkillUser
         isDead = false;
         data = new(DataManager.Instance.monsterDict[id]);
 
-        currentHP = (int)GetStat(StatType.HP);
-        moveSpeed = GetStat(StatType.moveSpeed);
-        defense = GetStat(StatType.armor);
+        currentHP = (int)GetFinalStatValue(StatType.HP);
+        moveSpeed = GetFinalStatValue(StatType.moveSpeed);
+        defense = GetFinalStatValue(StatType.armor);
 
         ApplyTypeBonus((EnemyType)data.enemyType);
 
@@ -53,16 +54,19 @@ public class MonsterBase : Poolable, ISkillUser
         SetPath(path);
 
         // ✅ HP바 연결
-        hpBar = transform.Find("HPBar/Image").GetComponent<Image>();
+        hpBar = transform.Find("HPBar/Image")?.GetComponent<Image>();
+        if (hpBar == null)
+            Debug.LogWarning("❌ HPBar 연결 실패! 경로 확인 필요.");
+
         UpdateHpUI(); // 시작할 때 체력바도 세팅
     }
 
     public void UpdateHpUI()
     {
-        if (hpBar != null)
-        {
-            hpBar.fillAmount = Mathf.Clamp01((float)currentHP / GetStat(StatType.HP));
-        }
+        if (this == null || gameObject == null || hpBar == null || !hpBar.gameObject.activeInHierarchy)
+            return;
+
+        hpBar.fillAmount = Mathf.Clamp01((float)currentHP / GetFinalStatValue(StatType.HP));
     }
     
     public void TakeDamage(float amount)
@@ -71,11 +75,28 @@ public class MonsterBase : Poolable, ISkillUser
             return;
 
         currentHP -= Mathf.RoundToInt(amount);
-
-        UpdateHpUI(); // ✅ 체력 갱신
+        UpdateHpUI();
+        
+        ShowDamagePopup(Mathf.RoundToInt(amount));
 
         if (currentHP <= 0)
+        {
             Dead();
+        }
+    }
+    private void ShowDamagePopup(int damage)
+    {
+        GameObject popupPrefab = Resources.Load<GameObject>("Prefabs/UI/UI_DamagePopup");
+        if (popupPrefab == null)
+        {
+            Debug.LogWarning("❌ DamagePopup 프리팹을 불러올 수 없습니다.");
+            return;
+        }
+
+        Vector3 popupPos = transform.position + new Vector3(0f, 0.5f, 0f); // 몬스터 위쪽
+        GameObject popupGO = Instantiate(popupPrefab, popupPos, Quaternion.identity);
+        DamagePopup popup = popupGO.GetComponent<DamagePopup>();
+        popup.Setup(damage);
     }
 
     public void SetPath(List<Vector3> path)
@@ -101,7 +122,7 @@ public class MonsterBase : Poolable, ISkillUser
                 Vector3 dir = (target - transform.position).normalized;
 
                 // ✅ 이동
-                transform.position = Vector3.MoveTowards(transform.position, target, GetStat(StatType.moveSpeed) * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, target, GetFinalStatValue(StatType.moveSpeed) * Time.deltaTime);
 
                 // ✅ 방향에 따른 스프라이트 업데이트
                 UpdateDirectionSprite(dir);
@@ -114,7 +135,7 @@ public class MonsterBase : Poolable, ISkillUser
             yield return null;
         }
 
-        StageManager.Instance.TakeDamage((int)GetStat(StatType.damage));
+        StageManager.Instance.TakeDamage((int)GetFinalStatValue(StatType.damage));
         Dead();
     }
     
@@ -254,7 +275,29 @@ public class MonsterBase : Poolable, ISkillUser
             yield return new WaitForSeconds(10f);
         }
     }
-    
+
+    // 효과 적용 후 종합 수치
+    public float GetFinalStatValue(StatType statType)
+    {
+        if (statType == StatType.targetCount)
+        {
+            return GetStat(statType) + GetAddModifierValue(statType);
+        }
+        else
+        {
+            return GetStat(statType) * (1 + GetAddModifierValue(statType));
+        }
+    }
+
+    public float GetAddModifierValue(StatType type)
+    {
+        if (AddModifierStat.TryGetValue((int)type, out float value))
+        {
+            return value;
+        }
+        return 0f;
+    }
+
     public float GetStat(StatType type)
     {
         int iType = (int)type;
@@ -285,5 +328,4 @@ public class MonsterBase : Poolable, ISkillUser
     {
         return 0; // 몬스터는 팀 0
     }
-
 }

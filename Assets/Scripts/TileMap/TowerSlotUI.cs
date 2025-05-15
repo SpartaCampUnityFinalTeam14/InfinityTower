@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -27,12 +28,22 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     private bool isOnCooldown = false;
 
     private float requiredCost;
+    
+    GameObject rangePrefab;
+    RangeIndicator rangeIndicator;
+    protected TowerData towerData;
+
+    private void Awake()
+    {
+        rangePrefab = Resources.Load<GameObject>("Prefabs/Tower/RangeIndicator");
+    }
 
     public void Init(int id)
     {
         towerID = id;
         cooldownDuration = DataManager.Instance.towerDict[towerID].GetStatValue(StatType.towerCooldown);
         requiredCost = DataManager.Instance.towerDict[towerID].GetStatValue(StatType.cost);
+        towerData = DataManager.Instance.towerDict[towerID];
 
         // 슬롯 정보 StageManager에 전달
         StageManager.Instance.AddTowerSlot(this);
@@ -56,6 +67,7 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
         if (placedTowerPrefab == null)
             Debug.LogError($"❌ placedTowerPrefab 로드 실패: Tower_{towerID}");
+        
     }
     
     private void Update()
@@ -110,14 +122,29 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             return;
         }
 
+        // ✅ previewObj 인스턴스 생성
         previewObj = Instantiate(previewPrefab);
-
         if (previewObj != null)
         {
             Vector3 spawnPos = previewObj.transform.position;
             spawnPos.z = 0f;
             previewObj.transform.position = spawnPos;
+
+            // ✅ 사거리 표시 RangeIndicator를 previewObj의 자식으로 붙임
+            var go = PoolManager.Instance.Get(rangePrefab, 1, previewObj.transform); // 🔥 포인트
+            rangeIndicator = go.GetComponent<RangeIndicator>();
+
+            if (rangeIndicator == null)
+            {
+                Debug.LogError("❌ RangeIndicator 컴포넌트가 없습니다!");
+                return;
+            }
+
+            rangeIndicator.gameObject.SetActive(true);
+            rangeIndicator.Init(towerData.GetStatValue(StatType.attackRange));
         }
+
+        TilemapManager.Instance.ShowAllPlaceableCells();
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -135,8 +162,9 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         var renderers = previewObj.GetComponentsInChildren<SpriteRenderer>();
         foreach (var r in renderers)
         {
-            r.color = canPlace ? new Color(0f, 1f, 0f, 0.8f) : new Color(1f, 0f, 0f, 0.8f); // 초록 or 빨강
-        }   
+            if (r.GetComponentInParent<RangeIndicator>() != null) continue;
+            r.color = canPlace ? new Color(0f, 1f, 0f, 0.8f) : new Color(1f, 0f, 0f, 0.8f);
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -173,6 +201,8 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
         if (previewObj != null)
             Destroy(previewObj);
+        
+        TilemapManager.Instance.ClearIndicators();
     }
     
     bool IsCostEnough()

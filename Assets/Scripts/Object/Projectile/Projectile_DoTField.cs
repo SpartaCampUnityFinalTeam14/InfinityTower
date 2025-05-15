@@ -10,9 +10,9 @@ public class Projectile_DoTField : Projectile
     private Vector3 targetPos;
     private bool hasExploded = false;
 
-    public override void Init(ProjectileData data, ProjectileDataSO visual, float customDamage)
+    public override void Init(ProjectileData data, ProjectileDataSO visual, float customDamage, BaseTower towerData)
     {
-        base.Init(data, visual, customDamage);
+        base.Init(data, visual, customDamage, towerData);
 
         // 🧠 ProjectileData에서 장판 세팅
         dotDuration = data.dotDuration;
@@ -32,6 +32,9 @@ public class Projectile_DoTField : Projectile
         if (hasExploded) return;
 
         Vector3 dir = (targetPos - transform.position).normalized;
+        
+        FlipByDirection(dir);
+        
         transform.position += dir * speed * Time.deltaTime;
 
         float dist = Vector3.Distance(transform.position, targetPos);
@@ -64,7 +67,6 @@ public class Projectile_DoTField : Projectile
         {
             Debug.LogWarning("⚠️ impactEffect가 비어있음!");
         }
-
         Destroy(gameObject);
     }
 }

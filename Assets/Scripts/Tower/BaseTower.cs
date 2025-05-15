@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using UnityEditor.Playables;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using static UnityEngine.GraphicsBuffer;
 
 
 public abstract class BaseTower : Poolable
@@ -11,8 +12,8 @@ public abstract class BaseTower : Poolable
     public int ID;
     protected TowerData towerData;
     protected float attackTimer;
-    // 타워가 가지고 있는 이펙트
-    protected List<EffectBase> myEffect;
+    // key : effectID / value : 타워가 가지고 있는 이펙트
+    protected Dictionary<int,EffectBase> myEffectDict;
 
     // <key : 받는 이펙트의 statusID / value: 현재 적용된 이펙트 카운트> 본인이 받고있는 이펙트를 저장
     public Dictionary<int, int> nowEffectedDict;
@@ -49,7 +50,7 @@ public abstract class BaseTower : Poolable
     public void TowerInit()
     {
         towerData = DataManager.Instance.towerDict[ID];
-        myEffect = towerData.ReturnEffectList();
+        myEffectDict = towerData.ReturnEffectList();
         nowEffectedDict = new Dictionary<int, int>();
         AddModifierStat = new Dictionary<int, float>();
 
@@ -70,7 +71,7 @@ public abstract class BaseTower : Poolable
         if (attackTimer <= 0)
         {
             Activate();
-            attackTimer = towerData.GetStatValue(StatType.attackSpeed);
+            attackTimer = GetFinalStatValue(StatType.attackSpeed);
         }
     }
 
@@ -94,6 +95,32 @@ public abstract class BaseTower : Poolable
             return value;
         }
         return 0f;
+    }
+
+    public void ApplyEffectOnAttack(GameObject target)
+    {
+        if (towerData.TargetType == TargetType.Enemy)
+        {
+            MonsterBase enemy = target.GetComponent<MonsterBase>();
+            foreach (var T in myEffectDict)
+            {
+                // 디버프는 항상 적용
+                float[] effectValues = towerData.effectValue[towerData.effectID.IndexOf(T.Key)].values;
+                T.Value.ApplyEffect_Monster(enemy, effectValues[0], effectValues[1], effectValues[2] > 0);
+                Debug.Log($"디버프 {(EffectType)T.Key} {effectValues[0]} 적용 (지속: {effectValues[1]}) -> {enemy.name}");
+            }
+        }
+        else if (towerData.TargetType == TargetType.Tower)
+        {
+            // 아군 버프
+            TargettingTower ally = target.GetComponent<TargettingTower>();
+            foreach (var T in myEffectDict)
+            {
+                float[] effectValues = towerData.effectValue[towerData.effectID.IndexOf(T.Key)].values;
+                T.Value.ApplyEffect_Tower(ally, effectValues[0], effectValues[1], effectValues[2] > 0);
+                Debug.Log($"버프 {(EffectType)T.Key} {effectValues[0]} 적용 (지속: {effectValues[1]}) -> {ally.name}");
+            }
+        }
     }
 
     protected abstract void Activate(); //실제행동은 하위 클래스에서 정의
@@ -138,7 +165,7 @@ public abstract class BaseTower : Poolable
 
                 // 사거리표시
                 rangeIndicator = PoolManager.Instance.Get(rangePrefab, 1, transform).GetComponent<RangeIndicator>();
-                rangeIndicator.Init(towerData.GetStatValue(StatType.attackRange));
+                rangeIndicator.Init(GetFinalStatValue(StatType.attackRange));
 
                 StageManager.Instance.timeScaleManager.PushTimeScale(0.2f);
             }

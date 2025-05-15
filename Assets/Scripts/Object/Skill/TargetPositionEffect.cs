@@ -55,15 +55,23 @@ public class TargetPositionEffect : MonoBehaviour
         if (explosionEffect != null)
             Instantiate(explosionEffect, transform.position, Quaternion.identity);
 
-        float finalDamage = damage * multiplier;
-
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, damageRadius);
         foreach (var hit in hits)
         {
             ISkillUser target = hit.GetComponent<ISkillUser>();
-            if (target != null && target != caster && target.GetTeam() != caster.GetTeam())
+            if (target == null) continue;
+            if (target == caster) continue;
+
+            int targetTeam = target.GetTeam();
+            int casterTeam = caster.GetTeam();
+
+            Debug.Log($"🎯 {target.GetName()} | TargetTeam: {targetTeam} / CasterTeam: {casterTeam}");
+
+            if (targetTeam != casterTeam)
             {
-                if (target.GetTeam() == 1)
+                float finalDamage = damage * multiplier;
+
+                if (targetTeam == 0)
                 {
                     target.TakeDamage(finalDamage);
                 }
@@ -71,10 +79,10 @@ public class TargetPositionEffect : MonoBehaviour
                 {
                     StageManager.Instance.TakeDamage(Mathf.RoundToInt(finalDamage));
                 }
+
                 Debug.Log($"💥 {target.GetName()}에게 {finalDamage} 피해!");
             }
         }
-
         Destroy(gameObject); // 메테오 제거
     }
 }

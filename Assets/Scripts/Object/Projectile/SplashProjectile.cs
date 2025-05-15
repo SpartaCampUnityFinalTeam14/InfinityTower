@@ -31,6 +31,9 @@ public class SplashProjectile : Projectile
         }
 
         Vector3 dir = (lastKnownPosition - transform.position).normalized;
+        
+        FlipByDirection(dir);
+        
         transform.position += dir * speed * Time.deltaTime;
 
         if (Vector3.Distance(transform.position, lastKnownPosition) < 0.1f)
@@ -47,7 +50,7 @@ public class SplashProjectile : Projectile
             ISkillUser target = hit.GetComponent<ISkillUser>();
             if (target != null)
             {
-                target.TakeDamage(damage);
+                Hit(target);
                 Debug.Log($"💥 {target.GetName()}에게 스플래시 피해 {damage}!");
             }
         }
