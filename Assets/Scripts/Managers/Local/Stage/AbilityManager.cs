@@ -11,45 +11,15 @@ public class AbilityManager
 
     public Dictionary<int, float> monsterAbilities = new();
 
-    ApplyAbilityHandler abilityHandler;
-    public ApplyAbilityHandler AbilityHandler => abilityHandler;
+    AbilityHandler abilityHandler;
+    public AbilityHandler AbilityHandle => abilityHandler;
 
     public AbilityManager()
     {
         allAbilities = new Dictionary<int, Ability>();
-        abilityHandler = new ApplyAbilityHandler();
+        abilityHandler = new AbilityHandler();
 
         FilterAbilitiesByDeck();
-    }
-
-    void UpdateMonsterAbility(AbilityData data)
-    {
-        var monsterAbilities = GetMonsterAbilities();
-       
-        for (int i = 0; i < data.valueType.Count; i++)
-        {
-            if (this.monsterAbilities.ContainsKey(data.valueType[i]))
-            {
-                this.monsterAbilities[data.valueType[i]] += DataManager.Instance.abilityDict[data.perkID].value[i]; ;
-            }
-            else
-            {
-                this.monsterAbilities.Add(data.valueType[i], data.value[i]);
-            }
-        }
-    }
-
-    List<Ability> GetMonsterAbilities()
-    {
-        List<Ability> listData = new();
-
-        foreach (var ability in allAbilities.Values)
-        {
-            if (ability.Data.targetType == /*(int)TargetType.Enemy*/"enemy")
-                listData.Add(ability);
-        }
-        
-        return listData;
     }
 
     void FilterAbilitiesByDeck()
@@ -73,7 +43,7 @@ public class AbilityManager
 
             foreach (var data in ability.Values)
             {
-                if (data.targetID != -1 && data.targetType.Equals((int)TargetType.Tower) 
+                if (data.targetID != -1 && data.targetType.Equals((int)TargetType.Tower)
                     && !StageManager.Instance.selectedTowers.Contains(data.targetID))
                     removeKey.Add(data.perkID);
             }

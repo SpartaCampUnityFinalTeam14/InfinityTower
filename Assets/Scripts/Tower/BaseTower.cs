@@ -57,8 +57,8 @@ public abstract class BaseTower : Poolable
         attackTimer = GetFinalStatValue(StatType.attackSpeed);
 
         // Ability Event 등록
-        StageManager.Instance.abilityManager.AbilityHandler.ResisterAddAbilityEvent("tower", AddAbilityStat);
-        StageManager.Instance.abilityManager.AbilityHandler.ResisterRemoveAbilityEvent("tower", RemoveAbilityStat);
+        StageManager.Instance.abilityManager.AbilityHandle.ResisterAddAbilityEvent("tower", AddAbilityStat);
+        StageManager.Instance.abilityManager.AbilityHandle.ResisterRemoveAbilityEvent("tower", RemoveAbilityStat);
         //StageManager.Instance.abilityManager.OnAddTowerAbility += AddAbilityStat;
         //StageManager.Instance.abilityManager.OnRemoveTowerAbility += RemoveAbilityStat;
     }
@@ -180,10 +180,22 @@ public abstract class BaseTower : Poolable
         {
             AddAbilityStat(ability.Data);
         }
+
+        //// Update
+        //if (manager.AbilityHandle.TryGetAbilities($"{TargetType.Tower}", out var list))
+        //{
+        //    foreach (Ability ability in list)
+        //    {
+        //        AddAbilityStat(ability.Data);
+        //    }
+        //}
     }
 
     private void AddAbilityStat(AbilityData data)
     {
+        if (!gameObject.activeSelf)
+            return;
+        
         if (data.targetID.Equals(-1) || towerData.id.Equals(data.targetID))
         {
             for (int i = 0; i < data.valueType.Count; i++)
