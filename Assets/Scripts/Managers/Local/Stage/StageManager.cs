@@ -27,9 +27,7 @@ public class StageManager : Singleton<StageManager>
 
     [HideInInspector] public SkillTargetingSystem skillTargetingSystem;
     [HideInInspector] public SkillVisualDB skillVisualDB;
-    private Hero hero;
-    
-    //private HeroSkillPanel skillPanel;
+    public Hero CurHero { get; set; }
 
     private int stageIndex;
     private int maxFloor;
@@ -43,8 +41,7 @@ public class StageManager : Singleton<StageManager>
     [SerializeField] private FloatEventChannel OnCostChanged;
     [SerializeField] private IntEventChannel OnPlayerHpChanged;
     [SerializeField] private IntEventChannel OnFloorCountChanged;
-
-    private List<TowerSlotUI> towerSlots;
+    [SerializeField] private EventChannel OnResetTowerCoolDown;
 
     [HideInInspector] public bool isEventEnd;
     [HideInInspector] public bool isIntroEnd;
@@ -83,60 +80,17 @@ public class StageManager : Singleton<StageManager>
         abilityManager = new AbilityManager();
         eventManager = new EventManager();
 
-        towerSlots = new List<TowerSlotUI>();
-
         skillTargetingSystem = gameObject.AddComponent<SkillTargetingSystem>();
         skillVisualDB = gameObject.AddComponent<SkillVisualDB>();
 
         stageIndex = SaveManager.Instance.playerData.selectedStageIndex;
         maxFloor = DataManager.Instance.stageDict[stageIndex].floorCount;
 
-        //InitHero();
-        // tower skill panel 생성
-        UIManager.Instance.ShowUI<StageEntryUI>();
-
         UIManager.Instance.HideUI<UIPause>();
         UIManager.Instance.HideUI<UIFloorIntro>();
 
         var ui = UIManager.Instance.GetUI<UIFloorIntro>();
         ui.Init(maxFloor);
-    }
-    
-    public void InitHero(HeroSkillPanel skillPanel)
-    {
-        //this.skillPanel = skillPanel;
-
-        hero = new Hero();
-        Debug.Log("👤 챔피언 생성됨: " + selectedChampion);
-
-        ChampionData champData = DataManager.Instance.championDict[selectedChampion];
-
-        Debug.Log($"{champData.skillId.Count} 개의 스킬을 가지고 있습니다.");
-
-        foreach (int skillId in champData.skillId)
-        {
-            if (DataManager.Instance.skillDict.TryGetValue(skillId, out SkillData skillData))
-            {
-                Debug.Log($"⚡ 스킬 ID: {skillId}");
-                Skill skill = SkillFactory.CreateSkill(skillData);
-                if (skill != null)
-                    hero.skills.Add(skill);
-            }
-            else
-            {
-                Debug.LogWarning($"⚠️ SkillData ID {skillId} 를 찾을 수 없습니다.");
-            }
-        }
-
-        // ✅ 영웅 스킬 패널에 연결 (SerializeField 연결 기준)
-        if (skillPanel != null)
-        {
-            skillPanel.InitHero(hero);
-        }
-        else
-        {
-            Debug.LogWarning("⚠️ HeroSkillPanel이 연결되어 있지 않습니다!");
-        }
     }
 
     public void TakeDamage(int damage)
@@ -218,17 +172,9 @@ public class StageManager : Singleton<StageManager>
         EndStage();
     }
 
-    public void AddTowerSlot(TowerSlotUI towerSlot)
-    {
-        towerSlots.Add(towerSlot);
-    }
-
     public void ResetDropTowerCooldown()
     {
-        foreach (var towerSlot in towerSlots)
-        {
-            towerSlot.ResetCooldown();
-        }
+        OnResetTowerCoolDown.RaiseEvent();
     }
 
     public void StartStage()

@@ -3,9 +3,10 @@
       {
           "id": 0,
           "name": "초원",
-          "floorCount": 1,
+          "floorCount": 2,
           "floorPool": [
-              0
+              0,
+              1
           ],
           "eventPool": [
               1,
