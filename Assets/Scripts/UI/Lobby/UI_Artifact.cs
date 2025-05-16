@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class UI_Artifact : MonoBehaviour, ScrollPanel
 {
-    [SerializeField] private Button closeButton;
     [SerializeField] private TextMeshProUGUI goldText;
 
     [SerializeField] private Transform slotParent;
@@ -39,7 +38,6 @@ public class UI_Artifact : MonoBehaviour, ScrollPanel
     {
         gachaManager = new();
 
-        //closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Artifact>());
         gachaButton.onClick.AddListener(GachaArtifact);
         gachaCloseButton.onClick.AddListener(CloseResult);
         skipBackgroundButton.onClick.AddListener(Skip);

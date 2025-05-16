@@ -14,6 +14,51 @@
           ],
           "bossFloorID": 4,
           "rewardGold": 1000
+      },
+      {
+          "id": 1,
+          "name": "사막",
+          "floorCount": 2,
+          "floorPool": [
+              0,
+              1
+          ],
+          "eventPool": [
+              1,
+              2
+          ],
+          "bossFloorID": 4,
+          "rewardGold": 1000
+      },
+      {
+          "id": 2,
+          "name": "성벽",
+          "floorCount": 2,
+          "floorPool": [
+              0,
+              1
+          ],
+          "eventPool": [
+              1,
+              2
+          ],
+          "bossFloorID": 4,
+          "rewardGold": 1000
+      },
+      {
+          "id": 3,
+          "name": "설산",
+          "floorCount": 2,
+          "floorPool": [
+              0,
+              1
+          ],
+          "eventPool": [
+              1,
+              2
+          ],
+          "bossFloorID": 4,
+          "rewardGold": 1000
       }
   ]
 }

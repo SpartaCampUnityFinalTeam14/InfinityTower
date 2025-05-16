@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class UI_Option : MonoBehaviour, ScrollPanel
 {
-    [SerializeField] private Button backgroundButton;
     [SerializeField] private Slider masterSlider;
     [SerializeField] private Slider BGMSlider;
     [SerializeField] private Slider SFXSlider;
@@ -20,9 +19,6 @@ public class UI_Option : MonoBehaviour, ScrollPanel
         masterSlider.onValueChanged.AddListener(OnMasterVolumeChanged);
         BGMSlider.onValueChanged.AddListener(OnBGMVolumeChanged);
         SFXSlider.onValueChanged.AddListener(OnSFXVolumeChanged);
-
-        //backgroundButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Option>());
-        //closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Option>());
     }
 
     public void ResetPanel()

@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class UI_Gacha : MonoBehaviour, ScrollPanel
 {
-    [SerializeField] private Button closeButton;
     [SerializeField] private TextMeshProUGUI goldText;
     [SerializeField] private Image boxImage;
     [SerializeField] private Button gacha1Button;
@@ -39,7 +38,6 @@ public class UI_Gacha : MonoBehaviour, ScrollPanel
     {
         gachaManager = new();
 
-        //closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Gacha>());
         gacha1Button.onClick.AddListener(Gacha1);
         gacha10Button.onClick.AddListener(Gacha10);
         gachaEachBackgroundButton.onClick.AddListener(SkipEach);
