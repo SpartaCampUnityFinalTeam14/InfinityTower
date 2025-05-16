@@ -10,6 +10,8 @@ public class UI_Hud : UI
     [SerializeField] private TextMeshProUGUI costText;
     [SerializeField] private TextMeshProUGUI hpText;
 
+    [SerializeField] private Button pauseButton;
+
     [SerializeField] private Image costBar;
 
     [SerializeField] private FloatEventChannel OnCostChanged;
@@ -21,6 +23,8 @@ public class UI_Hud : UI
     protected override void Awake()
     {
         base.Awake();
+
+        pauseButton.onClick.AddListener(Pause);
 
         UnSubscribe();
         Subscribe();
@@ -42,6 +46,11 @@ public class UI_Hud : UI
         OnFloorCountChanged.RegisterListener(SetFloorText);
         OnWaveCountChanged.RegisterListener(SetWaveText);
         OnMonsterCountChanged.RegisterListener(SetMonsterCountText);
+    }
+
+    void Pause()
+    {
+        UIManager.Instance.GetUI<UIPause>().TogglePause();
     }
 
     void SetCostText(float costAmount)
