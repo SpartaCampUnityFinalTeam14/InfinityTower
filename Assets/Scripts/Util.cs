@@ -1,8 +1,11 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public static class Util
 {
@@ -42,5 +45,15 @@ public static class Util
     public static string FormatTimeMMSS(int seconds)
     {
         return $"{seconds / 60:D2}:{seconds % 60:D2}";
+    }
+
+    public static bool IsPointerOverUIObject(GameObject uiObject = null)
+    {
+        PointerEventData eventData = new(EventSystem.current) { position = Input.mousePosition };
+        List<RaycastResult> results = new();
+        EventSystem.current.RaycastAll(eventData, results);
+        if (results.Count == 0) return false;
+        if (uiObject == null) return results.Count > 0;
+        return results[0].gameObject == uiObject;
     }
 }

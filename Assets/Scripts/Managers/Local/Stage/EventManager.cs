@@ -34,7 +34,8 @@ public class EventManager
         eventData = eventDict[Random.Range(0, eventDict.Count)];
 
         uiEvent = UIManager.Instance.ShowUI<UIEvent>();
-        uiEvent.SetEvent(eventData);
+        uiEvent.ShowEvent(eventData);
+        //uiEvent.SetEvent(eventData);
     }
 
     public void SelectChoice(int choiceIdx)

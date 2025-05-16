@@ -42,6 +42,7 @@ public class SingleTargetProjectile : Projectile
                 ISkillUser hit = target.GetComponent<ISkillUser>();
                 if (hit != null)
                     Hit(hit);
+                PoolManager.Instance.Release(this.GetComponent<Poolable>());
             }
             else
             {

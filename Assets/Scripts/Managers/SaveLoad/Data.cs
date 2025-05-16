@@ -142,8 +142,7 @@ public class TowerData
     public TargettingRule TargettingRule => (TargettingRule)targettingRule;
     public TargetType TargetType => (TargetType)targetType;
 
-    // 유틸 메서드: 특정 타입의 스탯 값 가져오기
-    public float GetStatValue(StatType type)
+    public float GetStatValue(StatType type,int towerLevel)
     {
         for (int i = 0; i < statType.Count; i++)
         {
@@ -151,6 +150,12 @@ public class TowerData
                 return statValue[i];
         }
         throw new InvalidOperationException($"{type.ToString()}에 해당하는 효과 없음");
+    }
+
+    // 유틸 메서드: 특정 타입의 스탯 값 가져오기
+    public float GetStatValue(StatType type)
+    {
+        return GetStatValue(type, SaveManager.Instance.towerLevelDict[id].level);
     }
 
     public float GetStatValue(int typeID)
@@ -182,56 +187,7 @@ public class TowerData
             //이펙트 아이디를 타겟스테이터스 아이디로 변경
             int targetStatusID = DataManager.Instance.effectDict[effectID[i]].targetStatusID;
             float[] values = effectValue[i].values;
-            EffectBase effect = null;
-            
-            switch (targetStatusID)
-            {
-                case 0:
-                    effect = new AttackDamageEffecter(targetStatusID);
-                    break;
-
-                case 1:
-                    effect = new AttackRangeEffecter(targetStatusID);
-                    break;
-
-                case 2:
-                    effect = new AttackSpeedEffecter(targetStatusID);
-                    break;
-
-                case 3:
-                    effect = new TargetCountEffecter(targetStatusID);
-                    break;
-
-                case 4:
-                    effect = new TowerCooldownEffecter(targetStatusID);
-                    break;
-
-                case 5:
-                    effect = new CostEffecter(targetStatusID);
-                    break;
-
-                case 9:
-                    effect = new HPEffecter(targetStatusID);
-                    break;
-
-                case 10:
-                    effect = new MoveSpeedEffecter(targetStatusID);
-                    break;
-
-                case 11:
-                    effect = new ArmorEffecter(targetStatusID);
-                    break;
-
-                case 12:
-                    effect = new DamageEffecter(targetStatusID);
-                    break;
-
-                case 13:
-                    effect = new CooldownEffecter(targetStatusID);
-                    break;
-
-            }
-
+            EffectBase effect = DataManager.Instance.effectDict[effectID[i]].ReturnEffect(targetStatusID);
             ret.Add(effectID[i], effect);
         }
         return ret;
@@ -335,10 +291,13 @@ public class SkillData
     public float multiplier;
     public SkillType skillType;
     public float range;
+    public string visualId;
+    public int attackType;
 
-    // 🔗 SO를 참조할 수 있는 필드 (Resources 또는 Addressable 기준 경로로 사용)
-    public string visualId; // 예: "Meteor"
+    public List<int> effectID;                    // 🔥 이펙트 ID
+    public List<effectValues> effectValue;        // 🔥 대응하는 값 리스트
 }
+
 
 
 [Serializable]
@@ -618,15 +577,69 @@ public class StageDataLoader : ILoader<int, StageData>
 public class EffectData
 {
     public int id;
-    public EffectType effectType;
     public int targetStatusID;
-}
+    public EffectType effectType;
 
+    public EffectBase ReturnEffect(int targetStatusID)
+    {
+        EffectBase effect = new(targetStatusID);
+        switch (targetStatusID)
+        {
+            case 0:
+                effect = new AttackDamageEffecter(targetStatusID);
+                break;
+
+            case 1:
+                effect = new AttackRangeEffecter(targetStatusID);
+                break;
+
+            case 2:
+                effect = new AttackSpeedEffecter(targetStatusID);
+                break;
+
+            case 3:
+                effect = new TargetCountEffecter(targetStatusID);
+                break;
+
+            case 4:
+                effect = new TowerCooldownEffecter(targetStatusID);
+                break;
+
+            case 5:
+                effect = new CostEffecter(targetStatusID);
+                break;
+
+            case 9:
+                effect = new HPEffecter(targetStatusID);
+                break;
+
+            case 10:
+                effect = new MoveSpeedEffecter(targetStatusID);
+                break;
+
+            case 11:
+                effect = new ArmorEffecter(targetStatusID);
+                break;
+
+            case 12:
+                effect = new DamageEffecter(targetStatusID);
+                break;
+
+            case 13:
+                effect = new CooldownEffecter(targetStatusID);
+                break;
+
+            default:
+                Debug.Log("이펙트가 없음");
+                break;
+        }
+        return effect;
+    }
+}
 [Serializable]
 public class EffectDataLoader : ILoader<int, EffectData>
 {
     public List<EffectData> data = new();
-
     public Dictionary<int, EffectData> MakeDict()
     {
         Dictionary<int, EffectData> dict = new();
@@ -635,7 +648,6 @@ public class EffectDataLoader : ILoader<int, EffectData>
             effect.effectType = (EffectType)effect.id;
             dict.Add(effect.id, effect);
         }
-
         return dict;
     }
 }

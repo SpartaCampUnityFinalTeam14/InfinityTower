@@ -237,7 +237,7 @@ public class MonsterBase : Poolable, ISkillUser
             {
                 if (DataManager.Instance.skillDict.TryGetValue(skillId, out var skillData))
                 {
-                    Skill newSkill = SkillFactory.CreateSkill(skillData);
+                    Skill newSkill = SkillFactory.CreateSkill(skillData, data.value[3]);
                     if (newSkill != null)
                     {
                         skills.Add(newSkill);
@@ -328,4 +328,10 @@ public class MonsterBase : Poolable, ISkillUser
     {
         return 0; // 몬스터는 팀 0
     }
+    
+    public float GetBaseDamage()
+    {
+        return 10f; // 특성, 유물 등 계산 가능
+    }
+
 }
