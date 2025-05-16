@@ -111,6 +111,7 @@ public class UI_Deck : MonoBehaviour, ScrollPanel
         if (selectedTowerIndex < 0)
         {
             int towerId = selectedTowerSlots[index].towerId;
+            if (towerId < 0) return;
             UIManager.Instance.ShowStackUI<UI_TowerInfo>().Init(towerId);
             return;
         }

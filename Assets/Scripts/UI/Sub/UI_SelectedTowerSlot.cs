@@ -58,6 +58,6 @@ public class UI_SelectedTowerSlot : MonoBehaviour
 
     void OpenInfoUI()
     {
-        if(towerId >= 0) OnTowerSlotSelected.RaiseEvent(slotId);
+        OnTowerSlotSelected.RaiseEvent(slotId);
     }
 }
