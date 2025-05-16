@@ -183,7 +183,7 @@ public class TowerData
             int targetStatusID = DataManager.Instance.effectDict[effectID[i]].targetStatusID;
             float[] values = effectValue[i].values;
             EffectBase effect = null;
-
+            
             switch (targetStatusID)
             {
                 case 0:
@@ -229,6 +229,7 @@ public class TowerData
                 case 13:
                     effect = new CooldownEffecter(targetStatusID);
                     break;
+
             }
 
             ret.Add(effectID[i], effect);

@@ -14,7 +14,7 @@ public class UI_Artifact : MonoBehaviour, ScrollPanel
     private List<UI_ArtifactSlot> slots = new();
 
     [SerializeField] private Button gachaButton;
-
+    [SerializeField] private TextMeshProUGUI gold1Text;
     [SerializeField] private GameObject gachaBackground;
     //[SerializeField] private Button skipBackgroundButton;
     [SerializeField] private Image resultBackground;
@@ -47,6 +47,8 @@ public class UI_Artifact : MonoBehaviour, ScrollPanel
         gachaBackground.SetActive(false);
 
         CheckGachaAble();
+
+        gold1Text.text = $"{requiredGold.ToString():N0}";
 
         Init();
     }
