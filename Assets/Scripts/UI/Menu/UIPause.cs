@@ -70,7 +70,7 @@ public class UIPause : UI
 
     void UpdateAbilityIcon()
     {
-        var list = StageManager.Instance.abilityManager.CurAbilities;
+        var list = StageManager.Instance.abilityManager.allAbilities;
         GameObject prefab = Resources.Load<GameObject>(iconPrefabPath);
 
         foreach (var ability in list.Values)

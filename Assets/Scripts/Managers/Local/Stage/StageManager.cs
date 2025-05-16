@@ -46,6 +46,7 @@ public class StageManager : Singleton<StageManager>
     [HideInInspector] public bool isEventEnd;
     [HideInInspector] public bool isIntroEnd;
     [HideInInspector] public bool isAdditionalFloor;
+    [HideInInspector] public bool isFadeComplete;
 
     protected override void Awake()
     {
@@ -187,6 +188,7 @@ public class StageManager : Singleton<StageManager>
     {
         Debug.Log("<color=white>스테이지 시작</color>");
         List<int> floorDictKeys = new(DataManager.Instance.stageDict[stageIndex].floorPool);
+        isFadeComplete = true;
 
         for (int i = 0; i < maxFloor; i++)
         {
@@ -196,6 +198,9 @@ public class StageManager : Singleton<StageManager>
             }
 
             OnFloorCountChanged.RaiseEvent(i + 1);
+
+            // 화면이 전부 어두워진 후 다음 맵 로드
+            yield return new WaitUntil(() => isFadeComplete);
 
             if (floorGO != null) Destroy(floorGO);
             int floorId = 0;
@@ -229,33 +234,32 @@ public class StageManager : Singleton<StageManager>
 
                 ShowEvent();
                 yield return new WaitUntil(() => isEventEnd);
-            }
 
-            // 추가 플로어
-            if (isAdditionalFloor)
-            {
-                StartAdditionalFloor();
+                // 추가 플로어 이벤트 발생 시
+                if (isAdditionalFloor)
+                {
+                    StartCoroutine(AdditionalStageRoutine(floorDictKeys));
 
-                yield return new WaitUntil(() => !isAdditionalFloor);
+                    yield return new WaitUntil(() => curFloor.isFloorEnd);
+                }
             }
         }
 
         EndStage();
     }
 
-    void StartAdditionalFloor()
-    {
-        StartCoroutine(AdditionalStageRoutine());
-    }
-
-    IEnumerator AdditionalStageRoutine()
+    IEnumerator AdditionalStageRoutine(List<int> floorDictKeys)
     {
         if (floorGO != null) Destroy(floorGO);
-        floorGO = Util.InstantiatePrefab("Floors/TestFloor");
+        int randomIndex = Random.Range(0, floorDictKeys.Count);
+        int floorId = floorDictKeys[randomIndex];
+        floorDictKeys.RemoveAt(randomIndex);
+        floorGO = Util.InstantiatePrefab($"Floors/Floor_{floorId}");//랜덤 ID에 맞는 플로어 생성하게 변경해야 함
         curFloor = floorGO.GetComponent<Floor>();
         curFloor.StartFloor();
 
-        yield return new WaitUntil(() => curFloor.isFloorEnd);
+        //yield return new WaitUntil(() => curFloor.isFloorEnd);
+        yield return null;
 
         isAdditionalFloor = false;
     }
@@ -273,7 +277,18 @@ public class StageManager : Singleton<StageManager>
         Debug.Log("<color=white>플로어 진입 인트로</color>");
 
         isIntroEnd = false;
-        var ui = UIManager.Instance.ShowUI<UIFloorIntro>();
+        isFadeComplete = false;
+
+        // 플로어 종료 시 FadeOut
+        var ui = UIManager.Instance.ShowUI<UI_Fade>();
+        ui.FadeOut(() =>
+        {
+            ui.FadeIn();
+            isFadeComplete = true;
+            UIManager.Instance.ShowUI<UIFloorIntro>();
+
+        });
+
     }
 
     int GetReward()

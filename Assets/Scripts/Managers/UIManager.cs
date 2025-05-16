@@ -39,7 +39,7 @@ public class UIManager : Singleton<UIManager>
 
         if (_sceneDict.TryGetValue(uiType, out UI existingUI))
         {
-            existingUI.Hide();
+            //existingUI.Hide();
             return existingUI as T;
         }
 

@@ -43,7 +43,6 @@ public class Floor : MonoBehaviour
 
         // 특성 초기화
         UIManager.Instance.HideUI<UIAbility>();
-        var ui = UIManager.Instance.HideUI<UIAbility>();
     }
 
     public void StartFloor()
@@ -161,8 +160,6 @@ public class Floor : MonoBehaviour
         Debug.Log("<color=green>웨이브 종료</color>");
 
         var ui = UIManager.Instance.ShowUI<UI_Wave>();
-        ui.ShowWaveClear();
-
-        isWaveEnd = true;
+        ui.ShowWaveClear(() => isWaveEnd = true);
     }
 }

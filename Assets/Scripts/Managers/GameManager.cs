@@ -21,6 +21,8 @@ public class GameManager : Singleton<GameManager>
             UIManager.Instance.Clear();
 
             SceneManager.LoadScene(sceneName);
+
+            ui.Hide();
         });
     }
 }
