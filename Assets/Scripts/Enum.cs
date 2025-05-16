@@ -18,7 +18,7 @@ public enum TargettingRule
 
 public enum TargetType
 {
-    Tower = 1,    //아군 타워 버프
+    Tower,    //아군 타워 버프
     Player,  //플레이어 코스트 회복, 체력 회복
     Enemy    //적 데미지, 디버프
 }

@@ -7,14 +7,13 @@ using UnityEngine.UI;
 
 public class UI_Artifact : MonoBehaviour, ScrollPanel
 {
-    [SerializeField] private Button closeButton;
     [SerializeField] private TextMeshProUGUI goldText;
 
     [SerializeField] private Transform slotParent;
     private List<UI_ArtifactSlot> slots = new();
 
     [SerializeField] private Button gachaButton;
-
+    [SerializeField] private TextMeshProUGUI gold1Text;
     [SerializeField] private GameObject gachaBackground;
     //[SerializeField] private Button skipBackgroundButton;
     [SerializeField] private Image resultBackground;
@@ -39,7 +38,6 @@ public class UI_Artifact : MonoBehaviour, ScrollPanel
     {
         gachaManager = new();
 
-        //closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Artifact>());
         gachaButton.onClick.AddListener(GachaArtifact);
         gachaCloseButton.onClick.AddListener(CloseResult);
         skipBackgroundButton.onClick.AddListener(Skip);
@@ -47,6 +45,8 @@ public class UI_Artifact : MonoBehaviour, ScrollPanel
         gachaBackground.SetActive(false);
 
         CheckGachaAble();
+
+        gold1Text.text = $"{requiredGold.ToString():N0}";
 
         Init();
     }

@@ -72,7 +72,7 @@ public class UI_TowerInfo : UI
             Destroy(child.gameObject);
         }
 
-        foreach(int id in data.statTypes)
+        foreach(int id in data.statType)
         {
             UI_StatEach stat = Util.InstantiatePrefabAndGetComponent<UI_StatEach>(path: "UI/Sub/UI_StatEach", parent: statInfoBackgroundTransform);
             stat.Init((StatType)id, data.GetStatName(id), data.GetStatValue(id));

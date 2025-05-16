@@ -40,6 +40,11 @@ public class HeroSkillPanel : MonoBehaviour
 
     public void InitHero(Hero hero)
     {
+        foreach(Transform child in skillListParent)
+        {
+            Destroy(child.gameObject);
+        }
+
         Debug.Log("🦸‍♂️ 영웅 스킬 패널 초기화");
         Debug.Log($"총 스킬 개수: {hero.skills.Count}");
 

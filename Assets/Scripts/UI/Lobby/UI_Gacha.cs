@@ -6,11 +6,12 @@ using UnityEngine.UI;
 
 public class UI_Gacha : MonoBehaviour, ScrollPanel
 {
-    [SerializeField] private Button closeButton;
     [SerializeField] private TextMeshProUGUI goldText;
     [SerializeField] private Image boxImage;
     [SerializeField] private Button gacha1Button;
+    [SerializeField] private TextMeshProUGUI gold1Text;
     [SerializeField] private Button gacha10Button;
+    [SerializeField] private TextMeshProUGUI gold10Text;
     
     [SerializeField] private GameObject gachaEachBackground;
     [SerializeField] private Animator boxAnimator;
@@ -37,12 +38,14 @@ public class UI_Gacha : MonoBehaviour, ScrollPanel
     {
         gachaManager = new();
 
-        //closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Gacha>());
         gacha1Button.onClick.AddListener(Gacha1);
         gacha10Button.onClick.AddListener(Gacha10);
         gachaEachBackgroundButton.onClick.AddListener(SkipEach);
         skipAllButton.onClick.AddListener(SkipAll);
         gachaAllBackgroundButton.onClick.AddListener(CloseAllResult);
+
+        gold1Text.text = $"{requiredGold.ToString():N0}";
+        gold10Text.text = $"{(requiredGold * 10).ToString():N0}";
 
         ResetPanel();
     }

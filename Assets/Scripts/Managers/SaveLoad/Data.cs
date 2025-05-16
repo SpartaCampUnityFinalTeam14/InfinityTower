@@ -131,7 +131,7 @@ public class TowerData
     public int targettingRule;
 
     // 기본 스텟
-    public List<int> statTypes;    // statType의 int 값들
+    public List<int> statType;    // statType의 int 값들
     public List<float> statValue;   // 각 스탯에 대한 수치
 
     // 보유 효과
@@ -144,9 +144,9 @@ public class TowerData
 
     public float GetStatValue(StatType type,int towerLevel)
     {
-        for (int i = 0; i < statTypes.Count; i++)
+        for (int i = 0; i < statType.Count; i++)
         {
-            if ((StatType)statTypes[i] == type)
+            if ((StatType)statType[i] == type)
                 return statValue[i];
         }
         throw new InvalidOperationException($"{type.ToString()}에 해당하는 효과 없음");
@@ -160,9 +160,9 @@ public class TowerData
 
     public float GetStatValue(int typeID)
     {
-        for (int i = 0; i < statTypes.Count; i++)
+        for (int i = 0; i < statType.Count; i++)
         {
-            if (statTypes[i] == typeID)
+            if (statType[i] == typeID)
                 return statValue[i];
         }
         throw new InvalidOperationException($"ID:{typeID}에 해당하는 스탯 없음");

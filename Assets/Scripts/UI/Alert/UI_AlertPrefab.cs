@@ -14,6 +14,12 @@ public class UI_AlertPrefab : Poolable
     private Vector3 endPos = Vector3.up * 200;
     private float duration = 2f;
 
+    private void Awake()
+    {
+        startPos = new Vector3(90, 0, 0);
+        endPos = new Vector3(90, 200, 0);
+    }
+
     public void Init(string text)
     {
         alertText.text = text;

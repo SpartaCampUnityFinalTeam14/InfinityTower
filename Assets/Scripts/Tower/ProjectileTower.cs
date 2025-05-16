@@ -51,7 +51,7 @@ public class ProjectileTower : TargettingTower
             }
 
             // valueList[0] = 데미지
-            float projectileDamage = (towerData.statTypes.Contains((int)StatType.attackDamage)) 
+            float projectileDamage = (towerData.statType.Contains((int)StatType.attackDamage)) 
                 ? GetFinalStatValue(StatType.attackDamage) 
                 : 0f;
 
