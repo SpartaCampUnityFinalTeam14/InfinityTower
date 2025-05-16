@@ -43,7 +43,11 @@ public class BattleManager : MonoBehaviour
     {
         foreach (var artifactData in SaveManager.Instance.artifactSaveDict)
         {
-            //유닛이 가지고있는 스탯 타입 검사
+            ////아티펙트가 가진 TargetType을 검사
+            //if (artifactData.Value.ReturnMyTargetType())
+            //    continue;
+
+            //유닛이 가지고있는 스탯 타입을 검사
             if (!isValidStat(artifactData.Value.ReturnMyStatType(artifactData.Key)))
                 continue;
 
