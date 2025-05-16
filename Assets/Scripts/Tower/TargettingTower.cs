@@ -167,4 +167,10 @@ public abstract class TargettingTower : BaseTower
     }
 
     protected abstract void UseActOnTargets(); // 공격/버프 등을 하위에서 정의
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, GetFinalStatValue(StatType.attackRange));
+    }
 }
