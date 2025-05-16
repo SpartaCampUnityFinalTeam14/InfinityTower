@@ -93,6 +93,11 @@ public class StageManager : Singleton<StageManager>
         ui.Init(maxFloor);
     }
 
+    public int GetMaxHP()
+    {
+        return maxHp;
+    }
+
     public void TakeDamage(int damage)
     {
         hp = Mathf.Max(hp - damage, 0);

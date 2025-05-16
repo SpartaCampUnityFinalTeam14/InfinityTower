@@ -55,12 +55,12 @@ public class UI_Hud : UI
 
     void SetCostText(float costAmount)
     {
-        costText.text = $"코스트: {costAmount.ToString("N0")}";
+        costText.text = costAmount.ToString("N0");
     }
 
     void SetHPText(int hp)
     {
-        hpText.text = $"체력: {hp.ToString("N0")}";
+        hpText.text = $"{hp.ToString("N0")}/{StageManager.Instance.GetMaxHP()}";
     }
 
     void SetFloorText(int floorCount)
