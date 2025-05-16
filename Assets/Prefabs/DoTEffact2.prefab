@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 50
-  m_Sprite: {fileID: -1754379327, guid: 0a313db8010b5394d86142adc56a0fe0, type: 3}
+  m_Sprite: {fileID: 1476687828, guid: 423c162be246b0342949cc3b7613a28b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 5132594905699859382}
   - component: {fileID: 2624042755263824863}
   m_Layer: 0
-  m_Name: DoTEffact
+  m_Name: DoTEffact2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

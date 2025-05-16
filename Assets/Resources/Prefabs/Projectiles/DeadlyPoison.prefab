@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 8815644553687474507}
   - component: {fileID: 4901701077460814490}
   - component: {fileID: 2970528431368698846}
-  - component: {fileID: 5146039948051978677}
-  - component: {fileID: 2499411667901821182}
+  - component: {fileID: 4583092403556605248}
+  - component: {fileID: 7493969118565446129}
   m_Layer: 0
-  m_Name: Fireball
+  m_Name: DeadlyPoison
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.38268343, w: 0.92387956}
   m_LocalPosition: {x: -4.563, y: -1.477, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 50
-  m_Sprite: {fileID: -999691593, guid: 871883206678e8b4a9de7e81f35c9b2c, type: 3}
+  m_Sprite: {fileID: -1166819195, guid: 423c162be246b0342949cc3b7613a28b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -151,7 +151,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.21, y: 0.14}
+    oldSize: {x: 0.07, y: 0.08}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -168,7 +168,7 @@ PolygonCollider2D:
       - {x: 0.5, y: 0.1875}
       - {x: 0.5, y: 0.4375}
   m_UseDelaunayMesh: 0
---- !u!95 &5146039948051978677
+--- !u!95 &4583092403556605248
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
@@ -178,7 +178,7 @@ Animator:
   m_GameObject: {fileID: 1735839083507790713}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 993410ff23f97b144b1d298770c56ee8, type: 2}
+  m_Controller: {fileID: 9100000, guid: 6244b0ec14687a04ebfce1a55f4d03ae, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -189,7 +189,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &2499411667901821182
+--- !u!114 &7493969118565446129
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -198,7 +198,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1735839083507790713}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f2216b5973146b8a55015170ff6a841, type: 3}
+  m_Script: {fileID: 11500000, guid: dad226ad947d44debc4a7a3bb97bba2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  splashRadius: 1
