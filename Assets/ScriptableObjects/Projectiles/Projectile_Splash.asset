@@ -13,15 +13,6 @@ MonoBehaviour:
   m_Name: Projectile_Splash
   m_EditorClassIdentifier: 
   id: 1
-  prefab: {fileID: 4953463060920897959, guid: 4c22378f58e5f4f9297a1909da9072cd, type: 3}
-  speed: 3
-  damage: 10
-  hasDoT: 0
-  dotDuration: 0
-  dotTickInterval: 0
-  dotDamagePerTick: 0
-  dotRadius: 0
-  hasSplash: 1
-  splashRadius: 1
+  prefab: {fileID: 1735839083507790713, guid: dd06f03b3298858489246ba5fb28c939, type: 3}
   impactEffect: {fileID: 6619667030349456030, guid: e6ca8db7922b44f6382012eb098aae02, type: 3}
   sound: {fileID: 0}

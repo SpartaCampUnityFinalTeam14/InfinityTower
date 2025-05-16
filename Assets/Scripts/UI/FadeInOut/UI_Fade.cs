@@ -14,7 +14,7 @@ public class UI_Fade : UI
     public void FadeOut(Action onComplete = null)
     {
         canvasGroup.alpha = 0f;
-        canvasGroup.DOFade(1f, duration).OnComplete(() =>
+        canvasGroup.DOFade(1f, duration).SetUpdate(true).OnComplete(() =>
         {
             onComplete?.Invoke();
             //Hide();

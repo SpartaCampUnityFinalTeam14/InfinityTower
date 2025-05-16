@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Artifact : UI
+public class UI_Artifact : MonoBehaviour, ScrollPanel
 {
     [SerializeField] private Button closeButton;
     [SerializeField] private TextMeshProUGUI goldText;
@@ -28,19 +28,18 @@ public class UI_Artifact : UI
     [SerializeField] private Button skipBackgroundButton;
 
     [SerializeField] private EventChannel OnGoldChanged;
+    [SerializeField] private BoolEventChannel OnScrollStateChanged;
     private int requiredGold = 10;
 
     private ArtifactGachaManager gachaManager;
     private bool isShowResultPlaying;
     private Coroutine showResult;
 
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
-
         gachaManager = new();
 
-        closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Artifact>());
+        //closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Artifact>());
         gachaButton.onClick.AddListener(GachaArtifact);
         gachaCloseButton.onClick.AddListener(CloseResult);
         skipBackgroundButton.onClick.AddListener(Skip);
@@ -63,6 +62,17 @@ public class UI_Artifact : UI
             slots.Add(slot);
 
             slot.Init(data.Value.id);
+        }
+
+        UpdateGold();
+    }
+
+    public void ResetPanel()
+    {
+        int i = 0;
+        foreach (var data in SaveManager.Instance.artifactSaveDict)
+        {
+            slots[i++].Init(data.Value.id);
         }
 
         UpdateGold();
@@ -109,6 +119,8 @@ public class UI_Artifact : UI
 
     IEnumerator Gacha()
     {
+        OnScrollStateChanged.RaiseEvent(false);
+
         isShowResultPlaying = true;
 
         gachaBackground.SetActive(true);
@@ -174,10 +186,7 @@ public class UI_Artifact : UI
         boxAnimator.SetInteger("BoxID", -1);
         boxAnimator.SetTrigger("Close");
         gachaBackground.SetActive(false);
-    }
 
-    public override void Clear()
-    {
-
+        OnScrollStateChanged.RaiseEvent(true);
     }
 }

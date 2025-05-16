@@ -9,7 +9,7 @@ public class UI_ChampionSelect : MonoBehaviour
     [HideInInspector] public UI_Deck deck;
 
     [SerializeField] private GameObject scrollView;
-    [SerializeField] private ScrollRect scrollRect;
+    [SerializeField] private ScrollChild scrollRect;
     [SerializeField] private RectTransform content;
     private List<UI_ChampionSlot> slots = new();
 
@@ -94,6 +94,11 @@ public class UI_ChampionSelect : MonoBehaviour
             }
             else slots[i].gameObject.SetActive(false);
         }
+    }
+
+    public void ResetScroll()
+    {
+        scrollRect.ResetScroll();
     }
     public void ResetAllSlot()
     {

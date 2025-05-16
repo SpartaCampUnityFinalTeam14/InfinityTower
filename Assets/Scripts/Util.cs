@@ -42,6 +42,11 @@ public static class Util
         return comp;
     }
 
+    public static string FormatTimeMMSS(int seconds)
+    {
+        return $"{seconds / 60:D2}:{seconds % 60:D2}";
+    }
+
     public static bool IsPointerOverUIObject(GameObject uiObject = null)
     {
         PointerEventData eventData = new(EventSystem.current) { position = Input.mousePosition };

@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Gacha : UI
+public class UI_Gacha : MonoBehaviour, ScrollPanel
 {
     [SerializeField] private Button closeButton;
     [SerializeField] private TextMeshProUGUI goldText;
@@ -24,6 +24,7 @@ public class UI_Gacha : UI
     [SerializeField] private List<UI_GachaResult> gachaAllResult;
 
     [SerializeField] private EventChannel OnGoldChanged;
+    [SerializeField] private BoolEventChannel OnScrollStateChanged;
 
     private GachaManager gachaManager;
     private int requiredGold = 50;
@@ -32,41 +33,28 @@ public class UI_Gacha : UI
     private bool isShowResultPlaying = false;
     private bool isSkipButtonClicked = false;
 
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
+        gachaManager = new();
 
-        closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Gacha>());
+        //closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Gacha>());
         gacha1Button.onClick.AddListener(Gacha1);
         gacha10Button.onClick.AddListener(Gacha10);
         gachaEachBackgroundButton.onClick.AddListener(SkipEach);
         skipAllButton.onClick.AddListener(SkipAll);
         gachaAllBackgroundButton.onClick.AddListener(CloseAllResult);
 
-        Init();
+        ResetPanel();
     }
 
-    public void Init()
+    public void ResetPanel()
     {
-        gachaManager = new();
         gachaList.Clear();
         isSkipButtonClicked = false;
         gachaEachBackground.SetActive(false);
         gachaAllBackground.SetActive(false);
 
         UpdateGold();
-        CheckGacha1Gold();
-        CheckGacha10Gold();
-    }
-
-    void CheckGacha1Gold()
-    {
-        //gacha1Button.interactable = SaveManager.Instance.playerData.CheckGold(requiredGold);
-    }
-
-    void CheckGacha10Gold()
-    {
-        //gacha10Button.interactable = SaveManager.Instance.playerData.CheckGold(requiredGold * 10);
     }
 
     void UpdateGold()
@@ -85,7 +73,6 @@ public class UI_Gacha : UI
             return;
         }
         SaveManager.Instance.playerData.UseGold(requiredGold);
-        CheckGacha1Gold();
         UpdateGold();
 
         skipAllButton.gameObject.SetActive(false);
@@ -105,7 +92,6 @@ public class UI_Gacha : UI
             return;
         }
         SaveManager.Instance.playerData.UseGold(requiredGold * 10);
-        CheckGacha10Gold();
         UpdateGold();
 
         skipAllButton.gameObject.SetActive(true);
@@ -124,6 +110,8 @@ public class UI_Gacha : UI
     {
         foreach (var result in gachaList)
         {
+            OnScrollStateChanged.RaiseEvent(false);
+
             isSkipButtonClicked = false;
             isShowResultPlaying = false;
 
@@ -135,6 +123,8 @@ public class UI_Gacha : UI
 
         if(gachaList.Count > 1)
         {
+            OnScrollStateChanged.RaiseEvent(false);
+
             ShowAllResult();
         }
     }
@@ -181,6 +171,8 @@ public class UI_Gacha : UI
             isSkipButtonClicked = true;
 
             gachaEachBackground.SetActive(false);
+
+            OnScrollStateChanged.RaiseEvent(true);
         }
     }
 
@@ -216,10 +208,7 @@ public class UI_Gacha : UI
     void CloseAllResult()
     {
         gachaAllBackground.SetActive(false);
-    }
 
-    public override void Clear()
-    {
-        base.Clear();
+        OnScrollStateChanged.RaiseEvent(true);
     }
 }

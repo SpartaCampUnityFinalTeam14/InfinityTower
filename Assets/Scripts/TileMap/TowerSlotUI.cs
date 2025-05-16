@@ -21,7 +21,7 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     [SerializeField] private Image cooldownOverlay;
     [SerializeField] private TMP_Text cooldownText;
     
-    [SerializeField] private GameObject coverOverlay; 
+    [SerializeField] private GameObject coverOverlay;
     
     private float cooldownDuration;
     private float cooldownTimer = 0f;
@@ -33,9 +33,24 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     RangeIndicator rangeIndicator;
     protected TowerData towerData;
 
+    [SerializeField] private EventChannel OnResetTowerCoolDown;
+
     private void Awake()
     {
         rangePrefab = Resources.Load<GameObject>("Prefabs/Tower/RangeIndicator");
+
+        UnregisterListeners();
+        RegisterListeners();
+    }
+
+    void UnregisterListeners()
+    {
+        OnResetTowerCoolDown.UnregisterListener(ResetCooldown);
+    }
+
+    void RegisterListeners()
+    {
+        OnResetTowerCoolDown.RegisterListener(ResetCooldown);
     }
 
     public void Init(int id)
@@ -45,14 +60,11 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         requiredCost = DataManager.Instance.towerDict[towerID].GetStatValue(StatType.cost);
         towerData = DataManager.Instance.towerDict[towerID];
 
-        // 슬롯 정보 StageManager에 전달
-        StageManager.Instance.AddTowerSlot(this);
-
         cooldownOverlay.gameObject.SetActive(false);
         cooldownText.gameObject.SetActive(false);
         
         // 이름 단순 표시 (원하면 Resources/타워 데이터로 확장 가능)
-        nameText.text = $"타워 {towerID}";
+        nameText.text = DataManager.Instance.towerDict[id].name;
 
         // 프리팹 로드 (예: Prefabs/TowerGhost_1, Prefabs/Tower_1)
         Sprite icon = Resources.Load<Sprite>($"Icons/Tower/Tower_{towerID}");
@@ -222,5 +234,8 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         cooldownText.gameObject.SetActive(true);
         cooldownText.text = Mathf.CeilToInt(cooldownTimer).ToString();
     }
-
+    private void OnDestroy()
+    {
+        UnregisterListeners();
+    }
 }
