@@ -37,7 +37,11 @@ public class ProjectileTower : TargettingTower
 
             Debug.Log($"🧨 타겟에게 발사 중: {target.name}");
 
-            GameObject projObj = Instantiate(projectileDataSO.prefab, firePoint.position, Quaternion.identity);
+            Poolable pooled = PoolManager.Instance.Get(projectileDataSO.prefab, 10, null);
+            GameObject projObj = pooled.gameObject;
+
+            projObj.transform.position = firePoint.position;
+            projObj.transform.rotation = Quaternion.identity;
 
             Projectile proj = projObj.GetComponent<Projectile>();
             if (proj == null)
@@ -46,10 +50,12 @@ public class ProjectileTower : TargettingTower
                 continue;
             }
 
-            // 여기! valueList[0] = 데미지
-            float projectileDamage = (towerData.statTypes.Contains((int)StatType.attackDamage)) ? GetFinalStatValue(StatType.attackDamage) : 0f;
-            
-            proj.Init(projectileData, projectileDataSO, projectileDamage, this);  // ⚡ 데미지 넘겨줌
+            // valueList[0] = 데미지
+            float projectileDamage = (towerData.statTypes.Contains((int)StatType.attackDamage)) 
+                ? GetFinalStatValue(StatType.attackDamage) 
+                : 0f;
+
+            proj.Init(projectileData, projectileDataSO, projectileDamage, this);
             proj.SetTarget(target.transform);
 
             Debug.Log($"📌 SetTarget 호출됨 → {target.name}");

@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TargetPositionEffect : MonoBehaviour
@@ -7,6 +9,7 @@ public class TargetPositionEffect : MonoBehaviour
     private float damageRadius;
     private float damage;
     private float multiplier;
+    private float attackType;
 
     // 🔧 내부 변수들
     private Vector3 targetPos;
@@ -14,13 +17,18 @@ public class TargetPositionEffect : MonoBehaviour
     private GameObject explosionEffect;
     private Rigidbody2D rb;
     private bool hasExploded = false;
+    
+    public EffectBase effectToApply;
+    public float effectValue;
+    public float effectDuration;
+    public bool stackable;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
 
-    public void Init(Vector3 target, ISkillUser caster, GameObject explosionEffect, float radius, float dmg, float multi)
+    public void Init(Vector3 target, ISkillUser caster, GameObject explosionEffect, float radius, float dmg, float multi, float attackType)
     {
         this.targetPos = target;
         this.caster = caster;
@@ -28,6 +36,7 @@ public class TargetPositionEffect : MonoBehaviour
         this.damageRadius = radius;
         this.damage = dmg;
         this.multiplier = multi;
+        this.attackType = attackType;
 
         // 🎯 시작 위치와 방향 설정
         Vector3 start = target + Vector3.up * 8f;
@@ -44,7 +53,10 @@ public class TargetPositionEffect : MonoBehaviour
         float distance = Vector3.Distance(transform.position, targetPos);
         if (distance <= 0.2f || Vector3.Dot((targetPos - transform.position).normalized, rb.velocity.normalized) < 0f)
         {
-            Explode();
+            if (attackType == 0)
+                Explode();
+            else
+                Buff();
         }
     }
 
@@ -84,5 +96,49 @@ public class TargetPositionEffect : MonoBehaviour
             }
         }
         Destroy(gameObject); // 메테오 제거
+    }
+
+    void Buff()
+    {
+        hasExploded = true;
+
+        if (explosionEffect != null)
+        {
+            GameObject effectObj = Instantiate(explosionEffect, transform.position, Quaternion.identity);
+            float diameter = damageRadius * 2f;
+            effectObj.transform.localScale = new Vector3(diameter, diameter, 1f);
+            Destroy(effectObj, effectDuration);
+        }
+        
+        rb.velocity = Vector2.zero;
+        enabled = false;
+
+        StartCoroutine(ApplyBuffOverTime());
+    }
+    
+    private IEnumerator ApplyBuffOverTime()
+    {
+        float elapsed = 0f;
+        HashSet<BaseTower> alreadyBuffed = new();
+
+        while (elapsed < effectDuration)
+        {
+            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, damageRadius);
+            foreach (var hit in hits)
+            {
+                var tower = hit.GetComponent<BaseTower>();
+                if (tower == null) continue;
+                if (alreadyBuffed.Contains(tower)) continue;
+
+                Debug.Log($"🟢 타워 발견 (버프 적용): {tower.name}");
+                alreadyBuffed.Add(tower);
+
+                effectToApply?.ApplyEffect_Tower(tower, effectValue, effectDuration - elapsed, stackable);
+            }
+
+            elapsed += 0.2f; // 검사 주기: 0.2초 (조절 가능)
+            yield return new WaitForSeconds(0.2f);
+        }
+        Destroy(gameObject);
     }
 }
