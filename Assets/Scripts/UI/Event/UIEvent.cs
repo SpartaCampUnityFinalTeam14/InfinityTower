@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UIEvent : UI
+public class UIEvent : UI, IPointerClickHandler
 {
     [Header("sequence Setting")]
-    [SerializeField] float OpenDelay;
-    [SerializeField] float CloseDelay;
-
+    [SerializeField] float openDelay;
+    [SerializeField] float closeDelay;
+    [SerializeField] float printTextDelay;
+    
     [Header ("Common Setting")]
     [SerializeField] TextMeshProUGUI eventTitle;
     [SerializeField] Image image;
@@ -19,10 +21,12 @@ public class UIEvent : UI
     [SerializeField] GameObject resultPanel;
     [SerializeField] GameObject rewardPanel;
     [SerializeField] Animator anim;
+    
 
     [Header("Choice Panel")]
     [SerializeField] TextMeshProUGUI eventDesc;
     [SerializeField] TextMeshProUGUI choiceTitle;
+    [SerializeField] GameObject layoutChoice;
     [SerializeField] Button btnChoice1;
     [SerializeField] Button btnChoice2;
     [SerializeField] Button btnChoice3;
@@ -31,7 +35,12 @@ public class UIEvent : UI
     [SerializeField] TextMeshProUGUI resultTitle;
     [SerializeField] TextMeshProUGUI resultDesc;
     [SerializeField] TextMeshProUGUI resultText;
+    [SerializeField] GameObject layoutResult;
     [SerializeField] Button btnResult;
+
+    Coroutine coroutine;
+    WaitForSecondsRealtime wait;
+    bool isSkip;
 
     protected override void Awake()
     {
@@ -41,6 +50,8 @@ public class UIEvent : UI
         btnChoice2.onClick.AddListener(() => StageManager.Instance.eventManager.SelectChoice(1));
         btnChoice3.onClick.AddListener(() => StageManager.Instance.eventManager.SelectChoice(2));
         btnResult.onClick.AddListener(StageManager.Instance.eventManager.OnClickResultButton);
+
+        wait = new WaitForSecondsRealtime(printTextDelay);
     }
 
     public override void Show()
@@ -60,12 +71,19 @@ public class UIEvent : UI
 
     public void ShowEvent(EventData data)
     {
+        mainPanel.SetActive(false);
+
         StartCoroutine(WaitForOpenAnim(data));
+    }
+
+    public void CloseEvent()
+    {
+        StartCoroutine(WaitForCloseAnim());
     }
 
     IEnumerator WaitForOpenAnim(EventData data)
     {
-        yield return new WaitForSecondsRealtime(OpenDelay);
+        yield return new WaitForSecondsRealtime(openDelay);
 
         anim.SetTrigger("Open");
         anim.Update(0f);
@@ -81,15 +99,9 @@ public class UIEvent : UI
         SetEvent(data);
     }
 
-    public void CloseEvent()
-    {
-        StartCoroutine(WaitForCloseAnim());
-    }
-
     IEnumerator WaitForCloseAnim()
     {
         mainPanel.SetActive(false);
-
 
         anim.SetTrigger("Close");
         anim.Update(0f);
@@ -101,7 +113,7 @@ public class UIEvent : UI
             yield return null;
         }
 
-        yield return new WaitForSecondsRealtime(CloseDelay);
+        yield return new WaitForSecondsRealtime(closeDelay);
 
         Hide();
     }
@@ -110,13 +122,19 @@ public class UIEvent : UI
     {
         choicePanel.SetActive(true);
         resultPanel.SetActive(false);
+        layoutChoice.SetActive(false);
 
-        // 메인 이벤트 UI 설정
+        StartCoroutine(SetEventCoroutine(data));
+    }
+
+    IEnumerator SetEventCoroutine(EventData data)
+    {
         eventTitle.text = data.title;
-        eventDesc.text = data.description;
 
         var sprite = Resources.Load<Sprite>($"Event/{data.image}");
         if (sprite) image.sprite = sprite;
+
+        yield return coroutine = StartCoroutine(PrintText(eventDesc, data.description));
 
         // 이벤트 선택지 설정
         UpdateChoice(data);
@@ -124,33 +142,51 @@ public class UIEvent : UI
 
     public void SetResult(EventData resultEvent, string reward)
     {
-        // 연출
         choicePanel.SetActive(false);
         resultPanel.SetActive(true);
+        layoutResult.SetActive(false);
 
-        // Update ResultPanel
-        resultTitle.text = resultEvent.title;
-        resultDesc.text = resultEvent.description;
+        StartCoroutine(SetResultCoroutine(resultEvent));
+    }
+
+    IEnumerator SetResultCoroutine(EventData data)
+    {
+        resultTitle.text = data.title;
+
+        var sprite = Resources.Load<Sprite>($"Event/{data.image}");
+        if (sprite) image.sprite = sprite;
+
+        yield return coroutine = StartCoroutine(PrintText(resultDesc, data.description));
 
         // Update RewardPanel
-        resultText.text = resultEvent.choiceTitle;
-        btnResult.GetComponentInChildren<TextMeshProUGUI>().text = string.IsNullOrEmpty(resultEvent.result) ? "Event Close" : resultEvent.result;
+        layoutResult.SetActive(true);
+        resultText.text = data.choiceTitle;
+        btnResult.GetComponentInChildren<TextMeshProUGUI>().text = string.IsNullOrEmpty(data.result) ? "Event Close" : data.result;
     }
 
     public void SetProbabilityEvent(EventData data)
     {
-        // 연출
         choicePanel.SetActive(true);
         resultPanel.SetActive(false);
+        layoutChoice.SetActive(false);
 
-        // Update EventPanel
-        eventDesc.text = $"{data.title}\n\n{data.description}";
-        
+        StartCoroutine(SetProbabilityCoroutine(data));
+    }
+
+    IEnumerator SetProbabilityCoroutine(EventData data)
+    {
+        var sprite = Resources.Load<Sprite>($"Event/{data.image}");
+        if (sprite) image.sprite = sprite;
+
+        yield return coroutine = StartCoroutine(PrintText(eventDesc, $"{data.title}\n\n{data.description}"));
+
+        // 이벤트 선택지 설정
         UpdateChoice(data);
     }
 
     void UpdateChoice(EventData data)
     {
+        layoutChoice.SetActive(true);
         choiceTitle.text = data.choiceTitle;
 
         ClearAllChoiceButton();
@@ -178,5 +214,37 @@ public class UIEvent : UI
         btnChoice1.gameObject.SetActive(false);
         btnChoice2.gameObject.SetActive(false);
         btnChoice3.gameObject.SetActive(false);
+    }
+
+    IEnumerator PrintText(TextMeshProUGUI textMesh, string text)
+    {
+        int cnt = 0;
+        textMesh.text = string.Empty;
+
+        while (cnt < text.Length) 
+        {
+            if (isSkip)
+                break;
+
+            textMesh.text += text[cnt];
+            cnt++;
+
+            yield return wait;
+        }
+
+        textMesh.text = text;
+
+        isSkip = false;
+        coroutine = null;
+
+        yield return null;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (coroutine == null)
+            return;
+
+        isSkip = true;
     }
 }

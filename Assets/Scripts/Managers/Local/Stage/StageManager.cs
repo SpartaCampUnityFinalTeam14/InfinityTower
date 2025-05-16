@@ -242,7 +242,7 @@ public class StageManager : Singleton<StageManager>
 
             yield return new WaitUntil(() => curFloor.isFloorEnd);
 
-            if (i != 0 && (i + 1) % 2 == 0)
+            //if (i != 0 && (i + 1) % 2 == 0)
             {
                 ShowFloorIntro();
                 yield return new WaitUntil(() => isIntroEnd);

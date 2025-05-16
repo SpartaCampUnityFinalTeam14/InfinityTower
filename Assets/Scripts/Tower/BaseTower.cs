@@ -152,7 +152,8 @@ public abstract class BaseTower : Poolable
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (EventSystem.current.IsPointerOverGameObject())
+            //if (EventSystem.current.IsPointerOverGameObject())
+            if (Util.IsPointerOverUIObject())
                 return;
 
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

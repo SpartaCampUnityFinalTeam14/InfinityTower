@@ -160,8 +160,6 @@ public class Floor : MonoBehaviour
         Debug.Log("<color=green>웨이브 종료</color>");
 
         var ui = UIManager.Instance.ShowUI<UI_Wave>();
-        ui.ShowWaveClear();
-
-        isWaveEnd = true;
+        ui.ShowWaveClear(() => isWaveEnd = true);
     }
 }
