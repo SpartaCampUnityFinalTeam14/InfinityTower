@@ -13,15 +13,6 @@ MonoBehaviour:
   m_Name: Projectile_DoTField
   m_EditorClassIdentifier: 
   id: 2
-  prefab: {fileID: 7941552254964435130, guid: e8981272bb0b74634963d33643c60002, type: 3}
-  speed: 5
-  damage: 0
-  hasDoT: 1
-  dotDuration: 10
-  dotTickInterval: 3
-  dotDamagePerTick: 10
-  dotRadius: 1.5
-  hasSplash: 0
-  splashRadius: 0
+  prefab: {fileID: 1735839083507790713, guid: 50b4f7af1cf2a614fb3c61f7ab3748fa, type: 3}
   impactEffect: {fileID: 6069227671954865344, guid: eef72b5c0a0f9401e9d9b412aa81de5e, type: 3}
   sound: {fileID: 0}
