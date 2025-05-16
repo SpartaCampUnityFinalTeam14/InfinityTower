@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,5 +37,22 @@ public class BattleManager : MonoBehaviour
         }
 
         skillPanel.InitHero(hero);
+    }
+
+    public void InitArtifactStatModifier(Dictionary<int,float> AddModifier, Func<StatType, bool> isValidStat)
+    {
+        foreach (var artifactData in SaveManager.Instance.artifactSaveDict)
+        {
+            //유닛이 가지고있는 스탯 타입 검사
+            if (!isValidStat(artifactData.Value.ReturnMyStatType(artifactData.Key)))
+                continue;
+
+            int artifactStatType = (int)artifactData.Value.ReturnMyStatType(artifactData.Key);
+            float value = artifactData.Value.ReturnNowStatValue(artifactData.Value.id, (StatType)artifactStatType);
+            if (!AddModifier.TryAdd(artifactStatType, value))
+            {
+                AddModifier[artifactStatType] += value;
+            }
+        }
     }
 }

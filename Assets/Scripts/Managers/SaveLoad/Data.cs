@@ -35,6 +35,36 @@ public class MonsterData
         this.skillIds = new List<int>(data.skillIds);
         this.dictValue = new Dictionary<int, float>(data.dictValue);
     }
+
+    public float GetStat(StatType type)
+    {
+        int iType = (int)type;
+        var common = StageManager.Instance.abilityManager.monsterAbilities;
+
+        float origin = 0f;
+        float abil = 0f;
+
+        bool result = dictValue.TryGetValue(iType, out origin);
+        abil = common.ContainsKey(iType) ? common[iType] : 0f;
+
+        float value = 0.0f;
+        foreach (var saveData in SaveManager.Instance.artifactSaveDict)
+        {
+            int i = 0;
+            int id = SaveManager.Instance.artifactSaveDict[i].id;
+            StatType artifactStatType = new();
+
+            if (type == saveData.Value.ReturnMyStatType(i))
+                artifactStatType = saveData.Value.ReturnMyStatType(i);
+
+            value += saveData.Value.ReturnNowStatValue(id, artifactStatType);
+            i++;
+        }
+
+        Debug.Assert(result, $"Not Find Type in DictionaryValue");
+
+        return origin + abil + value;
+    }
 }
 
 [Serializable]
@@ -155,24 +185,10 @@ public class TowerData
                 break;
         }
 
-        float value = 0.0f;
-        foreach (var saveData in SaveManager.Instance.artifactSaveDict)
-        {
-            int i = 0;
-            int id = SaveManager.Instance.artifactSaveDict[i].id;
-            StatType artifactStatType = new();
-
-            if (type == saveData.Value.ReturnMyStatType(i))
-            artifactStatType = saveData.Value.ReturnMyStatType(i);
-
-            value += saveData.Value.ReturnNowStatValue (id, artifactStatType);
-            i++;
-        }
-
         for (int i = 0; i < statTypes.Count; i++)
         {
             if ((StatType)statTypes[i] == type)
-                return statValue[i] * (1 + (0.1f * multi) * (0.01f * value));
+                return statValue[i] * multi;
         }
         throw new InvalidOperationException($"{type.ToString()}에 해당하는 효과 없음");
     }
