@@ -35,9 +35,9 @@ public class UI_ChampionSlot : MonoBehaviour
     {
         if (data == null) return;
 
+        championImage.sprite = Resources.Load<Sprite>($"Icons/Champion/Champion_{id}");
         nameText.text = data.name;
         descriptionText.text = data.description;
-        //아이디에 맞춰서 스프라이트 찾아와야 함
 
         SetLevel(SaveManager.Instance.championLevelDict[id].level);
         SetExp(SaveManager.Instance.championLevelDict[id].exp);

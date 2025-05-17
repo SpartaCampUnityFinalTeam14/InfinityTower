@@ -35,7 +35,7 @@ public class UI_SelectedTowerSlot : MonoBehaviour
             return;
         }
 
-        //스프라이트 설정해야 함
+        towerIcon.sprite = Resources.Load<Sprite>($"Icons/Tower/Tower_{index}");
         towerId = index;
         towerNameText.text = DataManager.Instance.towerDict[index].name;
 

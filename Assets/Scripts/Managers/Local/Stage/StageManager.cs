@@ -125,6 +125,9 @@ public class StageManager : Singleton<StageManager>
                 case StatType.atk:
                     CurHero.AddStatFromArtifact(value);
                     break;
+                case StatType.cleargoldDrop:
+                    baseTokenAdd += (int)value;
+                    break;
                 default:
                     break;
             }

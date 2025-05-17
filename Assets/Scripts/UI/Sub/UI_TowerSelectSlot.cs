@@ -34,7 +34,7 @@ public class UI_TowerSelectSlot : MonoBehaviour
 
     public void UpdateSlot()
     {
-        //스프라이트 지정해줘야 함
+        towerImage.sprite = Resources.Load<Sprite>($"Icons/Tower/Tower_{id}");
         nameText.text = data.name;
         descriptionText.text = data.description;
 
