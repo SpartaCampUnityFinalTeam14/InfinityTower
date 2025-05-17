@@ -28,7 +28,9 @@ public class EventResultHandler
     void HandleBattle(EventData data)
     {
         StageManager.Instance.isAdditionalFloor = true;
-        UIManager.Instance.HideUI<UIEvent>();
+        
+        var ui = UIManager.Instance.GetUI<UIEvent>();
+        ui.CloseEvent();
     }
 
     //void HandleProbabilty(EventData data)
@@ -43,6 +45,7 @@ public class EventResultHandler
 
     void HandleDefault(EventData data)
     {
-        UIManager.Instance.HideUI<UIEvent>();
+        var ui = UIManager.Instance.GetUI<UIEvent>();
+        ui.CloseEvent();
     }
 }

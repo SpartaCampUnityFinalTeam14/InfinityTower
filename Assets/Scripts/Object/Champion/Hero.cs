@@ -6,6 +6,9 @@ public class Hero : ISkillUser
     public string heroName;
     public List<Skill> skills = new();
     public Vector3 fakePosition = Vector3.zero; 
+    
+    private float baseAtk;
+    private float artifactBonus ;
 
     public void UseSkill(int index)
     {
@@ -25,4 +28,24 @@ public class Hero : ISkillUser
         return 1;
     }
 
+    public float GetBaseDamage()
+    {
+        //여기서 최종 데미지 결정해야될듯? 유물 특성 + 
+        return baseAtk + artifactBonus;
+    }
+
+    // ✅ 여기서 모든 스킬 데미지를 갱신
+    public void RefreshSkillBaseDamage()
+    {
+        float dmg = GetBaseDamage();
+        foreach (var s in skills)
+            s.baseDamage = dmg;
+    }
+
+    // 예: 외부에서 호출
+    public void AddStatFromArtifact(float value)
+    {
+        artifactBonus = value;
+        RefreshSkillBaseDamage();
+    }
 }

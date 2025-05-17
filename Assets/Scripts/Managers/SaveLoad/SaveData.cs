@@ -145,12 +145,12 @@ public class ChampionLevelDataLoader : ISaveLoader<int, ChampionLevelData>
 
 #region ArtifactSaveData
 [Serializable]
-public class ArtifactSaveData
+public class ArtifactLevelData
 {
     public int id;
     public int count;
 
-    public ArtifactSaveData(int id, int count)
+    public ArtifactLevelData(int id, int count)
     {
         this.id = id;
         this.count = count;
@@ -158,12 +158,12 @@ public class ArtifactSaveData
 }
 
 [Serializable]
-public class ArtifactSaveDataLoader : ISaveLoader<int, ArtifactSaveData>
+public class ArtifactLevelDataLoader : ISaveLoader<int, ArtifactLevelData>
 {
-    public override Dictionary<int, ArtifactSaveData> MakeDict()
+    public override Dictionary<int, ArtifactLevelData> MakeDict()
     {
-        Dictionary<int, ArtifactSaveData> dict = new();
-        foreach (ArtifactSaveData artifact in data)
+        Dictionary<int, ArtifactLevelData> dict = new();
+        foreach (ArtifactLevelData artifact in data)
         {
             dict.Add(artifact.id, artifact);
         }

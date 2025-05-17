@@ -7,17 +7,44 @@
       "coolTime": 2.0,
       "multiplier": 1.2,
       "skillType": 0,
-      "visualId": "ChainLightning"
+      "visualId": "ChainLightning",
+      "attackType": 0,
+      "effectID": [],
+      "effectValue": []
     },
     {
       "id": 1,
       "name": "메테오",
       "description": "범위 피해",
       "coolTime": 5.0,
-      "multiplier": 1.5,
+      "multiplier": 2,
       "skillType": 1,
-      "range": 3.5,
-      "visualId": "Meteor"
+      "range": 3,
+      "visualId": "Meteor",
+      "attackType": 0,
+      "effectID": [],
+      "effectValue": []
+    },
+    {
+      "id": 2,
+      "name": "사기진작",
+      "description": "범위 버프",
+      "coolTime": 5.0,
+      "multiplier": 0,
+      "skillType": 1,
+      "range": 5,
+      "visualId": "Booster",
+      "attackType": 1,
+      "effectID": [4],
+      "effectValue": [
+        {
+          "values": [
+            1.5,
+            3,
+            0
+          ]
+        }
+      ]
     }
   ]
 }

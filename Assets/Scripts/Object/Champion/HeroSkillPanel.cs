@@ -25,7 +25,7 @@ public class HeroSkillPanel : MonoBehaviour
             if (DataManager.Instance.skillDict.TryGetValue(skillId, out SkillData skillData))
             {
                 Debug.Log($"⚡ 스킬 ID: {skillId}");
-                Skill skill = SkillFactory.CreateSkill(skillData);
+                Skill skill = SkillFactory.CreateSkill(skillData, champData.atk);
                 if (skill != null)
                     StageManager.Instance.CurHero.skills.Add(skill);
             }
@@ -40,6 +40,11 @@ public class HeroSkillPanel : MonoBehaviour
 
     public void InitHero(Hero hero)
     {
+        foreach(Transform child in skillListParent)
+        {
+            Destroy(child.gameObject);
+        }
+
         Debug.Log("🦸‍♂️ 영웅 스킬 패널 초기화");
         Debug.Log($"총 스킬 개수: {hero.skills.Count}");
 

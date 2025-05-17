@@ -53,7 +53,7 @@ public class UI_StageResult : UI
             Destroy(child.gameObject);
         }
 
-        foreach(Ability ability in StageManager.Instance.abilityManager.CurAbilities.Values)
+        foreach(Ability ability in StageManager.Instance.abilityManager.allAbilities.Values)
         {
             UI_ResultAbilitySlot slot = Util.InstantiatePrefabAndGetComponent<UI_ResultAbilitySlot>(path: "UI/Sub/UI_ResultAbilitySlot", parent: content);
             slot.Init(ability.Data.perkID, ability.CurStackCount);

@@ -57,6 +57,7 @@ public class Projectile_DoTField : Projectile
             if (dot != null)
             {
                 dot.Init(dotDuration, dotDamagePerTick, dotTickInterval, dotRadius);
+                PoolManager.Instance.Release(this.GetComponent<Poolable>());
             }
             else
             {
@@ -67,6 +68,5 @@ public class Projectile_DoTField : Projectile
         {
             Debug.LogWarning("⚠️ impactEffect가 비어있음!");
         }
-        Destroy(gameObject);
     }
 }

@@ -207,7 +207,9 @@ MonoBehaviour:
   player: {fileID: 7599443918738749141}
   eventSign: {fileID: 0}
   layoutGourp: {fileID: 7376937223330840858}
-  fadeDuration: 0.5
+  fadeInDuration: 0.5
+  moveDuration: 1
+  moveDelay: 2
 --- !u!1 &7808005160658909449
 GameObject:
   m_ObjectHideFlags: 0

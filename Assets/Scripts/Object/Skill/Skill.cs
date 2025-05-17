@@ -7,6 +7,7 @@ public interface ISkillUser
     void TakeDamage(float amount);
     Vector3 GetPosition(); // 추가!
     int GetTeam();
+    float GetBaseDamage();
 }
 
 
@@ -14,6 +15,13 @@ public abstract class Skill
 {
     public string skillName;
     public string description;
+    public float baseDamage;
+    
+    // Effect 관련 변수
+    public EffectBase effectToApply;
+    public float effectValue;
+    public float effectDuration;
+    public bool stackable;
     
 
     public abstract void Use(ISkillUser caster);

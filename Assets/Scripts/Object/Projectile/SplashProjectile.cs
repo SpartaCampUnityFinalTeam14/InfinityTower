@@ -55,14 +55,13 @@ public class SplashProjectile : Projectile
             }
         }
 
-        // 💥 impactEffect 추가
         if (impactEffect != null)
         {
             GameObject fx = Instantiate(impactEffect, transform.position, Quaternion.identity);
             fx.transform.localScale = Vector3.one * splashRadius * 2f;
             Destroy(fx, 0.5f);
         }
-
-        Destroy(gameObject);
+        
+        PoolManager.Instance.Release(this.GetComponent<Poolable>());
     }
 }
