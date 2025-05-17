@@ -15,12 +15,12 @@ public class GachaManager
 
     void CreatePool()
     {
-        foreach(var data in DataManager.Instance.championDict.Values)
+        foreach(var data in SaveManager.Instance.championLevelDict.Values)
         {
             if (CheckChampionExp(data.id)) championPool.Add(data.id);
         }
 
-        foreach (var data in DataManager.Instance.towerDict.Values)
+        foreach (var data in SaveManager.Instance.towerLevelDict.Values)
         {
             if (CheckTowerExp(data.id)) towerPool.Add(data.id);
         }

@@ -5,6 +5,14 @@ public class TowerListUI : MonoBehaviour
 {
     public GameObject towerSlotPrefab;
     public Transform contentParent;
+    [SerializeField] private EventChannel OnFloorStarted;
+
+    List<TowerSlotUI> slots = new();
+
+    private void Awake()
+    {
+        OnFloorStarted.RegisterListener(ResetSlots);
+    }
 
     void Start()
     {
@@ -18,7 +26,7 @@ public class TowerListUI : MonoBehaviour
             Destroy(child.gameObject);
         }
 
-        List<int> ownedTowerIDs = SaveManager.Instance.playerData.selectedTowerIndex;
+        List<int> ownedTowerIDs = StageManager.Instance.selectedTowers;
         Debug.Log($"🧪 플레이어가 가진 타워 개수: {ownedTowerIDs.Count}");
 
         foreach (int id in ownedTowerIDs)
@@ -28,10 +36,26 @@ public class TowerListUI : MonoBehaviour
             GameObject slot = Instantiate(towerSlotPrefab, contentParent);
 
             TowerSlotUI slotUI = slot.GetComponent<TowerSlotUI>();
+            slots.Add(slotUI);
             if (slotUI != null)
             {
                 slotUI.Init(id);
             }
         }
+    }
+
+    public void ResetSlots()
+    {
+        List<int> ownedTowerIDs = StageManager.Instance.selectedTowers;
+
+        for(int i = 0; i < slots.Count; i++)
+        {
+            slots[i].Init(ownedTowerIDs[i]);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        OnFloorStarted.UnregisterListener(ResetSlots);
     }
 }

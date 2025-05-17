@@ -571,6 +571,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towerSlotPrefab: {fileID: 2741947576966254854, guid: dbe9c76c5e3564e9c8ec640304d30902, type: 3}
   contentParent: {fileID: 6189691972793495867}
+  OnFloorStarted: {fileID: 11400000, guid: 1e5d6a676af4ca44790cd4f61f5adcba, type: 2}
 --- !u!114 &7014447210809617529
 MonoBehaviour:
   m_ObjectHideFlags: 0

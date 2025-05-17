@@ -43,6 +43,8 @@ public class SaveManager : Singleton<SaveManager>
                 List<Value> list = new();
                 foreach (var tower in DataManager.Instance.towerDict)
                 {
+                    if (tower.Value.id != tower.Value.originalID) continue;
+
                     if(list.Count <= 0) list.Add((Value)(object)new TowerLevelData(tower.Key, 1, 0));
                     else list.Add((Value)(object)new TowerLevelData(tower.Key, 0, 0));
                 }

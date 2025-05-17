@@ -53,6 +53,8 @@ MonoBehaviour:
   OnPlayerHpChanged: {fileID: 11400000, guid: 08f232dd2d29348438b0140996bca5db, type: 2}
   OnFloorCountChanged: {fileID: 11400000, guid: 488655e93354e78488197b1da7274906, type: 2}
   OnResetTowerCoolDown: {fileID: 11400000, guid: 0043349cc6d422240beaebc54ca8e488, type: 2}
+  OnFloorStarted: {fileID: 11400000, guid: 1e5d6a676af4ca44790cd4f61f5adcba, type: 2}
   isEventEnd: 0
   isIntroEnd: 0
   isAdditionalFloor: 0
+  isFadeComplete: 0

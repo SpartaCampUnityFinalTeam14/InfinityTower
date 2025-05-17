@@ -42,6 +42,7 @@ public class StageManager : Singleton<StageManager>
     [SerializeField] private IntEventChannel OnPlayerHpChanged;
     [SerializeField] private IntEventChannel OnFloorCountChanged;
     [SerializeField] private EventChannel OnResetTowerCoolDown;
+    [SerializeField] private EventChannel OnFloorStarted;
 
     [HideInInspector] public bool isEventEnd;
     [HideInInspector] public bool isIntroEnd;
@@ -222,6 +223,7 @@ public class StageManager : Singleton<StageManager>
             
             floorGO = Util.InstantiatePrefab($"Floors/Floor_{floorId}");//랜덤 ID에 맞는 플로어 생성하게 변경해야 함
             curFloor = floorGO.GetComponent<Floor>();
+            OnFloorStarted.RaiseEvent();
 
             yield return new WaitUntil(() => isIntroEnd);
             
