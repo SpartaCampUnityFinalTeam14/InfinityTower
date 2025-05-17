@@ -6,11 +6,21 @@ public class UI_Option : MonoBehaviour, ScrollPanel
     [SerializeField] private Slider masterSlider;
     [SerializeField] private Slider BGMSlider;
     [SerializeField] private Slider SFXSlider;
-    [SerializeField] private Button closeButton;
+    [SerializeField] private Button clearButton;
 
     protected void Awake()
     {
         SoundManager.Instance.LoadVolume();
+
+        clearButton.onClick.AddListener(() =>
+        {
+            SaveManager.Instance.DeleteAll();
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+        });
 
         masterSlider.value = SoundManager.Instance.GetMasterVolume();
         BGMSlider.value = SoundManager.Instance.GetBGMVolume();

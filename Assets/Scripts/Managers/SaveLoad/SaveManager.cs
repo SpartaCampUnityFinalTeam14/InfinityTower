@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 public class SaveManager : Singleton<SaveManager>
 {
@@ -16,7 +15,7 @@ public class SaveManager : Singleton<SaveManager>
         Init();
     }
 
-    void Init()
+    public void Init()
     {
         LoadPlayerData();
         towerLevelDict = LoadJson<TowerLevelDataLoader, int, TowerLevelData>().MakeDict();
@@ -45,7 +44,7 @@ public class SaveManager : Singleton<SaveManager>
                 {
                     if (tower.Value.id != tower.Value.originalID) continue;
 
-                    if(list.Count <= 0) list.Add((Value)(object)new TowerLevelData(tower.Key, 1, 0));
+                    if (list.Count < 5) list.Add((Value)(object)new TowerLevelData(tower.Key, 1, 0));
                     else list.Add((Value)(object)new TowerLevelData(tower.Key, 0, 0));
                 }
                 newLoader.data = list;

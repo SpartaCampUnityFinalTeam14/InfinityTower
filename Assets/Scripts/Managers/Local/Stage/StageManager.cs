@@ -382,7 +382,10 @@ public class StageManager : Singleton<StageManager>
         //보상 챙겨주고 로비로 보내야 함
         Debug.Log("<color=white>스테이지 종료</color>");
 
-        UIManager.Instance.ShowUI<UI_StageResult>().Init(floorCount >= maxFloor, (int)timer, floorCount, GetReward());
+        bool isSuccess = floorCount >= maxFloor;
+        UIManager.Instance.ShowUI<UI_StageResult>().Init(isSuccess, (int)timer, floorCount, GetReward());
+        if (isSuccess) SaveManager.Instance.playerData.AddStage(SaveManager.Instance.playerData.selectedStageIndex + 1);
+
         timeScaleManager.PushTimeScale(0f);
     }
 }
