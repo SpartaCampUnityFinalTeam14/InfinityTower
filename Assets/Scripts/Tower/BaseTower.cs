@@ -56,8 +56,6 @@ public abstract class BaseTower : Poolable
 
         InitArtifactStatModifier(AddModifierStat, IsValidStat);
 
-        attackTimer = 1 / GetFinalStatValue(StatType.attackSpeed);
-
         // Ability Event 등록
         StageManager.Instance.abilityManager.AbilityHandle.ResisterAddAbilityEvent("tower", AddAbilityStat);
         StageManager.Instance.abilityManager.AbilityHandle.ResisterRemoveAbilityEvent("tower", RemoveAbilityStat);
