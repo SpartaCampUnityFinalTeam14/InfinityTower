@@ -70,8 +70,8 @@ public class Floor : MonoBehaviour
             //웨이브 종료 시점
             StageManager.Instance.GainBook(1);
 
-            SelectPerk();
-            yield return new WaitUntil(() => isPerkSelected);
+            //SelectPerk();
+            //yield return new WaitUntil(() => isPerkSelected);
         }
 
         EndFloor();
