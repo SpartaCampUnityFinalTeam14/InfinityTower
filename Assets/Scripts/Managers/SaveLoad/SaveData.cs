@@ -1,6 +1,7 @@
 //캐릭터 정보 세이브 로드 용도
 using System;
 using System.Collections.Generic;
+using UnityEngine.Analytics;
 
 [Serializable]
 public abstract class ISaveLoader<Key, Value>
@@ -154,6 +155,41 @@ public class ArtifactLevelData
     {
         this.id = id;
         this.count = count;
+    }
+
+    //public TargetType ReturnMyTargetType()
+    //{
+
+    //}
+
+    public StatType ReturnMyStatType()
+    {
+        int rarity = id / 1000;
+        ArtifactData data = DataManager.Instance.artifactDicts[rarity][id];
+
+        StatType type = new();
+        if (data.id == id)
+        {
+            type = (StatType)data.valueType;
+            return type;
+        }
+        return type;
+    }
+
+    public float ReturnNowStatValue(StatType type)
+    {
+        int rarity = id / 1000;
+        StatType dataType = (StatType)DataManager.Instance.artifactDicts[rarity][id].valueType;
+        float totalValue = 0.0f;
+
+        if (type == dataType)
+        {
+            float value = DataManager.Instance.artifactDicts[rarity][id].value;
+            int count = SaveManager.Instance.artifactLevelDict[id].count;
+            totalValue = value * count;
+        }
+
+        return totalValue;
     }
 }
 

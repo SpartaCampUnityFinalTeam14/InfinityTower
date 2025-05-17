@@ -7,7 +7,7 @@ public class SaveManager : Singleton<SaveManager>
     public PlayerData playerData;
     public Dictionary<int, TowerLevelData> towerLevelDict = new();
     public Dictionary<int, ChampionLevelData> championLevelDict = new();
-    public Dictionary<int, ArtifactLevelData> artifactSaveDict = new();
+    public Dictionary<int, ArtifactLevelData> artifactLevelDict = new();
 
     protected override void Awake()
     {
@@ -21,7 +21,7 @@ public class SaveManager : Singleton<SaveManager>
         LoadPlayerData();
         towerLevelDict = LoadJson<TowerLevelDataLoader, int, TowerLevelData>().MakeDict();
         championLevelDict = LoadJson<ChampionLevelDataLoader, int, ChampionLevelData>().MakeDict();
-        artifactSaveDict = LoadJson<ArtifactLevelDataLoader, int, ArtifactLevelData>().MakeDict();
+        artifactLevelDict = LoadJson<ArtifactLevelDataLoader, int, ArtifactLevelData>().MakeDict();
     }
 
     //public bool CheckDataFileExist(string className)
@@ -43,6 +43,8 @@ public class SaveManager : Singleton<SaveManager>
                 List<Value> list = new();
                 foreach (var tower in DataManager.Instance.towerDict)
                 {
+                    if (tower.Value.id != tower.Value.originalID) continue;
+
                     if(list.Count <= 0) list.Add((Value)(object)new TowerLevelData(tower.Key, 1, 0));
                     else list.Add((Value)(object)new TowerLevelData(tower.Key, 0, 0));
                 }
@@ -131,7 +133,7 @@ public class SaveManager : Singleton<SaveManager>
 
     public void SaveArtifactSaveData()
     {
-        SaveDict<ArtifactLevelDataLoader, int, ArtifactLevelData>(artifactSaveDict);
+        SaveDict<ArtifactLevelDataLoader, int, ArtifactLevelData>(artifactLevelDict);
     }
 
     public void SaveAll()

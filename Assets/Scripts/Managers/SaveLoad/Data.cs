@@ -35,6 +35,36 @@ public class MonsterData
         this.skillIds = new List<int>(data.skillIds);
         this.dictValue = new Dictionary<int, float>(data.dictValue);
     }
+
+    public float GetStat(StatType type)
+    {
+        int iType = (int)type;
+        var common = StageManager.Instance.abilityManager.monsterAbilities;
+
+        float origin = 0f;
+        float abil = 0f;
+
+        bool result = dictValue.TryGetValue(iType, out origin);
+        abil = common.ContainsKey(iType) ? common[iType] : 0f;
+
+        float value = 0.0f;
+        foreach (var saveData in SaveManager.Instance.artifactLevelDict)
+        {
+            int i = 0;
+            int id = SaveManager.Instance.artifactLevelDict[i].id;
+            StatType artifactStatType = new();
+
+            if (type == saveData.Value.ReturnMyStatType())
+                artifactStatType = saveData.Value.ReturnMyStatType();
+
+            value += saveData.Value.ReturnNowStatValue(artifactStatType);
+            i++;
+        }
+
+        Debug.Assert(result, $"Not Find Type in DictionaryValue");
+
+        return origin + abil + value;
+    }
 }
 
 [Serializable]
@@ -67,6 +97,7 @@ public class MonsterDataLoader : ILoader<int, MonsterData>
 public class FloorData
 {
     public int id;
+    public int mapID;
     public int waveCount;
     public List<int> waveID;
     public List<float> spawnPosition;
@@ -130,24 +161,42 @@ public class TowerData
     public int targetType;
     public int targettingRule;
 
-    // 기본 스텟
-    public List<int> statType;    // statType의 int 값들
-    public List<float> statValue;   // 각 스탯에 대한 수치
+    public bool isSplash;
+    public float splashRadius;
+    public int projectileID;
 
     // 보유 효과
     public List<int> effectID;      // effctType의 int 값들
     // 각 효과의 수치, 지속시간, 중첩여부 (지속시간이 음수면 무한, 중첩여부가 0이하면 중첩안됨)
     public List<effectValues> effectValue;
 
+    // 기본 스텟
+    public List<int> statType;    // statType의 int 값들
+    public List<float> statValue;   // 각 스탯에 대한 수치
+
+    public int upgradeTo;
+    public int originalID;
+
     public TargettingRule TargettingRule => (TargettingRule)targettingRule;
     public TargetType TargetType => (TargetType)targetType;
 
     public float GetStatValue(StatType type,int towerLevel)
     {
+        float multi;
+        switch (type)
+        {
+            case StatType.attackDamage:
+                multi = DataManager.Instance.levelUpDict[towerLevel].multiplier;
+                break;
+            default:
+                multi = 1;
+                break;
+        }
+
         for (int i = 0; i < statType.Count; i++)
         {
             if ((StatType)statType[i] == type)
-                return statValue[i];
+                return statValue[i] * multi;
         }
         throw new InvalidOperationException($"{type.ToString()}에 해당하는 효과 없음");
     }
@@ -160,12 +209,7 @@ public class TowerData
 
     public float GetStatValue(int typeID)
     {
-        for (int i = 0; i < statType.Count; i++)
-        {
-            if (statType[i] == typeID)
-                return statValue[i];
-        }
-        throw new InvalidOperationException($"ID:{typeID}에 해당하는 스탯 없음");
+        return GetStatValue((StatType)typeID, SaveManager.Instance.towerLevelDict[id].level);
     }
 
     public string GetStatName(StatType type)
@@ -541,37 +585,6 @@ public class StatusDataLoader : ILoader<int, StatusData>
 }
 #endregion
 
-#region StageData
-[Serializable]
-public class StageData
-{
-    public int id;
-    public string name;
-    public int floorCount;
-    public List<int> floorPool;
-    public List<int> eventPool;
-    public int bossFloorID;
-    public int rewardGold;
-}
-
-[Serializable]
-public class StageDataLoader : ILoader<int, StageData>
-{
-    public List<StageData> data = new();
-
-    public Dictionary<int, StageData> MakeDict()
-    {
-        Dictionary<int, StageData> dict = new();
-        foreach (StageData stage in data)
-        {
-            dict.Add(stage.id, stage);
-        }
-
-        return dict;
-    }
-}
-#endregion
-
 #region EffectData
 [Serializable]
 public class EffectData
@@ -648,6 +661,37 @@ public class EffectDataLoader : ILoader<int, EffectData>
             effect.effectType = (EffectType)effect.id;
             dict.Add(effect.id, effect);
         }
+        return dict;
+    }
+}
+#endregion
+
+#region StageData
+[Serializable]
+public class StageData
+{
+    public int id;
+    public string name;
+    public int floorCount;
+    public List<int> floorPool;
+    public List<int> eventPool;
+    public int bossFloorID;
+    public int rewardGold;
+}
+
+[Serializable]
+public class StageDataLoader : ILoader<int, StageData>
+{
+    public List<StageData> data = new();
+
+    public Dictionary<int, StageData> MakeDict()
+    {
+        Dictionary<int, StageData> dict = new();
+        foreach (StageData stage in data)
+        {
+            dict.Add(stage.id, stage);
+        }
+
         return dict;
     }
 }

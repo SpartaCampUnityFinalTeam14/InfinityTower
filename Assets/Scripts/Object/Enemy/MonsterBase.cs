@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,6 +49,8 @@ public class MonsterBase : Poolable, ISkillUser
         moveSpeed = GetFinalStatValue(StatType.moveSpeed);
         defense = GetFinalStatValue(StatType.armor);
 
+        InitArtifactStatModifier(AddModifierStat, IsValidStat);
+
         ApplyTypeBonus((EnemyType)data.enemyType);
 
         transform.position = startPos.position;
@@ -59,6 +62,39 @@ public class MonsterBase : Poolable, ISkillUser
             Debug.LogWarning("❌ HPBar 연결 실패! 경로 확인 필요.");
 
         UpdateHpUI(); // 시작할 때 체력바도 세팅
+    }
+
+    public void InitArtifactStatModifier(Dictionary<int, float> AddModifier, Func<StatType, bool> isValidStat)
+    {
+        foreach (var artifactData in SaveManager.Instance.artifactLevelDict)
+        {
+            ////아티펙트가 가진 TargetType을 검사
+            //if (artifactData.Value.ReturnMyTargetType())
+            //    continue;
+
+            //유닛이 가지고있는 스탯 타입을 검사
+            if (!isValidStat(artifactData.Value.ReturnMyStatType()))
+                continue;
+
+            int artifactStatType = (int)artifactData.Value.ReturnMyStatType();
+            float value = artifactData.Value.ReturnNowStatValue((StatType)artifactStatType);
+            if (!AddModifier.TryAdd(artifactStatType, value))
+            {
+                AddModifier[artifactStatType] += value;
+            }
+        }
+    }
+
+    private bool IsValidStat(StatType statType)
+    {
+        foreach (int type in data.valueType)
+        {
+            if (type == (int)statType)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void UpdateHpUI()
@@ -281,11 +317,11 @@ public class MonsterBase : Poolable, ISkillUser
     {
         if (statType == StatType.targetCount)
         {
-            return GetStat(statType) + GetAddModifierValue(statType);
+            return data.GetStat(statType) + GetAddModifierValue(statType);
         }
         else
         {
-            return GetStat(statType) * (1 + GetAddModifierValue(statType));
+            return data.GetStat(statType) * (1 + GetAddModifierValue(statType));
         }
     }
 
@@ -296,22 +332,6 @@ public class MonsterBase : Poolable, ISkillUser
             return value;
         }
         return 0f;
-    }
-
-    public float GetStat(StatType type)
-    {
-        int iType = (int)type;
-        var common = StageManager.Instance.abilityManager.monsterAbilities;
-
-        float origin = 0f;
-        float abil = 0f;
-
-        bool result = data.dictValue.TryGetValue(iType, out origin);
-        abil = common.ContainsKey(iType) ? common[iType] : 0f;
-        
-        Debug.Assert(result, $"Not Find Type in DictionaryValue");
-        
-        return origin + abil;
     }
     
     public string GetName()

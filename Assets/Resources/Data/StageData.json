@@ -6,7 +6,9 @@
           "floorCount": 2,
           "floorPool": [
               0,
-              1
+              1,
+              2,
+              3
           ],
           "eventPool": [
               1,

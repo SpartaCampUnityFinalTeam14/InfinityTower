@@ -31,7 +31,7 @@ public class ArtifactGachaManager
 
     void RemoveAlreadyPulledArtifacts()
     {
-        foreach (var data in SaveManager.Instance.artifactSaveDict.Values)
+        foreach (var data in SaveManager.Instance.artifactLevelDict.Values)
         {
             artifactCount += data.count;
 
@@ -44,7 +44,7 @@ public class ArtifactGachaManager
 
     public bool IsAllArtifactPulled()
     {
-        if (artifactCount >= SaveManager.Instance.artifactSaveDict.Count * 3) return true;
+        if (artifactCount >= SaveManager.Instance.artifactLevelDict.Count * 3) return true;
         else return false;
     }
 
@@ -59,8 +59,8 @@ public class ArtifactGachaManager
 
         int randomIndex = UnityEngine.Random.Range(0, artifactPool[rarity].Count);
         int artifactId = artifactPool[rarity][randomIndex];
-        SaveManager.Instance.artifactSaveDict[artifactId].count++;
-        if (SaveManager.Instance.artifactSaveDict[artifactId].count >= 3)
+        SaveManager.Instance.artifactLevelDict[artifactId].count++;
+        if (SaveManager.Instance.artifactLevelDict[artifactId].count >= 3)
         {
             artifactPool[rarity].RemoveAt(randomIndex);
         }

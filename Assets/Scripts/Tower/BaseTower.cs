@@ -1,10 +1,6 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using UnityEditor.Playables;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using static UnityEngine.GraphicsBuffer;
 
 
 public abstract class BaseTower : Poolable
@@ -28,6 +24,10 @@ public abstract class BaseTower : Poolable
 
     // 타워가 설치된 타일 위치
     Vector3Int cellPos;
+
+    // 업그레이드 관련
+    //protected int currentLevel = 1;
+    //protected int maxLevel = 3; // 기본 최대 레벨 (필요시 TowerData에 넣어도 좋음)
 
     protected virtual void Awake()
     {
@@ -54,7 +54,9 @@ public abstract class BaseTower : Poolable
         nowEffectedDict = new Dictionary<int, int>();
         AddModifierStat = new Dictionary<int, float>();
 
-        attackTimer = GetFinalStatValue(StatType.attackSpeed);
+        InitArtifactStatModifier(AddModifierStat, IsValidStat);
+
+        attackTimer = 1 / GetFinalStatValue(StatType.attackSpeed);
 
         // Ability Event 등록
         StageManager.Instance.abilityManager.AbilityHandle.ResisterAddAbilityEvent("tower", AddAbilityStat);
@@ -63,17 +65,53 @@ public abstract class BaseTower : Poolable
         //StageManager.Instance.abilityManager.OnRemoveTowerAbility += RemoveAbilityStat;
     }
 
+    public void InitArtifactStatModifier(Dictionary<int, float> AddModifier, Func<StatType, bool> isValidStat)
+    {
+        foreach (var artifactData in SaveManager.Instance.artifactLevelDict)
+        {
+            ////아티펙트가 가진 TargetType을 검사
+            //if (artifactData.Value.ReturnMyTargetType())
+            //    continue;
+
+            //유닛이 가지고있는 스탯 타입을 검사
+            if (!isValidStat(artifactData.Value.ReturnMyStatType()))
+                continue;
+
+            int artifactStatType = (int)artifactData.Value.ReturnMyStatType();
+            float value = artifactData.Value.ReturnNowStatValue((StatType)artifactStatType);
+            if (!AddModifier.TryAdd(artifactStatType, value))
+            {
+                AddModifier[artifactStatType] += value;
+            }
+        }
+    }
+
+    private bool IsValidStat(StatType statType)
+    {
+        foreach (int type in towerData.statType)
+        {
+            if(type == (int)statType)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     protected virtual void Update()
     {
         ShowTowerInfo();
 
+        attackTimer = Mathf.Min(attackTimer, 1 / GetFinalStatValue(StatType.attackSpeed));
         attackTimer -= Time.deltaTime;
-        if (attackTimer <= 0)
+        if (attackTimer <= 0 && IsAttactAvailable())
         {
             Activate();
-            attackTimer = GetFinalStatValue(StatType.attackSpeed);
+            attackTimer = 1/GetFinalStatValue(StatType.attackSpeed);
         }
     }
+
+    protected virtual bool IsAttactAvailable() { return true; }
 
     // 효과 적용 후 종합 수치
     public float GetFinalStatValue(StatType statType)
@@ -84,7 +122,7 @@ public abstract class BaseTower : Poolable
         }
         else
         {
-            return towerData.GetStatValue(statType) * (1 + GetAddModifierValue(statType));
+            return Mathf.Max(0, towerData.GetStatValue(statType) * (1 + GetAddModifierValue(statType))) ;
         }
     }
 
@@ -129,6 +167,37 @@ public abstract class BaseTower : Poolable
     {
         Debug.Log("타워 업그레이드");
         // 타워 레벨업 로직
+        //if (currentLevel >= maxLevel)
+        //{
+        //    Debug.Log("최대 레벨입니다.");
+        //    return;
+        //}
+
+        //int upgradeID = ID + 1;
+        //if (!DataManager.Instance.towerDict.ContainsKey(upgradeID))
+        //{
+        //    Debug.Log("업그레이드 데이터가 존재하지 않습니다.");
+        //    return;
+        //}
+
+        //int cost = (int)towerData.GetStatValue(StatType.cost);
+        //if (!StageManager.Instance.UseCost(cost))
+        //{
+        //    Debug.Log("코스트 부족");
+        //    return;
+        //}
+
+        //currentLevel++;
+        //ID = upgradeID;
+        //towerData = DataManager.Instance.towerDict[ID];
+
+        //myEffectDict = towerData.ReturnEffectList();
+        //attackTimer = GetFinalStatValue(StatType.attackSpeed);
+
+        //AddModifierStat.Clear();
+        //InitAbilityStat();
+
+        //Debug.Log($"타워가 레벨 {currentLevel}로 업그레이드 되었습니다.");
     }
 
     public void RemoveTower()

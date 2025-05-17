@@ -56,7 +56,7 @@ public class UI_Artifact : MonoBehaviour, ScrollPanel
         foreach (Transform child in slotParent) Destroy(child.gameObject);
         slots.Clear();
 
-        foreach(var data in SaveManager.Instance.artifactSaveDict)
+        foreach(var data in SaveManager.Instance.artifactLevelDict)
         {
             UI_ArtifactSlot slot = Util.InstantiatePrefabAndGetComponent<UI_ArtifactSlot>(path: "UI/Sub/UI_ArtifactSlot", parent: slotParent);
             slots.Add(slot);
@@ -70,7 +70,7 @@ public class UI_Artifact : MonoBehaviour, ScrollPanel
     public void ResetPanel()
     {
         int i = 0;
-        foreach (var data in SaveManager.Instance.artifactSaveDict)
+        foreach (var data in SaveManager.Instance.artifactLevelDict)
         {
             slots[i++].Init(data.Value.id);
         }
@@ -80,11 +80,11 @@ public class UI_Artifact : MonoBehaviour, ScrollPanel
 
     void Dirty(int id)
     {
-        for(int i = 0; i < SaveManager.Instance.artifactSaveDict.Count; i++)
+        for(int i = 0; i < SaveManager.Instance.artifactLevelDict.Count; i++)
         {
             if (slots[i].id == id)
             {
-                slots[i].SetCount(SaveManager.Instance.artifactSaveDict[id].count);
+                slots[i].SetCount(SaveManager.Instance.artifactLevelDict[id].count);
                 break;
             }
         }

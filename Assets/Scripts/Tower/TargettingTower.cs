@@ -20,6 +20,12 @@ public abstract class TargettingTower : BaseTower
         base.Update();
     }
 
+    protected override bool IsAttactAvailable()
+    {
+        FindTargets();
+        return targets.Count > 0;
+    }
+
     public virtual void FindTargets()
     {
         // targetingRule, targetType, targetCount 등을 이용해 타겟팅
@@ -146,8 +152,6 @@ public abstract class TargettingTower : BaseTower
 
     protected override void Activate()
     {
-        FindTargets();
-
         if (targets.Count == 0)
         {
             Debug.Log("타겟이 없음");

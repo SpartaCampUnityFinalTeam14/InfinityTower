@@ -1,24 +1,25 @@
-using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
-using UnityEditor.Playables;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class StageManager : Singleton<StageManager>
 {
     private int maxHp;
     private int hp;
-    private float curCost = 1f;
+    private int healAdd = 1;
+    private float curCost;
     public float CurrentCost => curCost;
 
+    [HideInInspector] public int token;
+    private int baseTokenAdd = 450;
+    private int floorTokenAdd = 100;
+    [HideInInspector] public int book;
+
     //private float maxCost = 10f;
-    [SerializeField] private float costRecoveryMultiplier = 100f;  // Cost 얻는 속도 - 기본 1배속
+    [SerializeField] private float costRecoveryMultiplier = 10f;  // Cost 얻는 속도 - 기본 1배속
     private List<float> activeCostRecoveryMultipliers = new List<float>(); // 여러 타워의 버프들을 저장
 
-    [HideInInspector] public List<int> selectedTowers = new();
+    [HideInInspector] public List<int> selectedTowers;
     [HideInInspector] public int selectedChampion;
 
     [HideInInspector] public AbilityManager abilityManager;
@@ -42,6 +43,7 @@ public class StageManager : Singleton<StageManager>
     [SerializeField] private IntEventChannel OnPlayerHpChanged;
     [SerializeField] private IntEventChannel OnFloorCountChanged;
     [SerializeField] private EventChannel OnResetTowerCoolDown;
+    [SerializeField] private EventChannel OnFloorStarted;
 
     [HideInInspector] public bool isEventEnd;
     [HideInInspector] public bool isIntroEnd;
@@ -55,11 +57,12 @@ public class StageManager : Singleton<StageManager>
         base.Awake();
 
         //영웅 스킬 세팅 필요
-        selectedTowers = SaveManager.Instance.playerData.selectedTowerIndex;
+        selectedTowers = new(SaveManager.Instance.playerData.selectedTowerIndex);
         selectedChampion = SaveManager.Instance.playerData.selectedChampionIndex;
         maxHp = DataManager.Instance.championDict[selectedChampion].hp;
         hp = maxHp;
 
+        ApplyArtifact();
         //abilityManager = GetComponent<AbilityManager>();
         Init();
         StartStage();//추후 awake가 아닌 다른 곳으로 이동 (예를 들어, 시작 버튼을 누른다든가 하는 식)
@@ -92,6 +95,39 @@ public class StageManager : Singleton<StageManager>
 
         var ui = UIManager.Instance.GetUI<UIFloorIntro>();
         ui.Init(maxFloor);
+    }
+
+    void ApplyArtifact()
+    {//나중에 고쳐야 함 => List<StatType, Stat> 활용
+        foreach(ArtifactLevelData artifactLevel in SaveManager.Instance.artifactLevelDict.Values)
+        {
+            int id = artifactLevel.id;
+            ArtifactData artifact = DataManager.Instance.artifactDicts[id/1000][id];
+
+            StatType statType = (StatType)artifact.valueType;
+            float value = artifact.value;
+
+            switch (statType)
+            {
+                case StatType.startCost:
+                    GetCost((int)value);
+                    break;
+                case StatType.costHeal:
+                    costRecoveryMultiplier *= (1 + value);
+                    break;
+                case StatType.playerHP:
+                    maxHp = (int)(maxHp * (1 + value));
+                    break;
+                case StatType.playerHeal:
+                    healAdd = (int)(healAdd * (1 + value));
+                    break;
+                case StatType.atk:
+                    CurHero.AddStatFromArtifact(value);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     public int GetMaxHP()
@@ -169,6 +205,36 @@ public class StageManager : Singleton<StageManager>
         curCost += amount;
     }
 
+    public void GainToken(int amount)
+    {
+        token += amount;
+    }
+
+    public bool CheckToken(int amount)
+    {
+        return token >= amount;
+    }
+
+    public void UseToken(int amount)
+    {
+        if (CheckToken(amount)) token -= amount;
+    }
+
+    public void GainBook(int amount)
+    {
+        book += amount;
+    }
+
+    public bool CheckBook(int amount)
+    {
+        return book >= amount;
+    }
+
+    public void UseBook(int amount)
+    {
+        if (CheckBook(amount)) book -= amount;
+    }
+
     void GameOver()
     {
         Debug.Log("게임오버!");
@@ -219,18 +285,22 @@ public class StageManager : Singleton<StageManager>
                 floorId = floorDictKeys[randomIndex];
                 floorDictKeys.RemoveAt(randomIndex);
             }
-            
-            floorGO = Util.InstantiatePrefab($"Floors/Floor_{floorId}");//랜덤 ID에 맞는 플로어 생성하게 변경해야 함
+
+            int mapID = DataManager.Instance.floorDict[floorId].mapID;
+            floorGO = Util.InstantiatePrefab($"Floors/Floor_{mapID}");//랜덤 ID에 맞는 플로어 생성하게 변경해야 함
             curFloor = floorGO.GetComponent<Floor>();
+            OnFloorStarted.RaiseEvent();
 
             yield return new WaitUntil(() => isIntroEnd);
             
-            curFloor.StartFloor();
+            curFloor.StartFloor(floorId);
             curCost = 0;
 
             yield return new WaitUntil(() => curFloor.isFloorEnd);
+            //플로어 클리어 시점
             curCost = 0;
             floorCount += 1;
+            GainToken(baseTokenAdd + floorCount * floorTokenAdd);
 
             if (i != 0 && (i + 1) % 2 == 0)
             {
@@ -241,33 +311,34 @@ public class StageManager : Singleton<StageManager>
                 yield return new WaitUntil(() => isEventEnd);
 
                 // 추가 플로어 이벤트 발생 시
-                if (isAdditionalFloor)
-                {
-                    StartCoroutine(AdditionalStageRoutine(floorDictKeys));
+                //if (isAdditionalFloor)
+                //{
+                //    StartCoroutine(AdditionalStageRoutine(floorDictKeys));
 
-                    yield return new WaitUntil(() => curFloor.isFloorEnd);
-                }
+                //    yield return new WaitUntil(() => curFloor.isFloorEnd);
+                //}
             }
         }
 
         EndStage();
     }
 
-    IEnumerator AdditionalStageRoutine(List<int> floorDictKeys)
-    {
-        if (floorGO != null) Destroy(floorGO);
-        int randomIndex = Random.Range(0, floorDictKeys.Count);
-        int floorId = floorDictKeys[randomIndex];
-        floorDictKeys.RemoveAt(randomIndex);
-        floorGO = Util.InstantiatePrefab($"Floors/Floor_{floorId}");//랜덤 ID에 맞는 플로어 생성하게 변경해야 함
-        curFloor = floorGO.GetComponent<Floor>();
-        curFloor.StartFloor();
+    //IEnumerator AdditionalStageRoutine(List<int> floorDictKeys)
+    //{
+    //    if (floorGO != null) Destroy(floorGO);
+    //    int randomIndex = Random.Range(0, floorDictKeys.Count);
+    //    int floorId = floorDictKeys[randomIndex];
+    //    floorDictKeys.RemoveAt(randomIndex);
+    //    int mapID = DataManager.Instance.floorDict[floorId].mapID;
+    //    floorGO = Util.InstantiatePrefab($"Floors/Floor_{mapID}");//랜덤 ID에 맞는 플로어 생성하게 변경해야 함
+    //    curFloor = floorGO.GetComponent<Floor>();
+    //    curFloor.StartFloor(floorId);
 
-        //yield return new WaitUntil(() => curFloor.isFloorEnd);
-        yield return null;
+    //    //yield return new WaitUntil(() => curFloor.isFloorEnd);
+    //    yield return null;
 
-        isAdditionalFloor = false;
-    }
+    //    isAdditionalFloor = false;
+    //}
 
     void ShowEvent()
     {
