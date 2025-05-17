@@ -67,6 +67,8 @@ public class Floor : MonoBehaviour
             StartWave(floorData.waveID[i]);
 
             yield return new WaitUntil(() => isWaveEnd);
+            //웨이브 종료 시점
+            StageManager.Instance.GainBook(1);
 
             SelectPerk();
             yield return new WaitUntil(() => isPerkSelected);
