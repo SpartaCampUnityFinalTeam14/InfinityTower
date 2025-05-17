@@ -130,14 +130,21 @@ public class TowerData
     public int targetType;
     public int targettingRule;
 
-    // 기본 스텟
-    public List<int> statType;    // statType의 int 값들
-    public List<float> statValue;   // 각 스탯에 대한 수치
+    public bool isSplash;
+    public float splashRadius;
+    public int projectileID;
 
     // 보유 효과
     public List<int> effectID;      // effctType의 int 값들
     // 각 효과의 수치, 지속시간, 중첩여부 (지속시간이 음수면 무한, 중첩여부가 0이하면 중첩안됨)
     public List<effectValues> effectValue;
+
+    // 기본 스텟
+    public List<int> statType;    // statType의 int 값들
+    public List<float> statValue;   // 각 스탯에 대한 수치
+
+    public int upgradeTo;
+    public int originalID;
 
     public TargettingRule TargettingRule => (TargettingRule)targettingRule;
     public TargetType TargetType => (TargetType)targetType;

@@ -18,7 +18,7 @@ public class StageManager : Singleton<StageManager>
     [SerializeField] private float costRecoveryMultiplier = 100f;  // Cost 얻는 속도 - 기본 1배속
     private List<float> activeCostRecoveryMultipliers = new List<float>(); // 여러 타워의 버프들을 저장
 
-    [HideInInspector] public List<int> selectedTowers = new();
+    [HideInInspector] public List<int> selectedTowers;
     [HideInInspector] public int selectedChampion;
 
     [HideInInspector] public AbilityManager abilityManager;
@@ -55,7 +55,7 @@ public class StageManager : Singleton<StageManager>
         base.Awake();
 
         //영웅 스킬 세팅 필요
-        selectedTowers = SaveManager.Instance.playerData.selectedTowerIndex;
+        selectedTowers = new(SaveManager.Instance.playerData.selectedTowerIndex);
         selectedChampion = SaveManager.Instance.playerData.selectedChampionIndex;
         maxHp = DataManager.Instance.championDict[selectedChampion].hp;
         hp = maxHp;
