@@ -3,352 +3,322 @@
     {
       "perkID": 0,
       "name": "강한 일격 I",
-      "description": "타워의 공격력 10% 증가",
-      "valueType": 0,
-      "value": 0.1,
-      "effectType": -1,
-      "effectValue": 0,
-      "projectile": -1,
-      "targetType": "tower",
-      "targetID": -1,
+      "description": "타워의 공격력 <b><color=#00FF66>+10%</color></b>",
+      "valueType": [
+        0
+      ],
+      "value": [
+        0.1
+      ],
+      "targetType": 0,
       "rarity": 0,
       "stackLimit": 3,
-      "image": "power_strike.png"
+      "image": "power_strike "
     },
     {
       "perkID": 1,
       "name": "강한 일격 II",
-      "description": "타워의 공격력 20% 증가",
-      "valueType": 0,
-      "value": 0.2,
-      "effectType": -1,
-      "effectValue": 0,
-      "projectile": -1,
-      "targetType": "tower",
-      "targetID": -1,
+      "description": "타워의 공격력 <b><color=#00FF66>+20%</color></b>",
+      "valueType": [
+        0
+      ],
+      "value": [
+        0.2
+      ],
+      "targetType": 0,
       "rarity": 1,
       "stackLimit": 2,
-      "image": "power_strike.png"
+      "image": "power_strike "
     },
     {
       "perkID": 2,
       "name": "강한 일격 III",
-      "description": "타워의 공격력 40% 증가",
-      "valueType": 0,
-      "value": 0.2,
-      "effectType": -1,
-      "effectValue": 0,
-      "projectile": -1,
-      "targetType": "tower",
-      "targetID": -1,
+      "description": "타워의 공격력 <b><color=#00FF66>+40%</color></b>",
+      "valueType": [
+        0
+      ],
+      "value": [
+        0.2
+      ],
+      "targetType": 0,
       "rarity": 2,
       "stackLimit": 1,
-      "image": "power_strike.png"
+      "image": "power_strike "
     },
     {
       "perkID": 3,
       "name": "재빠른 손놀림 I",
-      "description": "타워의 공격 속도 8% 증가",
-      "valueType": 2,
-      "value": 0.08,
-      "effectType": -1,
-      "effectValue": 0,
-      "projectile": -1,
-      "targetType": "tower",
-      "targetID": -1,
+      "description": "타워의 공격 속도 <b><color=#00FF66>+8%</color></b>",
+      "valueType": [
+        2
+      ],
+      "value": [
+        0.08
+      ],
+      "targetType": 0,
       "rarity": 0,
       "stackLimit": 3,
-      "image": "quick_hands.png"
+      "image": "quick_hands "
     },
     {
       "perkID": 4,
       "name": "재빠른 손놀림 II",
-      "description": "타워의 공격 속도 15% 증가",
-      "valueType": 2,
-      "value": 0.15,
-      "effectType": -1,
-      "effectValue": 0,
-      "projectile": -1,
-      "targetType": "tower",
-      "targetID": -1,
+      "description": "타워의 공격 속도 <b><color=#00FF66>+15%</color></b>",
+      "valueType": [
+        2
+      ],
+      "value": [
+        0.15
+      ],
+      "targetType": 0,
       "rarity": 1,
       "stackLimit": 2,
-      "image": "quick_hands.png"
+      "image": "quick_hands "
     },
     {
       "perkID": 5,
       "name": "재빠른 손놀림 III",
-      "description": "타워의 공격 속도 30% 증가",
-      "valueType": 2,
-      "value": 0.3,
-      "effectType": -1,
-      "effectValue": 0,
-      "projectile": -1,
-      "targetType": "tower",
-      "targetID": -1,
+      "description": "타워의 공격 속도 <b><color=#00FF66>+30%</color></b>",
+      "valueType": [
+        2
+      ],
+      "value": [
+        0.3
+      ],
+      "targetType": 0,
       "rarity": 2,
       "stackLimit": 1,
-      "image": "quick_hands.png"
+      "image": "quick_hands "
     },
     {
       "perkID": 6,
       "name": "신속 교대",
-      "description": "타워의 재배치 쿨타임 시간 20% 감소",
-      "valueType": 4,
-      "value": 0.2,
-      "effectType": -1,
-      "effectValue": 0,
-      "projectile": -1,
-      "targetType": "tower",
-      "targetID": -1,
+      "description": "타워의 재배치 쿨타임 시간 <b><color=#00FF66>-20%</color></b>",
+      "valueType": [
+        4
+      ],
+      "value": [
+        0.2
+      ],
+      "targetType": 0,
       "rarity": 1,
       "stackLimit": 2,
-      "image": "quick_shift.png"
+      "image": "quick_shift "
     },
     {
       "perkID": 7,
       "name": "소형 포션",
-      "description": "플레이어 체력 30% 회복",
-      "valueType": 7,
-      "value": 0.3,
-      "effectType": -1,
-      "effectValue": 0,
-      "projectile": -1,
-      "targetType": "character",
-      "targetID": -1,
+      "description": "플레이어 체력 <b><color=#00FF66>20%</color></b> 회복",
+      "valueType": [
+        7
+      ],
+      "value": [
+        0.3
+      ],
+      "targetType": 1,
       "rarity": 0,
       "stackLimit": 10,
-      "image": "potion.png"
+      "image": "potion "
     },
     {
       "perkID": 8,
       "name": "중형 포션",
-      "description": "플레이어 체력 50% 회복",
-      "valueType": 7,
-      "value": 0.5,
-      "effectType": -1,
-      "effectValue": 0,
-      "projectile": -1,
-      "targetType": "character",
-      "targetID": -1,
+      "description": "플레이어 체력 <b><color=#00FF66>50%</color></b> 회복",
+      "valueType": [
+        7
+      ],
+      "value": [
+        0.5
+      ],
+      "targetType": 1,
       "rarity": 1,
       "stackLimit": 10,
-      "image": "potion.png"
+      "image": "potion "
     },
     {
       "perkID": 9,
       "name": "엘릭서",
-      "description": "플레이어 체력 100% 회복",
-      "valueType": 7,
-      "value": 1,
-      "effectType": -1,
-      "effectValue": 0,
-      "projectile": -1,
-      "targetType": "character",
-      "targetID": -1,
+      "description": "플레이어 체력 <b><color=#00FF66>100%</color></b> 회복",
+      "valueType": [
+        7
+      ],
+      "value": [
+        1
+      ],
+      "targetType": 1,
       "rarity": 2,
       "stackLimit": 1,
-      "image": "potion.png"
+      "image": "potion "
     },
     {
       "perkID": 10,
       "name": "소형 영약",
-      "description": "플레이어 최대 체력 20% 증가",
-      "valueType": 8,
-      "value": 0.2,
-      "effectType": -1,
-      "effectValue": 0,
-      "projectile": -1,
-      "targetType": "character",
-      "targetID": -1,
+      "description": "플레이어 최대 체력 <b><color=#00FF66>+20%</color></b>",
+      "valueType": [
+        8
+      ],
+      "value": [
+        0.2
+      ],
+      "targetType": 1,
       "rarity": 0,
       "stackLimit": 1,
-      "image": "health_up.png"
+      "image": "health_up "
     },
     {
       "perkID": 11,
       "name": "대형 영약",
-      "description": "플레이어 최대 체력 50% 증가",
-      "valueType": 8,
-      "value": 0.4,
-      "effectType": -1,
-      "effectValue": 0,
-      "projectile": -1,
-      "targetType": "character",
-      "targetID": -1,
+      "description": "플레이어 최대 체력 <b><color=#00FF66>+50%</color></b>",
+      "valueType": [
+        8
+      ],
+      "value": [
+        0.4
+      ],
+      "targetType": 1,
       "rarity": 1,
       "stackLimit": 1,
-      "image": "health_up.png"
+      "image": "health_up "
     },
     {
       "perkID": 12,
       "name": "후원",
-      "description": "코스트 회복 속도 15% 증가",
-      "valueType": 6,
-      "value": 0.15,
-      "effectType": -1,
-      "effectValue": 0,
-      "projectile": -1,
-      "targetType": "character",
-      "targetID": -1,
+      "description": "코스트 회복 속도 <b><color=#00FF66>+15%</color></b>",
+      "valueType": [
+        6
+      ],
+      "value": [
+        0.15
+      ],
+      "targetType": 1,
       "rarity": 0,
       "stackLimit": 1,
-      "image": "money_boost.png"
+      "image": "money_boost "
     },
     {
       "perkID": 13,
       "name": "더 큰 후원",
-      "description": "코스트 회복 속도 25% 증가",
-      "valueType": 6,
-      "value": 0.25,
-      "effectType": -1,
-      "effectValue": 0,
-      "projectile": -1,
-      "targetType": "character",
-      "targetID": -1,
+      "description": "코스트 회복 속도 <b><color=#00FF66>+25%</color></b>",
+      "valueType": [
+        6
+      ],
+      "value": [
+        0.25
+      ],
+      "targetType": 1,
       "rarity": 1,
       "stackLimit": 1,
-      "image": "money_boost.png"
+      "image": "money_boost "
     },
     {
       "perkID": 14,
       "name": "자선가",
-      "description": "코스트 회복 속도 50% 증가",
-      "valueType": 6,
-      "value": 0.5,
-      "effectType": -1,
-      "effectValue": 0,
-      "projectile": -1,
-      "targetType": "character",
-      "targetID": -1,
+      "description": "코스트 회복 속도 <b><color=#00FF66>+50%</color></b>",
+      "valueType": [
+        6
+      ],
+      "value": [
+        0.5
+      ],
+      "targetType": 1,
       "rarity": 2,
       "stackLimit": 1,
-      "image": "money_boost.png"
+      "image": "money_boost "
     },
     {
       "perkID": 15,
       "name": "기선제압 I",
-      "description": "적 체력 10% 감소",
-      "valueType": 9,
-      "value": 0.1,
-      "effectType": -1,
-      "effectValue": 0,
-      "projectile": -1,
-      "targetType": "enemy",
-      "targetID": -1,
+      "description": "적 체력 <b><color=#CCCCCC>-10%</color></b>",
+      "valueType": [
+        9
+      ],
+      "value": [
+        0.1
+      ],
+      "targetType": 2,
       "rarity": 0,
       "stackLimit": 1,
-      "image": "overpowering.png"
+      "image": "overpowering "
     },
     {
       "perkID": 16,
       "name": "기선제압 II",
-      "description": "적 체력 20% 감소",
-      "valueType": 9,
-      "value": 0.2,
-      "effectType": -1,
-      "effectValue": 0,
-      "projectile": -1,
-      "targetType": "enemy",
-      "targetID": -1,
+      "description": "적 체력 <b><color=#CCCCCC>-20%</color></b>",
+      "valueType": [
+        9
+      ],
+      "value": [
+        0.2
+      ],
+      "targetType": 2,
       "rarity": 1,
       "stackLimit": 1,
-      "image": "overpowering.png"
+      "image": "overpowering "
     },
     {
       "perkID": 17,
       "name": "느린 걸음 I",
-      "description": "적 이동 속도 10% 감소",
-      "valueType": 10,
-      "value": 0.1,
-      "effectType": -1,
-      "effectValue": 0,
-      "projectile": -1,
-      "targetType": "enemy",
-      "targetID": -1,
+      "description": "적 이동 속도 <b><color=#CCCCCC>-10%</color></b>",
+      "valueType": [
+        10
+      ],
+      "value": [
+        0.1
+      ],
+      "targetType": 2,
       "rarity": 0,
       "stackLimit": 1,
-      "image": "slow.png"
+      "image": "slow "
     },
     {
       "perkID": 18,
       "name": "느린 걸음 II",
-      "description": "적 이동 속도 20% 감소",
-      "valueType": 10,
-      "value": 0.2,
-      "effectType": -1,
-      "effectValue": 0,
-      "projectile": -1,
-      "targetType": "enemy",
-      "targetID": -1,
+      "description": "적 이동 속도 <b><color=#CCCCCC>-20%</color></b>",
+      "valueType": [
+        10
+      ],
+      "value": [
+        0.2
+      ],
+      "targetType": 2,
       "rarity": 1,
       "stackLimit": 1,
-      "image": "slow.png"
+      "image": "slow "
     },
     {
       "perkID": 19,
       "name": "방어구 파괴",
-      "description": "적 방어력 30% 감소",
-      "valueType": 11,
-      "value": 0.3,
-      "effectType": -1,
-      "effectValue": 0,
-      "projectile": -1,
-      "targetType": "enemy",
-      "targetID": -1,
+      "description": "적 방어력 <b><color=#CCCCCC>-30%</color></b>",
+      "valueType": [
+        11
+      ],
+      "value": [
+        0.3
+      ],
+      "targetType": 2,
       "rarity": 2,
       "stackLimit": 1,
-      "image": "armor_break.png"
+      "image": "armor_break "
     },
     {
       "perkID": 20,
       "name": "긴급 방어",
-      "description": "적이 플레이어에게 입히는 대미지 30% 감소",
-      "valueType": 12,
-      "value": 0.3,
-      "effectType": -1,
-      "effectValue": 0,
-      "projectile": -1,
-      "targetType": "enemy",
-      "targetID": -1,
+      "description": "적이 플레이어에게 입히는 대미지 <b><color=#00FF66>-30%</color></b>",
+      "valueType": [
+        12
+      ],
+      "value": [
+        0.3
+      ],
+      "targetType": 2,
       "rarity": 0,
       "stackLimit": 1,
-      "image": "damage_reduction.png"
-    },
-    {
-      "perkID": 21,
-      "name": "신속한 준비",
-      "description": "스킬 쿨타임 15% 감소",
-      "valueType": 13,
-      "value": 0.2,
-      "effectType": -1,
-      "effectValue": 0,
-      "projectile": -1,
-      "targetType": "character",
-      "targetID": -1,
-      "rarity": 1,
-      "stackLimit": 2,
-      "image": "fast_skill.png"
-    },
-    {
-      "perkID": 22,
-      "name": "신경 가속",
-      "description": "스킬 쿨타임 35% 감소",
-      "valueType": 13,
-      "value": 0.35,
-      "effectType": -1,
-      "effectValue": 0,
-      "projectile": -1,
-      "targetType": "character",
-      "targetID": -1,
-      "rarity": 2,
-      "stackLimit": 1,
-      "image": "fast_skill.png"
+      "image": "damage_reduction "
     },
     {
       "perkID": 23,
       "name": "모 아니면 도",
-      "description": "클리어 보상 30% 증가, 적 체력 25% 증가",
+      "description": "클리어 보상 <b><color=#00FF66>+30%</color></b>\n적 체력 <b><color=##CC3333>+25%</color></b>",
       "valueType": [
         9,
         16
@@ -357,19 +327,15 @@
         -0.25,
         0.3
       ],
-      "effectType": -1,
-      "effectValue": 0,
-      "projectile": -1,
-      "targetType": "enemy",
-      "targetID": -1,
+      "targetType": 2,
       "rarity": 1,
       "stackLimit": 1,
-      "image": "risk_return.png"
+      "image": "risk_return "
     },
     {
       "perkID": 24,
       "name": "무기 중량화",
-      "description": "공격력 30% 증가, 공격속도 8% 감소",
+      "description": "공격력 <b><color=#00FF66>+30%</color></b>\n공격속도 <b><color=##CC3333>-8%</color></b>",
       "valueType": [
         0,
         2
@@ -378,19 +344,15 @@
         0.3,
         -0.08
       ],
-      "effectType": -1,
-      "effectValue": 0,
-      "projectile": -1,
-      "targetType": "tower",
-      "targetID": -1,
+      "targetType": 0,
       "rarity": 1,
       "stackLimit": 1,
-      "image": "weapon_heavy.png"
+      "image": "weapon_heavy "
     },
     {
       "perkID": 25,
       "name": "무기 경량화",
-      "description": "공격 속도 25% 증가, 공격력 10% 감소",
+      "description": "공격 속도 <b><color=#00FF66>+25%</color></b>\n공격력 <b><color=##CC3333>-10%</color></b>",
       "valueType": [
         0,
         2
@@ -399,98 +361,10 @@
         -0.1,
         0.25
       ],
-      "effectType": -1,
-      "effectValue": 0,
-      "projectile": -1,
-      "targetType": "tower",
-      "targetID": -1,
+      "targetType": 0,
       "rarity": 1,
       "stackLimit": 1,
-      "image": "weapon_light.png"
-    },
-    {
-      "perkID": 26,
-      "name": "더블 샷",
-      "description": "궁수, 저격수 타겟 수 증가",
-      "valueType": 3,
-      "value": 1,
-      "effectType": -1,
-      "effectValue": 0,
-      "projectile": -1,
-      "targetType": "tower",
-      "targetID": [
-        0,
-        5
-      ],
-      "rarity": 1,
-      "stackLimit": 1,
-      "image": "doubleshot.png"
-    },
-    {
-      "perkID": 27,
-      "name": "불화살",
-      "description": "궁수의 화살이 적을 타격 시 불을 붙여 지속 피해를 줍니다",
-      "valueType": -1,
-      "value": 0,
-      "effectType": 1,
-      "effectValue": 2,
-      "projectile": -1,
-      "targetType": "projectile",
-      "targetID": 0,
-      "rarity": 2,
-      "stackLimit": 1,
-      "image": "firearrow.png"
-    },
-    {
-      "perkID": 28,
-      "name": "기관포",
-      "description": "화력이 약해지지만 연사력이 극도로 빨라집니다\\n(공격력 40% 감소, 공격 속도 100% 증가)",
-      "valueType": [
-        0,
-        2
-      ],
-      "value": [
-        -0.4,
-        1
-      ],
-      "effectType": -1,
-      "effectValue": 0,
-      "projectile": -1,
-      "targetType": "tower",
-      "targetID": 2,
-      "rarity": 2,
-      "stackLimit": 1,
-      "image": "autocannon.png"
-    },
-    {
-      "perkID": 29,
-      "name": "축복",
-      "description": "사제의 버프 범위 대폭 증가",
-      "valueType": 1,
-      "value": 0.5,
-      "effectType": -1,
-      "effectValue": 0,
-      "projectile": -1,
-      "targetType": "tower",
-      "targetID": 4,
-      "rarity": 1,
-      "stackLimit": 1,
-      "image": "bless.png"
-    },
-    {
-      "perkID": 30,
-      "name": "맹독",
-      "description": "역병의사의 독을 맹독으로 변경합니다",
-      "valueType": -1,
-      "value": 0,
-      "effectType": -1,
-      "effectValue": 0,
-      "projectile": 1,
-      "targetType": "tower",
-      "targetID": 7,
-      "rarity": 2,
-      "stackLimit": 1,
-      "image": "deadly_poison.png"
+      "image": "weapon_light"
     }
   ]
 }

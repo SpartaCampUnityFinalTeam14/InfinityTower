@@ -16,7 +16,7 @@ public class StageManager : Singleton<StageManager>
     [HideInInspector] public int book;
 
     //private float maxCost = 10f;
-    [SerializeField] private float costRecoveryMultiplier = 10f;  // Cost 얻는 속도 - 기본 1배속
+    [SerializeField] private float costRecoveryMultiplier = 10f; // Cost 얻는 속도 - 기본 1배속
     private List<float> activeCostRecoveryMultipliers = new List<float>(); // 여러 타워의 버프들을 저장
 
     [HideInInspector] public List<int> selectedTowers;
@@ -43,7 +43,6 @@ public class StageManager : Singleton<StageManager>
     [SerializeField] private IntEventChannel OnPlayerHpChanged;
     [SerializeField] private IntEventChannel OnFloorCountChanged;
     [SerializeField] private EventChannel OnResetTowerCoolDown;
-    [SerializeField] private EventChannel OnFloorStarted;
 
     [HideInInspector] public bool isEventEnd;
     [HideInInspector] public bool isIntroEnd;
@@ -61,11 +60,12 @@ public class StageManager : Singleton<StageManager>
         selectedChampion = SaveManager.Instance.playerData.selectedChampionIndex;
         maxHp = DataManager.Instance.championDict[selectedChampion].hp;
         hp = maxHp;
+        CurHero = new Hero();
 
         ApplyArtifact();
         //abilityManager = GetComponent<AbilityManager>();
         Init();
-        StartStage();//추후 awake가 아닌 다른 곳으로 이동 (예를 들어, 시작 버튼을 누른다든가 하는 식)
+        StartStage(); //추후 awake가 아닌 다른 곳으로 이동 (예를 들어, 시작 버튼을 누른다든가 하는 식)
     }
 
     private void Start()
@@ -98,11 +98,12 @@ public class StageManager : Singleton<StageManager>
     }
 
     void ApplyArtifact()
-    {//나중에 고쳐야 함 => List<StatType, Stat> 활용
-        foreach(ArtifactLevelData artifactLevel in SaveManager.Instance.artifactLevelDict.Values)
+    {
+        //나중에 고쳐야 함 => List<StatType, Stat> 활용
+        foreach (ArtifactLevelData artifactLevel in SaveManager.Instance.artifactLevelDict.Values)
         {
             int id = artifactLevel.id;
-            ArtifactData artifact = DataManager.Instance.artifactDicts[id/1000][id];
+            ArtifactData artifact = DataManager.Instance.artifactDicts[id / 1000][id];
 
             StatType statType = (StatType)artifact.valueType;
             float value = artifact.value;
@@ -131,6 +132,16 @@ public class StageManager : Singleton<StageManager>
                     break;
             }
         }
+    }
+
+    public int GetFloorNum()
+    {
+        return floorCount;
+    }
+
+    public int GetHP()
+    {
+        return hp;
     }
 
     public int GetMaxHP()
@@ -290,12 +301,11 @@ public class StageManager : Singleton<StageManager>
             }
 
             int mapID = DataManager.Instance.floorDict[floorId].mapID;
-            floorGO = Util.InstantiatePrefab($"Floors/Floor_{mapID}");//랜덤 ID에 맞는 플로어 생성하게 변경해야 함
+            floorGO = Util.InstantiatePrefab($"Floors/Floor_{mapID}"); //랜덤 ID에 맞는 플로어 생성하게 변경해야 함
             curFloor = floorGO.GetComponent<Floor>();
-            OnFloorStarted.RaiseEvent();
 
             yield return new WaitUntil(() => isIntroEnd);
-            
+
             curFloor.StartFloor(floorId);
             curCost = 0;
 
@@ -307,8 +317,8 @@ public class StageManager : Singleton<StageManager>
 
             if (i != 0 && (i + 1) % 2 == 0)
             {
-                ShowFloorIntro();
-                yield return new WaitUntil(() => isIntroEnd);
+                //ShowFloorIntro();
+                //yield return new WaitUntil(() => isIntroEnd);
 
                 ShowEvent();
                 yield return new WaitUntil(() => isEventEnd);
@@ -364,15 +374,14 @@ public class StageManager : Singleton<StageManager>
         {
             ui.FadeIn();
             isFadeComplete = true;
-            UIManager.Instance.ShowUI<UIFloorIntro>();
-
+            UIManager.Instance.ShowUI<UI_FloorLoading>();
         });
-
     }
 
     int GetReward()
     {
-        int rewardGold = (int)(DataManager.Instance.stageDict[stageIndex].rewardGold * floorCount / (float)maxFloor);
+        int rewardGold =
+            (int)(DataManager.Instance.stageDict[stageIndex].rewardGold * floorCount / (float)maxFloor);
         if (floorCount >= maxFloor) rewardGold *= 2;
         SaveManager.Instance.playerData.AddGold(rewardGold);
         Debug.Log($"<color=white>{rewardGold}골드 지급</color>");
@@ -387,7 +396,8 @@ public class StageManager : Singleton<StageManager>
 
         bool isSuccess = floorCount >= maxFloor;
         UIManager.Instance.ShowUI<UI_StageResult>().Init(isSuccess, (int)timer, floorCount, GetReward());
-        if (isSuccess) SaveManager.Instance.playerData.AddStage(SaveManager.Instance.playerData.selectedStageIndex + 1);
+        if (isSuccess)
+            SaveManager.Instance.playerData.AddStage(SaveManager.Instance.playerData.selectedStageIndex + 1);
 
         timeScaleManager.PushTimeScale(0f);
     }
