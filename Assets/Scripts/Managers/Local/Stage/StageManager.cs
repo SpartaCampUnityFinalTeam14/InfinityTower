@@ -1,11 +1,6 @@
-using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
-using UnityEditor.Playables;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class StageManager : Singleton<StageManager>
 {
@@ -13,6 +8,11 @@ public class StageManager : Singleton<StageManager>
     private int hp;
     private float curCost = 1f;
     public float CurrentCost => curCost;
+
+    public int token;
+    private int baseTokenAdd = 450;
+    private int floorTokenAdd = 100;
+    public int book;
 
     //private float maxCost = 10f;
     [SerializeField] private float costRecoveryMultiplier = 100f;  // Cost 얻는 속도 - 기본 1배속
@@ -170,6 +170,36 @@ public class StageManager : Singleton<StageManager>
         curCost += amount;
     }
 
+    public void GainToken(int amount)
+    {
+        token += amount;
+    }
+
+    public bool CheckToken(int amount)
+    {
+        return token >= amount;
+    }
+
+    public void UseToken(int amount)
+    {
+        if (CheckToken(amount)) token -= amount;
+    }
+
+    public void GainBook(int amount)
+    {
+        book += amount;
+    }
+
+    public bool CheckBook(int amount)
+    {
+        return book >= amount;
+    }
+
+    public void UseBook(int amount)
+    {
+        if (CheckBook(amount)) book -= amount;
+    }
+
     void GameOver()
     {
         Debug.Log("게임오버!");
@@ -231,8 +261,10 @@ public class StageManager : Singleton<StageManager>
             curCost = 0;
 
             yield return new WaitUntil(() => curFloor.isFloorEnd);
+            //플로어 클리어 시점
             curCost = 0;
             floorCount += 1;
+            GainToken(baseTokenAdd + floorCount * floorTokenAdd);
 
             if (i != 0 && (i + 1) % 2 == 0)
             {
