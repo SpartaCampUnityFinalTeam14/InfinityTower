@@ -3,86 +3,106 @@
       {
           "id": 0,
           "name": "타워 공격력 1",
+          "description": "타워 공격력 <b><color=#00FF66>+2%</color></b>",
           "valueType": 0,
-          "value": 2,
-          "prob": 5
+          "value": 0.02,
+          "prob ": 4.615
       },
       {
           "id": 1,
           "name": "타워 공격 속도 1",
+          "description": "타워 공격속도 <b><color=#00FF66>+2%</color></b>",
           "valueType": 2,
-          "value": 2,
-          "prob": 5
+          "value": 0.02,
+          "prob ": 4.615
       },
       {
           "id": 2,
           "name": "타워 사거리 1",
+          "description": "타워 사거리 <b><color=#00FF66>+5%</color></b>",
           "valueType": 1,
-          "value": 5,
-          "prob": 5
+          "value": 0.05,
+          "prob ": 4.615
       },
       {
           "id": 3,
           "name": "타워 재설치 쿨타임 감소 1",
-          "valueType": 12,
-          "value": 2,
-          "prob": 5
+          "description": "타워 재배치 쿨타임 <b><color=#00FF66>-2%</color></b>",
+          "valueType": 4,
+          "value": 0.02,
+          "prob ": 4.615
       },
       {
           "id": 4,
           "name": "시작 코스트 추가 1",
-          "valueType": 4,
+          "description": "게임 시작시 코스트 <b><color=#00FF66>+15</color></b>",
+          "valueType": 15,
           "value": 15,
-          "prob": 5
+          "prob ": 4.615
       },
       {
           "id": 5,
           "name": "코스트 회복 속도 증가1",
-          "valueType": 5,
-          "value": 3,
-          "prob": 5
+          "description": "코스트 회복 속도 <b><color=#00FF66>+3%</color></b>",
+          "valueType": 6,
+          "value": 0.03,
+          "prob ": 4.615
       },
       {
           "id": 6,
-          "name": "플레이어 체력 증가 1",
-          "valueType": 7,
-          "value": 3,
-          "prob": 5
+          "name": "영웅 체력 증가 1",
+          "description": "영웅 체력 <b><color=#00FF66>+3%</color></b>",
+          "valueType": 8,
+          "value": 0.03,
+          "prob ": 4.615
       },
       {
           "id": 7,
-          "name": "플레이어 체력 회복량 증가 1",
-          "valueType": 6,
-          "value": 5,
-          "prob": 5
+          "name": "영웅 체력 회복량 증가 1",
+          "description": "영웅 회복량 <b><color=#00FF66>+5%</color></b>",
+          "valueType": 7,
+          "value": 0.05,
+          "prob ": 4.615
       },
       {
           "id": 8,
           "name": "적 체력 감소1",
-          "valueType": 8,
-          "value": 2,
-          "prob": 5
+          "description": "적 체력 <b><color=#CCCCCC>-2%</color></b>",
+          "valueType": 9,
+          "value": 0.02,
+          "prob ": 4.615
       },
       {
           "id": 9,
           "name": "적 이동 속도 감소 1",
-          "valueType": 9,
-          "value": 2,
-          "prob": 5
+          "description": "적 이동속도 <b><color=#CCCCCC>-2%</color></b>",
+          "valueType": 10,
+          "value": 0.02,
+          "prob ": 4.615
       },
       {
           "id": 10,
           "name": "적 방어력 감소 1",
-          "valueType": 10,
-          "value": 2,
-          "prob": 5
+          "description": "적 방어력 <b><color=#CCCCCC>-2%</color></b>",
+          "valueType": 11,
+          "value": 0.02,
+          "prob ": 4.615
       },
       {
           "id": 11,
-          "name": "캐릭터 공격력 1",
-          "valueType": 13,
-          "value": 5,
-          "prob": 5
+          "name": "영웅 공격력 1",
+          "description": "영웅 공격력 <b><color=#00FF66>+5%</color></b>",
+          "valueType": 14,
+          "value": 0.05,
+          "prob ": 4.615
+      },
+      {
+          "id": 12,
+          "name": "골드 획득량 증가 1",
+          "description": "골드 획득량 <b><color=#00FF66>+5%</color></b>",
+          "valueType": 16,
+          "value": 0.05,
+          "prob ": 4.615
       }
   ]
 }

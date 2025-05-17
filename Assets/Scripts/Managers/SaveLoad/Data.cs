@@ -507,6 +507,7 @@ public class ArtifactData
 {
     public int id;
     public string name;
+    public string description;
     public int valueType;
     public int value;
     public float prob;
