@@ -97,6 +97,7 @@ public class MonsterDataLoader : ILoader<int, MonsterData>
 public class FloorData
 {
     public int id;
+    public int mapID;
     public int waveCount;
     public List<int> waveID;
     public List<float> spawnPosition;

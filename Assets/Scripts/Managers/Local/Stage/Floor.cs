@@ -9,7 +9,7 @@ public class Floor : MonoBehaviour
     private PathManager path;
 
     //플로어
-    [SerializeField] private int id;
+    private int id;
     private FloorData floorData;
 
     //public Vector2 spawnPosition;
@@ -34,7 +34,6 @@ public class Floor : MonoBehaviour
         path = GetComponent<PathManager>();
 
         waveStartDelayTime = 1;
-        floorData = DataManager.Instance.floorDict[id];
     }
 
     private void Start()
@@ -45,10 +44,11 @@ public class Floor : MonoBehaviour
         UIManager.Instance.HideUI<UIAbility>();
     }
 
-    public void StartFloor()
+    public void StartFloor(int floorId)
     {
         Debug.Log("<color=cyan>플로어 시작</color>");
 
+        floorData = DataManager.Instance.floorDict[floorId];
         isFloorEnd = false;
         StartCoroutine(ProgressFloor());
     }

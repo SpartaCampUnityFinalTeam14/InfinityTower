@@ -250,14 +250,15 @@ public class StageManager : Singleton<StageManager>
                 floorId = floorDictKeys[randomIndex];
                 floorDictKeys.RemoveAt(randomIndex);
             }
-            
-            floorGO = Util.InstantiatePrefab($"Floors/Floor_{floorId}");//랜덤 ID에 맞는 플로어 생성하게 변경해야 함
+
+            int mapID = DataManager.Instance.floorDict[floorId].mapID;
+            floorGO = Util.InstantiatePrefab($"Floors/Floor_{mapID}");//랜덤 ID에 맞는 플로어 생성하게 변경해야 함
             curFloor = floorGO.GetComponent<Floor>();
             OnFloorStarted.RaiseEvent();
 
             yield return new WaitUntil(() => isIntroEnd);
             
-            curFloor.StartFloor();
+            curFloor.StartFloor(floorId);
             curCost = 0;
 
             yield return new WaitUntil(() => curFloor.isFloorEnd);
@@ -275,33 +276,34 @@ public class StageManager : Singleton<StageManager>
                 yield return new WaitUntil(() => isEventEnd);
 
                 // 추가 플로어 이벤트 발생 시
-                if (isAdditionalFloor)
-                {
-                    StartCoroutine(AdditionalStageRoutine(floorDictKeys));
+                //if (isAdditionalFloor)
+                //{
+                //    StartCoroutine(AdditionalStageRoutine(floorDictKeys));
 
-                    yield return new WaitUntil(() => curFloor.isFloorEnd);
-                }
+                //    yield return new WaitUntil(() => curFloor.isFloorEnd);
+                //}
             }
         }
 
         EndStage();
     }
 
-    IEnumerator AdditionalStageRoutine(List<int> floorDictKeys)
-    {
-        if (floorGO != null) Destroy(floorGO);
-        int randomIndex = Random.Range(0, floorDictKeys.Count);
-        int floorId = floorDictKeys[randomIndex];
-        floorDictKeys.RemoveAt(randomIndex);
-        floorGO = Util.InstantiatePrefab($"Floors/Floor_{floorId}");//랜덤 ID에 맞는 플로어 생성하게 변경해야 함
-        curFloor = floorGO.GetComponent<Floor>();
-        curFloor.StartFloor();
+    //IEnumerator AdditionalStageRoutine(List<int> floorDictKeys)
+    //{
+    //    if (floorGO != null) Destroy(floorGO);
+    //    int randomIndex = Random.Range(0, floorDictKeys.Count);
+    //    int floorId = floorDictKeys[randomIndex];
+    //    floorDictKeys.RemoveAt(randomIndex);
+    //    int mapID = DataManager.Instance.floorDict[floorId].mapID;
+    //    floorGO = Util.InstantiatePrefab($"Floors/Floor_{mapID}");//랜덤 ID에 맞는 플로어 생성하게 변경해야 함
+    //    curFloor = floorGO.GetComponent<Floor>();
+    //    curFloor.StartFloor(floorId);
 
-        //yield return new WaitUntil(() => curFloor.isFloorEnd);
-        yield return null;
+    //    //yield return new WaitUntil(() => curFloor.isFloorEnd);
+    //    yield return null;
 
-        isAdditionalFloor = false;
-    }
+    //    isAdditionalFloor = false;
+    //}
 
     void ShowEvent()
     {
