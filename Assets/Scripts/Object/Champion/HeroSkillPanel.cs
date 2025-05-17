@@ -5,14 +5,13 @@ public class HeroSkillPanel : MonoBehaviour
     public GameObject skillSlotPrefab;
     public Transform skillListParent;
 
-    private void Start()
+    private void Awake()
     {
         InitHero();
     }
 
     void InitHero()
     {
-        StageManager.Instance.CurHero = new Hero();
         //Debug.Log("👤 챔피언 생성됨: " + SaveManager.Instance.playerData.selectedChampionIndex);
 
         int championId = SaveManager.Instance.playerData.selectedChampionIndex;

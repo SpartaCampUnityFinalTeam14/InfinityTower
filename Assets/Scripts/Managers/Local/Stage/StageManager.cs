@@ -61,6 +61,7 @@ public class StageManager : Singleton<StageManager>
         selectedChampion = SaveManager.Instance.playerData.selectedChampionIndex;
         maxHp = DataManager.Instance.championDict[selectedChampion].hp;
         hp = maxHp;
+        CurHero = new Hero();
 
         ApplyArtifact();
         //abilityManager = GetComponent<AbilityManager>();

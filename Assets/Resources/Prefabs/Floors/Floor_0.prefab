@@ -13280,7 +13280,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2e1caae69829084a9c85f1b1ff203aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
   waveStartDelayTime: 3
   isFloorEnd: 0
   isPerkSelected: 0
