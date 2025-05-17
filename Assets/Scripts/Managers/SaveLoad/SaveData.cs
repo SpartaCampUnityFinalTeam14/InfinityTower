@@ -1,7 +1,6 @@
 //캐릭터 정보 세이브 로드 용도
 using System;
 using System.Collections.Generic;
-using UnityEngine.Analytics;
 
 [Serializable]
 public abstract class ISaveLoader<Key, Value>
@@ -16,6 +15,7 @@ public class PlayerData
 {
     public int gold;
     public int selectedStageIndex;
+    public List<int> playableStages;
     public List<int> selectedTowerIndex;
     public int selectedChampionIndex;
 
@@ -23,7 +23,8 @@ public class PlayerData
     {
         gold = 1000;
         selectedStageIndex = 0;
-        selectedTowerIndex = new List<int>(5) { 0, -1, -1, -1, -1 };
+        playableStages = new() { 0 };
+        selectedTowerIndex = new List<int>() { 0, -1, -1, -1, -1 };
         selectedChampionIndex = 0;
     }
 
@@ -75,6 +76,15 @@ public class PlayerData
         SaveManager.Instance.SavePlayerData();
 
         return beforeId;
+    }
+
+    public void AddStage(int index)
+    {
+        if (playableStages.Contains(index)) return;
+        if (!DataManager.Instance.stageDict.ContainsKey(index)) return;
+
+        playableStages.Add(index);
+        playableStages.Sort();
     }
 }
 #endregion

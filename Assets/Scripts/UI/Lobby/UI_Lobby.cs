@@ -33,6 +33,7 @@ public class UI_Lobby : MonoBehaviour, ScrollPanel
 
     void SetStage(int id)
     {
+        if (!SaveManager.Instance.playerData.playableStages.Contains(id)) return;
         if (id < 0 || id >= DataManager.Instance.stageDict.Count) return;
 
         SaveManager.Instance.playerData.selectedStageIndex = id;
@@ -40,6 +41,12 @@ public class UI_Lobby : MonoBehaviour, ScrollPanel
 
         //stageImage.sprite = 
         stageNameText.text = DataManager.Instance.stageDict[id].name;
+
+        if (SaveManager.Instance.playerData.playableStages.IndexOf(id) <= 0) leftStageButton.gameObject.SetActive(false);
+        else leftStageButton.gameObject.SetActive(true);
+
+        if (SaveManager.Instance.playerData.playableStages.IndexOf(id) >= SaveManager.Instance.playerData.playableStages.Count - 1) rightStageButton.gameObject.SetActive(false);
+        else rightStageButton.gameObject.SetActive(true);
     }
 
     void UnregisterListeners()
