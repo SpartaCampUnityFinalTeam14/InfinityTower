@@ -38,6 +38,9 @@ public class UIPause : UI
     {
         base.Show();
 
+        if (isToggle)
+            return;
+
         StageManager.Instance.timeScaleManager.PushTimeScale(0f);
 
         // 특성 리스트 업데이트

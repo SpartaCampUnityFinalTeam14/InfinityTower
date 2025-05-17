@@ -125,6 +125,13 @@ public class AbilityManager
             return (int)Rarity.Epic;
     }
 
+    public AbilityData GetRandomAbility()
+    {
+        var abilityDatas = FilterAbilityPool[GetRandomRarity()].Values.ToList();
+
+        return abilityDatas[UnityEngine.Random.Range(0, abilityDatas.Count)];
+    }
+
     public AbilityData GetRandomAbility(int rarity)
     {
         var abilityDatas = FilterAbilityPool[rarity].Values.ToList();

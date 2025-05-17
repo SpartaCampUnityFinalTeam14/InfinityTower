@@ -33,6 +33,8 @@ public class AbilityIcon : Poolable
     {
         this.data = data;
 
+        string test = $"Icons/Ability/{Path.ChangeExtension(data.image, null)}";
+
         icon.sprite = Resources.Load<Sprite>($"Icons/Ability/{Path.ChangeExtension(data.image, null)}");
         button.enabled = buttonEnabled;
     }

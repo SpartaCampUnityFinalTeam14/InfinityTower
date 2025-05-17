@@ -43,7 +43,6 @@ public class StageManager : Singleton<StageManager>
     [SerializeField] private IntEventChannel OnPlayerHpChanged;
     [SerializeField] private IntEventChannel OnFloorCountChanged;
     [SerializeField] private EventChannel OnResetTowerCoolDown;
-    [SerializeField] private EventChannel OnFloorStarted;
 
     [HideInInspector] public bool isEventEnd;
     [HideInInspector] public bool isIntroEnd;
@@ -129,6 +128,14 @@ public class StageManager : Singleton<StageManager>
                     break;
             }
         }
+    public int GetFloorNum()
+    {
+        return floorCount;
+    }
+
+    public int GetHP()
+    {
+        return hp;
     }
 
     public int GetMaxHP()
@@ -290,8 +297,7 @@ public class StageManager : Singleton<StageManager>
             int mapID = DataManager.Instance.floorDict[floorId].mapID;
             floorGO = Util.InstantiatePrefab($"Floors/Floor_{mapID}");//랜덤 ID에 맞는 플로어 생성하게 변경해야 함
             curFloor = floorGO.GetComponent<Floor>();
-            OnFloorStarted.RaiseEvent();
-
+            
             yield return new WaitUntil(() => isIntroEnd);
             
             curFloor.StartFloor(floorId);
@@ -305,8 +311,8 @@ public class StageManager : Singleton<StageManager>
 
             if (i != 0 && (i + 1) % 2 == 0)
             {
-                ShowFloorIntro();
-                yield return new WaitUntil(() => isIntroEnd);
+                //ShowFloorIntro();
+                //yield return new WaitUntil(() => isIntroEnd);
 
                 ShowEvent();
                 yield return new WaitUntil(() => isEventEnd);
@@ -362,8 +368,7 @@ public class StageManager : Singleton<StageManager>
         {
             ui.FadeIn();
             isFadeComplete = true;
-            UIManager.Instance.ShowUI<UIFloorIntro>();
-
+            UIManager.Instance.ShowUI<UI_FloorLoading>();
         });
 
     }
