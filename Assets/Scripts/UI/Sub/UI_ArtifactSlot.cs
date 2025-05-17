@@ -1,4 +1,5 @@
 using TMPro;
+using UnityEditor.Experimental;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,9 +20,9 @@ public class UI_ArtifactSlot : MonoBehaviour
         this.id = id;
         int rarity = id / 1000;
         artifactBackground.color = rarityColors[rarity];
-
         data = DataManager.Instance.artifactDicts[rarity][id];
-
+        Sprite sprite = Resources.Load<Sprite>($"Icons/Artifact/Artifact_{id}");
+        artifactImage.sprite = sprite;
         nameText.text = data.name;
         SetCount(SaveManager.Instance.artifactLevelDict[id].count);
     }
