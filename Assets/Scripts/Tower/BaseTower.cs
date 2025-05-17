@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -37,8 +38,8 @@ public abstract class BaseTower : Poolable
     protected virtual void Awake()
     {
         rangePrefab = Resources.Load<GameObject>("Prefabs/Tower/RangeIndicator");
-        anim = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        anim = GetComponentInChildren<Animator>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
     private void OnDisable()
@@ -59,20 +60,41 @@ public abstract class BaseTower : Poolable
         nowEffectedDict = new Dictionary<int, int>();
         AddModifierStat = new Dictionary<int, float>();
 
-        BattleManager.Instance.InitArtifactStatModifier(AddModifierStat, IsValidStat);
+        InitArtifactStatModifier(AddModifierStat, IsValidStat);
 
         attackTimer = 1 / GetFinalStatValue(StatType.attackSpeed);
 
         // Ability Event 등록
-        StageManager.Instance.abilityManager.AbilityHandler.ResisterAddAbilityEvent("tower", AddAbilityStat);
-        StageManager.Instance.abilityManager.AbilityHandler.ResisterRemoveAbilityEvent("tower", RemoveAbilityStat);
+        StageManager.Instance.abilityManager.AbilityHandle.ResisterAddAbilityEvent("tower", AddAbilityStat);
+        StageManager.Instance.abilityManager.AbilityHandle.ResisterRemoveAbilityEvent("tower", RemoveAbilityStat);
         //StageManager.Instance.abilityManager.OnAddTowerAbility += AddAbilityStat;
         //StageManager.Instance.abilityManager.OnRemoveTowerAbility += RemoveAbilityStat;
     }
 
+    public void InitArtifactStatModifier(Dictionary<int, float> AddModifier, Func<StatType, bool> isValidStat)
+    {
+        foreach (var artifactData in SaveManager.Instance.artifactLevelDict)
+        {
+            ////아티펙트가 가진 TargetType을 검사
+            //if (artifactData.Value.ReturnMyTargetType())
+            //    continue;
+
+            //유닛이 가지고있는 스탯 타입을 검사
+            if (!isValidStat(artifactData.Value.ReturnMyStatType(artifactData.Key)))
+                continue;
+
+            int artifactStatType = (int)artifactData.Value.ReturnMyStatType(artifactData.Key);
+            float value = artifactData.Value.ReturnNowStatValue(artifactData.Value.id, (StatType)artifactStatType);
+            if (!AddModifier.TryAdd(artifactStatType, value))
+            {
+                AddModifier[artifactStatType] += value;
+            }
+        }
+    }
+
     private bool IsValidStat(StatType statType)
     {
-        foreach (int type in towerData.statTypes)
+        foreach (int type in towerData.statType)
         {
             if(type == (int)statType)
             {
@@ -205,7 +227,8 @@ public abstract class BaseTower : Poolable
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (EventSystem.current.IsPointerOverGameObject())
+            //if (EventSystem.current.IsPointerOverGameObject())
+            if (Util.IsPointerOverUIObject())
                 return;
 
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -229,14 +252,26 @@ public abstract class BaseTower : Poolable
     {
         var manager = StageManager.Instance.abilityManager;
 
-        foreach (Ability ability in manager.CurAbilities.Values)
+        foreach (Ability ability in manager.allAbilities.Values)
         {
             AddAbilityStat(ability.Data);
         }
+
+        //// Update
+        //if (manager.AbilityHandle.TryGetAbilities($"{TargetType.Tower}", out var list))
+        //{
+        //    foreach (Ability ability in list)
+        //    {
+        //        AddAbilityStat(ability.Data);
+        //    }
+        //}
     }
 
     private void AddAbilityStat(AbilityData data)
     {
+        if (!gameObject.activeSelf)
+            return;
+        
         if (data.targetID.Equals(-1) || towerData.id.Equals(data.targetID))
         {
             for (int i = 0; i < data.valueType.Count; i++)

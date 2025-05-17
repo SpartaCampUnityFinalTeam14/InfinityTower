@@ -5,16 +5,15 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Artifact : UI
+public class UI_Artifact : MonoBehaviour, ScrollPanel
 {
-    [SerializeField] private Button closeButton;
     [SerializeField] private TextMeshProUGUI goldText;
 
     [SerializeField] private Transform slotParent;
     private List<UI_ArtifactSlot> slots = new();
 
     [SerializeField] private Button gachaButton;
-
+    [SerializeField] private TextMeshProUGUI gold1Text;
     [SerializeField] private GameObject gachaBackground;
     //[SerializeField] private Button skipBackgroundButton;
     [SerializeField] private Image resultBackground;
@@ -28,19 +27,17 @@ public class UI_Artifact : UI
     [SerializeField] private Button skipBackgroundButton;
 
     [SerializeField] private EventChannel OnGoldChanged;
+    [SerializeField] private BoolEventChannel OnScrollStateChanged;
     private int requiredGold = 10;
 
     private ArtifactGachaManager gachaManager;
     private bool isShowResultPlaying;
     private Coroutine showResult;
 
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
-
         gachaManager = new();
 
-        closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Artifact>());
         gachaButton.onClick.AddListener(GachaArtifact);
         gachaCloseButton.onClick.AddListener(CloseResult);
         skipBackgroundButton.onClick.AddListener(Skip);
@@ -48,6 +45,8 @@ public class UI_Artifact : UI
         gachaBackground.SetActive(false);
 
         CheckGachaAble();
+
+        gold1Text.text = $"{requiredGold.ToString():N0}";
 
         Init();
     }
@@ -57,7 +56,7 @@ public class UI_Artifact : UI
         foreach (Transform child in slotParent) Destroy(child.gameObject);
         slots.Clear();
 
-        foreach(var data in SaveManager.Instance.artifactSaveDict)
+        foreach(var data in SaveManager.Instance.artifactLevelDict)
         {
             UI_ArtifactSlot slot = Util.InstantiatePrefabAndGetComponent<UI_ArtifactSlot>(path: "UI/Sub/UI_ArtifactSlot", parent: slotParent);
             slots.Add(slot);
@@ -68,13 +67,24 @@ public class UI_Artifact : UI
         UpdateGold();
     }
 
+    public void ResetPanel()
+    {
+        int i = 0;
+        foreach (var data in SaveManager.Instance.artifactLevelDict)
+        {
+            slots[i++].Init(data.Value.id);
+        }
+
+        UpdateGold();
+    }
+
     void Dirty(int id)
     {
-        for(int i = 0; i < SaveManager.Instance.artifactSaveDict.Count; i++)
+        for(int i = 0; i < SaveManager.Instance.artifactLevelDict.Count; i++)
         {
             if (slots[i].id == id)
             {
-                slots[i].SetCount(SaveManager.Instance.artifactSaveDict[id].count);
+                slots[i].SetCount(SaveManager.Instance.artifactLevelDict[id].count);
                 break;
             }
         }
@@ -109,6 +119,8 @@ public class UI_Artifact : UI
 
     IEnumerator Gacha()
     {
+        OnScrollStateChanged.RaiseEvent(false);
+
         isShowResultPlaying = true;
 
         gachaBackground.SetActive(true);
@@ -174,10 +186,7 @@ public class UI_Artifact : UI
         boxAnimator.SetInteger("BoxID", -1);
         boxAnimator.SetTrigger("Close");
         gachaBackground.SetActive(false);
-    }
 
-    public override void Clear()
-    {
-
+        OnScrollStateChanged.RaiseEvent(true);
     }
 }

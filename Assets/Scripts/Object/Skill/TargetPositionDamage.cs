@@ -3,8 +3,7 @@ using UnityEngine;
 public class TargetPositionDamage : TargetPositionSkill
 {
     public float multiplier;
-    public float baseDamage = 20f;
-    public float radius = 2.5f;
+    public float radius;
 
     public GameObject effectPrefab;
     public GameObject explosionEffect;
@@ -17,17 +16,25 @@ public class TargetPositionDamage : TargetPositionSkill
 
     public override void ExecuteAt(Vector3 pos, ISkillUser caster)
     {
-        Debug.Log("☄️ MeteorSkill.ExecuteAt");
-        
         if (effectPrefab != null)
         {
-            GameObject meteor = GameObject.Instantiate(effectPrefab, pos + Vector3.up * 10f, Quaternion.identity);
+            GameObject meteor = GameObject.Instantiate(
+                effectPrefab,
+                pos + Vector3.up * 10f,
+                effectPrefab.transform.rotation // ✅ 이걸로 교체!
+            );
+
             TargetPositionEffect effect = meteor.GetComponent<TargetPositionEffect>();
 
             if (effect != null)
             {
-                Debug.Log("✅ MeteorEffect 정상 연결됨");
-                effect.Init(pos, caster, explosionEffect, radius, baseDamage, multiplier);
+                Debug.Log($"{baseDamage}");
+                effect.Init(pos, caster, explosionEffect, radius, baseDamage, multiplier, attackType);
+                
+                effect.effectToApply   = this.effectToApply;     
+                effect.effectValue     = this.effectValue * baseDamage;       
+                effect.effectDuration  = this.effectDuration;    
+                effect.stackable       = this.stackable;         
             }
             else
             {
@@ -47,6 +54,7 @@ public class TargetPositionDamage : TargetPositionSkill
     public override void Setup(SkillData data, SkillVisualDataSO visual)
     {
         multiplier = data.multiplier;
+        radius = data.range;
         Debug.Log(effectPrefab != null);
         if (visual != null)
         {

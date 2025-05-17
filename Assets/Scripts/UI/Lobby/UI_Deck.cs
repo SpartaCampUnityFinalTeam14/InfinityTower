@@ -4,16 +4,12 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Deck : UI
+public class UI_Deck : MonoBehaviour, ScrollPanel
 {
     private TabController tabController;
 
     [SerializeField] private UI_TowerSelect towerSelect;
     [SerializeField] private UI_ChampionSelect championSelect;
-
-    [SerializeField] private Button closeButton;
-    [SerializeField] private Button towerTab;
-    [SerializeField] private Button championTab;
 
     [SerializeField] private RectTransform championBackgroundTransform;
     [SerializeField] private Image championImage;
@@ -31,18 +27,12 @@ public class UI_Deck : UI
     
     private int selectedTowerIndex = -1;
 
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
-
         tabController = GetComponent<TabController>();
 
         towerSelect.deck = this;
         championSelect.deck = this;
-
-        closeButton.onClick.AddListener(() => UIManager.Instance.HideUI<UI_Deck>());
-        //towerTab.onClick.AddListener(() => SetDeckTab(true));
-        //championTab.onClick.AddListener(() => SetDeckTab(false));
 
         championButton.onClick.AddListener(() => UIManager.Instance.ShowStackUI<UI_ChampionInfo>().Init(SaveManager.Instance.playerData.selectedChampionIndex));
         towerSelectMaskButton.onClick.AddListener(() => 
@@ -72,35 +62,19 @@ public class UI_Deck : UI
         OnChampionSelected.RegisterListener(SetChampion);
     }
 
+    public void ResetScrolls()
+    {
+        towerSelect.ResetScroll();
+        championSelect.ResetScroll();
+    }
+
+    public void ResetPanel() => UpdateTab();
+
     public void UpdateTab()
     {
         towerSelect.ResetAllSlot();
         championSelect.ResetAllSlot();
     }
-
-    //public void SetDeckTab(bool isTower)
-    //{
-    //    if (isTower)
-    //    {
-    //        towerSelect.gameObject.SetActive(true);
-    //        towerTab.GetComponent<Image>().color = Color.white;
-
-    //        championSelect.gameObject.SetActive(false);
-    //        championTab.GetComponent<Image>().color = Color.gray;
-
-    //        towerSelect.UpdateSlots();
-    //    }
-    //    else
-    //    {
-    //        championSelect.gameObject.SetActive(true);
-    //        championTab.GetComponent<Image>().color = Color.white;
-
-    //        towerSelect.gameObject.SetActive(false);
-    //        towerTab.GetComponent<Image>().color = Color.gray;
-
-    //        championSelect.UpdateSlots();
-    //    }
-    //}
 
     void SetChampion(int index)
     {
@@ -137,6 +111,7 @@ public class UI_Deck : UI
         if (selectedTowerIndex < 0)
         {
             int towerId = selectedTowerSlots[index].towerId;
+            if (towerId < 0) return;
             UIManager.Instance.ShowStackUI<UI_TowerInfo>().Init(towerId);
             return;
         }
@@ -162,10 +137,8 @@ public class UI_Deck : UI
         selectedTowerSlots[selectedPos].SetSelectedTower(selectedTowerIndex);
     }
 
-    public override void Clear()
+    private void OnDestroy()
     {
-        base.Clear();
-
         UnregisterListeners();
 
         towerSelect.Clear();

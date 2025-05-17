@@ -1,21 +1,27 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class SaveManager : Singleton<SaveManager>
 {
     public PlayerData playerData;
     public Dictionary<int, TowerLevelData> towerLevelDict = new();
     public Dictionary<int, ChampionLevelData> championLevelDict = new();
-    public Dictionary<int, ArtifactSaveData> artifactSaveDict = new();
+    public Dictionary<int, ArtifactLevelData> artifactLevelDict = new();
 
     protected override void Awake()
     {
         base.Awake();
 
+        Init();
+    }
+
+    void Init()
+    {
         LoadPlayerData();
         towerLevelDict = LoadJson<TowerLevelDataLoader, int, TowerLevelData>().MakeDict();
         championLevelDict = LoadJson<ChampionLevelDataLoader, int, ChampionLevelData>().MakeDict();
-        artifactSaveDict = LoadJson<ArtifactSaveDataLoader, int, ArtifactSaveData>().MakeDict();
+        artifactLevelDict = LoadJson<ArtifactLevelDataLoader, int, ArtifactLevelData>().MakeDict();
     }
 
     //public bool CheckDataFileExist(string className)
@@ -37,6 +43,8 @@ public class SaveManager : Singleton<SaveManager>
                 List<Value> list = new();
                 foreach (var tower in DataManager.Instance.towerDict)
                 {
+                    if (tower.Value.id != tower.Value.originalID) continue;
+
                     if(list.Count <= 0) list.Add((Value)(object)new TowerLevelData(tower.Key, 1, 0));
                     else list.Add((Value)(object)new TowerLevelData(tower.Key, 0, 0));
                 }
@@ -52,14 +60,14 @@ public class SaveManager : Singleton<SaveManager>
                 }
                 newLoader.data = list;
             }
-            else if(typeof(Value) == typeof(ArtifactSaveData))
+            else if(typeof(Value) == typeof(ArtifactLevelData))
             {
                 List<Value> list = new();
                 foreach(var artifactDict in DataManager.Instance.artifactDicts)
                 {
                     foreach(var artifact in artifactDict)
                     {
-                        list.Add((Value)(object)new ArtifactSaveData(artifact.Key, 0));
+                        list.Add((Value)(object)new ArtifactLevelData(artifact.Key, 0));
                     }
                 }
 
@@ -125,7 +133,7 @@ public class SaveManager : Singleton<SaveManager>
 
     public void SaveArtifactSaveData()
     {
-        SaveDict<ArtifactSaveDataLoader, int, ArtifactSaveData>(artifactSaveDict);
+        SaveDict<ArtifactLevelDataLoader, int, ArtifactLevelData>(artifactLevelDict);
     }
 
     public void SaveAll()
@@ -136,9 +144,25 @@ public class SaveManager : Singleton<SaveManager>
         SaveArtifactSaveData();
     }
 
-    public void ClearAll()
+    [ContextMenu("DeleteAllSaveFile")]
+    public void DeleteAll()
     {
-        playerData = new();
-        SavePlayerData();
+        DeleteFile(nameof(PlayerData));
+        DeleteFile(nameof(TowerLevelData));
+        DeleteFile(nameof(ChampionLevelData));
+        DeleteFile(nameof(ArtifactLevelData));
+
+        Init();
+    }
+
+    void DeleteFile(string fileName)
+    {
+        string path = $"{Application.persistentDataPath}/{fileName}.json";
+
+        if (System.IO.File.Exists(path))
+        {
+            System.IO.File.Delete(path);
+            Debug.Log($"{fileName} 삭제 완료");
+        }
     }
 }

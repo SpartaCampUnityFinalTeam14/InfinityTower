@@ -9,7 +9,7 @@ public class UI_ChampionSelect : MonoBehaviour
     [HideInInspector] public UI_Deck deck;
 
     [SerializeField] private GameObject scrollView;
-    [SerializeField] private ScrollRect scrollRect;
+    [SerializeField] private ScrollChild scrollRect;
     [SerializeField] private RectTransform content;
     private List<UI_ChampionSlot> slots = new();
 
@@ -32,7 +32,7 @@ public class UI_ChampionSelect : MonoBehaviour
         UnregisterEvent();
         RegisterEvent();
 
-        keys = DataManager.Instance.championDict.Keys.ToList();
+        keys = SaveManager.Instance.championLevelDict.Keys.ToList();
         slotSize = slotWidth + spacing;
         visibleSlotCount = Mathf.CeilToInt(scrollRect.GetComponent<RectTransform>().rect.width / slotSize);
 
@@ -73,7 +73,7 @@ public class UI_ChampionSelect : MonoBehaviour
 
     void InitContentSize()
     {
-        int contentSize = DataManager.Instance.championDict.Count * slotSize;
+        int contentSize = SaveManager.Instance.championLevelDict.Count * slotSize;
         content.sizeDelta = new Vector2(contentSize, content.sizeDelta.y);
     }
 
@@ -82,7 +82,7 @@ public class UI_ChampionSelect : MonoBehaviour
         for (int i = 0; i < poolCount; i++)
         {
             int dataIndex = i;
-            if (0 <= dataIndex && dataIndex < DataManager.Instance.championDict.Count)
+            if (0 <= dataIndex && dataIndex < SaveManager.Instance.championLevelDict.Count)
             {
                 var slot = slots[i];
                 slot.Init(keys[dataIndex]);
@@ -94,6 +94,11 @@ public class UI_ChampionSelect : MonoBehaviour
             }
             else slots[i].gameObject.SetActive(false);
         }
+    }
+
+    public void ResetScroll()
+    {
+        scrollRect.ResetScroll();
     }
     public void ResetAllSlot()
     {

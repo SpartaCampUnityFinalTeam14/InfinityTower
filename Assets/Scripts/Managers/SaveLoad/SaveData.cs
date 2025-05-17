@@ -15,12 +15,14 @@ public abstract class ISaveLoader<Key, Value>
 public class PlayerData
 {
     public int gold;
+    public int selectedStageIndex;
     public List<int> selectedTowerIndex;
     public int selectedChampionIndex;
 
     public PlayerData()
     {
         gold = 1000;
+        selectedStageIndex = 0;
         selectedTowerIndex = new List<int>(5) { 0, -1, -1, -1, -1 };
         selectedChampionIndex = 0;
     }
@@ -41,6 +43,12 @@ public class PlayerData
             return true;
         }
         else return false;
+    }
+
+    public void AddGold(int amount)
+    {
+        gold += amount;
+        SaveManager.Instance.SavePlayerData();
     }
 
     public int AddTower(int pos, int towerIndex)
@@ -138,12 +146,12 @@ public class ChampionLevelDataLoader : ISaveLoader<int, ChampionLevelData>
 
 #region ArtifactSaveData
 [Serializable]
-public class ArtifactSaveData
+public class ArtifactLevelData
 {
     public int id;
     public int count;
 
-    public ArtifactSaveData(int id, int count)
+    public ArtifactLevelData(int id, int count)
     {
         this.id = id;
         this.count = count;
@@ -156,7 +164,7 @@ public class ArtifactSaveData
 
     public StatType ReturnMyStatType(int key)
     {
-        ArtifactSaveData saveData = SaveManager.Instance.artifactSaveDict[key];
+        ArtifactLevelData saveData = SaveManager.Instance.artifactLevelDict[key];
         int id = saveData.id;
         int rarity = id / 1000;
         ArtifactData data = DataManager.Instance.artifactDicts[rarity][id];
@@ -179,7 +187,7 @@ public class ArtifactSaveData
         if (type == dataType)
         {
             float value = DataManager.Instance.artifactDicts[rarity][id].value;
-            int count = SaveManager.Instance.artifactSaveDict[id].count;
+            int count = SaveManager.Instance.artifactLevelDict[id].count;
             totalValue = value * count;
         }
 
@@ -188,12 +196,12 @@ public class ArtifactSaveData
 }
 
 [Serializable]
-public class ArtifactSaveDataLoader : ISaveLoader<int, ArtifactSaveData>
+public class ArtifactLevelDataLoader : ISaveLoader<int, ArtifactLevelData>
 {
-    public override Dictionary<int, ArtifactSaveData> MakeDict()
+    public override Dictionary<int, ArtifactLevelData> MakeDict()
     {
-        Dictionary<int, ArtifactSaveData> dict = new();
-        foreach (ArtifactSaveData artifact in data)
+        Dictionary<int, ArtifactLevelData> dict = new();
+        foreach (ArtifactLevelData artifact in data)
         {
             dict.Add(artifact.id, artifact);
         }

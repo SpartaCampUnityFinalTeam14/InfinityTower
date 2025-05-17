@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,7 +49,7 @@ public class MonsterBase : Poolable, ISkillUser
         moveSpeed = GetFinalStatValue(StatType.moveSpeed);
         defense = GetFinalStatValue(StatType.armor);
 
-        BattleManager.Instance.InitArtifactStatModifier(AddModifierStat, IsValidStat);
+        InitArtifactStatModifier(AddModifierStat, IsValidStat);
 
         ApplyTypeBonus((EnemyType)data.enemyType);
 
@@ -61,6 +62,27 @@ public class MonsterBase : Poolable, ISkillUser
             Debug.LogWarning("❌ HPBar 연결 실패! 경로 확인 필요.");
 
         UpdateHpUI(); // 시작할 때 체력바도 세팅
+    }
+
+    public void InitArtifactStatModifier(Dictionary<int, float> AddModifier, Func<StatType, bool> isValidStat)
+    {
+        foreach (var artifactData in SaveManager.Instance.artifactLevelDict)
+        {
+            ////아티펙트가 가진 TargetType을 검사
+            //if (artifactData.Value.ReturnMyTargetType())
+            //    continue;
+
+            //유닛이 가지고있는 스탯 타입을 검사
+            if (!isValidStat(artifactData.Value.ReturnMyStatType(artifactData.Key)))
+                continue;
+
+            int artifactStatType = (int)artifactData.Value.ReturnMyStatType(artifactData.Key);
+            float value = artifactData.Value.ReturnNowStatValue(artifactData.Value.id, (StatType)artifactStatType);
+            if (!AddModifier.TryAdd(artifactStatType, value))
+            {
+                AddModifier[artifactStatType] += value;
+            }
+        }
     }
 
     private bool IsValidStat(StatType statType)
@@ -90,11 +112,27 @@ public class MonsterBase : Poolable, ISkillUser
 
         currentHP -= Mathf.RoundToInt(amount);
         UpdateHpUI();
+        
+        ShowDamagePopup(Mathf.RoundToInt(amount));
 
         if (currentHP <= 0)
         {
             Dead();
         }
+    }
+    private void ShowDamagePopup(int damage)
+    {
+        GameObject popupPrefab = Resources.Load<GameObject>("Prefabs/UI/UI_DamagePopup");
+        if (popupPrefab == null)
+        {
+            Debug.LogWarning("❌ DamagePopup 프리팹을 불러올 수 없습니다.");
+            return;
+        }
+
+        Vector3 popupPos = transform.position + new Vector3(0f, 0.5f, 0f); // 몬스터 위쪽
+        GameObject popupGO = Instantiate(popupPrefab, popupPos, Quaternion.identity);
+        DamagePopup popup = popupGO.GetComponent<DamagePopup>();
+        popup.Setup(damage);
     }
 
     public void SetPath(List<Vector3> path)
@@ -235,7 +273,7 @@ public class MonsterBase : Poolable, ISkillUser
             {
                 if (DataManager.Instance.skillDict.TryGetValue(skillId, out var skillData))
                 {
-                    Skill newSkill = SkillFactory.CreateSkill(skillData);
+                    Skill newSkill = SkillFactory.CreateSkill(skillData, data.value[3]);
                     if (newSkill != null)
                     {
                         skills.Add(newSkill);
@@ -310,4 +348,10 @@ public class MonsterBase : Poolable, ISkillUser
     {
         return 0; // 몬스터는 팀 0
     }
+    
+    public float GetBaseDamage()
+    {
+        return 10f; // 특성, 유물 등 계산 가능
+    }
+
 }

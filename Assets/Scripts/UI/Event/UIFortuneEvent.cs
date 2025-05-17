@@ -39,7 +39,7 @@ public class UIFortuneEvent : UI
 
     void InitAbilityIcon()
     {
-        var abilities = StageManager.Instance.abilityManager.CurAbilities;
+        var abilities = StageManager.Instance.abilityManager.allAbilities;
         GameObject iconPrefab = Resources.Load<GameObject>("Prefabs/Ability/AbilityIcon");
 
         foreach (var ability in abilities.Values) 

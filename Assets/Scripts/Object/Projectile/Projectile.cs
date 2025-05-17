@@ -26,7 +26,6 @@ public abstract class Projectile : MonoBehaviour
     {
         target.TakeDamage(damage);
         OnHitTarget((target as MonoBehaviour)?.gameObject);
-        Destroy(gameObject);
     }
 
     protected virtual void OnHitTarget(GameObject target)

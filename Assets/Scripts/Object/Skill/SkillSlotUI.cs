@@ -60,7 +60,6 @@ public class SkillSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         if (skill is not TargetPositionSkill targetSkill) return;
 
         tpSkill = targetSkill;
-        Debug.Log("🧪 위치 지정형 스킬 사용");
         
         // ✅ 쿨타임 검사 추가
         if (!tpSkill.CanUse())

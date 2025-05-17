@@ -1,0 +1,417 @@
+{
+    "data": [
+        {
+            "id": 1,
+            "name": "병사",
+            "description": "",
+            "targetType": 2,
+            "targetingRule": 0,
+            "isSplash": "FALSE",
+            "splashRadius": 0,
+            "projectileID": -1,
+            "effectID": [
+                -1
+            ],
+            "effectValue": [
+                0
+            ],
+            "effectDuration": 0,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": [
+                20,
+                4,
+                0.333,
+                1,
+                7,
+                120
+            ],
+            "upgradeTo": 2,
+            "originalID": 0
+        },
+        {
+            "id": 2,
+            "name": "기사",
+            "description": "",
+            "targetType": 2,
+            "targetingRule": 0,
+            "isSplash": "FALSE",
+            "splashRadius": 0,
+            "projectileID": -1,
+            "effectID": [
+                1
+            ],
+            "effectValue": [
+                2
+            ],
+            "effectDuration": 3,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": [
+                25,
+                4,
+                0.333,
+                1,
+                10,
+                150
+            ],
+            "upgradeTo": -1,
+            "originalID": 0
+        },
+        {
+            "id": 4,
+            "name": "궁병",
+            "description": "",
+            "targetType": 2,
+            "targetingRule": 0,
+            "isSplash": "FALSE",
+            "splashRadius": 0,
+            "projectileID": 0,
+            "effectID": [
+                -1
+            ],
+            "effectValue": [
+                0
+            ],
+            "effectDuration": 0,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": [
+                15,
+                6,
+                0.286,
+                1,
+                10,
+                130
+            ],
+            "upgradeTo": 5,
+            "originalID": 3
+        },
+        {
+            "id": 5,
+            "name": "명사수",
+            "description": "",
+            "targetType": 2,
+            "targetingRule": 3,
+            "isSplash": "FALSE",
+            "splashRadius": 0,
+            "projectileID": 4,
+            "effectID": [
+                -1
+            ],
+            "effectValue": [
+                0
+            ],
+            "effectDuration": 0,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": [
+                25,
+                9,
+                0.333,
+                1,
+                12,
+                180
+            ],
+            "upgradeTo": -1,
+            "originalID": 3
+        },
+        {
+            "id": 7,
+            "name": "검사",
+            "description": "",
+            "targetType": 2,
+            "targetingRule": 0,
+            "isSplash": "FALSE",
+            "splashRadius": 0,
+            "projectileID": -1,
+            "effectID": [
+                -1
+            ],
+            "effectValue": [
+                0
+            ],
+            "effectDuration": 0,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": [
+                18,
+                2,
+                0.333,
+                1,
+                13,
+                130
+            ],
+            "upgradeTo": 8,
+            "originalID": 6
+        },
+        {
+            "id": 8,
+            "name": "검성",
+            "description": "",
+            "targetType": 2,
+            "targetingRule": 0,
+            "isSplash": "FALSE",
+            "splashRadius": 0,
+            "projectileID": -1,
+            "effectID": [
+                -1
+            ],
+            "effectValue": [
+                0
+            ],
+            "effectDuration": 0,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": [
+                20,
+                3,
+                0.4,
+                1,
+                20,
+                160
+            ],
+            "upgradeTo": -1,
+            "originalID": 6
+        },
+        {
+            "id": 10,
+            "name": "오크 병사",
+            "description": "",
+            "targetType": 2,
+            "targetingRule": 3,
+            "isSplash": "FALSE",
+            "splashRadius": 0,
+            "projectileID": -1,
+            "effectID": [
+                -1
+            ],
+            "effectValue": [
+                0
+            ],
+            "effectDuration": 0,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": [
+                40,
+                3,
+                0.222,
+                1,
+                15,
+                180
+            ],
+            "upgradeTo": 11,
+            "originalID": 9
+        },
+        {
+            "id": 11,
+            "name": "오크 근위병",
+            "description": "",
+            "targetType": 2,
+            "targetingRule": 3,
+            "isSplash": "TRUE",
+            "splashRadius": 2,
+            "projectileID": -1,
+            "effectID": [
+                -1
+            ],
+            "effectValue": [
+                0
+            ],
+            "effectDuration": 0,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": [
+                45,
+                3,
+                0.222,
+                1,
+                18,
+                220
+            ],
+            "upgradeTo": -1,
+            "originalID": 9
+        },
+        {
+            "id": 13,
+            "name": "마법사",
+            "description": "",
+            "targetType": 2,
+            "targetingRule": 0,
+            "isSplash": "TRUE",
+            "splashRadius": 1.5,
+            "projectileID": 1,
+            "effectID": [
+                -1
+            ],
+            "effectValue": [
+                0
+            ],
+            "effectDuration": 0,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": "[18,4,0.333.5,1,10,180]",
+            "upgradeTo": 14,
+            "originalID": 12
+        },
+        {
+            "id": 14,
+            "name": "마법 교수",
+            "description": "",
+            "targetType": 2,
+            "targetingRule": 0,
+            "isSplash": "TRUE",
+            "splashRadius": 2,
+            "projectileID": -1,
+            "effectID": [
+                0
+            ],
+            "effectValue": [
+                0.3
+            ],
+            "effectDuration": 2,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": [
+                27,
+                4,
+                0.333,
+                1,
+                20,
+                250
+            ],
+            "upgradeTo": -1,
+            "originalID": 12
+        },
+        {
+            "id": 16,
+            "name": "독 제조사",
+            "description": "",
+            "targetType": 2,
+            "targetingRule": 0,
+            "isSplash": "FALSE",
+            "splashRadius": 0,
+            "projectileID": 2,
+            "effectID": [
+                -1
+            ],
+            "effectValue": [
+                0
+            ],
+            "effectDuration": 0,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": [
+                5,
+                4,
+                0.25,
+                1,
+                15,
+                200
+            ],
+            "upgradeTo": 17,
+            "originalID": 15
+        },
+        {
+            "id": 17,
+            "name": "역병 의사",
+            "description": "",
+            "targetType": 2,
+            "targetingRule": 3,
+            "isSplash": "FALSE",
+            "splashRadius": 0,
+            "projectileID": 3,
+            "effectID": [
+                -1
+            ],
+            "effectValue": [
+                0
+            ],
+            "effectDuration": 0,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": [
+                3,
+                4,
+                0.25,
+                1,
+                20,
+                250
+            ],
+            "upgradeTo": -1,
+            "originalID": 15
+        }
+    ]
+}

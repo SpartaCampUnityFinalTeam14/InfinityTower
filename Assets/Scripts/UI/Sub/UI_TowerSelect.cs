@@ -9,7 +9,7 @@ public class UI_TowerSelect : MonoBehaviour
     [HideInInspector] public UI_Deck deck;
 
     [SerializeField] private GameObject scrollView;
-    [SerializeField] private ScrollRect scrollRect;
+    [SerializeField] private ScrollChild scrollRect;
     [SerializeField] private RectTransform content;
     private List<UI_TowerSelectSlot> slots = new();
 
@@ -32,7 +32,7 @@ public class UI_TowerSelect : MonoBehaviour
         UnregisterListeners();
         RegisterListeners();
 
-        keys = DataManager.Instance.towerDict.Keys.ToList();
+        keys = SaveManager.Instance.towerLevelDict.Keys.ToList();
         slotSize = slotWidth + spacing;
         visibleSlotCount = Mathf.CeilToInt(scrollRect.GetComponent<RectTransform>().rect.width / slotSize);
 
@@ -72,7 +72,7 @@ public class UI_TowerSelect : MonoBehaviour
 
     void InitContentSize()
     {
-        int contentSize = DataManager.Instance.towerDict.Count * slotSize;
+        int contentSize = SaveManager.Instance.towerLevelDict.Count * slotSize;
         content.sizeDelta = new Vector2(contentSize, content.sizeDelta.y);
     }
 
@@ -81,7 +81,7 @@ public class UI_TowerSelect : MonoBehaviour
         for (int i = 0; i < poolCount; i++)
         {
             int dataIndex = i;
-            if (0 <= dataIndex && dataIndex < DataManager.Instance.towerDict.Count)
+            if (0 <= dataIndex && dataIndex < SaveManager.Instance.towerLevelDict.Count)
             {
                 var slot = slots[i];
                 slot.Init(keys[dataIndex]);
@@ -93,6 +93,11 @@ public class UI_TowerSelect : MonoBehaviour
             }
             else slots[i].gameObject.SetActive(false);
         }
+    }
+
+    public void ResetScroll()
+    {
+        scrollRect.ResetScroll();
     }
 
     public void ResetAllSlot()

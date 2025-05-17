@@ -8,6 +8,7 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<int, FloorData> floorDict = new();
     public Dictionary<int, WaveData> waveDict = new();
     public Dictionary<int, TowerData> towerDict = new();
+    //public Dictionary<int, TowerData> upgradeTowerDict = new();
     public Dictionary<int, ChampionData> championDict = new();
     public Dictionary<int, SkillData> skillDict = new();
     public Dictionary<int, AbilityData> abilityDict = new();
@@ -25,6 +26,7 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<int, LevelUpData> levelUpDict = new();
     public Dictionary<int, StatusData> statusDict = new();
     public Dictionary<int, EffectData> effectDict = new();
+    public Dictionary<int, StageData> stageDict = new();
 
     protected override void Awake()
     {
@@ -34,6 +36,7 @@ public class DataManager : Singleton<DataManager>
         floorDict = LoadJson<FloorDataLoader, int, FloorData>().MakeDict();
         waveDict = LoadJson<WaveDataLoader, int, WaveData>().MakeDict();
         towerDict = LoadJson<TowerDataLoader, int, TowerData>().MakeDict();
+        //upgradeTowerDict = LoadJson<TowerDataLoader, int, TowerData>("UpgradeTowerData").MakeDict();
         championDict = LoadJson<ChampionDataLoader, int, ChampionData>().MakeDict();
         skillDict = LoadJson<SkillDataLoader, int, SkillData>().MakeDict();
         abilityDict = LoadJson<AbilityDataLoader, int, AbilityData>().MakeDict();
@@ -48,6 +51,7 @@ public class DataManager : Singleton<DataManager>
         levelUpDict = LoadJson<LevelUpDataLoader, int, LevelUpData>().MakeDict();
         statusDict = LoadJson<StatusDataLoader, int, StatusData>().MakeDict();
         effectDict = LoadJson<EffectDataLoader, int, EffectData>().MakeDict();
+        stageDict = LoadJson<StageDataLoader, int, StageData>().MakeDict();
     }
 
     Loader LoadJson<Loader, Key, Value>(string fileName = default) where Loader : ILoader<Key, Value>

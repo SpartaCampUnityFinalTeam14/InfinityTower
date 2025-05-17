@@ -48,10 +48,10 @@ public class MonsterData
         abil = common.ContainsKey(iType) ? common[iType] : 0f;
 
         float value = 0.0f;
-        foreach (var saveData in SaveManager.Instance.artifactSaveDict)
+        foreach (var saveData in SaveManager.Instance.artifactLevelDict)
         {
             int i = 0;
-            int id = SaveManager.Instance.artifactSaveDict[i].id;
+            int id = SaveManager.Instance.artifactLevelDict[i].id;
             StatType artifactStatType = new();
 
             if (type == saveData.Value.ReturnMyStatType(i))
@@ -160,14 +160,21 @@ public class TowerData
     public int targetType;
     public int targettingRule;
 
-    // 기본 스텟
-    public List<int> statTypes;    // statType의 int 값들
-    public List<float> statValue;   // 각 스탯에 대한 수치
+    public bool isSplash;
+    public float splashRadius;
+    public int projectileID;
 
     // 보유 효과
     public List<int> effectID;      // effctType의 int 값들
     // 각 효과의 수치, 지속시간, 중첩여부 (지속시간이 음수면 무한, 중첩여부가 0이하면 중첩안됨)
     public List<effectValues> effectValue;
+
+    // 기본 스텟
+    public List<int> statType;    // statType의 int 값들
+    public List<float> statValue;   // 각 스탯에 대한 수치
+
+    public int upgradeTo;
+    public int originalID;
 
     public TargettingRule TargettingRule => (TargettingRule)targettingRule;
     public TargetType TargetType => (TargetType)targetType;
@@ -185,9 +192,9 @@ public class TowerData
                 break;
         }
 
-        for (int i = 0; i < statTypes.Count; i++)
+        for (int i = 0; i < statType.Count; i++)
         {
-            if ((StatType)statTypes[i] == type)
+            if ((StatType)statType[i] == type)
                 return statValue[i] * multi;
         }
         throw new InvalidOperationException($"{type.ToString()}에 해당하는 효과 없음");
@@ -286,7 +293,6 @@ public class ProjectileDataLoader : ILoader<int, ProjectileData>
 }
 #endregion
 
-
 #region ChampionData
 [Serializable]
 public class ChampionData
@@ -328,10 +334,13 @@ public class SkillData
     public float multiplier;
     public SkillType skillType;
     public float range;
+    public string visualId;
+    public int attackType;
 
-    // 🔗 SO를 참조할 수 있는 필드 (Resources 또는 Addressable 기준 경로로 사용)
-    public string visualId; // 예: "Meteor"
+    public List<int> effectID;                    // 🔥 이펙트 ID
+    public List<effectValues> effectValue;        // 🔥 대응하는 값 리스트
 }
+
 
 
 [Serializable]
@@ -651,6 +660,37 @@ public class EffectDataLoader : ILoader<int, EffectData>
             effect.effectType = (EffectType)effect.id;
             dict.Add(effect.id, effect);
         }
+        return dict;
+    }
+}
+#endregion
+
+#region StageData
+[Serializable]
+public class StageData
+{
+    public int id;
+    public string name;
+    public int floorCount;
+    public List<int> floorPool;
+    public List<int> eventPool;
+    public int bossFloorID;
+    public int rewardGold;
+}
+
+[Serializable]
+public class StageDataLoader : ILoader<int, StageData>
+{
+    public List<StageData> data = new();
+
+    public Dictionary<int, StageData> MakeDict()
+    {
+        Dictionary<int, StageData> dict = new();
+        foreach (StageData stage in data)
+        {
+            dict.Add(stage.id, stage);
+        }
+
         return dict;
     }
 }

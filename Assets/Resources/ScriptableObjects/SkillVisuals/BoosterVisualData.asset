@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2baf6d387f7461eb8fa16cdfa7bedee, type: 3}
+  m_Name: BoosterVisualData
+  m_EditorClassIdentifier: 
+  id: Booster
+  effectPrefab: {fileID: 1194233160445262671, guid: a2d2e2b1fec6447718bc0ba12f985a4f, type: 3}
+  explosionEffect: {fileID: 420310302827607826, guid: 7d508f6f52d474e59b0e5b78dd2a6e1b, type: 3}
+  soundClip: {fileID: 0}

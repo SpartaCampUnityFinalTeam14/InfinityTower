@@ -23,7 +23,7 @@ public class UI_ArtifactSlot : MonoBehaviour
         data = DataManager.Instance.artifactDicts[rarity][id];
 
         nameText.text = data.name;
-        SetCount(SaveManager.Instance.artifactSaveDict[id].count);
+        SetCount(SaveManager.Instance.artifactLevelDict[id].count);
     }
 
     public void SetCount(int count)

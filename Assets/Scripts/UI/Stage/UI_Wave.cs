@@ -1,6 +1,8 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 using TMPro;
 using UnityEngine;
 
@@ -18,6 +20,8 @@ public class UI_Wave : UI
 
     [Header("Wave Clear Settings")]
     [SerializeField] float scaleDuration;
+    [SerializeField] float sequenceStartDelay;
+    [SerializeField] float sequenceEndDelay;
 
     public override void Show()
     {
@@ -55,16 +59,30 @@ public class UI_Wave : UI
             });
     }
 
-    public void ShowWaveClear()
+    public void ShowWaveClear(Action onComplete = null)
     {
         // Text Init
         text.text = $"Clear!";
         text.transform.position = centerPos.transform.position;
         text.transform.localScale = Vector3.zero;
 
-        text.transform.DOScale(Vector3.one, scaleDuration)
-            .SetEase(Ease.OutBack)
-            .SetUpdate(true)
-            .OnComplete(() => Hide());
+        Sequence seq = DOTween.Sequence();
+        seq.SetUpdate(true);
+
+        // 시퀀스 시작 대기 시간
+        seq.AppendInterval(sequenceStartDelay);
+
+        // 시퀀스 동작
+        seq.Append(text.transform.DOScale(Vector3.one, scaleDuration)
+            .SetEase(Ease.OutBack).SetUpdate(true));
+
+        // 클리어 문구 생성 후 끝나는 대기시간
+        seq.AppendInterval(sequenceEndDelay);
+
+        seq.AppendCallback(() =>
+        {
+            onComplete?.Invoke();
+            Hide();
+        });
     }
 }
