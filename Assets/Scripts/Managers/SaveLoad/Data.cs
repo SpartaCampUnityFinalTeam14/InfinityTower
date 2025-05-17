@@ -54,10 +54,10 @@ public class MonsterData
             int id = SaveManager.Instance.artifactLevelDict[i].id;
             StatType artifactStatType = new();
 
-            if (type == saveData.Value.ReturnMyStatType(i))
-                artifactStatType = saveData.Value.ReturnMyStatType(i);
+            if (type == saveData.Value.ReturnMyStatType())
+                artifactStatType = saveData.Value.ReturnMyStatType();
 
-            value += saveData.Value.ReturnNowStatValue(id, artifactStatType);
+            value += saveData.Value.ReturnNowStatValue(artifactStatType);
             i++;
         }
 

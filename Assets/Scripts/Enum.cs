@@ -47,7 +47,7 @@ public enum StatType
 
     //Player
     atk = 14,
-    cash = 15,
+    startCost = 15,
     cleargoldDrop = 16
 }
 

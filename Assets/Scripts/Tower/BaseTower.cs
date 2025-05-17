@@ -80,11 +80,11 @@ public abstract class BaseTower : Poolable
             //    continue;
 
             //유닛이 가지고있는 스탯 타입을 검사
-            if (!isValidStat(artifactData.Value.ReturnMyStatType(artifactData.Key)))
+            if (!isValidStat(artifactData.Value.ReturnMyStatType()))
                 continue;
 
-            int artifactStatType = (int)artifactData.Value.ReturnMyStatType(artifactData.Key);
-            float value = artifactData.Value.ReturnNowStatValue(artifactData.Value.id, (StatType)artifactStatType);
+            int artifactStatType = (int)artifactData.Value.ReturnMyStatType();
+            float value = artifactData.Value.ReturnNowStatValue((StatType)artifactStatType);
             if (!AddModifier.TryAdd(artifactStatType, value))
             {
                 AddModifier[artifactStatType] += value;

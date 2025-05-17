@@ -162,15 +162,13 @@ public class ArtifactLevelData
 
     //}
 
-    public StatType ReturnMyStatType(int key)
+    public StatType ReturnMyStatType()
     {
-        ArtifactLevelData saveData = SaveManager.Instance.artifactLevelDict[key];
-        int id = saveData.id;
         int rarity = id / 1000;
         ArtifactData data = DataManager.Instance.artifactDicts[rarity][id];
 
         StatType type = new();
-        if (data.id == saveData.id)
+        if (data.id == id)
         {
             type = (StatType)data.valueType;
             return type;
@@ -178,7 +176,7 @@ public class ArtifactLevelData
         return type;
     }
 
-    public float ReturnNowStatValue(int id, StatType type)
+    public float ReturnNowStatValue(StatType type)
     {
         int rarity = id / 1000;
         StatType dataType = (StatType)DataManager.Instance.artifactDicts[rarity][id].valueType;

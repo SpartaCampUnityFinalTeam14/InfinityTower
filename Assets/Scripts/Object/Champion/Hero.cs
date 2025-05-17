@@ -8,7 +8,7 @@ public class Hero : ISkillUser
     public Vector3 fakePosition = Vector3.zero; 
     
     private float baseAtk;
-    private float artifactBonus ;
+    private float AtkModifier;
 
     public void UseSkill(int index)
     {
@@ -31,7 +31,7 @@ public class Hero : ISkillUser
     public float GetBaseDamage()
     {
         //여기서 최종 데미지 결정해야될듯? 유물 특성 + 
-        return baseAtk + artifactBonus;
+        return baseAtk * Mathf.Max(0, (1 + AtkModifier));
     }
 
     // ✅ 여기서 모든 스킬 데미지를 갱신
@@ -45,7 +45,7 @@ public class Hero : ISkillUser
     // 예: 외부에서 호출
     public void AddStatFromArtifact(float value)
     {
-        artifactBonus = value;
+        AtkModifier += value;
         RefreshSkillBaseDamage();
     }
 }

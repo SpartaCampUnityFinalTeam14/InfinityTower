@@ -44,7 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 008e97adda5752442ad43d90b77a980c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  costRecoveryMultiplier: 100
+  token: 0
+  book: 0
+  costRecoveryMultiplier: 10
   selectedTowers: 
   selectedChampion: 0
   skillTargetingSystem: {fileID: 0}
