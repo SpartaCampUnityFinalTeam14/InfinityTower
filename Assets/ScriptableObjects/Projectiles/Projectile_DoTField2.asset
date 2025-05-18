@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Projectile_DoTField2
   m_EditorClassIdentifier: 
   id: 2
-  prefab: {fileID: 1735839083507790713, guid: 50b4f7af1cf2a614fb3c61f7ab3748fa, type: 3}
+  prefab: {fileID: 1735839083507790713, guid: 95777e934bc0a1949918e912f1304aed, type: 3}
   impactEffect: {fileID: 6069227671954865344, guid: 6178b689ef5a88e4299e02a582979d6a, type: 3}
   sound: {fileID: 0}

@@ -98,7 +98,7 @@
         4
       ],
       "value": [
-        0.2
+        -0.2
       ],
       "targetType": 0,
       "rarity": 1,
@@ -233,7 +233,7 @@
         9
       ],
       "value": [
-        0.1
+        -0.1
       ],
       "targetType": 2,
       "rarity": 0,
@@ -248,7 +248,7 @@
         9
       ],
       "value": [
-        0.2
+        -0.2
       ],
       "targetType": 2,
       "rarity": 1,
@@ -263,7 +263,7 @@
         10
       ],
       "value": [
-        0.1
+        -0.1
       ],
       "targetType": 2,
       "rarity": 0,
@@ -278,7 +278,7 @@
         10
       ],
       "value": [
-        0.2
+        -0.2
       ],
       "targetType": 2,
       "rarity": 1,
@@ -293,7 +293,7 @@
         11
       ],
       "value": [
-        0.3
+        -0.3
       ],
       "targetType": 2,
       "rarity": 2,
@@ -308,7 +308,7 @@
         12
       ],
       "value": [
-        0.3
+        -0.3
       ],
       "targetType": 2,
       "rarity": 0,
