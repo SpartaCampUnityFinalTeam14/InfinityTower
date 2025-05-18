@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 17
-  projectileDataSO: {fileID: 11400000, guid: 26a74d10ce67a473cbda1eebdf5596f1, type: 2}
+  projectileDataSO: {fileID: 11400000, guid: 2c2320cef4d498044a8d895315f44dd9, type: 2}
   firePoint: {fileID: 1967859478422686101}
 --- !u!61 &8262929048054063178
 BoxCollider2D:
@@ -208,7 +208,7 @@ SpriteRenderer:
   m_Size: {x: 0.55, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &2320780033830251567
