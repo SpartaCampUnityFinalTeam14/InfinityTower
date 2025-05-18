@@ -29,7 +29,7 @@ public class ShopItem : MonoBehaviour
 
         textName.text = data.name;
 
-        //string test = $"Icons/Ability/{data.image}";
+        string test = $"Icons/Ability/{data.image}";
 
         var icon = Resources.Load<Sprite>($"Icons/Ability/{data.image}");
         if (icon) itemImage.sprite = icon;

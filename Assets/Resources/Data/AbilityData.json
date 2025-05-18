@@ -13,7 +13,7 @@
       "targetType": 0,
       "rarity": 0,
       "stackLimit": 3,
-      "image": "power_strike "
+      "image": "power_strike"
     },
     {
       "perkID": 1,
@@ -28,7 +28,7 @@
       "targetType": 0,
       "rarity": 1,
       "stackLimit": 2,
-      "image": "power_strike "
+      "image": "power_strike"
     },
     {
       "perkID": 2,
@@ -43,7 +43,7 @@
       "targetType": 0,
       "rarity": 2,
       "stackLimit": 1,
-      "image": "power_strike "
+      "image": "power_strike"
     },
     {
       "perkID": 3,
@@ -58,7 +58,7 @@
       "targetType": 0,
       "rarity": 0,
       "stackLimit": 3,
-      "image": "quick_hands "
+      "image": "quick_hands"
     },
     {
       "perkID": 4,
@@ -73,7 +73,7 @@
       "targetType": 0,
       "rarity": 1,
       "stackLimit": 2,
-      "image": "quick_hands "
+      "image": "quick_hands"
     },
     {
       "perkID": 5,
@@ -88,7 +88,7 @@
       "targetType": 0,
       "rarity": 2,
       "stackLimit": 1,
-      "image": "quick_hands "
+      "image": "quick_hands"
     },
     {
       "perkID": 6,
@@ -103,7 +103,7 @@
       "targetType": 0,
       "rarity": 1,
       "stackLimit": 2,
-      "image": "quick_shift "
+      "image": "quick_shift"
     },
     {
       "perkID": 7,
@@ -118,7 +118,7 @@
       "targetType": 1,
       "rarity": 0,
       "stackLimit": 10,
-      "image": "potion "
+      "image": "potion"
     },
     {
       "perkID": 8,
@@ -133,7 +133,7 @@
       "targetType": 1,
       "rarity": 1,
       "stackLimit": 10,
-      "image": "potion "
+      "image": "potion"
     },
     {
       "perkID": 9,
@@ -148,7 +148,7 @@
       "targetType": 1,
       "rarity": 2,
       "stackLimit": 1,
-      "image": "potion "
+      "image": "potion"
     },
     {
       "perkID": 10,
@@ -163,7 +163,7 @@
       "targetType": 1,
       "rarity": 0,
       "stackLimit": 1,
-      "image": "health_up "
+      "image": "health_up"
     },
     {
       "perkID": 11,
@@ -178,7 +178,7 @@
       "targetType": 1,
       "rarity": 1,
       "stackLimit": 1,
-      "image": "health_up "
+      "image": "health_up"
     },
     {
       "perkID": 12,
@@ -193,7 +193,7 @@
       "targetType": 1,
       "rarity": 0,
       "stackLimit": 1,
-      "image": "money_boost "
+      "image": "money_boost"
     },
     {
       "perkID": 13,
@@ -208,7 +208,7 @@
       "targetType": 1,
       "rarity": 1,
       "stackLimit": 1,
-      "image": "money_boost "
+      "image": "money_boost"
     },
     {
       "perkID": 14,
@@ -223,7 +223,7 @@
       "targetType": 1,
       "rarity": 2,
       "stackLimit": 1,
-      "image": "money_boost "
+      "image": "money_boost"
     },
     {
       "perkID": 15,
@@ -238,7 +238,7 @@
       "targetType": 2,
       "rarity": 0,
       "stackLimit": 1,
-      "image": "overpowering "
+      "image": "overpowering"
     },
     {
       "perkID": 16,
@@ -253,7 +253,7 @@
       "targetType": 2,
       "rarity": 1,
       "stackLimit": 1,
-      "image": "overpowering "
+      "image": "overpowering"
     },
     {
       "perkID": 17,
@@ -268,7 +268,7 @@
       "targetType": 2,
       "rarity": 0,
       "stackLimit": 1,
-      "image": "slow "
+      "image": "slow"
     },
     {
       "perkID": 18,
@@ -283,7 +283,7 @@
       "targetType": 2,
       "rarity": 1,
       "stackLimit": 1,
-      "image": "slow "
+      "image": "slow"
     },
     {
       "perkID": 19,
@@ -298,7 +298,7 @@
       "targetType": 2,
       "rarity": 2,
       "stackLimit": 1,
-      "image": "armor_break "
+      "image": "armor_break"
     },
     {
       "perkID": 20,
@@ -313,7 +313,7 @@
       "targetType": 2,
       "rarity": 0,
       "stackLimit": 1,
-      "image": "damage_reduction "
+      "image": "damage_reduction"
     },
     {
       "perkID": 23,
@@ -330,7 +330,7 @@
       "targetType": 2,
       "rarity": 1,
       "stackLimit": 1,
-      "image": "risk_return "
+      "image": "risk_return"
     },
     {
       "perkID": 24,
@@ -347,7 +347,7 @@
       "targetType": 0,
       "rarity": 1,
       "stackLimit": 1,
-      "image": "weapon_heavy "
+      "image": "weapon_heavy"
     },
     {
       "perkID": 25,
