@@ -204,12 +204,12 @@ public class TowerData
     // 유틸 메서드: 특정 타입의 스탯 값 가져오기
     public float GetStatValue(StatType type)
     {
-        return GetStatValue(type, SaveManager.Instance.towerLevelDict[id].level);
+        return GetStatValue(type, SaveManager.Instance.towerLevelDict[originalID].level);
     }
 
     public float GetStatValue(int typeID)
     {
-        return GetStatValue((StatType)typeID, SaveManager.Instance.towerLevelDict[id].level);
+        return GetStatValue((StatType)typeID, SaveManager.Instance.towerLevelDict[originalID].level);
     }
 
     public string GetStatName(StatType type)

@@ -135,6 +135,8 @@ public abstract class BaseTower : Poolable
 
     public void ApplyEffectOnAttack(GameObject target)
     {
+        if (!target) return;
+
         if (towerData.TargetType == TargetType.Enemy)
         {
             MonsterBase enemy = target.GetComponent<MonsterBase>();

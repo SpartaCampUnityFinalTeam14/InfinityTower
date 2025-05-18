@@ -16,6 +16,6 @@ public class UI_ResultAbilitySlot : MonoBehaviour
 
         var data = DataManager.Instance.abilityDict[id];
         nameText.text = data.name;
-        abilityIcon.sprite = Resources.Load<Sprite>($"Icons/Ability/{Path.ChangeExtension(data.image, null)}");
+        abilityIcon.sprite = Resources.Load<Sprite>($"Icons/Ability/{data.image}");
     }
 }

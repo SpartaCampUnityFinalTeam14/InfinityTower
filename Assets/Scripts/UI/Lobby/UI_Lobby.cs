@@ -39,7 +39,7 @@ public class UI_Lobby : MonoBehaviour, ScrollPanel
         SaveManager.Instance.playerData.selectedStageIndex = id;
         SaveManager.Instance.SavePlayerData();
 
-        //stageImage.sprite = 
+        stageImage.sprite = Resources.Load<Sprite>($"Icons/Stage/Stage_{id}");
         stageNameText.text = DataManager.Instance.stageDict[id].name;
 
         if (SaveManager.Instance.playerData.playableStages.IndexOf(id) <= 0) leftStageButton.gameObject.SetActive(false);

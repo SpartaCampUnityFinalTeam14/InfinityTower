@@ -27,9 +27,17 @@ public class TilemapManager : MonoBehaviour
     {
         TileBase tile = tilemap.GetTile(cellPos);
 
-        if (tile == null) return false; // 타일 없음
-        if (occupiedCells.Contains(cellPos)) return false; // 이미 설치된 셀
-
+        if (tile == null)
+        {
+            Debug.Log(cellPos + " , 타일 없음");
+            return false;
+        }
+        if (occupiedCells.Contains(cellPos)) 
+        {
+            Debug.Log(cellPos + " , 타일 이미 꽉 차 있음");
+            return false; 
+        }
+        Debug.Log(cellPos + " , 타일 있음");
         return true;
     }
 

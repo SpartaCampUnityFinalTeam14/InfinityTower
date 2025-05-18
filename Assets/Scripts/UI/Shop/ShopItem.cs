@@ -31,7 +31,7 @@ public class ShopItem : MonoBehaviour
 
         string test = $"Icons/Ability/{data.image}";
 
-        var icon = Resources.Load<Sprite>($"Icons/Ability/{Path.ChangeExtension(data.image, null)}");
+        var icon = Resources.Load<Sprite>($"Icons/Ability/{data.image}");
         if (icon) itemImage.sprite = icon;
 
         switch(data.rarity)

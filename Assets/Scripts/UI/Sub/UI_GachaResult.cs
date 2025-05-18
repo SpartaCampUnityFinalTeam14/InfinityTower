@@ -21,15 +21,15 @@ public class UI_GachaResult : MonoBehaviour
         isChamp = isChampion;
         this.id = id;
 
-        if (isChampion)
+        if (isChamp)
         {
-            //스프라이트 세팅해야 함
+            resultIcon.sprite = Resources.Load<Sprite>($"Icons/Champion/Champion_{id}");
             typeText.text = "영웅";
             nameText.text = DataManager.Instance.championDict[id].name;
         }
         else
         {
-            //스프라이트 세팅해야 함
+            resultIcon.sprite = Resources.Load<Sprite>($"Icons/Tower/Tower_{id}");
             typeText.text = "타워";
             nameText.text = DataManager.Instance.towerDict[id].name;
         }
