@@ -78,7 +78,6 @@ public class MonsterDataLoader : ILoader<int, MonsterData>
         foreach (MonsterData monster in data)
         {
             dict.Add(monster.id, monster);
-
             monster.dictValue = new();
             for (int i = 0; i < monster.valueType.Count; i++)
             {

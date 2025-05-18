@@ -3,12 +3,17 @@
       {
           "id": 0,
           "name": "초원",
-          "floorCount": 2,
+          "floorCount": 5,
           "floorPool": [
               0,
               1,
               2,
-              3
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
           ],
           "eventPool": [
               1,
@@ -20,10 +25,18 @@
       {
           "id": 1,
           "name": "사막",
-          "floorCount": 2,
+          "floorCount": 5,
           "floorPool": [
               0,
-              1
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9
           ],
           "eventPool": [
               1,
@@ -35,10 +48,18 @@
       {
           "id": 2,
           "name": "성벽",
-          "floorCount": 2,
+          "floorCount": 5,
           "floorPool": [
               0,
-              1
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9
           ],
           "eventPool": [
               1,
@@ -50,10 +71,18 @@
       {
           "id": 3,
           "name": "설산",
-          "floorCount": 2,
+          "floorCount": 5,
           "floorPool": [
               0,
-              1
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9
           ],
           "eventPool": [
               1,
