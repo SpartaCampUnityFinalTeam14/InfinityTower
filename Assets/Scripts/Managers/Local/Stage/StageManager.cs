@@ -278,6 +278,8 @@ public class StageManager : Singleton<StageManager>
 
         for (int i = 0; i < maxFloor; i++)
         {
+            UIManager.Instance.HideUI<UITowerInfo>();
+
             if (i != 0)
             {
                 ShowFloorIntro();

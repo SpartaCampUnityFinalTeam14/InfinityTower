@@ -33,9 +33,9 @@ public class SingleTargetProjectile : Projectile
 
         FlipByDirection(dir);
         
-        transform.position += dir * speed * Time.deltaTime;
+        Vector3 moveDir = dir * speed * Time.deltaTime;
 
-        if (Vector3.Distance(transform.position, lastKnownPosition) < 0.1f)
+        if (Vector3.SqrMagnitude(transform.position - lastKnownPosition) < moveDir.sqrMagnitude)
         {
             if (!targetLost)
             {
@@ -49,5 +49,6 @@ public class SingleTargetProjectile : Projectile
                 Destroy(gameObject); // 💥 그냥 날아가다가 사라지게
             }
         }
+        else transform.position += moveDir;
     }
 }

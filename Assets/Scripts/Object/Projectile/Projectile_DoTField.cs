@@ -29,24 +29,25 @@ public class Projectile_DoTField : Projectile
 
     protected override void Move()
     {
-        if (hasExploded) return;
+        //if (hasExploded) return;
 
         Vector3 dir = (targetPos - transform.position).normalized;
-        
+
         FlipByDirection(dir);
         
-        transform.position += dir * speed * Time.deltaTime;
+        Vector3 moveDir = dir * speed * Time.deltaTime;
 
-        float dist = Vector3.Distance(transform.position, targetPos);
-        if (dist < 0.1f)
+        //float dist = Vector3.Distance(transform.position, targetPos);
+        if (Vector3.SqrMagnitude(transform.position - targetPos) < moveDir.sqrMagnitude)
         {
             Explode();
         }
+        else transform.position += moveDir;
     }
 
     void Explode()
     {
-        hasExploded = true;
+        //hasExploded = true;
         Debug.Log("💥 장판 생성됨!");
 
         if (impactEffect != null)
@@ -58,6 +59,8 @@ public class Projectile_DoTField : Projectile
             {
                 dot.Init(dotDuration, dotDamagePerTick, dotTickInterval, dotRadius);
                 PoolManager.Instance.Release(this.GetComponent<Poolable>());
+
+                //hasExploded = false;
             }
             else
             {

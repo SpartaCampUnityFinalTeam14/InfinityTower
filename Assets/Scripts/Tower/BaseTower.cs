@@ -209,7 +209,7 @@ public abstract class BaseTower : Poolable
     public void CloseTowerInfo()
     {
         PoolManager.Instance.Release(rangeIndicator);
-        StageManager.Instance.timeScaleManager.PopTimeScale();
+        //StageManager.Instance.timeScaleManager.PopTimeScale();
     }
 
     public void SetCellPos(Vector3Int cellPos)
@@ -237,7 +237,7 @@ public abstract class BaseTower : Poolable
                 rangeIndicator = PoolManager.Instance.Get(rangePrefab, 1, transform).GetComponent<RangeIndicator>();
                 rangeIndicator.Init(GetFinalStatValue(StatType.attackRange));
 
-                StageManager.Instance.timeScaleManager.PushTimeScale(0.2f);
+                //StageManager.Instance.timeScaleManager.PushTimeScale(0.2f);
             }
         }
     }

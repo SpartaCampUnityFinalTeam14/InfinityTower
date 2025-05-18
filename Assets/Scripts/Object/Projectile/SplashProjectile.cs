@@ -31,15 +31,16 @@ public class SplashProjectile : Projectile
         }
 
         Vector3 dir = (lastKnownPosition - transform.position).normalized;
-        
+
         FlipByDirection(dir);
         
-        transform.position += dir * speed * Time.deltaTime;
+        Vector3 moveDir = dir * speed * Time.deltaTime;
 
-        if (Vector3.Distance(transform.position, lastKnownPosition) < 0.1f)
+        if (Vector3.SqrMagnitude(transform.position - lastKnownPosition) < moveDir.sqrMagnitude)
         {
             Explode();
         }
+        else transform.position += moveDir;
     }
 
     private void Explode()

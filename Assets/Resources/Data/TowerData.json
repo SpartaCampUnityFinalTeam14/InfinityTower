@@ -3,7 +3,7 @@
         {
             "id": 0,
             "name": "훈련병",
-            "description": "검을 휘둘러 적 한명에게 피해를 입힌다\\n3단계 전직 시 검에 불을 휘둘러 적에게 지속피해를 입힌다",
+            "description": "검을 휘둘러 적 한명에게 피해를 입힌다\n3단계 전직 시 검에 불을 휘둘러 적에게 지속피해를 입힌다",
             "targetType": 2,
             "targetingRule": 0,
             "isSplash": "FALSE",
@@ -100,7 +100,7 @@
         {
             "id": 3,
             "name": "훈련병(궁병)",
-            "description": "넓은 사거리를 이용해 적 한명에게 피해를 입힌다\\n3단계 전직 시 시야가 넓어져 사거리가 대폭 상승한다",
+            "description": "넓은 사거리를 이용해 적 한명에게 피해를 입힌다\n3단계 전직 시 시야가 넓어져 사거리가 대폭 상승한다",
             "targetType": 2,
             "targetingRule": 0,
             "isSplash": "FALSE",
@@ -193,7 +193,7 @@
         {
             "id": 6,
             "name": "견습 검사",
-            "description": "단검을 휘둘러 사거리는 짧으나 한 번에 두명의 적을 공격한다\\n3단계 전직 시 적 세명을 한 번에 공격한다",
+            "description": "단검을 휘둘러 사거리는 짧으나 한 번에 두명의 적을 공격한다\n3단계 전직 시 적 세명을 한 번에 공격한다",
             "targetType": 2,
             "targetingRule": 0,
             "isSplash": "FALSE",
@@ -286,7 +286,7 @@
         {
             "id": 9,
             "name": "오크",
-            "description": "방망이를 휘둘러 느리지만 강력한 한 방을 노린다\\n3단계 전직 시 방패를 내리쳐 적 주위에도 피해를 입힌다 ",
+            "description": "방망이를 휘둘러 느리지만 강력한 한 방을 노린다\n3단계 전직 시 방패를 내리쳐 적 주위에도 피해를 입힌다 ",
             "targetType": 2,
             "targetingRule": 3,
             "isSplash": "FALSE",
@@ -379,7 +379,7 @@
         {
             "id": 12,
             "name": "마법부 학생",
-            "description": "마법을 사용해 적 주위에도 피해를 준다\\n3단계 전직 시 얼음 마법을 사용해 적의 이동속도를 느리게 한다",
+            "description": "마법을 사용해 적 주위에도 피해를 준다\n3단계 전직 시 얼음 마법을 사용해 적의 이동속도를 느리게 한다",
             "targetType": 2,
             "targetingRule": 0,
             "isSplash": "TRUE",
@@ -427,7 +427,7 @@
                 4,
                 5
             ],
-            "statValue": "[18,4,0.333.5,1,10,180]",
+            "statValue": [18,4,0.333,1,10,180],
             "upgradeTo": 14,
             "originalID": 12
         },
@@ -469,7 +469,7 @@
         {
             "id": 15,
             "name": "약사",
-            "description": "독약을 제조해 적 발 밑에 뿌려 피해를 입힌다\\n3단계 전직 시 맹독을 칼날에 발라 적에게 흩뿌린다",
+            "description": "독약을 제조해 적 발 밑에 뿌려 피해를 입힌다\n3단계 전직 시 맹독을 칼날에 발라 적에게 흩뿌린다",
             "targetType": 2,
             "targetingRule": 0,
             "isSplash": "FALSE",
