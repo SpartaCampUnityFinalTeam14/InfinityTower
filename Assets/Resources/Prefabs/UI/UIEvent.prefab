@@ -700,7 +700,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: fc7961aefd3380544aff3585c878808c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 65b91a1a6342f3746b6d96d01230ae88, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -945,7 +945,6 @@ MonoBehaviour:
   choicePanel: {fileID: 1650965621859005617}
   resultPanel: {fileID: 4403877910166342002}
   rewardPanel: {fileID: 0}
-  anim: {fileID: 4629674007125218520}
   eventDesc: {fileID: 3492812861114393648}
   choiceTitle: {fileID: 7888605788773972992}
   layoutChoice: {fileID: 2537668531192596894}
@@ -1408,7 +1407,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a757047b8271e1f40829a6afb51690ed, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1918,8 +1917,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: dfbfee2269dc5064c97cc192fb028648, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 1115288619, guid: 03f5ce08926ac024ba72d3551e1ba8a4, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1927,7 +1926,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 0.5
 --- !u!114 &965065408476800895
 MonoBehaviour:
   m_ObjectHideFlags: 0
