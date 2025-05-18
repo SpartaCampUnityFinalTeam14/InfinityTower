@@ -25,13 +25,13 @@ public class UI_StageResult : UI
         closeButton.onClick.AddListener(ToLobby);
 
         int championId = SaveManager.Instance.playerData.selectedChampionIndex;
-        //championIcon.sprite = 
+        championIcon.sprite = Resources.Load<Sprite>($"Icons/Champion/Champion_{championId}");
         championNameText.text = DataManager.Instance.championDict[championId].name;
 
         for(int i = 0; i < SaveManager.Instance.playerData.selectedTowerIndex.Count; i++)
         {
             int towerId = SaveManager.Instance.playerData.selectedTowerIndex[i];
-            //towerIcons[i].sprite = 
+            towerIcons[i].sprite = Resources.Load<Sprite>($"Icons/Tower/Tower_{towerId}");
             towerNameTexts[i].text = DataManager.Instance.towerDict[towerId].name;
         }
     }
