@@ -27,7 +27,7 @@ public class SkillSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         this.caster = caster;
 
         nameText.text = skill.skillName;
-        iconImage.sprite = Resources.Load<Sprite>($"Icons/{skill.skillName}");
+        iconImage.sprite = Resources.Load<Sprite>($"Icons/Skill/{skill.skillName}");
 
         if (skill is ActiveSkill active)
             activeSkill = active;

@@ -61,11 +61,11 @@ public class UI_TowerInfo : UI
 
     void SetTower()
     {
+        towerIcon.sprite = Resources.Load<Sprite>($"Icons/Tower/Tower_{data.id}");
         towerNameText.text = data.name;
         levelupButton.interactable = true;
         SetLevel(SaveManager.Instance.towerLevelDict[data.id].level);
         SetExp(SaveManager.Instance.towerLevelDict[data.id].exp);
-        //스프라이트 세팅
 
         foreach(Transform child in statInfoBackgroundTransform)
         {

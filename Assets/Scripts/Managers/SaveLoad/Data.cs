@@ -300,7 +300,7 @@ public class ChampionData
 {
     public int id;
     public string name;
-    public List<int> skillId;
+    public List<int> skillid;
     public string description;
     public int hp;
     public int atk;
