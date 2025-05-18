@@ -5,7 +5,7 @@ public class HeroSkillPanel : MonoBehaviour
     public GameObject skillSlotPrefab;
     public Transform skillListParent;
 
-    private void Awake()
+    private void Start()
     {
         InitHero();
     }

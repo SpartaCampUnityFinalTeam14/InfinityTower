@@ -63,9 +63,9 @@ public class StageManager : Singleton<StageManager>
         hp = maxHp;
         CurHero = new Hero();
 
-        ApplyArtifact();
         //abilityManager = GetComponent<AbilityManager>();
         Init();
+        ApplyArtifact();
         StartStage(); //추후 awake가 아닌 다른 곳으로 이동 (예를 들어, 시작 버튼을 누른다든가 하는 식)
     }
 
