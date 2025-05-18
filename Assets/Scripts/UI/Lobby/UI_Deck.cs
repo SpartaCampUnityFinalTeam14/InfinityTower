@@ -78,9 +78,9 @@ public class UI_Deck : MonoBehaviour, ScrollPanel
 
     void SetChampion(int index)
     {
-        //스프라이트 세팅해야 함
         RotateChampionSlotRandom();
 
+        championImage.sprite = Resources.Load<Sprite>($"Icons/Champion/Champion_{index}");
         championNameText.text = DataManager.Instance.championDict[index].name;
     }
 

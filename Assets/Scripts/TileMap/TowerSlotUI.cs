@@ -183,6 +183,7 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     {
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(eventData.position);
         Vector3Int cellPos = TilemapManager.Instance.tilemap.WorldToCell(worldPos);
+        cellPos.z = 0;
 
         if (TilemapManager.Instance.CanPlaceAt(cellPos))
         {

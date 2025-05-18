@@ -9,6 +9,7 @@ public class StageManager : Singleton<StageManager>
     private int healAdd = 1;
     private float curCost;
     public float CurrentCost => curCost;
+    private float startCost = 100;
 
     [HideInInspector] public int token;
     private int baseTokenAdd = 450;
@@ -111,7 +112,7 @@ public class StageManager : Singleton<StageManager>
             switch (statType)
             {
                 case StatType.startCost:
-                    GetCost((int)value);
+                    startCost += value;
                     break;
                 case StatType.costHeal:
                     costRecoveryMultiplier *= (1 + value);
@@ -307,7 +308,7 @@ public class StageManager : Singleton<StageManager>
             yield return new WaitUntil(() => isIntroEnd);
 
             curFloor.StartFloor(floorId);
-            curCost = 0;
+            curCost = startCost;
 
             yield return new WaitUntil(() => curFloor.isFloorEnd);
             //플로어 클리어 시점
