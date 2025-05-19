@@ -12,10 +12,18 @@ public class UIPause : UI
     [SerializeField] GameObject slotPanel;
     [SerializeField] AbilitySlot abilitSlot;
     [SerializeField] Button btnAbilityClose;
+    [SerializeField] Button btnExit;
 
     bool isToggle;
     List<AbilityIcon> listIcon = new List<AbilityIcon>();
     const string iconPrefabPath = "Prefabs/Ability/AbilityIcon";
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        btnExit.onClick.AddListener(() => GameManager.Instance.LoadScene("KSM_Lobby"));
+    }
 
     private void Update()
     {

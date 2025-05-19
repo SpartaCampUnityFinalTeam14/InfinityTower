@@ -10,9 +10,9 @@ public class UI_Hud : UI
     [SerializeField] private TextMeshProUGUI costText;
     [SerializeField] private TextMeshProUGUI hpText;
 
+    [SerializeField] private Button speedButton;
+    [SerializeField] private TextMeshProUGUI speedText; 
     [SerializeField] private Button pauseButton;
-
-    [SerializeField] private Image costBar;
 
     [SerializeField] private FloatEventChannel OnCostChanged;
     [SerializeField] private IntEventChannel OnPlayerHPChanged;
@@ -20,10 +20,13 @@ public class UI_Hud : UI
     [SerializeField] private IntEventChannel OnWaveCountChanged;
     [SerializeField] private IntEventChannel OnMonsterCountChanged;
 
+    private bool isSpeed;
+
     protected override void Awake()
     {
         base.Awake();
 
+        speedButton.onClick.AddListener(ToggleSpeed);
         pauseButton.onClick.AddListener(Pause);
 
         UnSubscribe();
@@ -46,6 +49,22 @@ public class UI_Hud : UI
         OnFloorCountChanged.RegisterListener(SetFloorText);
         OnWaveCountChanged.RegisterListener(SetWaveText);
         OnMonsterCountChanged.RegisterListener(SetMonsterCountText);
+    }
+
+    void ToggleSpeed()
+    {
+        isSpeed = !isSpeed;
+
+        if (isSpeed)
+        {
+            StageManager.Instance.timeScaleManager.SetBaseTimeScale(2f);
+            speedText.text = "X2";
+        }
+        else
+        {
+            StageManager.Instance.timeScaleManager.SetBaseTimeScale(1f);
+            speedText.text = "X1";
+        }
     }
 
     void Pause()
