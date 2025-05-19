@@ -7,8 +7,6 @@ using UnityEngine.UI;
 
 public class UI_Artifact : MonoBehaviour, ScrollPanel
 {
-    [SerializeField] private TextMeshProUGUI goldText;
-
     [SerializeField] private Transform slotParent;
     private List<UI_ArtifactSlot> slots = new();
 
@@ -64,7 +62,7 @@ public class UI_Artifact : MonoBehaviour, ScrollPanel
             slot.Init(data.Value.id);
         }
 
-        UpdateGold();
+        OnGoldChanged.RaiseEvent();
     }
 
     public void ResetPanel()
@@ -75,7 +73,7 @@ public class UI_Artifact : MonoBehaviour, ScrollPanel
             slots[i++].Init(data.Value.id);
         }
 
-        UpdateGold();
+        OnGoldChanged.RaiseEvent();
     }
 
     void Dirty(int id)
@@ -88,14 +86,6 @@ public class UI_Artifact : MonoBehaviour, ScrollPanel
                 break;
             }
         }
-
-        UpdateGold();
-    }
-
-    public void UpdateGold()
-    {
-        int gold = SaveManager.Instance.playerData.gold;
-        goldText.text = string.Format("{0:N0}", gold);
 
         OnGoldChanged.RaiseEvent();
     }
@@ -132,7 +122,7 @@ public class UI_Artifact : MonoBehaviour, ScrollPanel
 
         int id = gachaManager.GetRandomArtifact();
         SaveManager.Instance.playerData.UseGold(requiredGold);
-        UpdateGold();
+        OnGoldChanged.RaiseEvent();
         int rarity = id / 1000;
         resultBackground.color = rarityColors[rarity];
 
