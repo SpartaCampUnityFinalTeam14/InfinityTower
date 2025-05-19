@@ -153,7 +153,7 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             }
 
             rangeIndicator.gameObject.SetActive(true);
-            rangeIndicator.Init(towerData.GetStatValue(StatType.attackRange) / 4);
+            rangeIndicator.Init(towerData.GetStatValue(StatType.attackRange) / previewObj.transform.localScale.x);
         }
 
         TilemapManager.Instance.ShowAllPlaceableCells();
