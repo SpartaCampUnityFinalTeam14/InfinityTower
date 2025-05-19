@@ -10,14 +10,13 @@
                 12
             ],
             "value": [
-                15,
-                1,
+                20,
+                1.5,
                 0,
                 2
             ],
             "enemyType": "Normal",
-            "hasSkill": null,
-            "sprite ": "Enemy_001 "
+            "hasSkill": null
         },
         {
             "id": 1,
@@ -29,14 +28,13 @@
                 12
             ],
             "value": [
-                25,
-                0.8,
+                24,
+                1.4,
                 1,
                 3
             ],
             "enemyType": "Normal",
-            "hasSkill": null,
-            "sprite ": "Enemy_009 "
+            "hasSkill": null
         },
         {
             "id": 2,
@@ -49,13 +47,12 @@
             ],
             "value": [
                 18,
-                1.2,
+                1.8,
                 0,
                 4
             ],
             "enemyType": "Normal",
-            "hasSkill": null,
-            "sprite ": "Enemy_017 "
+            "hasSkill": null
         },
         {
             "id": 3,
@@ -67,14 +64,13 @@
                 12
             ],
             "value": [
-                40,
-                0.7,
+                30,
+                1.2,
                 3,
                 7
             ],
             "enemyType": "Normal",
-            "hasSkill": null,
-            "sprite ": "Enemy_023 "
+            "hasSkill": null
         },
         {
             "id": 4,
@@ -86,14 +82,13 @@
                 12
             ],
             "value": [
-                15,
-                1.1,
+                23,
+                1.4,
                 2,
                 5
             ],
             "enemyType": "Normal",
-            "hasSkill": null,
-            "sprite ": "Enemy_027 "
+            "hasSkill": null
         },
         {
             "id": 5,
@@ -105,14 +100,13 @@
                 12
             ],
             "value": [
-                18,
-                1.1,
+                28,
+                1.6,
                 2,
                 6
             ],
             "enemyType": "Normal",
-            "hasSkill": null,
-            "sprite ": "Enemy_032 "
+            "hasSkill": null
         },
         {
             "id": 6,
@@ -124,14 +118,13 @@
                 12
             ],
             "value": [
-                12,
-                1,
+                23,
+                1.7,
                 5,
                 5
             ],
             "enemyType": "Normal",
-            "hasSkill": null,
-            "sprite ": "Enemy_034 "
+            "hasSkill": null
         },
         {
             "id": 7,
@@ -143,14 +136,13 @@
                 12
             ],
             "value": [
-                14,
-                1.3,
+                23,
+                1.6,
                 2,
                 5
             ],
             "enemyType": "Normal",
-            "hasSkill": null,
-            "sprite ": "Enemy_040 "
+            "hasSkill": null
         },
         {
             "id": 8,
@@ -162,18 +154,17 @@
                 12
             ],
             "value": [
-                23,
-                1,
+                40,
+                1.5,
                 3,
                 8
             ],
             "enemyType": "Elite",
-            "hasSkill": null,
-            "sprite ": "Enemy_043 "
+            "hasSkill": null
         },
         {
-            "id": 99,
-            "name": "Boss1",
+            "id": 9,
+            "name": "Gorem",
             "valueType": [
                 9,
                 10,
@@ -181,14 +172,80 @@
                 12
             ],
             "value": [
-                60,
-                1,
-                3,
-                8
+                50,
+                0.7,
+                7,
+                10
             ],
             "enemyType": "Elite",
-            "hasSkill": null,
-            "sprite ": "Enemy_043 "
+            "hasSkill": null
+        },
+        {
+            "id": 10,
+            "name": "OldMushroom",
+            "valueType": [
+                9,
+                10,
+                11,
+                12
+            ],
+            "value": [
+                42,
+                1,
+                5,
+                15
+            ],
+            "enemyType": "Elite",
+            "hasSkill": null
+        },
+        {
+            "id": 99,
+            "name": "Volcano",
+            "valueType": [
+                9,
+                10,
+                11,
+                12
+            ],
+            "value": [400, 0.8, 15, 1000],
+            "enemyType": "Elite",
+            "hasSkill": null
+        },
+        {
+            "id": 100,
+            "name": "Lich",
+            "valueType": [
+                9,
+                10,
+                11,
+                12
+            ],
+            "value": [
+                250,
+                0.8,
+                10,
+                1000
+            ],
+            "enemyType": "Elite",
+            "hasSkill": null
+        },
+        {
+            "id": 101,
+            "name": "KingSlime",
+            "valueType": [
+                9,
+                10,
+                11,
+                12
+            ],
+            "value": [
+                270,
+                1,
+                12,
+                1000
+            ],
+            "enemyType": "Elite",
+            "hasSkill": null
         }
     ]
 }

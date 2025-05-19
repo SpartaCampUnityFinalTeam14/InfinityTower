@@ -98,7 +98,7 @@
         4
       ],
       "value": [
-        0.2
+        -0.2
       ],
       "targetType": 0,
       "rarity": 1,
@@ -233,7 +233,7 @@
         9
       ],
       "value": [
-        0.1
+        -0.1
       ],
       "targetType": 2,
       "rarity": 0,
@@ -248,7 +248,7 @@
         9
       ],
       "value": [
-        0.2
+        -0.2
       ],
       "targetType": 2,
       "rarity": 1,
@@ -263,7 +263,7 @@
         10
       ],
       "value": [
-        0.1
+        -0.1
       ],
       "targetType": 2,
       "rarity": 0,
@@ -278,7 +278,7 @@
         10
       ],
       "value": [
-        0.2
+        -0.2
       ],
       "targetType": 2,
       "rarity": 1,
@@ -293,7 +293,7 @@
         11
       ],
       "value": [
-        0.3
+        -0.3
       ],
       "targetType": 2,
       "rarity": 2,
@@ -308,7 +308,7 @@
         12
       ],
       "value": [
-        0.3
+        -0.3
       ],
       "targetType": 2,
       "rarity": 0,
@@ -318,7 +318,7 @@
     {
       "perkID": 23,
       "name": "모 아니면 도",
-      "description": "클리어 보상 <b><color=#00FF66>+30%</color></b>\n적 체력 <b><color=##CC3333>+25%</color></b>",
+      "description": "클리어 보상 <b><color=#00FF66>+30%</color></b>\n적 체력 <b><color=#CC3333>+25%</color></b>",
       "valueType": [
         9,
         16
@@ -335,7 +335,7 @@
     {
       "perkID": 24,
       "name": "무기 중량화",
-      "description": "공격력 <b><color=#00FF66>+30%</color></b>\n공격속도 <b><color=##CC3333>-8%</color></b>",
+      "description": "공격력 <b><color=#00FF66>+30%</color></b>\n공격속도 <b><color=#CC3333>-8%</color></b>",
       "valueType": [
         0,
         2
@@ -352,7 +352,7 @@
     {
       "perkID": 25,
       "name": "무기 경량화",
-      "description": "공격 속도 <b><color=#00FF66>+25%</color></b>\n공격력 <b><color=##CC3333>-10%</color></b>",
+      "description": "공격 속도 <b><color=#00FF66>+25%</color></b>\n공격력 <b><color=#CC3333>-10%</color></b>",
       "valueType": [
         0,
         2

@@ -3,19 +3,19 @@ using UnityEngine;
 
 public class SkillVisualDB : MonoBehaviour
 {
-    public static SkillVisualDB Instance { get; private set; }
+    //public static SkillVisualDB Instance { get; private set; }
 
     private List<SkillVisualDataSO> visualDataList = new();
     private Dictionary<string, SkillVisualDataSO> visualDict = new();
 
     private void Awake()
     {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
+        //if (Instance != null)
+        //{
+        //    Destroy(gameObject);
+        //    return;
+        //}
+        //Instance = this;
 
         // ✅ Resources 폴더에서 SkillVisualDataSO 전부 찾아서 등록
         visualDataList = new List<SkillVisualDataSO>(Resources.LoadAll<SkillVisualDataSO>("ScriptableObjects/SkillVisuals"));
@@ -34,6 +34,7 @@ public class SkillVisualDB : MonoBehaviour
         if (!visualDict.TryGetValue(id, out var so))
         {
             Debug.LogWarning($"⚠️ SkillVisualDB: ID '{id}' 를 찾지 못했습니다.");
+            throw new KeyNotFoundException($"SkillVisual ID '{id}' 없음");
         }
         else
         {

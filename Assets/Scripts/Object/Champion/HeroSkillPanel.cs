@@ -5,7 +5,7 @@ public class HeroSkillPanel : MonoBehaviour
     public GameObject skillSlotPrefab;
     public Transform skillListParent;
 
-    private void Awake()
+    private void Start()
     {
         InitHero();
     }
@@ -19,7 +19,7 @@ public class HeroSkillPanel : MonoBehaviour
 
         //Debug.Log($"{champData.skillId.Count} 개의 스킬을 가지고 있습니다.");
 
-        foreach (int skillId in champData.skillId)
+        foreach (int skillId in champData.skillid)
         {
             if (DataManager.Instance.skillDict.TryGetValue(skillId, out SkillData skillData))
             {

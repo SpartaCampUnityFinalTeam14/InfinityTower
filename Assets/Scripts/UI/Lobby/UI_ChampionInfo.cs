@@ -56,8 +56,8 @@ public class UI_ChampionInfo : UI
             OnChampionExpChanged.RaiseEvent(data.id);
         });
 
-        skill1Button.onClick.AddListener(() => SetSkillInfo(data.skillId[0]));
-        skill2Button.onClick.AddListener(() => SetSkillInfo(data.skillId[1]));
+        skill1Button.onClick.AddListener(() => SetSkillInfo(data.skillid[0]));
+        //skill2Button.onClick.AddListener(() => SetSkillInfo(data.skillID[1]));
     }
 
     public void Init(int id)
@@ -69,13 +69,14 @@ public class UI_ChampionInfo : UI
 
     void SetChampion()
     {
+        championIcon.sprite = Resources.Load<Sprite>($"Icons/Champion/Champion_{data.id}");
         championNameText.text = data.name;
-        //스프라이트 세팅해야 함
         SetLevel(SaveManager.Instance.championLevelDict[data.id].level);
         SetExp(SaveManager.Instance.championLevelDict[data.id].exp);
         championHPText.text = data.hp.ToString();
 
-        SetSkillInfo(data.skillId[0]);
+        SetSkillInfo(data.skillid[0]);
+        skill1Icon.sprite = Resources.Load<Sprite>($"Icons/Skill/Skill_{data.skillid[0]}");
     }
 
     void Levelup()

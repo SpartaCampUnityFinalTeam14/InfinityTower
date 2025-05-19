@@ -17,7 +17,7 @@ public class StageManager : Singleton<StageManager>
     [HideInInspector] public int book;
 
     //private float maxCost = 10f;
-    [SerializeField] private float costRecoveryMultiplier = 10f; // Cost 얻는 속도 - 기본 1배속
+    [SerializeField] private float costRecoveryMultiplier = 20f; // Cost 얻는 속도 - 기본 1배속
     private List<float> activeCostRecoveryMultipliers = new List<float>(); // 여러 타워의 버프들을 저장
 
     [HideInInspector] public List<int> selectedTowers;
@@ -63,9 +63,9 @@ public class StageManager : Singleton<StageManager>
         hp = maxHp;
         CurHero = new Hero();
 
-        ApplyArtifact();
         //abilityManager = GetComponent<AbilityManager>();
         Init();
+        ApplyArtifact();
         StartStage(); //추후 awake가 아닌 다른 곳으로 이동 (예를 들어, 시작 버튼을 누른다든가 하는 식)
     }
 
@@ -278,6 +278,8 @@ public class StageManager : Singleton<StageManager>
 
         for (int i = 0; i < maxFloor; i++)
         {
+            UIManager.Instance.HideUI<UITowerInfo>();
+
             if (i != 0)
             {
                 ShowFloorIntro();
