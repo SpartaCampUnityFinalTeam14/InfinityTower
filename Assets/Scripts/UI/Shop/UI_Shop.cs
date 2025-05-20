@@ -99,7 +99,7 @@ public class UI_Shop : UI
         int maxRetry = 100; // 무한 루프 방지
         int retry = 0;
 
-        while (result.Count < (itemAmount - 1) && retry < maxRetry)
+        while (result.Count < (itemAmount - 2) && retry < maxRetry)
         {
             var ability = StageManager.Instance.abilityManager.GetRandomAbility();
 

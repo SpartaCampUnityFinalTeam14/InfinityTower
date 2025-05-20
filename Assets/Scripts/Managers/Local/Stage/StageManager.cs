@@ -256,7 +256,13 @@ public class StageManager : Singleton<StageManager>
 
         StopCoroutine(stageCoroutine);
 
-        EndStage();
+        timeScaleManager.PushTimeScale(0f);
+        var ui = UIManager.Instance.ShowUI<UI_Wave>();
+        ui.ShowFaildText(() =>
+        {
+            timeScaleManager.PopTimeScale();
+            EndStage();
+        });
     }
 
     public void ResetDropTowerCooldown()

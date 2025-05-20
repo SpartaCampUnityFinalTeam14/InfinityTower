@@ -84,7 +84,8 @@ public class Floor : MonoBehaviour
         ReleaseTower();
         StageManager.Instance.ResetDropTowerCooldown();
 
-        isFloorEnd = true;
+        var ui = UIManager.Instance.ShowUI<UI_Wave>();
+        ui.ShowFloorClear(() => isFloorEnd = true);
     }
 
     public void StartWave(int index)
@@ -160,8 +161,6 @@ public class Floor : MonoBehaviour
     void EndWave()
     {
         Debug.Log("<color=green>웨이브 종료</color>");
-
-        var ui = UIManager.Instance.ShowUI<UI_Wave>();
-        ui.ShowWaveClear(() => isWaveEnd = true);
+        isWaveEnd = true;
     }
 }
