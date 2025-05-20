@@ -10,14 +10,9 @@ public class UI_LobbyTutorial : UI
     [SerializeField] private RectTransform maskImage;
     [SerializeField] private TextMeshProUGUI explanationText;
 
-    protected override void Awake()
-    {
-        base.Awake();
-    }
-
     private void Start()
     {
-        StartStep();
+        //StartStep();
     }
 
     public void StartStep()
