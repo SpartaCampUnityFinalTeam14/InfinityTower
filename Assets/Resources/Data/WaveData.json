@@ -1,429 +1,429 @@
 {
   "data": [
     {
-      "id":0,
-      "enemyID":[
+      "id": 0,
+      "enemyID": [
         0
       ],
-      "spawnCount":[
-        30
+      "spawnCount": [
+        37
       ],
-      "spawnDelayTime":[
+      "spawnDelayTime": [
         1.3
       ]
     },
     {
-      "id":1,
-      "enemyID":[
+      "id": 1,
+      "enemyID": [
         1
       ],
-      "spawnCount":[
-        27
+      "spawnCount": [
+        33
       ],
-      "spawnDelayTime":[
+      "spawnDelayTime": [
         1.5
       ]
     },
     {
-      "id":2,
-      "enemyID":[
+      "id": 2,
+      "enemyID": [
         2
       ],
-      "spawnCount":[
-        22
+      "spawnCount": [
+        27
       ],
-      "spawnDelayTime":[
+      "spawnDelayTime": [
         1.1
       ]
     },
     {
-      "id":3,
-      "enemyID":[
+      "id": 3,
+      "enemyID": [
         4
       ],
-      "spawnCount":[
-        17
+      "spawnCount": [
+        21
       ],
-      "spawnDelayTime":[
+      "spawnDelayTime": [
         1.9
       ]
     },
     {
-      "id":4,
-      "enemyID":[
+      "id": 4,
+      "enemyID": [
         3
       ],
-      "spawnCount":[
-        12
+      "spawnCount": [
+        15
       ],
-      "spawnDelayTime":[
-        2.0
+      "spawnDelayTime": [
+        2
       ]
     },
     {
-      "id":5,
-      "enemyID":[
+      "id": 5,
+      "enemyID": [
         6
       ],
-      "spawnCount":[
-        15
+      "spawnCount": [
+        18
       ],
-      "spawnDelayTime":[
+      "spawnDelayTime": [
         1.3
       ]
     },
     {
-      "id":6,
-      "enemyID":[
+      "id": 6,
+      "enemyID": [
         8
       ],
-      "spawnCount":[
-        14
+      "spawnCount": [
+        17
       ],
-      "spawnDelayTime":[
-        2.0
+      "spawnDelayTime": [
+        2
       ]
     },
     {
-      "id":7,
-      "enemyID":[
+      "id": 7,
+      "enemyID": [
         5
       ],
-      "spawnCount":[
-        21
+      "spawnCount": [
+        26
       ],
-      "spawnDelayTime":[
+      "spawnDelayTime": [
         1.6
       ]
     },
     {
-      "id":8,
-      "enemyID":[
+      "id": 8,
+      "enemyID": [
         7
       ],
-      "spawnCount":[
-        16
+      "spawnCount": [
+        20
       ],
-      "spawnDelayTime":[
+      "spawnDelayTime": [
         1.2
       ]
     },
     {
-      "id":9,
-      "enemyID":[
+      "id": 9,
+      "enemyID": [
         9
       ],
-      "spawnCount":[
-        12
+      "spawnCount": [
+        15
       ],
-      "spawnDelayTime":[
+      "spawnDelayTime": [
         2.1
       ]
     },
     {
-      "id":10,
-      "enemyID":[
+      "id": 10,
+      "enemyID": [
         3
       ],
-      "spawnCount":[
-        24
+      "spawnCount": [
+        30
       ],
-      "spawnDelayTime":[
+      "spawnDelayTime": [
         1.4
       ]
     },
     {
-      "id":11,
-      "enemyID":[
+      "id": 11,
+      "enemyID": [
         7
       ],
-      "spawnCount":[
-        24
+      "spawnCount": [
+        30
       ],
-      "spawnDelayTime":[
+      "spawnDelayTime": [
         1.3
       ]
     },
     {
-      "id":12,
-      "enemyID":[
+      "id": 12,
+      "enemyID": [
         7,
         4
       ],
-      "spawnCount":[
-        18,
-        18
+      "spawnCount": [
+        22,
+        22
       ],
-      "spawnDelayTime":[
+      "spawnDelayTime": [
         1.5,
         1.5
       ]
     },
     {
-      "id":13,
-      "enemyID":[
+      "id": 13,
+      "enemyID": [
         1,
         2
       ],
-      "spawnCount":[
-        23,
-        23
+      "spawnCount": [
+        28,
+        28
       ],
-      "spawnDelayTime":[
+      "spawnDelayTime": [
         1.5,
         1.5
       ]
     },
     {
-      "id":14,
-      "enemyID":[
+      "id": 14,
+      "enemyID": [
         0,
         2
       ],
-      "spawnCount":[
-        25,
-        25
+      "spawnCount": [
+        31,
+        31
       ],
-      "spawnDelayTime":[
+      "spawnDelayTime": [
         1.4,
         1.4
       ]
     },
     {
-      "id":15,
-      "enemyID":[
+      "id": 15,
+      "enemyID": [
         10
       ],
-      "spawnCount":[
-        17
+      "spawnCount": [
+        21
       ],
-      "spawnDelayTime":[
+      "spawnDelayTime": [
         1.6
       ]
     },
     {
-      "id":16,
-      "enemyID":[
+      "id": 16,
+      "enemyID": [
         5,
         6
       ],
-      "spawnCount":[
-        17,
-        17
+      "spawnCount": [
+        21,
+        21
       ],
-      "spawnDelayTime":[
+      "spawnDelayTime": [
         1.7,
         1.7
       ]
     },
     {
-      "id":17,
-      "enemyID":[
+      "id": 17,
+      "enemyID": [
         7,
         3
       ],
-      "spawnCount":[
-        15,
-        15
+      "spawnCount": [
+        18,
+        18
       ],
-      "spawnDelayTime":[
-        1.0,
-        1.0
+      "spawnDelayTime": [
+        1,
+        1
       ]
     },
     {
-      "id":18,
-      "enemyID":[
+      "id": 18,
+      "enemyID": [
         10
       ],
-      "spawnCount":[
-        16
+      "spawnCount": [
+        20
       ],
-      "spawnDelayTime":[
+      "spawnDelayTime": [
         2.5
       ]
     },
     {
-      "id":19,
-      "enemyID":[
+      "id": 19,
+      "enemyID": [
         1,
         2,
         0
       ],
-      "spawnCount":[
-        20,
-        20,
-        20
+      "spawnCount": [
+        25,
+        25,
+        25
       ],
-      "spawnDelayTime":[
+      "spawnDelayTime": [
         1.1,
         1.1,
         1.1
       ]
     },
     {
-      "id":20,
-      "enemyID":[
+      "id": 20,
+      "enemyID": [
         7,
         3,
         6
       ],
-      "spawnCount":[
-        16,
-        16,
-        16
+      "spawnCount": [
+        20,
+        20,
+        20
       ],
-      "spawnDelayTime":[
+      "spawnDelayTime": [
         1.6,
         1.6,
         1.6
       ]
     },
     {
-      "id":21,
-      "enemyID":[
+      "id": 21,
+      "enemyID": [
         3,
         7
       ],
-      "spawnCount":[
-        24,
-        24
+      "spawnCount": [
+        30,
+        30
       ],
-      "spawnDelayTime":[
+      "spawnDelayTime": [
         1.2,
         1.2
       ]
     },
     {
-      "id":22,
-      "enemyID":[
+      "id": 22,
+      "enemyID": [
         9,
         10,
         8
       ],
-      "spawnCount":[
-        10,
-        10,
-        10
+      "spawnCount": [
+        12,
+        12,
+        12
       ],
-      "spawnDelayTime":[
+      "spawnDelayTime": [
         1.9,
         1.9,
         1.9
       ]
     },
     {
-      "id":23,
-      "enemyID":[
+      "id": 23,
+      "enemyID": [
         7,
         3,
         4
       ],
-      "spawnCount":[
-        17,
-        17,
-        17
+      "spawnCount": [
+        21,
+        21,
+        21
       ],
-      "spawnDelayTime":[
+      "spawnDelayTime": [
         1.7,
         1.7,
         1.7
       ]
     },
     {
-      "id":24,
-      "enemyID":[
+      "id": 24,
+      "enemyID": [
         6,
         4,
         3
       ],
-      "spawnCount":[
-        17,
-        17,
-        17
+      "spawnCount": [
+        21,
+        21,
+        21
       ],
-      "spawnDelayTime":[
+      "spawnDelayTime": [
         1.4,
         1.4,
         1.4
       ]
     },
     {
-      "id":25,
-      "enemyID":[
+      "id": 25,
+      "enemyID": [
         5,
         6
       ],
-      "spawnCount":[
-        25,
-        25
+      "spawnCount": [
+        31,
+        31
       ],
-      "spawnDelayTime":[
+      "spawnDelayTime": [
         1.2,
         1.2
       ]
     },
     {
-      "id":26,
-      "enemyID":[
+      "id": 26,
+      "enemyID": [
         10,
         8
       ],
-      "spawnCount":[
-        16,
-        16
+      "spawnCount": [
+        20,
+        20
       ],
-      "spawnDelayTime":[
+      "spawnDelayTime": [
         1.5,
         1.5
       ]
     },
     {
-      "id":27,
-      "enemyID":[
+      "id": 27,
+      "enemyID": [
         10,
         9
       ],
-      "spawnCount":[
-        15,
-        15
+      "spawnCount": [
+        18,
+        18
       ],
-      "spawnDelayTime":[
+      "spawnDelayTime": [
         1.8,
         1.8
       ]
     },
     {
-      "id":28,
-      "enemyID":[
+      "id": 28,
+      "enemyID": [
         5,
         6,
         3
       ],
-      "spawnCount":[
-        25,
-        25,
-        25
+      "spawnCount": [
+        31,
+        31,
+        31
       ],
-      "spawnDelayTime":[
-        1.0,
-        1.0,
-        1.0
+      "spawnDelayTime": [
+        1,
+        1,
+        1
       ]
     },
     {
-      "id":29,
-      "enemyID":[
+      "id": 29,
+      "enemyID": [
         9,
         10,
         8
       ],
-      "spawnCount":[
-        11,
-        11,
-        11
+      "spawnCount": [
+        13,
+        13,
+        13
       ],
-      "spawnDelayTime":[
+      "spawnDelayTime": [
         1.6,
         1.6,
         1.6

@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: 252309453, guid: 02ee4db91ec582a44b33bc8dbe35ed4f, type: 3}
+  m_Sprite: {fileID: -801134869, guid: daa6ef4cb1b097642aefbc4a945e6a1b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -116,7 +116,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2951656487076347213}
   - component: {fileID: -5899432786219981154}
-  - component: {fileID: 4440563051128669300}
+  - component: {fileID: 1405282096463621732}
   m_Layer: 0
   m_Name: Tower_7
   m_TagString: Tower
@@ -184,9 +184,9 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.5}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &4440563051128669300
+--- !u!114 &1405282096463621732
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
