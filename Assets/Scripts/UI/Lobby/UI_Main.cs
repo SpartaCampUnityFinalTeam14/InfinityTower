@@ -40,7 +40,7 @@ public class UI_Main : UI
     public void TutorialStart()
     {
         tutorialBackground.SetActive(false);
-        UIManager.Instance.ShowUI<UI_LobbyTutorial>().StartStep();
+        UIManager.Instance.ShowUI<UI_LobbyTutorial>();
     }
 
     public void TutorialSkip()

@@ -2175,9 +2175,9 @@ RectTransform:
   - {fileID: 1286611753433597921}
   m_Father: {fileID: 7440037769917487662}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 200, y: -25}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -760, y: 515}
   m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &3231218389771585995
@@ -3260,7 +3260,6 @@ GameObject:
   - component: {fileID: 2298501056230843240}
   - component: {fileID: 2515677631330996436}
   - component: {fileID: 1180030971826113069}
-  - component: {fileID: 2234079565055637849}
   m_Layer: 5
   m_Name: GachaButton
   m_TagString: Untagged
@@ -3382,23 +3381,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &2234079565055637849
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1955771192091061199}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4b041ccf41e0f14abc92c10ee8796c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  order: 0
-  explanation: "\uC88C\uCE21\uC758 \uD0ED\uC744 \uB20C\uB7EC\uC11C \uD398\uC774\uC9C0\uB97C
-    \uC774\uB3D9\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4! \uAC00\uC7A5 \uBA3C\uC800
-    \uBF51\uAE30 \uD0ED\uC73C\uB85C \uC774\uB3D9\uD574\uC11C \uD0C0\uC6CC\uB97C \uBF51\uC544
-    \uBCF4\uC138\uC694!"
 --- !u!1 &2137168322969086065
 GameObject:
   m_ObjectHideFlags: 0
@@ -5632,7 +5614,6 @@ GameObject:
   - component: {fileID: 8149097124441541731}
   - component: {fileID: 523797962643883961}
   - component: {fileID: 247174714431897037}
-  - component: {fileID: 2199434191787478804}
   m_Layer: 5
   m_Name: ArtifactButton
   m_TagString: Untagged
@@ -5754,21 +5735,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &2199434191787478804
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3511139565292594277}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4b041ccf41e0f14abc92c10ee8796c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  order: 2
-  explanation: "\uD0C0\uC6CC \uC678\uC5D0\uB3C4 \uB2E4\uC591\uD55C \uD6A8\uACFC\uB97C
-    \uAC00\uC9C4 \uC720\uBB3C\uC744 \uBF51\uC744 \uC218\uB3C4 \uC788\uC2B5\uB2C8\uB2E4!"
 --- !u!1 &3516534249345925312
 GameObject:
   m_ObjectHideFlags: 0
@@ -6229,7 +6195,6 @@ GameObject:
   - component: {fileID: 2939144248585481847}
   - component: {fileID: 8385289954428186424}
   - component: {fileID: 4033435420252702459}
-  - component: {fileID: 3454372861937534104}
   m_Layer: 5
   m_Name: LobbyButton
   m_TagString: Untagged
@@ -6351,23 +6316,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &3454372861937534104
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4255409893170551738}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4b041ccf41e0f14abc92c10ee8796c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  order: 3
-  explanation: "\uD0ED\uC5D0 \uB300\uD55C \uC124\uBA85\uC740 \uBAA8\uB450 \uB05D\uB0AC\uC2B5\uB2C8\uB2E4.
-    \uC774\uC81C \uB85C\uBE44\uB85C \uB3CC\uC544\uAC00\uC11C \uAC8C\uC784\uC744 \uC2DC\uC791\uD558\uC2DC\uC8E0.
-    \uC544! \uAC8C\uC784\uC744 \uC2DC\uC791\uD558\uAE30 \uC804 \uD3B8\uC131 \uCC3D\uC5D0\uC11C
-    \uD0C0\uC6CC\uB97C \uD3B8\uC131\uD558\uB294 \uAC83 \uC78A\uC9C0 \uB9C8\uC138\uC694!"
 --- !u!1 &4327754801698473227
 GameObject:
   m_ObjectHideFlags: 0
@@ -6674,7 +6622,6 @@ GameObject:
   - component: {fileID: 375163418455058440}
   - component: {fileID: 1876918180884879611}
   - component: {fileID: 559458616783866941}
-  - component: {fileID: 8188273860145732802}
   m_Layer: 5
   m_Name: DeckButton
   m_TagString: Untagged
@@ -6796,23 +6743,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &8188273860145732802
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4893413754082321751}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4b041ccf41e0f14abc92c10ee8796c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  order: 1
-  explanation: "\uD0C0\uC6CC\uB97C \uBF51\uC740 \uD6C4\uC5D0\uB294 \uD3B8\uC131 \uD0ED\uC5D0\uC11C
-    \uBF51\uC740 \uD0C0\uC6CC\uB97C \uD655\uC778\uD558\uACE0 \uC5B4\uB5A4 \uD0C0\uC6CC\uB97C
-    \uAC00\uC9C0\uACE0 \uAC8C\uC784\uC744 \uC9C4\uD589\uD560 \uC9C0 \uC815\uD560
-    \uC218 \uC788\uC2B5\uB2C8\uB2E4!"
 --- !u!1 &4898255144814966001
 GameObject:
   m_ObjectHideFlags: 0

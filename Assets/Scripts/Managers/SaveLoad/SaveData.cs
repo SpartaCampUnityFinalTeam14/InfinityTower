@@ -25,7 +25,7 @@ public class PlayerData
         gold = 1000;
         selectedStageIndex = 0;
         playableStages = new() { 0 };
-        selectedTowerIndex = new List<int>() { 0, -1, -1, -1, -1 };
+        selectedTowerIndex = new List<int>() { 0, 1, 2, 3, 4 };
         selectedChampionIndex = 0;
         isPlayedThisGame = false;
     }
