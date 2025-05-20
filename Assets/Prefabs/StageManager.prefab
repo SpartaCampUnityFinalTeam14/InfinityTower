@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   token: 0
   book: 10
-  costRecoveryMultiplier: 30
+  costRecoveryMultiplier: 20
   selectedTowers: 
   selectedChampion: 0
   skillTargetingSystem: {fileID: 0}
