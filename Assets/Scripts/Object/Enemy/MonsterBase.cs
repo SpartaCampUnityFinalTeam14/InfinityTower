@@ -7,7 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MonsterBase : Poolable, ISkillUser
+public class MonsterBase : Poolable, ISkillUser, IBuffable
 {
     private Floor floor;
     protected MonsterData data;
@@ -25,10 +25,12 @@ public class MonsterBase : Poolable, ISkillUser
     private Image hpBar;
 
     // <key : 받는 이펙트의 statusID / value: 현재 적용된 이펙트 카운트> 본인이 받고있는 이펙트를 저장
-    public Dictionary<int, int> nowEffectedDict = new();
+    public Dictionary<int, int> nowEffectedDict;
     // 적용되는 statType의 ID 값들 , 변동되는 스탯에 대한 수치
-    public Dictionary<int, float> AddModifierStat = new();
-    
+    public Dictionary<int, float> AddModifierStat { get; set; }
+    // 해당 몬스터가 영향을 받는 스탯 타입들
+    public List<int> ValidStatTypes => data.valueType;
+
     [SerializeField] private MonsterSpriteSetSO spriteSet;
     [SerializeField] private SpriteRenderer spriteRenderer;
 
@@ -38,6 +40,8 @@ public class MonsterBase : Poolable, ISkillUser
     private float frameRate = 0.15f;
     
     protected List<Skill> skills = new();
+
+    
 
     public virtual void Init(int id, List<Vector3> path, Transform startPos, Floor floor)
     {
@@ -49,7 +53,10 @@ public class MonsterBase : Poolable, ISkillUser
         moveSpeed = GetFinalStatValue(StatType.moveSpeed);
         defense = GetFinalStatValue(StatType.armor);
 
-        InitArtifactStatModifier(AddModifierStat, IsValidStat);
+        nowEffectedDict = new Dictionary<int, int>();
+        AddModifierStat = new Dictionary<int, float>();
+
+        ArtifactHelper.ApplyArtifactModifiers(this);
 
         ApplyTypeBonus((EnemyType)data.enemyType);
 
@@ -62,39 +69,6 @@ public class MonsterBase : Poolable, ISkillUser
             Debug.LogWarning("❌ HPBar 연결 실패! 경로 확인 필요.");
 
         UpdateHpUI(); // 시작할 때 체력바도 세팅
-    }
-
-    public void InitArtifactStatModifier(Dictionary<int, float> AddModifier, Func<StatType, bool> isValidStat)
-    {
-        foreach (var artifactData in SaveManager.Instance.artifactLevelDict)
-        {
-            ////아티펙트가 가진 TargetType을 검사
-            //if (artifactData.Value.ReturnMyTargetType())
-            //    continue;
-
-            //유닛이 가지고있는 스탯 타입을 검사
-            if (!isValidStat(artifactData.Value.ReturnMyStatType()))
-                continue;
-
-            int artifactStatType = (int)artifactData.Value.ReturnMyStatType();
-            float value = artifactData.Value.ReturnNowStatValue((StatType)artifactStatType);
-            if (!AddModifier.TryAdd(artifactStatType, value))
-            {
-                AddModifier[artifactStatType] += value;
-            }
-        }
-    }
-
-    private bool IsValidStat(StatType statType)
-    {
-        foreach (int type in data.valueType)
-        {
-            if (type == (int)statType)
-            {
-                return true;
-            }
-        }
-        return false;
     }
 
     public void UpdateHpUI()
@@ -319,6 +293,11 @@ public class MonsterBase : Poolable, ISkillUser
         {
             return data.GetStat(statType) + GetAddModifierValue(statType);
         }
+        else if (statType == StatType.HP)
+        {
+            Debug.Log("레벨스케일링 적용");
+            return data.GetStat(statType) * (1 + GetAddModifierValue(statType)) * StageManager.Instance.monsterLevelScaling;
+        }
         else
         {
             return data.GetStat(statType) * (1 + GetAddModifierValue(statType));
@@ -327,6 +306,10 @@ public class MonsterBase : Poolable, ISkillUser
 
     public float GetAddModifierValue(StatType type)
     {
+        if (AddModifierStat==null)
+        {
+            return 0f;
+        }
         if (AddModifierStat.TryGetValue((int)type, out float value))
         {
             return value;

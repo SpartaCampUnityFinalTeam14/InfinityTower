@@ -50,6 +50,8 @@ public class StageManager : Singleton<StageManager>
     [HideInInspector] public bool isAdditionalFloor;
     [HideInInspector] public bool isFadeComplete;
 
+    public float monsterLevelScaling;
+
     protected override void Awake()
     {
         isGlobal = false;
@@ -96,6 +98,66 @@ public class StageManager : Singleton<StageManager>
 
         var ui = UIManager.Instance.GetUI<UIFloorIntro>();
         ui.Init(maxFloor);
+    }
+
+    public void LevelScaling()
+    {
+        float stageValue = 1;
+        float floorValue = 1;
+        float waveValue = 1;
+        switch (stageIndex)
+        {
+            case 0:
+                stageValue = 1.0f;
+                break;
+            case 1:
+                stageValue = 1.1f;
+                break;
+            case 2:
+                stageValue = 1.2f;
+                break;
+            default:
+                stageValue = 1.2f;
+                break;
+        }
+        switch (floorCount)
+        {
+            case 1:
+                floorValue = 1.0f;
+                break;
+            case 2:
+                floorValue = 1.1f;
+                break;
+            case 3:
+                floorValue = 1.25f;
+                break;
+            case 4:
+                floorValue = 1.4f;
+                break;
+            case 5:
+                floorValue = 1.6f;
+                break;
+            default:
+                floorValue = 1.6f;
+                break;
+        }
+        switch (CurFloor.curWave)
+        {
+            case 0:
+                waveValue = 1.0f;
+                break;
+            case 1:
+                waveValue = 1.1f;
+                break;
+            case 2:
+                waveValue = 1.3f;
+                break;
+            default:
+                waveValue = 1.3f;
+                break;
+        }
+
+        monsterLevelScaling = stageValue * floorValue * waveValue;
     }
 
     void ApplyArtifact()
