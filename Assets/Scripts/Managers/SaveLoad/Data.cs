@@ -510,6 +510,7 @@ public class ArtifactData
     public int valueType;
     public int value;
     public float prob;
+    public string sprite;
 }
 
 [Serializable]

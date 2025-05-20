@@ -152,6 +152,12 @@ public class SaveManager : Singleton<SaveManager>
         DeleteFile(nameof(ArtifactLevelData));
 
         Init();
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 
     void DeleteFile(string fileName)

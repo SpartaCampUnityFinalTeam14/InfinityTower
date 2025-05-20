@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
+    public bool isTutorialAlreadySeen;
+
     public void LoadScene(string sceneName)
     {
         AnalyticsManager.SendEvent(sceneName, new Dictionary<string, object>

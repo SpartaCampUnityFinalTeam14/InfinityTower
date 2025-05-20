@@ -39,7 +39,7 @@ public class UI_SelectedTowerSlot : MonoBehaviour
         towerId = index;
         towerNameText.text = DataManager.Instance.towerDict[index].name;
 
-        RotateSlotRandom();
+        //RotateSlotRandom();
     }
 
     void ClearSlot()

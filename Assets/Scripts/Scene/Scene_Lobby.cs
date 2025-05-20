@@ -6,6 +6,7 @@ public class Scene_Lobby : Scene
     {
         base.Init();
 
+        UIManager.Instance.HideUI<UI_LobbyTutorial>();
         UIManager.Instance.ShowUI<UI_Main>();
     }
 }

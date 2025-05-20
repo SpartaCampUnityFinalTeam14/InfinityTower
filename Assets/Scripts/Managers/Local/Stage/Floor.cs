@@ -42,6 +42,8 @@ public class Floor : MonoBehaviour
 
         // 특성 초기화
         UIManager.Instance.HideUI<UIAbility>();
+
+        OnWaveCountChanged.RaiseEvent(1);
     }
 
     public void StartFloor(int floorId)
@@ -57,10 +59,10 @@ public class Floor : MonoBehaviour
     {
         for (int i = 0; i < floorData.waveCount; i++)
         {
-            OnWaveCountChanged.RaiseEvent(i + 1);
-
             var ui = UIManager.Instance.ShowUI<UI_Wave>();
             ui.ShowWaveNum(i + 1);
+
+            OnWaveCountChanged.RaiseEvent(i + 1);
 
             yield return new WaitForSeconds(waveStartDelayTime);
 
