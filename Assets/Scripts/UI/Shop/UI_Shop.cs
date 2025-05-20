@@ -17,8 +17,12 @@ public class UI_Shop : UI
     [SerializeField] Button btnRefresh;
     [SerializeField] Button btnUpgrade;
     [SerializeField] Button btnExit;
-    [SerializeField] List<ShopItem> itemList;
+    [SerializeField] List<ShopItem> itemList_Ablity;
     [SerializeField] int itemAmount;
+
+    [Header("Common Item")]
+    [SerializeField] ShopItem item_ClassBook;
+    [SerializeField] ShopItem item_Potion;
 
     [SerializeField] private EventChannel OnFloorStarted;
 
@@ -53,19 +57,20 @@ public class UI_Shop : UI
     {
         List<AbilityData> abilities = GetAbilities();
 
-        for (int i = 0; i < itemList.Count; i++)
-            itemList[i].gameObject.SetActive(false);
+        for (int i = 0; i < itemList_Ablity.Count; i++)
+            itemList_Ablity[i].gameObject.SetActive(false);
 
         // 아이템 세팅
         for (int i = 0; i < abilities.Count; i++)
         {
-            itemList[i].InitAbility(this, abilities[i]);
-            itemList[i].gameObject.SetActive(true);
+            itemList_Ablity[i].InitAbility(this, abilities[i]);
+            itemList_Ablity[i].gameObject.SetActive(true);
         }
 
-        // 마지막 아이템은 항상 전직의 서
-        itemList[abilities.Count].InitClassBook(this);
-        itemList[abilities.Count].gameObject.SetActive(true);
+        // 마지막 아이템은 항상 전직의 서, 포션
+
+        item_ClassBook.InitClassBook(this);
+        item_Potion.InitPotion(this);
     }
 
     public void OnClickAbility()
@@ -99,7 +104,7 @@ public class UI_Shop : UI
         int maxRetry = 100; // 무한 루프 방지
         int retry = 0;
 
-        while (result.Count < (itemAmount - 1) && retry < maxRetry)
+        while (result.Count < (itemList_Ablity.Count) && retry < maxRetry)
         {
             var ability = StageManager.Instance.abilityManager.GetRandomAbility();
 

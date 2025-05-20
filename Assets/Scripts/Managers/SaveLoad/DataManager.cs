@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,7 +13,7 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<int, ChampionData> championDict = new();
     public Dictionary<int, SkillData> skillDict = new();
     public Dictionary<int, AbilityData> abilityDict = new();
-    public Dictionary<int, AbilityType> abilityTypedict = new();
+    //[Obsolete] public Dictionary<int, AbilityType> abilityTypedict = new();
     public Dictionary<int, EventData> eventDict = new();
     public Dictionary<int, EventData> eventResultDict = new();
     public Dictionary<int, ProbabilityEventData> eventProbabilityDict = new();
@@ -40,7 +41,7 @@ public class DataManager : Singleton<DataManager>
         championDict = LoadJson<ChampionDataLoader, int, ChampionData>().MakeDict();
         skillDict = LoadJson<SkillDataLoader, int, SkillData>().MakeDict();
         abilityDict = LoadJson<AbilityDataLoader, int, AbilityData>().MakeDict();
-        abilityTypedict = LoadJson<AbilityTypeLoader, int, AbilityType>().MakeDict();
+        //abilityTypedict = LoadJson<AbilityTypeLoader, int, AbilityType>().MakeDict();
         eventDict = LoadJson<EventDataLoader, int, EventData>().MakeDict();
         eventResultDict = LoadJson<EventDataLoader, int, EventData>("EventResultData").MakeDict();
         eventProbabilityDict = LoadJson<ProbabilityEventDataLoader, int, ProbabilityEventData>("EventProbabilityData").MakeDict();

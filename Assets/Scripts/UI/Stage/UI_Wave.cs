@@ -18,7 +18,7 @@ public class UI_Wave : UI
     [SerializeField] float stopTime;
     [SerializeField] float exitDuration;
 
-    [Header("Wave Clear Settings")]
+    [Header("Floor Clear Settings")]
     [SerializeField] float scaleDuration;
     [SerializeField] float sequenceStartDelay;
     [SerializeField] float sequenceEndDelay;
@@ -59,10 +59,10 @@ public class UI_Wave : UI
             });
     }
 
-    public void ShowWaveClear(Action onComplete = null)
+    public void ShowFloorClear(Action onComplete = null)
     {
         // Text Init
-        text.text = $"Clear!";
+        text.text = $"Floor Clear!";
         text.transform.position = centerPos.transform.position;
         text.transform.localScale = Vector3.zero;
 
@@ -77,6 +77,30 @@ public class UI_Wave : UI
             .SetEase(Ease.OutBack).SetUpdate(true));
 
         // 클리어 문구 생성 후 끝나는 대기시간
+        seq.AppendInterval(sequenceEndDelay);
+
+        seq.AppendCallback(() =>
+        {
+            onComplete?.Invoke();
+            Hide();
+        });
+    }
+
+    public void ShowFaildText(Action onComplete = null)
+    {
+        // Text Init
+        text.text = $"Defense Failed!";
+        text.transform.position = centerPos.transform.position;
+        text.transform.localScale = Vector3.zero;
+
+        Sequence seq = DOTween.Sequence();
+        seq.SetUpdate(true);
+
+        seq.AppendInterval(sequenceStartDelay);
+
+        seq.Append(text.DOFade(1f, scaleDuration * 2).SetEase(Ease.InQuint));
+        seq.Join(text.transform.DOScale(Vector3.one, scaleDuration));
+
         seq.AppendInterval(sequenceEndDelay);
 
         seq.AppendCallback(() =>

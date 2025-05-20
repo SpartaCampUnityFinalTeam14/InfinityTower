@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AutoTargetDamage : AutoTargetSkill
 {
-    public float multiplier = 1f;
+    public float multiplier;
 
     // 🎇 연출용
     public GameObject effectPrefab;

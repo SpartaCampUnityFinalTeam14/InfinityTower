@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System.Collections;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class UI_FloorLoading : UI
@@ -11,21 +12,35 @@ public class UI_FloorLoading : UI
     [SerializeField] float moveDuration;
     [SerializeField] float fadeInDuration;
     [SerializeField] CanvasGroup canvasGroup;
+    [SerializeField] Transform parent;
 
     [Header("MovePath")]
-    [SerializeField] RectTransform Player;
     [SerializeField] RectTransform startPos;
     [SerializeField] RectTransform middlePos;
     [SerializeField] RectTransform endPos;
+
+    GameObject player;
+    RectTransform playerRect;
+    Animator anim;
 
     public override void Show()
     {
         base.Show();
 
+        if (!player)
+        {
+            GameObject GO = Resources.Load<GameObject>($"Prefabs/Hero/Character_{StageManager.Instance.selectedChampion}");
+            if (!GO) Debug.LogError("Player Load Error");
+
+            player = Instantiate(GO, parent);
+            anim = player.GetComponentInChildren<Animator>();
+            playerRect = player.GetComponent<RectTransform>();
+        }
+
         StageManager.Instance.timeScaleManager.PushTimeScale(0f);
 
         canvasGroup.alpha = 1f;
-        Player.position = startPos.position;
+        playerRect.position = startPos.position;
 
         StartCoroutine(DelayOpenShop());
     }
@@ -37,10 +52,11 @@ public class UI_FloorLoading : UI
 
         seq.AppendInterval(startDelay);
 
-        seq.Append(Player.DOMove(middlePos.position, moveDuration).SetEase(Ease.Linear));
+        seq.AppendCallback(() => anim.SetTrigger("Move"));
+        seq.Append(playerRect.DOMove(middlePos.position, moveDuration).SetEase(Ease.Linear));
         //seq.AppendInterval(moveDuration);
 
-        seq.Append(Player.DOMove(endPos.position, moveDuration).SetEase(Ease.Linear));
+        seq.Append(playerRect.DOMove(endPos.position, moveDuration).SetEase(Ease.Linear));
         seq.AppendInterval(moveDuration + endDelay);
 
         seq.Append(canvasGroup.DOFade(0f, fadeInDuration).OnComplete(() =>
