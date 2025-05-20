@@ -16,7 +16,7 @@ public class Projectile_DoTField : Projectile
 
         // 🧠 ProjectileData에서 장판 세팅
         dotDuration = data.dotDuration;
-        dotDamagePerTick = data.dotDamagePerTick;
+        dotDamagePerTick = Mathf.Max(1, towerData.GetFinalStatValue(StatType.attackDamage) * 0.1f);
         dotTickInterval = data.dotTickInterval;
         dotRadius = data.dotRadius;
     }
