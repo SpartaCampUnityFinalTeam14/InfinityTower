@@ -16,6 +16,7 @@ public class UI_Gacha : MonoBehaviour, ScrollPanel
     [SerializeField] private Animator boxAnimator;
     private List<KeyValuePair<bool, int>> gachaList = new();
     [SerializeField] private UI_GachaResult gachaEachResult;
+    [SerializeField] private GameObject gachaEachResultBackground;
     [SerializeField] private Button gachaEachBackgroundButton;
     [SerializeField] private Button skipAllButton;
 
@@ -129,7 +130,8 @@ public class UI_Gacha : MonoBehaviour, ScrollPanel
 
         gachaEachBackground.SetActive(true);
         gachaEachResult.Init(result.Key, result.Value);
-        gachaEachResult.Hide();
+        //gachaEachResult.Hide();
+        gachaEachResultBackground.SetActive(false);
 
         boxAnimator.SetInteger("BoxID", Random.Range(0, 4));
         boxAnimator.Update(0f);
@@ -138,7 +140,8 @@ public class UI_Gacha : MonoBehaviour, ScrollPanel
         float clipLength = boxAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
         yield return new WaitForSeconds(clipLength);
 
-        gachaEachResult.Show();
+        gachaEachResultBackground.SetActive(true);
+        //gachaEachResult.Show();
 
         isShowResultPlaying = false;
     }
@@ -155,7 +158,8 @@ public class UI_Gacha : MonoBehaviour, ScrollPanel
             boxAnimator.SetTrigger("Skip");
             boxAnimator.Update(0f);
 
-            gachaEachResult.Show();
+            gachaEachResultBackground.SetActive(true);
+            //gachaEachResult.Show();
         }
         else
         {
