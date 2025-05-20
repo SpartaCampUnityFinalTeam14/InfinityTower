@@ -373,8 +373,8 @@ public class AbilityData
     public List<int> effectType;
     public List<int> effectValue;
     public int projectile;
-    public string targetType;
-    public int targetID;
+    public int targetType;
+    public List<int> targetID;
     public int rarity;
     public int stackLimit;
     public string image;
@@ -407,8 +407,8 @@ public class AbilityDataLoader : ILoader<int, AbilityData>
 }
 #endregion
 
-#region AbilityType
-[Serializable]
+#region AbilityType (사용 안함)
+[Obsolete] [Serializable]
 public class AbilityType
 {
     public int id;
@@ -416,7 +416,7 @@ public class AbilityType
     public string description;
 }
 
-[Serializable]
+[Obsolete] [Serializable]
 public class AbilityTypeLoader : ILoader<int, AbilityType>
 {
     public List<AbilityType> data = new();
