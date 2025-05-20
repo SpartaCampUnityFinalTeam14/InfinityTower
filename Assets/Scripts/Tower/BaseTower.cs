@@ -24,6 +24,8 @@ public abstract class BaseTower : Poolable
 
     // 타워가 설치된 타일 위치
     Vector3Int cellPos;
+    
+    protected float baseAttackSpeed = 1f; 
 
     // 업그레이드 관련
     //protected int currentLevel = 1;
@@ -305,5 +307,9 @@ public abstract class BaseTower : Poolable
     protected void SetAttackAnimationSpeed()
     {
         float currentAttackSpeed = GetFinalStatValue(StatType.attackSpeed);
+
+        anim.speed = currentAttackSpeed <= baseAttackSpeed 
+            ? baseAttackSpeed 
+            : currentAttackSpeed;
     }
 }

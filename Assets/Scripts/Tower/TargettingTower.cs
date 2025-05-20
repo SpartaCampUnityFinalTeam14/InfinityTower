@@ -161,7 +161,7 @@ public abstract class TargettingTower : BaseTower
 
     IEnumerator DelayedAttackCoroutine()
     {
-        float delay = 0.93f; // ✅ 속도 반영해서 딜레이 계산
+        float delay = 0.93f / anim.speed; // ✅ 속도 반영해서 딜레이 계산
         yield return new WaitForSeconds(delay);
         UseActOnTargets();
     }
