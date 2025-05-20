@@ -63,6 +63,7 @@ public class UI_TowerInfo : UI
     {
         towerIcon.sprite = Resources.Load<Sprite>($"Icons/Tower/Tower_{data.id}");
         towerNameText.text = data.name;
+        descriptionText.text = data.description;
         levelupButton.interactable = true;
         SetLevel(SaveManager.Instance.towerLevelDict[data.id].level);
         SetExp(SaveManager.Instance.towerLevelDict[data.id].exp);

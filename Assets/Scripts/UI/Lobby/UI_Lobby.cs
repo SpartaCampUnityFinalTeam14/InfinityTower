@@ -4,26 +4,17 @@ using UnityEngine.UI;
 
 public class UI_Lobby : MonoBehaviour, ScrollPanel
 {
-    [SerializeField] private TextMeshProUGUI goldText;
-
     [SerializeField] private Image stageImage;
     [SerializeField] private TextMeshProUGUI stageNameText;
     [SerializeField] private Button leftStageButton;
     [SerializeField] private Button rightStageButton;
     [SerializeField] private Button stageStartButton;
 
-    [SerializeField] private EventChannel OnGoldChanged;
-
     protected void Awake()
     {
-        UpdateGold();
-
         leftStageButton.onClick.AddListener(() => SetStage(SaveManager.Instance.playerData.selectedStageIndex - 1));
         rightStageButton.onClick.AddListener(() => SetStage(SaveManager.Instance.playerData.selectedStageIndex + 1));
         stageStartButton.onClick.AddListener(StartStage);
-
-        UnregisterListeners();
-        RegisterListeners();
     }
 
     private void Start()
@@ -49,24 +40,6 @@ public class UI_Lobby : MonoBehaviour, ScrollPanel
         else rightStageButton.gameObject.SetActive(true);
     }
 
-    void UnregisterListeners()
-    {
-        OnGoldChanged.UnregisterListener(UpdateGold);
-    }
-
-    void RegisterListeners()
-    {
-        OnGoldChanged.RegisterListener(UpdateGold);
-    }
-
-    public void ResetPanel() => UpdateGold();
-
-    void UpdateGold()
-    {
-        int gold = SaveManager.Instance.playerData.gold;
-        goldText.text = string.Format("{0:N0}", gold);
-    }
-
     void StartStage()
     {
         foreach(int id in SaveManager.Instance.playerData.selectedTowerIndex)
@@ -81,8 +54,8 @@ public class UI_Lobby : MonoBehaviour, ScrollPanel
         GameManager.Instance.LoadScene("KSM_Stage");
     }
 
-    private void OnDestroy()
+    public void ResetPanel()
     {
-        UnregisterListeners();
+
     }
 }

@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class UI_Gacha : MonoBehaviour, ScrollPanel
 {
-    [SerializeField] private TextMeshProUGUI goldText;
     [SerializeField] private Image boxImage;
     [SerializeField] private Button gacha1Button;
     [SerializeField] private TextMeshProUGUI gold1Text;
@@ -57,14 +56,6 @@ public class UI_Gacha : MonoBehaviour, ScrollPanel
         gachaEachBackground.SetActive(false);
         gachaAllBackground.SetActive(false);
 
-        UpdateGold();
-    }
-
-    void UpdateGold()
-    {
-        int gold = SaveManager.Instance.playerData.gold;
-        goldText.text = string.Format("{0:N0}", gold);
-
         OnGoldChanged.RaiseEvent();
     }
 
@@ -76,7 +67,7 @@ public class UI_Gacha : MonoBehaviour, ScrollPanel
             return;
         }
         SaveManager.Instance.playerData.UseGold(requiredGold);
-        UpdateGold();
+        OnGoldChanged.RaiseEvent();
 
         skipAllButton.gameObject.SetActive(false);
 
@@ -95,7 +86,7 @@ public class UI_Gacha : MonoBehaviour, ScrollPanel
             return;
         }
         SaveManager.Instance.playerData.UseGold(requiredGold * 10);
-        UpdateGold();
+        OnGoldChanged.RaiseEvent();
 
         skipAllButton.gameObject.SetActive(true);
 
