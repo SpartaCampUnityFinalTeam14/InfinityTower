@@ -54,12 +54,6 @@ public class UI_Lobby : MonoBehaviour, ScrollPanel
         GameManager.Instance.LoadScene("KSM_Stage");
     }
 
-
-    public void TutorialTest()
-    {
-        UIManager.Instance.ShowUI<UI_LobbyTutorial>().StartStep();
-    }
-
     public void ResetPanel()
     {
 

@@ -10,11 +10,11 @@ public class TutorialButton : TutorialStep
 
     public override void OnStep()
     {
-        UIManager.Instance.GetUI<UI_LobbyTutorial>().SetMaskPosition(GetComponent<RectTransform>());
+        UIManager.Instance.GetUI<UI_LobbyTutorial>()?.SetMaskPosition(GetComponent<RectTransform>());
     }
 
     public override void OnClicked()
     {
-        UIManager.Instance.GetUI<UI_LobbyTutorial>().NextStep(order);
+        UIManager.Instance.GetUI<UI_LobbyTutorial>()?.NextStep(order);
     }
 }
