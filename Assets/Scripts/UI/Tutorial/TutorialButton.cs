@@ -3,10 +3,8 @@ using UnityEngine.UI;
 
 public class TutorialButton : TutorialStep
 {
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
-
         GetComponent<Button>().onClick.AddListener(OnClicked);
     }
 

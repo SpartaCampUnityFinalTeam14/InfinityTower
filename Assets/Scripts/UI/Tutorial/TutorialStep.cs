@@ -5,9 +5,9 @@ public abstract class TutorialStep : MonoBehaviour
     public int order;
     public string explanation;
 
-    protected virtual void Awake()
+    protected void Start()
     {
-        UIManager.Instance.ShowUI<UI_LobbyTutorial>().steps.Add(this);
+        UIManager.Instance.GetUI<UI_LobbyTutorial>().steps.Add(this);
     }
 
     public abstract void OnStep();
