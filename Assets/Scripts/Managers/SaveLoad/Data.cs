@@ -221,6 +221,7 @@ public class TowerData
         return DataManager.Instance.statusDict[typeID].name;
     }
 
+    //<Key:EffectID, Value : <Key:TargetStatusID ,Value : EffectBase>>
     public Dictionary<int, EffectBase> ReturnEffectList()
     {
         Dictionary<int, EffectBase> ret = new Dictionary<int, EffectBase>();

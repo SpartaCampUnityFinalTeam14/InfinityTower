@@ -19,6 +19,7 @@ public class Floor : MonoBehaviour
 
     //웨이브
     private WaveData waveData;
+    public int curWave;
 
     [SerializeField] int monsterCnt = 0;
     private bool isWaveEnd;
@@ -57,16 +58,20 @@ public class Floor : MonoBehaviour
 
     IEnumerator ProgressFloor()
     {
-        for (int i = 0; i < floorData.waveCount; i++)
+        for (curWave = 0; curWave < floorData.waveCount; curWave++)
         {
+            StageManager.Instance.LevelScaling();
+
+            OnWaveCountChanged.RaiseEvent(curWave + 1);
+
             var ui = UIManager.Instance.ShowUI<UI_Wave>();
-            ui.ShowWaveNum(i + 1);
+            ui.ShowWaveNum(curWave + 1);
 
             OnWaveCountChanged.RaiseEvent(i + 1);
 
             yield return new WaitForSeconds(waveStartDelayTime);
 
-            StartWave(floorData.waveID[i]);
+            StartWave(floorData.waveID[curWave]);
 
             yield return new WaitUntil(() => isWaveEnd);
             //웨이브 종료 시점
