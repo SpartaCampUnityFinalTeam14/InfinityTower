@@ -7,23 +7,26 @@ using UnityEngine.UI;
 
 public class ShopItem : MonoBehaviour
 {
+    enum Shop_ItemType { Ability, ClassBook, Potion }
+
     [SerializeField] TextMeshProUGUI textName;
     [SerializeField] TextMeshProUGUI textPrice;
     [SerializeField] TextMeshProUGUI textAmount;
     [SerializeField] Button btnBuy;
     [SerializeField] Image itemImage;
+    [SerializeField] Image SoldOut;
 
     UI_Shop uiShop;
     AbilityData data;
     int amount;
     int price;
-    bool isAbility;
+    Shop_ItemType type;
 
     public void InitAbility(UI_Shop ui, AbilityData data)
     {
         uiShop = ui;
         this.data = data;
-        isAbility = true;
+        type = Shop_ItemType.Ability;
         btnBuy.enabled = true;
         amount = 1;
 
@@ -37,24 +40,26 @@ public class ShopItem : MonoBehaviour
         switch(data.rarity)
         {
             case (int)Rarity.Common:
-                price = Random.Range(180, 220);
+                price = Random.Range(18, 23) * 10;
                 break;
             case (int)Rarity.Rare:
-                price = Random.Range(250, 350);
+                price = Random.Range(25, 36) * 10;
                 break;
             case (int)Rarity.Epic:
-                price = Random.Range(475, 550);
+                price = Random.Range(47, 56) * 10;
                 break;
         }
 
         textPrice.text = price.ToString();
+
         textAmount.gameObject.SetActive(false);
+        SoldOut.gameObject.SetActive(false);
     }
 
     public void InitClassBook(UI_Shop ui)
     {
         uiShop = ui;
-        isAbility = false;
+        type = Shop_ItemType.ClassBook;
         btnBuy.enabled = true;
         amount = Random.Range(1, 4);
 
@@ -77,6 +82,24 @@ public class ShopItem : MonoBehaviour
 
         textAmount.gameObject.SetActive(true);
         textAmount.text = $"x{amount}";
+
+        SoldOut.gameObject.SetActive(false);
+
+    }
+
+    public void InitPotion(UI_Shop ui)
+    {
+        uiShop = ui;
+        type = Shop_ItemType.Potion;
+        btnBuy.enabled = true;
+
+        textName.text = "회복 물약";
+
+        price = 200;
+        textPrice.text = price.ToString();
+
+        textAmount.gameObject.SetActive(false);
+        SoldOut.gameObject.SetActive(false);
     }
 
     public void OnItemClick()
@@ -88,10 +111,16 @@ public class ShopItem : MonoBehaviour
             StageManager.Instance.UseToken(price);
             uiShop.UpdateToken(StageManager.Instance.token);
 
-            if (isAbility) StageManager.Instance.abilityManager.AddAbillity(data);
-            else StageManager.Instance.GainBook(amount);
+            if (type == Shop_ItemType.Ability) StageManager.Instance.abilityManager.AddAbillity(data);
+            else if (type == Shop_ItemType.ClassBook) StageManager.Instance.GainBook(amount);
+            else if (type == Shop_ItemType.Potion)
+            {
+                StageManager.Instance.Heal(20);
+                uiShop.UpdateHealth(StageManager.Instance.GetHP(), StageManager.Instance.GetMaxHP());
+            }
 
             textPrice.text = "Sold Out";
+            SoldOut.gameObject.SetActive(true);
             btnBuy.enabled = false;
         }
         else

@@ -4,7 +4,15 @@ using UnityEngine;
 
 public class TimeScaleManager
 {
+    private float baseTimeScale = 1f;
+
     Stack<float> stackTimeScale = new Stack<float>();
+
+    public void SetBaseTimeScale(float timeScale)
+    {
+        baseTimeScale = timeScale;
+        Time.timeScale = timeScale;
+    }
 
     public void PushTimeScale(float value)
     {
@@ -20,7 +28,7 @@ public class TimeScaleManager
         }
         else
         {
-            Time.timeScale = 1f;
+            Time.timeScale = baseTimeScale;
         }
     }
 }

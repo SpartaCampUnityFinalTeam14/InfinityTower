@@ -18,6 +18,7 @@ public class PlayerData
     public List<int> playableStages;
     public List<int> selectedTowerIndex;
     public int selectedChampionIndex;
+    public bool isPlayedThisGame;
 
     public PlayerData()
     {
@@ -26,6 +27,7 @@ public class PlayerData
         playableStages = new() { 0 };
         selectedTowerIndex = new List<int>() { 0, -1, -1, -1, -1 };
         selectedChampionIndex = 0;
+        isPlayedThisGame = false;
     }
 
     public bool CheckGold(int amount)

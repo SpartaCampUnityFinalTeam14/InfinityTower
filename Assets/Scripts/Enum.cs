@@ -5,7 +5,8 @@ public enum Rarity
 {
     Common,
     Rare,
-    Epic
+    Epic,
+    End
 }
 
 public enum TargettingRule
@@ -20,7 +21,8 @@ public enum TargetType
 {
     Tower,    //아군 타워 버프
     Player,  //플레이어 코스트 회복, 체력 회복
-    Enemy    //적 데미지, 디버프
+    Enemy,    //적 데미지, 디버프
+    End
 }
 
 public enum StatType

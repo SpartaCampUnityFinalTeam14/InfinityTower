@@ -7,8 +7,8 @@ public class Ability
     AbilityData data;
     public AbilityData Data => data;
 
-    int curStackCount;
-    public int CurStackCount => curStackCount;
+    int stack;
+    public int CurStack => stack;
 
     public Ability(AbilityData data)
     {
@@ -18,16 +18,16 @@ public class Ability
     private void Init(AbilityData data)
     {
         this.data = data.DeepCopy();
-        curStackCount = 0;
+        stack = 0;
     }
 
-    public void AddStackCount(int cnt)
+    public void AddStack(int cnt = 1)
     {
-        curStackCount += cnt;
+        stack += cnt;
     }
 
-    public void SubStackCount(int cnt)
+    public void SubStack(int cnt = 1)
     {
-        curStackCount -= cnt;
+        stack -= cnt;
     }
 }

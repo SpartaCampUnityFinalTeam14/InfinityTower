@@ -43,6 +43,8 @@ public class Floor : MonoBehaviour
 
         // 특성 초기화
         UIManager.Instance.HideUI<UIAbility>();
+
+        OnWaveCountChanged.RaiseEvent(1);
     }
 
     public void StartFloor(int floorId)
@@ -64,6 +66,8 @@ public class Floor : MonoBehaviour
 
             var ui = UIManager.Instance.ShowUI<UI_Wave>();
             ui.ShowWaveNum(curWave + 1);
+
+            OnWaveCountChanged.RaiseEvent(i + 1);
 
             yield return new WaitForSeconds(waveStartDelayTime);
 
@@ -87,7 +91,8 @@ public class Floor : MonoBehaviour
         ReleaseTower();
         StageManager.Instance.ResetDropTowerCooldown();
 
-        isFloorEnd = true;
+        var ui = UIManager.Instance.ShowUI<UI_Wave>();
+        ui.ShowFloorClear(() => isFloorEnd = true);
     }
 
     public void StartWave(int index)
@@ -163,8 +168,6 @@ public class Floor : MonoBehaviour
     void EndWave()
     {
         Debug.Log("<color=green>웨이브 종료</color>");
-
-        var ui = UIManager.Instance.ShowUI<UI_Wave>();
-        ui.ShowWaveClear(() => isWaveEnd = true);
+        isWaveEnd = true;
     }
 }

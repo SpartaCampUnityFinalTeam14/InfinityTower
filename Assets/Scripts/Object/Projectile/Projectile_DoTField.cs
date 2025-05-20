@@ -47,7 +47,6 @@ public class Projectile_DoTField : Projectile
 
     void Explode()
     {
-        //hasExploded = true;
         Debug.Log("💥 장판 생성됨!");
 
         if (impactEffect != null)
@@ -59,8 +58,6 @@ public class Projectile_DoTField : Projectile
             {
                 dot.Init(dotDuration, dotDamagePerTick, dotTickInterval, dotRadius);
                 PoolManager.Instance.Release(this.GetComponent<Poolable>());
-
-                //hasExploded = false;
             }
             else
             {
