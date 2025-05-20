@@ -314,7 +314,7 @@ public class StageManager : Singleton<StageManager>
             curFloor = floorGO.GetComponent<Floor>();
 
             yield return new WaitUntil(() => isIntroEnd);
-
+           
             curFloor.StartFloor(floorId);
             curCost = startCost;
 

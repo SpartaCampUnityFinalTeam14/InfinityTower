@@ -21,7 +21,6 @@ public class UIEvent : UI, IPointerClickHandler
     [SerializeField] GameObject resultPanel;
     [SerializeField] GameObject rewardPanel;
     [SerializeField] Animator anim;
-    
 
     [Header("Choice Panel")]
     [SerializeField] TextMeshProUGUI eventDesc;
@@ -84,7 +83,7 @@ public class UIEvent : UI, IPointerClickHandler
     IEnumerator WaitForOpenAnim(EventData data)
     {
         yield return new WaitForSecondsRealtime(openDelay);
-
+        
         anim.SetTrigger("Open");
         anim.Update(0f);
         yield return null;
@@ -131,7 +130,7 @@ public class UIEvent : UI, IPointerClickHandler
     {
         eventTitle.text = data.title;
 
-        var sprite = Resources.Load<Sprite>($"Event/{data.image}");
+        var sprite = Resources.Load<Sprite>($"Icons/Event/{data.image}");
         if (sprite) image.sprite = sprite;
 
         yield return coroutine = StartCoroutine(PrintText(eventDesc, data.description));
@@ -153,7 +152,7 @@ public class UIEvent : UI, IPointerClickHandler
     {
         resultTitle.text = data.title;
 
-        var sprite = Resources.Load<Sprite>($"Event/{data.image}");
+        var sprite = Resources.Load<Sprite>($"Icons/Event/{data.image}");
         if (sprite) image.sprite = sprite;
 
         yield return coroutine = StartCoroutine(PrintText(resultDesc, data.description));
@@ -175,7 +174,7 @@ public class UIEvent : UI, IPointerClickHandler
 
     IEnumerator SetProbabilityCoroutine(EventData data)
     {
-        var sprite = Resources.Load<Sprite>($"Event/{data.image}");
+        var sprite = Resources.Load<Sprite>($"Icons/Event/{data.image}");
         if (sprite) image.sprite = sprite;
 
         yield return coroutine = StartCoroutine(PrintText(eventDesc, $"{data.title}\n\n{data.description}"));

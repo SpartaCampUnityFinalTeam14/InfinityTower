@@ -48,7 +48,7 @@
       "choice3ID": -1,
       "rewardType": null,
       "reward": null,
-      "image": null,
+      "image": "BoxSuccess1",
       "result": ""
     },
     {
@@ -65,7 +65,7 @@
       "choice3ID": -1,
       "rewardType": null,
       "reward": null,
-      "image": null,
+      "image": "BoxSuccess2",
       "result": ""
     },
     {
@@ -82,7 +82,7 @@
       "choice3ID": null,
       "rewardType": [ 1, 2, 3 ],
       "reward": [ 1, 1, 1 ],
-      "image": null,
+      "image": "BoxSuccessAll",
       "result": "성공이다!\n(3★ 특성 1개 2★ 특성 1개 1★ 특성 1개 획득)"
     },
     {
@@ -99,7 +99,7 @@
       "choice3ID": null,
       "rewardType": [ 1 ],
       "reward": [ 1 ],
-      "image": null,
+      "image": "BoxSuccess1",
       "result": "욕심부리지 않고 탐색을 진행한다"
     },
     {
@@ -116,7 +116,7 @@
       "choice3ID": null,
       "rewardType": [ 6 ],
       "reward": [ -15 ],
-      "image": null,
+      "image": "BoxBoom",
       "result": "상처를 수습한다\n(플레이어 HP 20% 감소)"
     },
     {
@@ -133,7 +133,7 @@
       "choice3ID": null,
       "rewardType": [ 1, 2 ],
       "reward": [ 1, 1 ],
-      "image": null,
+      "image": "BoxSuccess2",
       "result": "욕심부리지 않고 탐색을 진행한다"
     },
     {
@@ -150,7 +150,7 @@
       "choice3ID": null,
       "rewardType": [ 6 ],
       "reward": [ 10 ],
-      "image": null,
+      "image": "Box",
       "result": "충분한 휴식을 취하고 다시 전진한다\n(플레이어 HP 10% 회복)"
     },
     {
@@ -167,7 +167,7 @@
       "choice3ID": null,
       "rewardType": [ 0, 6 ],
       "reward": [ 2, -20 ],
-      "image": null,
+      "image": "TakeArtefact",
       "result": "힘들지만 무언가 강해진 느낌이 든다"
     },
     {
@@ -184,7 +184,7 @@
       "choice3ID": null,
       "rewardType": null,
       "reward": null,
-      "image": null,
+      "image": "CardChange",
       "result": "무언가 바뀐 느낌이 든다\n(선택한 특성을 같은 등급의 랜덤 특성으로 변경)"
     },
     {
@@ -201,7 +201,7 @@
       "choice3ID": null,
       "rewardType": null,
       "reward": null,
-      "image": null,
+      "image": "FortuneTeller",
       "result": "역시 사기꾼이었나 보다. 계속해서 전진하자"
     }
   ]
