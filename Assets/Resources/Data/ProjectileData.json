@@ -29,7 +29,7 @@
       "dotDuration": 5.0,
       "dotTickInterval": 1.0,
       "dotDamagePerTick": 5.0,
-      "dotRadius": 2.0,
+      "dotRadius": 5.0,
       "hasSplash": false,
       "splashRadius": 0
     }

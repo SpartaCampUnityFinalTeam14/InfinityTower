@@ -17,7 +17,7 @@ public class StageManager : Singleton<StageManager>
     [HideInInspector] public int book;
 
     //private float maxCost = 10f;
-    [SerializeField] private float costRecoveryMultiplier = 30f; // Cost 얻는 속도 - 기본 1배속
+    [SerializeField] private float costRecoveryMultiplier = 18f; // Cost 얻는 속도 - 기본 1배속
     private List<float> activeCostRecoveryMultipliers = new List<float>(); // 여러 타워의 버프들을 저장
 
     [HideInInspector] public List<int> selectedTowers;
@@ -124,23 +124,23 @@ public class StageManager : Singleton<StageManager>
         }
         switch (floorCount)
         {
-            case 1:
+            case 0:
                 floorValue = 1.0f;
                 break;
+            case 1:
+                floorValue = 1.08f;
+                break;
             case 2:
-                floorValue = 1.1f;
+                floorValue = 1.17f;
                 break;
             case 3:
                 floorValue = 1.25f;
                 break;
             case 4:
-                floorValue = 1.4f;
-                break;
-            case 5:
-                floorValue = 1.6f;
+                floorValue = 1.3f;
                 break;
             default:
-                floorValue = 1.6f;
+                floorValue = 1.4f;
                 break;
         }
         switch (CurFloor.curWave)
@@ -149,13 +149,13 @@ public class StageManager : Singleton<StageManager>
                 waveValue = 1.0f;
                 break;
             case 1:
-                waveValue = 1.1f;
+                waveValue = 1.2f;
                 break;
             case 2:
-                waveValue = 1.3f;
+                waveValue = 1.45f;
                 break;
             default:
-                waveValue = 1.3f;
+                waveValue = 1.45f;
                 break;
         }
 

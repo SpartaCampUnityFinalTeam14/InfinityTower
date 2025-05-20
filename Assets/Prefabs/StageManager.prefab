@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4024324855047541245}
-  - component: {fileID: 6605547892691179946}
+  - component: {fileID: 8451453655954673464}
   m_Layer: 0
   m_Name: StageManager
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6605547892691179946
+--- !u!114 &8451453655954673464
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   token: 0
-  book: 10
-  costRecoveryMultiplier: 30
+  book: 0
+  costRecoveryMultiplier: 18
   selectedTowers: 
   selectedChampion: 0
   skillTargetingSystem: {fileID: 0}
@@ -59,3 +59,4 @@ MonoBehaviour:
   isIntroEnd: 0
   isAdditionalFloor: 0
   isFadeComplete: 0
+  monsterLevelScaling: 0
