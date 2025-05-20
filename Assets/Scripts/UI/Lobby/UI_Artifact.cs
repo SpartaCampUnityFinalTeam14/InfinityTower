@@ -126,7 +126,7 @@ public class UI_Artifact : MonoBehaviour, ScrollPanel
         int rarity = id / 1000;
         resultBackground.color = rarityColors[rarity];
 
-        resultImage.sprite = Resources.Load<Sprite>($"Icons/Artifact/Artifact_{id}");
+        resultImage.sprite = Resources.Load<Sprite>($"Icons/Artifact/{DataManager.Instance.artifactDicts[id / 1000][id].sprite}");
         nameText.text = DataManager.Instance.artifactDicts[rarity][id].name;
 
         Dirty(id);

@@ -21,7 +21,7 @@ public class UI_ArtifactSlot : MonoBehaviour
         int rarity = id / 1000;
         artifactBackground.color = rarityColors[rarity];
         data = DataManager.Instance.artifactDicts[rarity][id];
-        Sprite sprite = Resources.Load<Sprite>($"Icons/Artifact/Artifact_{id}");
+        Sprite sprite = Resources.Load<Sprite>($"Icons/Artifact/{data.sprite}");
         artifactImage.sprite = sprite;
         nameText.text = data.name;
         SetCount(SaveManager.Instance.artifactLevelDict[id].count);
