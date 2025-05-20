@@ -291,4 +291,19 @@ public abstract class BaseTower : Poolable
             }
         }
     }
+    
+    protected void PlayAttackAnimation(Vector3 targetPos)
+    {
+        anim?.SetTrigger("Attack");
+
+        // 방향 설정
+        Vector2 dir = (targetPos - transform.position).normalized;
+        if (spriteRenderer)
+            spriteRenderer.flipX = dir.x < 0;
+    }
+    
+    protected void SetAttackAnimationSpeed()
+    {
+        float currentAttackSpeed = GetFinalStatValue(StatType.attackSpeed);
+    }
 }
