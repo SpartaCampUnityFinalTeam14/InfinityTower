@@ -256,7 +256,13 @@ public class StageManager : Singleton<StageManager>
 
         StopCoroutine(stageCoroutine);
 
-        EndStage();
+        timeScaleManager.PushTimeScale(0f);
+        var ui = UIManager.Instance.ShowUI<UI_Wave>();
+        ui.ShowFaildText(() =>
+        {
+            timeScaleManager.PopTimeScale();
+            EndStage();
+        });
     }
 
     public void ResetDropTowerCooldown()
@@ -280,7 +286,7 @@ public class StageManager : Singleton<StageManager>
         {
             UIManager.Instance.HideUI<UITowerInfo>();
 
-            if (i != 0)
+            //if (i != 0)
             {
                 ShowFloorIntro();
             }
@@ -308,7 +314,7 @@ public class StageManager : Singleton<StageManager>
             curFloor = floorGO.GetComponent<Floor>();
 
             yield return new WaitUntil(() => isIntroEnd);
-
+           
             curFloor.StartFloor(floorId);
             curCost = startCost;
 

@@ -59,8 +59,8 @@ public abstract class BaseTower : Poolable
         InitArtifactStatModifier(AddModifierStat, IsValidStat);
 
         // Ability Event 등록
-        StageManager.Instance.abilityManager.AbilityHandle.ResisterAddAbilityEvent("tower", AddAbilityStat);
-        StageManager.Instance.abilityManager.AbilityHandle.ResisterRemoveAbilityEvent("tower", RemoveAbilityStat);
+        //StageManager.Instance.abilityManager.AbilityHandle.ResisterAddAbilityEvent("tower", AddAbilityStat);
+        //StageManager.Instance.abilityManager.AbilityHandle.ResisterRemoveAbilityEvent("tower", RemoveAbilityStat);
         //StageManager.Instance.abilityManager.OnAddTowerAbility += AddAbilityStat;
         //StageManager.Instance.abilityManager.OnRemoveTowerAbility += RemoveAbilityStat;
     }
@@ -229,7 +229,7 @@ public abstract class BaseTower : Poolable
 
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
-
+            
             if (hit.collider != null && hit.collider.gameObject.GetComponent<BaseTower>().Equals(this))
             {
                 var ui = UIManager.Instance.ShowUI<UITowerInfo>();
@@ -248,27 +248,27 @@ public abstract class BaseTower : Poolable
     {
         var manager = StageManager.Instance.abilityManager;
 
-        foreach (Ability ability in manager.allAbilities.Values)
-        {
-            AddAbilityStat(ability.Data);
-        }
-
-        //// Update
-        //if (manager.AbilityHandle.TryGetAbilities($"{TargetType.Tower}", out var list))
+        //foreach (Ability ability in manager.allAbilities.Values)
         //{
-        //    foreach (Ability ability in list)
-        //    {
-        //        AddAbilityStat(ability.Data);
-        //    }
+        //    AddAbilityStat(ability.Data);
         //}
+
+        // Update
+        if (manager.AbilityHandle.TryGetAbilities((int)TargetType.Tower, out var list))
+        {
+            foreach (Ability ability in list)
+            {
+                AddAbilityStat(ability.Data);
+            }
+        }
     }
 
     private void AddAbilityStat(AbilityData data)
     {
         if (!gameObject.activeSelf)
             return;
-        
-        if (data.targetID.Equals(-1) || towerData.id.Equals(data.targetID))
+
+        if (data.targetID.Count <= 0 || data.targetID.Contains(towerData.id))
         {
             for (int i = 0; i < data.valueType.Count; i++)
             {
@@ -280,19 +280,19 @@ public abstract class BaseTower : Poolable
         }
     }
 
-    private void RemoveAbilityStat(AbilityData data)
-    {
-        if (data.targetID.Equals(-1) || towerData.id.Equals(data.targetID))
-        {
-            for (int i = 0; i < data.valueType.Count; i++)
-            {
-                if (AddModifierStat.ContainsKey(data.valueType[i]))
-                {
-                    AddModifierStat[data.valueType[i]] -= DataManager.Instance.abilityDict[data.perkID].value[i];
-                }
-            }
-        }
-    }
+    //private void RemoveAbilityStat(AbilityData data)
+    //{
+    //    if (data.targetID.Equals(-1) || towerData.id.Equals(data.targetID))
+    //    {
+    //        for (int i = 0; i < data.valueType.Count; i++)
+    //        {
+    //            if (AddModifierStat.ContainsKey(data.valueType[i]))
+    //            {
+    //                AddModifierStat[data.valueType[i]] -= DataManager.Instance.abilityDict[data.perkID].value[i];
+    //            }
+    //        }
+    //    }
+    //}
     
     protected void PlayAttackAnimation(Vector3 targetPos)
     {
