@@ -258,13 +258,13 @@ public class MoveSpeedEffecter : EffectBase
     {
         if (!monster.AddModifierStat.TryAdd((int)StatType.moveSpeed, value))
         {
-            monster.AddModifierStat[(int)StatType.moveSpeed] += value;
+            monster.AddModifierStat[(int)StatType.moveSpeed] -= value;
         }
     }
 
     protected override void OnEffectEnd_Monster(MonsterBase monster, float value)
     {
-        monster.AddModifierStat[(int)StatType.moveSpeed] -= value;
+        monster.AddModifierStat[(int)StatType.moveSpeed] += value;
     }
 }
 

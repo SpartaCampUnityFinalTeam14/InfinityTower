@@ -124,19 +124,19 @@ public class StageManager : Singleton<StageManager>
         }
         switch (floorCount)
         {
-            case 1:
+            case 0:
                 floorValue = 1.0f;
                 break;
-            case 2:
+            case 1:
                 floorValue = 1.1f;
                 break;
-            case 3:
+            case 2:
                 floorValue = 1.25f;
                 break;
-            case 4:
+            case 3:
                 floorValue = 1.4f;
                 break;
-            case 5:
+            case 4:
                 floorValue = 1.6f;
                 break;
             default:
