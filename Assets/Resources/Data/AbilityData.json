@@ -106,51 +106,6 @@
       "image": "quick_shift"
     },
     {
-      "perkID": 7,
-      "name": "소형 포션",
-      "description": "플레이어 체력 <b><color=#00FF66>20%</color></b> 회복",
-      "valueType": [
-        7
-      ],
-      "value": [
-        0.3
-      ],
-      "targetType": 1,
-      "rarity": 0,
-      "stackLimit": 10,
-      "image": "potion"
-    },
-    {
-      "perkID": 8,
-      "name": "중형 포션",
-      "description": "플레이어 체력 <b><color=#00FF66>50%</color></b> 회복",
-      "valueType": [
-        7
-      ],
-      "value": [
-        0.5
-      ],
-      "targetType": 1,
-      "rarity": 1,
-      "stackLimit": 10,
-      "image": "potion"
-    },
-    {
-      "perkID": 9,
-      "name": "엘릭서",
-      "description": "플레이어 체력 <b><color=#00FF66>100%</color></b> 회복",
-      "valueType": [
-        7
-      ],
-      "value": [
-        1
-      ],
-      "targetType": 1,
-      "rarity": 2,
-      "stackLimit": 1,
-      "image": "potion"
-    },
-    {
       "perkID": 10,
       "name": "소형 영약",
       "description": "플레이어 최대 체력 <b><color=#00FF66>+20%</color></b>",
