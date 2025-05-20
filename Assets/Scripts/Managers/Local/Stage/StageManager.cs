@@ -32,6 +32,7 @@ public class StageManager : Singleton<StageManager>
     public Hero CurHero { get; set; }
 
     private int stageIndex;
+    private int floorId;
     private int maxFloor;
     private int floorCount = 0;
     private GameObject floorGO;
@@ -72,6 +73,7 @@ public class StageManager : Singleton<StageManager>
     private void Start()
     {
         OnPlayerHpChanged.RaiseEvent(hp);
+        OnFloorCountChanged.RaiseEvent(1);
     }
 
     private void Update()
@@ -138,6 +140,16 @@ public class StageManager : Singleton<StageManager>
     public int GetFloorNum()
     {
         return floorCount;
+    }
+
+    public int GetMaxFloor()
+    {
+        return maxFloor;
+    }
+
+    public int GetMaxWaveCount()
+    {
+        return DataManager.Instance.floorDict[floorId].waveCount;
     }
 
     public int GetHP()
@@ -291,7 +303,6 @@ public class StageManager : Singleton<StageManager>
             yield return new WaitUntil(() => isFadeComplete);
 
             if (floorGO != null) Destroy(floorGO);
-            int floorId = 0;
             if (i == maxFloor - 1)
             {
                 floorId = DataManager.Instance.stageDict[stageIndex].bossFloorID;

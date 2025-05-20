@@ -84,12 +84,12 @@ public class UI_Hud : UI
 
     void SetFloorText(int floorCount)
     {
-        floorText.text = floorCount.ToString();
+        floorText.text = $"{floorCount.ToString()}/{StageManager.Instance.GetMaxFloor()}";
     }
 
     void SetWaveText(int waveCount)
     {
-        waveText.text = waveCount.ToString();
+        waveText.text = $"{waveCount.ToString()}/{StageManager.Instance.GetMaxWaveCount()}";
     }
 
     void SetMonsterCountText(int monsterCount)
