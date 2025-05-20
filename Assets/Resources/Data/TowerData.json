@@ -21,7 +21,7 @@
                 5
             ],
             "statValue": [
-                15,
+                13,
                 4,
                 0.4,
                 1,
@@ -29,8 +29,7 @@
                 100
             ],
             "upgradeTo": 1,
-            "originalID": 0,
-            "": ""
+            "originalID": 0
         },
         {
             "id": 1,
@@ -58,11 +57,10 @@
                 0.4,
                 1,
                 7,
-                120
+                130
             ],
             "upgradeTo": 2,
-            "originalID": 0,
-            "": ""
+            "originalID": 0
         },
         {
             "id": 2,
@@ -77,7 +75,9 @@
                 1
             ],
             "effectValue": [
-                2
+                {
+                    "values" : [2,3,1]
+                }
             ],
             "effectDuration": 3,
             "statType": [
@@ -94,11 +94,10 @@
                 0.4,
                 1,
                 10,
-                150
+                200
             ],
             "upgradeTo": -1,
-            "originalID": 0,
-            "": ""
+            "originalID": 0
         },
         {
             "id": 3,
@@ -126,11 +125,10 @@
                 0.333,
                 1,
                 10,
-                120
+                130
             ],
             "upgradeTo": 4,
-            "originalID": 3,
-            "": ""
+            "originalID": 3
         },
         {
             "id": 4,
@@ -158,11 +156,10 @@
                 0.333,
                 1,
                 10,
-                130
+                150
             ],
             "upgradeTo": 5,
-            "originalID": 3,
-            "": ""
+            "originalID": 3
         },
         {
             "id": 5,
@@ -190,11 +187,10 @@
                 0.4,
                 1,
                 12,
-                180
+                220
             ],
             "upgradeTo": -1,
-            "originalID": 3,
-            "": ""
+            "originalID": 3
         },
         {
             "id": 6,
@@ -222,11 +218,10 @@
                 0.6,
                 1,
                 10,
-                120
+                150
             ],
             "upgradeTo": 7,
-            "originalID": 6,
-            "": ""
+            "originalID": 6
         },
         {
             "id": 7,
@@ -254,11 +249,10 @@
                 0.6,
                 1,
                 13,
-                130
+                190
             ],
             "upgradeTo": 8,
-            "originalID": 6,
-            "": ""
+            "originalID": 6
         },
         {
             "id": 8,
@@ -286,11 +280,10 @@
                 0.85,
                 1,
                 20,
-                160
+                270
             ],
             "upgradeTo": -1,
-            "originalID": 6,
-            "": ""
+            "originalID": 6
         },
         {
             "id": 9,
@@ -318,11 +311,10 @@
                 0.333,
                 1,
                 12,
-                150
+                170
             ],
             "upgradeTo": 10,
-            "originalID": 9,
-            "": ""
+            "originalID": 9
         },
         {
             "id": 10,
@@ -350,11 +342,10 @@
                 0.333,
                 1,
                 15,
-                180
+                200
             ],
             "upgradeTo": 11,
-            "originalID": 9,
-            "": ""
+            "originalID": 9
         },
         {
             "id": 11,
@@ -377,16 +368,15 @@
                 5
             ],
             "statValue": [
-                40,
+                35,
                 3,
                 0.333,
                 3,
                 18,
-                220
+                300
             ],
             "upgradeTo": -1,
-            "originalID": 9,
-            "": ""
+            "originalID": 9
         },
         {
             "id": 12,
@@ -414,11 +404,10 @@
                 0.333,
                 1,
                 10,
-                140
+                160
             ],
             "upgradeTo": 13,
-            "originalID": 12,
-            "": ""
+            "originalID": 12
         },
         {
             "id": 13,
@@ -446,11 +435,10 @@
                 0.333,
                 1,
                 10,
-                180
+                200
             ],
             "upgradeTo": 14,
-            "originalID": 12,
-            "": ""
+            "originalID": 12
         },
         {
             "id": 14,
@@ -465,7 +453,9 @@
                 0
             ],
             "effectValue": [
-                0.3
+                {
+                    "values" : [0.3,3,1]
+                }
             ],
             "effectDuration": 2,
             "statType": [
@@ -482,48 +472,15 @@
                 0.4,
                 1,
                 20,
-                250
+                280
             ],
             "upgradeTo": -1,
-            "originalID": 12,
-            "": ""
+            "originalID": 12
         },
         {
             "id": 15,
             "name": "약사",
-            "description": "독약을 제조해 적 발 밑에 뿌려 피해를 입힌다.\n3단계 전직 시 맹독을 칼날에 발라 적에게 흩뿌린다",
-            "targetType": 2,
-            "targetingRule": 0,
-            "isSplash": "FALSE",
-            "splashRadius": 0,
-            "projectileID": 2,
-            "effectID": "",
-            "effectValue": "",
-            "effectDuration": 0,
-            "statType": [
-                0,
-                1,
-                2,
-                3,
-                4,
-                5
-            ],
-            "statValue": [
-                2,
-                4,
-                0.36,
-                1,
-                15,
-                150
-            ],
-            "upgradeTo": 16,
-            "originalID": 15,
-            "": ""
-        },
-        {
-            "id": 16,
-            "name": "독 제조사",
-            "description": "",
+            "description": "독약을 제조해 적 발 밑에 뿌려 피해를 입힌다.\\n3단계 전직 시 맹독을 칼날에 발라 적에게 흩뿌린다",
             "targetType": 2,
             "targetingRule": 0,
             "isSplash": "FALSE",
@@ -546,11 +503,41 @@
                 0.36,
                 1,
                 15,
+                150
+            ],
+            "upgradeTo": 16,
+            "originalID": 15
+        },
+        {
+            "id": 16,
+            "name": "독 제조사",
+            "description": "",
+            "targetType": 2,
+            "targetingRule": 0,
+            "isSplash": "FALSE",
+            "splashRadius": 0,
+            "projectileID": 2,
+            "effectID": "",
+            "effectValue": "",
+            "effectDuration": 0,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": [
+                7,
+                4,
+                0.36,
+                1,
+                15,
                 200
             ],
             "upgradeTo": 17,
-            "originalID": 15,
-            "": ""
+            "originalID": 15
         },
         {
             "id": 17,
@@ -573,16 +560,15 @@
                 5
             ],
             "statValue": [
-                3,
+                10,
                 4,
-                0.36,
+                0.43,
                 1,
                 20,
-                250
+                275
             ],
             "upgradeTo": -1,
-            "originalID": 15,
-            "": ""
+            "originalID": 15
         }
     ]
 }

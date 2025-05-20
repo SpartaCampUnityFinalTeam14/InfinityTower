@@ -62,12 +62,10 @@ public class Floor : MonoBehaviour
         {
             StageManager.Instance.LevelScaling();
 
-            OnWaveCountChanged.RaiseEvent(curWave + 1);
-
             var ui = UIManager.Instance.ShowUI<UI_Wave>();
             ui.ShowWaveNum(curWave + 1);
 
-            OnWaveCountChanged.RaiseEvent(i + 1);
+            OnWaveCountChanged.RaiseEvent(curWave + 1);
 
             yield return new WaitForSeconds(waveStartDelayTime);
 
