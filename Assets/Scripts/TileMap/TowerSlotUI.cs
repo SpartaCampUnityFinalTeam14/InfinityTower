@@ -10,6 +10,7 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     [Header("UI 연결")]
     public Image iconImage;
     public TMP_Text nameText;
+    public TMP_Text costText;
 
     [Header("타워 설정")]
     private int towerID;
@@ -65,6 +66,7 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         
         // 이름 단순 표시 (원하면 Resources/타워 데이터로 확장 가능)
         nameText.text = DataManager.Instance.towerDict[id].name;
+        costText.text = requiredCost.ToString();
 
         // 프리팹 로드 (예: Prefabs/TowerGhost_1, Prefabs/Tower_1)
         Sprite icon = Resources.Load<Sprite>($"Icons/Tower/Tower_{towerID}");

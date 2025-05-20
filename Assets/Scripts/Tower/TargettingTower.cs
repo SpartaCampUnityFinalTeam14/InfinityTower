@@ -152,22 +152,18 @@ public abstract class TargettingTower : BaseTower
 
     protected override void Activate()
     {
-        if (targets.Count == 0)
-        {
-            Debug.Log("타겟이 없음");
-        }
-        
-        if (targets.Count > 0 )
-        {
-            UseActOnTargets();
+        if (targets.Count == 0) return;
 
-            // 공격 애니메이션 재생
-            anim?.SetTrigger("Attack");
-            // 공격 방향
-            Vector2 dir = (targets[0].transform.position - transform.position).normalized;
-            if (spriteRenderer)
-                spriteRenderer.flipX = dir.x < 0 ? true : false;
-        }
+        SetAttackAnimationSpeed(); // ✅ 속도 조정 먼저
+        PlayAttackAnimation(targets[0].transform.position);
+        StartCoroutine(DelayedAttackCoroutine());
+    }
+
+    IEnumerator DelayedAttackCoroutine()
+    {
+        float delay = 0.93f; // ✅ 속도 반영해서 딜레이 계산
+        yield return new WaitForSeconds(delay);
+        UseActOnTargets();
     }
 
     protected abstract void UseActOnTargets(); // 공격/버프 등을 하위에서 정의
