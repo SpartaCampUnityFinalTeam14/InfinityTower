@@ -57,8 +57,13 @@ public class UI_Hud : UI
 
         if (isSpeed)
         {
+#if UNITY_EDITOR
+            StageManager.Instance.timeScaleManager.SetBaseTimeScale(5f);
+            speedText.text = "X5";
+#else
             StageManager.Instance.timeScaleManager.SetBaseTimeScale(2f);
             speedText.text = "X2";
+#endif
         }
         else
         {
