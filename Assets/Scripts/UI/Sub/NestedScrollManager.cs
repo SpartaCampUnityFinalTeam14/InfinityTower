@@ -33,7 +33,7 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
     private float half;
 
     private bool isDragging = false;
-    private float ScrollThreshHold = 15;
+    private float ScrollSpeedThreshHold = 10;
     private int curIndex = 2;
     private int targetIndex = 2;
 
@@ -104,11 +104,11 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
         {//드래그로 패널 절반 안 넘어가도 드래그 속도 빠르면 넘기는 용도
             float deltaY = eventData.delta.y;
 
-            if (deltaY > ScrollThreshHold && curIndex < count - 1)
+            if (deltaY > ScrollSpeedThreshHold && curIndex < count - 1)
             {//아래로 드래그
                 ChangeTab(targetIndex + 1);
             }
-            else if (deltaY < -ScrollThreshHold && curIndex > 0)
+            else if (deltaY < -ScrollSpeedThreshHold && curIndex > 0)
             {//위로 드래그
                 ChangeTab(targetIndex - 1);
             }
