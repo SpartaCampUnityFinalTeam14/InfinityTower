@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 
 public abstract class BaseTower : Poolable, IBuffable
@@ -111,6 +112,7 @@ public abstract class BaseTower : Poolable, IBuffable
             MonsterBase enemy = target.GetComponent<MonsterBase>();
             foreach (var T in myEffectDict)
             {
+                if (enemy == null) continue;
                 // 디버프는 항상 적용
                 float[] effectValues = towerData.effectValue[towerData.effectID.IndexOf(T.Key)].values;
                 T.Value.ApplyEffect_Monster(enemy, effectValues[0], effectValues[1], effectValues[2] > 0);
@@ -123,6 +125,7 @@ public abstract class BaseTower : Poolable, IBuffable
             TargettingTower ally = target.GetComponent<TargettingTower>();
             foreach (var T in myEffectDict)
             {
+                if (ally == null) continue;
                 float[] effectValues = towerData.effectValue[towerData.effectID.IndexOf(T.Key)].values;
                 T.Value.ApplyEffect_Tower(ally, effectValues[0], effectValues[1], effectValues[2] > 0);
                 Debug.Log($"버프 {(EffectType)T.Key} {effectValues[0]} 적용 (지속: {effectValues[1]}) -> {ally.name}");

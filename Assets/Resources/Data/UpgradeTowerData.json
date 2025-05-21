@@ -10,10 +10,10 @@
             "splashRadius": 0,
             "projectileID": -1,
             "effectID": [
-                -1
+
             ],
             "effectValue": [
-                0
+
             ],
             "effectDuration": 0,
             "statType": [
@@ -48,7 +48,14 @@
                 1
             ],
             "effectValue": [
-                2
+                {
+                    "values":
+                    [
+                        2.0,
+                        -1.0,
+                        0.0
+                    ]
+                }
             ],
             "effectDuration": 3,
             "statType": [
@@ -80,10 +87,10 @@
             "splashRadius": 0,
             "projectileID": 0,
             "effectID": [
-                -1
+
             ],
             "effectValue": [
-                0
+
             ],
             "effectDuration": 0,
             "statType": [
@@ -115,10 +122,10 @@
             "splashRadius": 0,
             "projectileID": 4,
             "effectID": [
-                -1
+
             ],
             "effectValue": [
-                0
+
             ],
             "effectDuration": 0,
             "statType": [
@@ -150,10 +157,10 @@
             "splashRadius": 0,
             "projectileID": -1,
             "effectID": [
-                -1
+
             ],
             "effectValue": [
-                0
+
             ],
             "effectDuration": 0,
             "statType": [
@@ -185,10 +192,10 @@
             "splashRadius": 0,
             "projectileID": -1,
             "effectID": [
-                -1
+
             ],
             "effectValue": [
-                0
+
             ],
             "effectDuration": 0,
             "statType": [
@@ -220,10 +227,10 @@
             "splashRadius": 0,
             "projectileID": -1,
             "effectID": [
-                -1
+
             ],
             "effectValue": [
-                0
+
             ],
             "effectDuration": 0,
             "statType": [
@@ -255,10 +262,10 @@
             "splashRadius": 2,
             "projectileID": -1,
             "effectID": [
-                -1
+
             ],
             "effectValue": [
-                0
+
             ],
             "effectDuration": 0,
             "statType": [
@@ -290,10 +297,10 @@
             "splashRadius": 1.5,
             "projectileID": 1,
             "effectID": [
-                -1
+
             ],
             "effectValue": [
-                0
+
             ],
             "effectDuration": 0,
             "statType": [
@@ -318,10 +325,8 @@
             "splashRadius": 2,
             "projectileID": -1,
             "effectID": [
-                0
             ],
             "effectValue": [
-                0.3
             ],
             "effectDuration": 2,
             "statType": [
@@ -353,10 +358,8 @@
             "splashRadius": 0,
             "projectileID": 2,
             "effectID": [
-                -1
             ],
             "effectValue": [
-                0
             ],
             "effectDuration": 0,
             "statType": [
@@ -388,11 +391,8 @@
             "splashRadius": 0,
             "projectileID": 3,
             "effectID": [
-                -1
             ],
-            "effectValue": [
-                0
-            ],
+            "effectValue": [            ],
             "effectDuration": 0,
             "statType": [
                 0,
