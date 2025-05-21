@@ -438,7 +438,13 @@ public class StageManager : Singleton<StageManager>
     void ShowEvent()
     {
         Debug.Log("<color=white>이벤트 선택</color>");
+        int stepNum = Util.GetFunnelStepForEventSelect(floorCount);
 
+        AnalyticsManager.SendEvent("Funnel_Step", new Dictionary<string, object>
+        {
+            { "Funnel_Step_Number", stepNum }
+        });
+        
         isEventEnd = false;
         eventManager.ShowEvent();
     }
@@ -455,6 +461,14 @@ public class StageManager : Singleton<StageManager>
         ui.FadeOut(() =>
         {
             ui.FadeIn();
+            
+            int stepNum = Util.GetFunnelStepForShopEntry(floorCount);
+            Debug.Log($"<color=white><UNK> <UNK> {stepNum} <UNK></color>");
+            AnalyticsManager.SendEvent("Funnel_Step", new Dictionary<string, object>
+            {
+                { "Funnel_Step_Number", stepNum }
+            });
+            
             isFadeComplete = true;
             UIManager.Instance.ShowUI<UI_FloorLoading>();
         });
