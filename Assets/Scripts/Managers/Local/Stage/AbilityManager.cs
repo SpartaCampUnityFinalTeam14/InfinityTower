@@ -12,10 +12,7 @@ public class AbilityManager
     // 현재 스테이지에 적용 중인 특성 리스트 <특성id, 특성>
     public Dictionary<int, Ability> allAbilities { get; private set; } 
 
-    public Dictionary<int, float> monsterAbilities = new();
-
     private HashSet<int> hashSelectedTower;
-
     private AbilityHandler abilityHandler;
 
     public AbilityManager()

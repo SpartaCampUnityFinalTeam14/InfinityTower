@@ -39,13 +39,9 @@ public class MonsterData
     public float GetStat(StatType type)
     {
         int iType = (int)type;
-        var common = StageManager.Instance.abilityManager.monsterAbilities;
 
         float origin = 0f;
-        float abil = 0f;
-
         bool result = dictValue.TryGetValue(iType, out origin);
-        abil = common.ContainsKey(iType) ? common[iType] : 0f;
 
         float value = 0.0f;
         foreach (var saveData in SaveManager.Instance.artifactLevelDict)
@@ -63,7 +59,7 @@ public class MonsterData
 
         Debug.Assert(result, $"Not Find Type in DictionaryValue");
 
-        return origin + abil + value;
+        return origin + value;
     }
 }
 
