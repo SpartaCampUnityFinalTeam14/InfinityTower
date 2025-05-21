@@ -22,7 +22,7 @@ public class PlayerData
 
     public PlayerData()
     {
-        gold = 1000;
+        gold = 2000;
         selectedStageIndex = 0;
         playableStages = new() { 0 };
         selectedTowerIndex = new List<int>() { 0, -1, -1, -1, -1 };
