@@ -19,7 +19,6 @@ public abstract class BaseTower : Poolable, IBuffable
     // 해당 타워가 영향을 받는 스탯 타입들
     public List<int> ValidStatTypes => towerData.statType;
 
-
     protected Animator anim;
     protected SpriteRenderer spriteRenderer;
 
@@ -38,6 +37,12 @@ public abstract class BaseTower : Poolable, IBuffable
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
+    private void OnEnable()
+    {
+        if (AddModifierStat != null)
+            InitAbilityStat();
+    }
+
     private void OnDisable()
     {
         TilemapManager.Instance.UnregisterOccupiedCell(cellPos);
@@ -46,7 +51,6 @@ public abstract class BaseTower : Poolable, IBuffable
     protected virtual void Start()
     {
         TowerInit();
-        InitAbilityStat();
     }
 
     public void TowerInit()
@@ -57,12 +61,7 @@ public abstract class BaseTower : Poolable, IBuffable
         AddModifierStat = new Dictionary<int, float>();
 
         ArtifactHelper.ApplyArtifactModifiers(this);
-
-        // Ability Event 등록
-        //StageManager.Instance.abilityManager.AbilityHandle.ResisterAddAbilityEvent("tower", AddAbilityStat);
-        //StageManager.Instance.abilityManager.AbilityHandle.ResisterRemoveAbilityEvent("tower", RemoveAbilityStat);
-        //StageManager.Instance.abilityManager.OnAddTowerAbility += AddAbilityStat;
-        //StageManager.Instance.abilityManager.OnRemoveTowerAbility += RemoveAbilityStat;
+        InitAbilityStat();
     }
 
     protected virtual void Update()
@@ -182,28 +181,16 @@ public abstract class BaseTower : Poolable, IBuffable
     
     private void InitAbilityStat()
     {
-        var manager = StageManager.Instance.abilityManager;
-
-        //foreach (Ability ability in manager.allAbilities.Values)
-        //{
-        //    AddAbilityStat(ability.Data);
-        //}
-
-        // Update
-        if (manager.AbilityHandle.TryGetAbilities((int)TargetType.Tower, out var list))
+        var list = StageManager.Instance.abilityManager.GetAbilities((int)TargetType.Tower);
+        
+        foreach (Ability ability in list)
         {
-            foreach (Ability ability in list)
-            {
-                AddAbilityStat(ability.Data);
-            }
+            AddAbilityStat(ability.Data);
         }
     }
 
     private void AddAbilityStat(AbilityData data)
     {
-        if (!gameObject.activeSelf)
-            return;
-
         if (data.targetID.Count <= 0 || data.targetID.Contains(towerData.id))
         {
             for (int i = 0; i < data.valueType.Count; i++)
@@ -216,20 +203,6 @@ public abstract class BaseTower : Poolable, IBuffable
         }
     }
 
-    //private void RemoveAbilityStat(AbilityData data)
-    //{
-    //    if (data.targetID.Equals(-1) || towerData.id.Equals(data.targetID))
-    //    {
-    //        for (int i = 0; i < data.valueType.Count; i++)
-    //        {
-    //            if (AddModifierStat.ContainsKey(data.valueType[i]))
-    //            {
-    //                AddModifierStat[data.valueType[i]] -= DataManager.Instance.abilityDict[data.perkID].value[i];
-    //            }
-    //        }
-    //    }
-    //}
-    
     protected void PlayAttackAnimation(Vector3 targetPos)
     {
         anim?.SetTrigger("Attack");

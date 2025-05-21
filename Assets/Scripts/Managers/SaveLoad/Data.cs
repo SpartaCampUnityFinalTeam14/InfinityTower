@@ -370,9 +370,9 @@ public class AbilityData
     public string name;
     public string description;
     public List<int> valueType;
-    public List<int> value;
+    public List<float> value;
     public List<int> effectType;
-    public List<int> effectValue;
+    public List<float> effectValue;
     public int projectile;
     public int targetType;
     public List<int> targetID;
@@ -384,7 +384,7 @@ public class AbilityData
     {
         var copyData = (AbilityData)MemberwiseClone();
         copyData.valueType = new List<int>(valueType);
-        copyData.value = new List<int>(value);
+        copyData.value = new List<float>(value);
 
         return copyData;
     }

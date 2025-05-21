@@ -113,12 +113,9 @@ public class ShopItem : MonoBehaviour
 
             if (type == Shop_ItemType.Ability) StageManager.Instance.abilityManager.AddAbillity(data);
             else if (type == Shop_ItemType.ClassBook) StageManager.Instance.GainBook(amount);
-            else if (type == Shop_ItemType.Potion)
-            {
-                StageManager.Instance.Heal(20);
-                uiShop.UpdateHealth(StageManager.Instance.GetHP(), StageManager.Instance.GetMaxHP());
-            }
+            else if (type == Shop_ItemType.Potion) StageManager.Instance.Heal(20);
 
+            uiShop.UpdateHealth(StageManager.Instance.GetHP(), StageManager.Instance.GetMaxHP());
             textPrice.text = "Sold Out";
             SoldOut.gameObject.SetActive(true);
             btnBuy.enabled = false;

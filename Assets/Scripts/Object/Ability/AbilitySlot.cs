@@ -18,15 +18,14 @@ public class AbilitySlot : MonoBehaviour
     [SerializeField] CanvasGroup canvasGroup;
     [SerializeField] Image icon;
     [SerializeField] float fadeDuration = 0.3f;
+    [SerializeField] Image background;
+
     public event Action<AbilitySlot> actionClick;
     public AbilityData Data { get; private set; }
-
-    Image background;
 
     private void Awake()
     {
         button.onClick.AddListener(OnButtonClick);
-        background = GetComponent<Image>();
     }
 
     public void Init(AbilityData data)

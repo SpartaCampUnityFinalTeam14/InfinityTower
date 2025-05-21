@@ -18,12 +18,16 @@ public class Ability
     private void Init(AbilityData data)
     {
         this.data = data.DeepCopy();
-        stack = 0;
+        stack = 1;
     }
 
-    public void AddStack(int cnt = 1)
+    public bool TryAddStack(int cnt = 1)
     {
+        if (data.stackLimit < stack + cnt)
+            return false;
+
         stack += cnt;
+        return true;
     }
 
     public void SubStack(int cnt = 1)

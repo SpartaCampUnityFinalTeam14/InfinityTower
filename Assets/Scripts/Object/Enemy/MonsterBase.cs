@@ -41,7 +41,11 @@ public class MonsterBase : Poolable, ISkillUser, IBuffable
     
     protected List<Skill> skills = new();
 
-    
+    private void OnEnable()
+    {
+        if (AddModifierStat != null)
+            InitAbilityStat();
+    }
 
     public virtual void Init(int id, List<Vector3> path, Transform startPos, Floor floor)
     {
@@ -57,6 +61,7 @@ public class MonsterBase : Poolable, ISkillUser, IBuffable
         AddModifierStat = new Dictionary<int, float>();
 
         ArtifactHelper.ApplyArtifactModifiers(this);
+        InitAbilityStat();
 
         ApplyTypeBonus((EnemyType)data.enemyType);
 
@@ -316,7 +321,31 @@ public class MonsterBase : Poolable, ISkillUser, IBuffable
         }
         return 0f;
     }
-    
+
+    private void InitAbilityStat()
+    {
+        var list = StageManager.Instance.abilityManager.GetAbilities((int)TargetType.Enemy);
+
+        foreach (Ability ability in list)
+        {
+            AddAbilityStat(ability.Data);
+        }
+    }
+
+    private void AddAbilityStat(AbilityData data)
+    {
+        if (data.targetID.Count <= 0 || data.targetID.Contains(this.data.id))
+        {
+            for (int i = 0; i < data.valueType.Count; i++)
+            {
+                if (!AddModifierStat.TryAdd(data.valueType[i], data.value[i]))
+                {
+                    AddModifierStat[data.valueType[i]] += data.value[i];
+                }
+            }
+        }
+    }
+
     public string GetName()
     {
         return data.name;

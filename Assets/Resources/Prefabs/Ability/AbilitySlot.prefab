@@ -356,6 +356,7 @@ MonoBehaviour:
   canvasGroup: {fileID: 2952373978045292975}
   icon: {fileID: 1816718315298187211}
   fadeDuration: 0.3
+  background: {fileID: 3016885691207312483}
 --- !u!114 &8705665227098605701
 MonoBehaviour:
   m_ObjectHideFlags: 0
