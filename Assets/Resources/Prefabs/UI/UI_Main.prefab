@@ -1935,8 +1935,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC138\uC774\uBE0C\uD30C\uC77C \uCD08\uAE30\uD654 \uBC84\uD2BC\n\n\uC8FC\uC758)
-    \uAC8C\uC784\uC774 \uC885\uB8CC\uB429\uB2C8\uB2E4."
+  m_text: "\uC138\uC774\uBE0C\uD30C\uC77C \uCD08\uAE30\uD654 \uBC84\uD2BC"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 82d90b1a31dfe1c468cc0fac3c4101ec, type: 2}
   m_sharedMaterial: {fileID: -1746226847010799455, guid: 82d90b1a31dfe1c468cc0fac3c4101ec, type: 2}
@@ -9105,7 +9104,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6706095438264218135}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
   m_Name: 
@@ -9440,7 +9439,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6289907497133207974}
   m_HandleRect: {fileID: 3889424326579234747}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 0.0015527951
   m_Size: 0.99996704
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -12707,7 +12706,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3751987105661658908}
   m_HandleRect: {fileID: 4419036401384457543}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 0.0015527951
   m_Size: 0.99996704
   m_NumberOfSteps: 0
   m_OnValueChanged:

@@ -56,4 +56,13 @@ public static class Util
         if (uiObject == null) return results.Count > 0;
         return results[0].gameObject == uiObject;
     }
+
+    public static void CloseGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
 }

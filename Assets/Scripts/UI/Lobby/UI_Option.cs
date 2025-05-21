@@ -15,11 +15,8 @@ public class UI_Option : MonoBehaviour, ScrollPanel
         clearButton.onClick.AddListener(() =>
         {
             SaveManager.Instance.DeleteAll();
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
+            GameManager.Instance.isTutorialAlreadySeen = false;
+            GameManager.Instance.LoadScene("KSM_Lobby");
         });
 
         masterSlider.value = SoundManager.Instance.GetMasterVolume();
