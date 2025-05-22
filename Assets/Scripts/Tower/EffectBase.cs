@@ -15,6 +15,7 @@ public class EffectBase
 
     public void ApplyEffect_Tower(BaseTower tarTower, float value, float duration, bool stackable)
     {
+        if (tarTower.gameObject.activeSelf == false) return;
         if (tarTower == null) return;
         // 효과 적용 가능 여부 판단, 타워에 효과 받음 표시
         if (tarTower.nowEffectedDict.TryGetValue(statusID, out int cnt))
@@ -38,6 +39,7 @@ public class EffectBase
 
     private IEnumerator OnEffectCo_Tower(BaseTower tarTower, float value, float duration)
     {
+        if (tarTower.gameObject.activeSelf == false) yield break;
         // 실제 효과 적용
         OnEffectStart_Tower(tarTower, value, duration);
 
@@ -60,6 +62,7 @@ public class EffectBase
 
     public void ApplyEffect_Monster(MonsterBase tarMonster, float value, float duration, bool stackable)
     {
+        if(tarMonster.gameObject.activeSelf == false) return;
         if(tarMonster == null) return;
         // 효과 적용 가능 여부 판단, 몬스터에 효과 받음 표시
         if (tarMonster.nowEffectedDict.TryGetValue(statusID, out int cnt))
@@ -83,6 +86,7 @@ public class EffectBase
 
     private IEnumerator OnEffectCo_Monster(MonsterBase tarMonster, float value, float duration)
     {
+        if (tarMonster.gameObject.activeSelf == false) yield break;
         if (tarMonster == null) yield break;
         OnEffectStart_Monster(tarMonster, value, duration);
         if (duration <= 0)
@@ -238,7 +242,7 @@ public class HPEffecter: EffectBase
 
     }
 
-    IEnumerator DotDamage(MonsterBase monster,float value, float duration)
+    IEnumerator DotDamage(MonsterBase monster, float value, float duration)
     {
         if (duration >= 0)
         {
@@ -262,9 +266,6 @@ public class HPEffecter: EffectBase
                 yield return new WaitForSeconds(1f);  // 1초 대기
             }
         }
-
-        
-
     }
 
     protected override void OnEffectStart_Monster(MonsterBase monster, float value, float duration)
