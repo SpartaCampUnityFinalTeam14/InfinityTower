@@ -39,13 +39,9 @@ public class MonsterData
     public float GetStat(StatType type)
     {
         int iType = (int)type;
-        var common = StageManager.Instance.abilityManager.monsterAbilities;
 
         float origin = 0f;
-        float abil = 0f;
-
         bool result = dictValue.TryGetValue(iType, out origin);
-        abil = common.ContainsKey(iType) ? common[iType] : 0f;
 
         float value = 0.0f;
         foreach (var saveData in SaveManager.Instance.artifactLevelDict)
@@ -63,7 +59,7 @@ public class MonsterData
 
         Debug.Assert(result, $"Not Find Type in DictionaryValue");
 
-        return origin + abil + value;
+        return origin + value;
     }
 }
 
@@ -370,9 +366,9 @@ public class AbilityData
     public string name;
     public string description;
     public List<int> valueType;
-    public List<int> value;
+    public List<float> value;
     public List<int> effectType;
-    public List<int> effectValue;
+    public List<float> effectValue;
     public int projectile;
     public int targetType;
     public List<int> targetID;
@@ -384,7 +380,7 @@ public class AbilityData
     {
         var copyData = (AbilityData)MemberwiseClone();
         copyData.valueType = new List<int>(valueType);
-        copyData.value = new List<int>(value);
+        copyData.value = new List<float>(value);
 
         return copyData;
     }

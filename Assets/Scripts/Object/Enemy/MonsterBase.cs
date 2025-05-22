@@ -43,7 +43,16 @@ public class MonsterBase : Poolable, ISkillUser, IBuffable
     
     protected List<Skill> skills = new();
 
-    
+    private void OnEnable()
+    {
+        if (AddModifierStat != null)
+            InitAbilityStat();
+    }
+
+    private void OnDisable()
+    {
+        RemoveAbilityStat();
+    }
 
     public virtual void Init(int id, List<Vector3> path, Transform startPos, Floor floor)
     {
@@ -53,12 +62,14 @@ public class MonsterBase : Poolable, ISkillUser, IBuffable
 
         currentHP = (int)GetFinalStatValue(StatType.HP);
         moveSpeed = GetFinalStatValue(StatType.moveSpeed);
+
         defense = GetFinalStatValue(StatType.armor);
 
         nowEffectedDict = new Dictionary<int, int>();
         AddModifierStat = new Dictionary<int, float>();
 
         ArtifactHelper.ApplyArtifactModifiers(this);
+        InitAbilityStat();
 
         ApplyTypeBonus((EnemyType)data.enemyType);
 
@@ -86,6 +97,7 @@ public class MonsterBase : Poolable, ISkillUser, IBuffable
         if (isDead)
             return;
 
+        SoundManager.Instance.PlaySFX(SFX.Hit_Monster);
         currentHP -= Mathf.RoundToInt(amount);
         UpdateHpUI();
         
@@ -318,7 +330,52 @@ public class MonsterBase : Poolable, ISkillUser, IBuffable
         }
         return 0f;
     }
-    
+
+    private void InitAbilityStat()
+    {
+        var list = StageManager.Instance.abilityManager.GetAbilities((int)TargetType.Enemy);
+
+        foreach (Ability ability in list)
+        {
+            AddAbilityStat(ability.Data);
+        }
+    }
+
+    private void AddAbilityStat(AbilityData data)
+    {
+        if (data.targetID.Count <= 0 || data.targetID.Contains(this.data.id))
+        {
+            for (int i = 0; i < data.valueType.Count; i++)
+            {
+                if (!AddModifierStat.TryAdd(data.valueType[i], data.value[i]))
+                {
+                    AddModifierStat[data.valueType[i]] += data.value[i];
+                }
+            }
+        }
+    }
+
+    private void RemoveAbilityStat()
+    {
+        var list = StageManager.Instance.abilityManager.GetAbilities((int)TargetType.Enemy);
+
+        foreach (Ability ability in list)
+        {
+            if (ability.Data.targetID.Count <= 0 || ability.Data.targetID.Contains(this.data.id))
+            {
+                for (int i = 0; i < ability.Data.valueType.Count; i++)
+                {
+                    if (AddModifierStat.TryGetValue(ability.Data.valueType[i], out float value))
+                    {
+                        value -= ability.Data.value[i];
+                        MathF.Max(value, 0f);
+                    }
+                }
+            }
+        }
+
+    }
+
     public string GetName()
     {
         return data.name;

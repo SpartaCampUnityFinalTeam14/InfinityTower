@@ -11,6 +11,8 @@ public class StageManager : Singleton<StageManager>
     public float CurrentCost => curCost;
     private float startCost = 100;
 
+    private Dictionary<int, float> abilityMultiplier = new(); // 영웅 특성 버프 리스트 Dictionary<StatType, value>
+
     [HideInInspector] public int token;
     private int baseTokenAdd = 450;
     private int floorTokenAdd = 100;
@@ -285,7 +287,9 @@ public class StageManager : Singleton<StageManager>
 
     public int GetMaxHP()
     {
-        return maxHp;
+        abilityMultiplier.TryGetValue((int)StatType.playerHP, out float ratio);
+
+        return maxHp + (int)(maxHp * ratio);
     }
 
     public void TakeDamage(int damage)
@@ -298,8 +302,25 @@ public class StageManager : Singleton<StageManager>
 
     public void Heal(int amount)
     {
-        hp = Mathf.Min(hp + amount, maxHp);
+        hp = Mathf.Min(hp + amount, GetMaxHP());
         OnPlayerHpChanged.RaiseEvent(hp);
+    }
+
+    public void AddAbilityMultiplier(int statType, float value)
+    {
+        if (abilityMultiplier.TryAdd(statType, value))
+        {
+            abilityMultiplier[statType] += value;
+        }
+    }
+
+    public void RemoveAbilityMultiplier(int statType, float value)
+    {
+        if (abilityMultiplier.TryGetValue(statType, out float statValue))
+        {
+            abilityMultiplier[statType] -= value;
+        }
+            
     }
 
     public void AddCostRecoveryMultiplier(float value)
@@ -331,7 +352,9 @@ public class StageManager : Singleton<StageManager>
     {
         while (true)
         {
-            curCost = curCost + Time.deltaTime * costRecoveryMultiplier;
+            abilityMultiplier.TryGetValue((int)StatType.costHeal, out float ratio);
+
+            curCost = curCost + Time.deltaTime * (costRecoveryMultiplier + (costRecoveryMultiplier * ratio));
             OnCostChanged.RaiseEvent(curCost);
             yield return null;
         }
@@ -427,7 +450,9 @@ public class StageManager : Singleton<StageManager>
 
             if (i != 0)
             {
-                ShowFloorIntro();
+                //book = 100;
+                //token = 10000;
+                ShowFloorLoading();
             }
 
             OnFloorCountChanged.RaiseEvent(i + 1);
@@ -514,7 +539,7 @@ public class StageManager : Singleton<StageManager>
         eventManager.ShowEvent();
     }
 
-    void ShowFloorIntro()
+    void ShowFloorLoading()
     {
         Debug.Log("<color=white>플로어 진입 인트로</color>");
 

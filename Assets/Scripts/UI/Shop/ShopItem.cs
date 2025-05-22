@@ -28,7 +28,6 @@ public class ShopItem : MonoBehaviour
         this.data = data;
         type = Shop_ItemType.Ability;
         btnBuy.enabled = true;
-        amount = 1;
 
         textName.text = data.name;
 
@@ -102,7 +101,23 @@ public class ShopItem : MonoBehaviour
         SoldOut.gameObject.SetActive(false);
     }
 
-    public void OnItemClick()
+    public void OnClickItem()
+    {
+        if (type == Shop_ItemType.Ability)
+        {
+            uiShop.popup_Item.Init(data, itemImage.sprite);
+            uiShop.popup_Item.OnBuyItem += BuyItem;
+
+            uiShop.popup_Item.gameObject.SetActive(true);
+        }
+        else
+        {
+            BuyItem();
+        }
+        
+    }
+
+    void BuyItem()
     {
         Debug.Log("아이템 구매");
 
@@ -115,12 +130,9 @@ public class ShopItem : MonoBehaviour
 
             if (type == Shop_ItemType.Ability) StageManager.Instance.abilityManager.AddAbillity(data);
             else if (type == Shop_ItemType.ClassBook) StageManager.Instance.GainBook(amount);
-            else if (type == Shop_ItemType.Potion)
-            {
-                StageManager.Instance.Heal(20);
-                uiShop.UpdateHealth(StageManager.Instance.GetHP(), StageManager.Instance.GetMaxHP());
-            }
+            else if (type == Shop_ItemType.Potion) StageManager.Instance.Heal(20);
 
+            uiShop.UpdateHealth(StageManager.Instance.GetHP(), StageManager.Instance.GetMaxHP());
             textPrice.text = "Sold Out";
             SoldOut.gameObject.SetActive(true);
             btnBuy.enabled = false;
