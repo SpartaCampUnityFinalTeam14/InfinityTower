@@ -698,3 +698,13 @@ public class StageDataLoader : ILoader<int, StageData>
     }
 }
 #endregion
+
+#region MagicNumberData
+[Serializable]
+public class MagicNumberData
+{
+    public int artifactGachaRequiredGold;
+    public float artifactPriceRatio;
+    public int gachaRequiredGold;
+}
+#endregion
