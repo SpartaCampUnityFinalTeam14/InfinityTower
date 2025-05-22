@@ -18,6 +18,11 @@ public class UI_LobbyTutorial : UI
     
     public void StartStep()
     {
+        AnalyticsManager.SendEvent("Funnel_Step", new Dictionary<string, object>        
+        {
+            { "Funnel_Step_Number", 2 }
+        });
+        
         curStep = FindTutorial(0);
         curStep.OnStep();
         explanationText.text = curStep.explanation;

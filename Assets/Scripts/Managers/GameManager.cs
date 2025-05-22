@@ -7,15 +7,16 @@ public class GameManager : Singleton<GameManager>
 {
     public bool isTutorialAlreadySeen;
 
+    private void Awake()
+    {
+        AnalyticsManager.SendEvent("Funnel_Step", new Dictionary<string, object>        
+        {
+            { "Funnel_Step_Number", 1 }
+        });
+    }
+    
     public void LoadScene(string sceneName)
     {
-        AnalyticsManager.SendEvent(sceneName, new Dictionary<string, object>
-        {
-            { "stage", "2-1" },
-            { "result", "win" },
-            { "score", 9876 }
-        });
-
         var ui = UIManager.Instance.ShowUI<UI_Fade>();
         ui.FadeOut(() =>
         {

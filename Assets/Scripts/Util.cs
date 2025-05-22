@@ -56,6 +56,38 @@ public static class Util
         if (uiObject == null) return results.Count > 0;
         return results[0].gameObject == uiObject;
     }
+    
+    // 웨이브 시작
+    public static int GetFunnelStepForWave(int floor, int wave)
+    {
+        return (floor + 1) * 100 + (wave + 1); // floor 0, wave 0 → 101
+    }
+
+    // 플로어 클리어
+    public static int GetFunnelStepForFloorClear(int floor)
+    {
+        return (floor + 1) * 100 + 99;
+    }
+
+    // 상점 진입
+    public static int GetFunnelStepForShopEntry(int floor)
+    {
+        return (floor + 1) * 100 - 23; // ex: floor 0 → 177
+    }
+
+    // 플로어 시작
+    public static int GetFunnelStepForFloorStart(int floor)
+    {
+        return (floor + 1) * 100;
+    }
+
+    // 이벤트 진입 및 선택 (플로어 2, 4)
+    public static int GetFunnelStepForEventSelect(int floor)
+    {
+        return (floor) * 100 + 88;
+    }
+
+    public static int GetFinalResultStep() => 9;
 
     public static void CloseGame()
     {

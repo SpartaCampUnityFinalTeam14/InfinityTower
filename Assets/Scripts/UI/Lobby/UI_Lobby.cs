@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -50,7 +51,12 @@ public class UI_Lobby : MonoBehaviour, ScrollPanel
                 return;
             }
         }
-
+        
+        AnalyticsManager.SendEvent("Funnel_Step", new Dictionary<string, object>        
+        {
+            { "Funnel_Step_Number", 3 }
+        });
+        
         GameManager.Instance.LoadScene("KSM_Stage");
     }
 
