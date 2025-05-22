@@ -3,23 +3,17 @@
       {
           "id": 0,
           "name": "초원",
-          "floorCount": 5,
+          "floorCount": 3,
           "floorPool": [
               0,
               1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              7,
-              8
+              2
           ],
           "eventPool": [
               1,
               2
           ],
-          "bossFloorID": 4,
+          "bossFloorID": 3,
           "rewardGold": 1000
       },
       {
@@ -31,65 +25,58 @@
               1,
               2,
               3,
-              4,
-              5,
-              6,
-              7,
-              8,
-              9
+              10,
+              11
           ],
           "eventPool": [
               1,
               2
           ],
-          "bossFloorID": 4,
-          "rewardGold": 1000
+          "bossFloorID": 12,
+          "rewardGold": 1300
       },
       {
           "id": 2,
           "name": "성벽",
           "floorCount": 5,
           "floorPool": [
-              0,
-              1,
-              2,
-              3,
               4,
               5,
               6,
               7,
               8,
-              9
+              13
           ],
           "eventPool": [
               1,
               2
           ],
-          "bossFloorID": 4,
-          "rewardGold": 1000
+          "bossFloorID": 14,
+          "rewardGold": 1800
       },
       {
           "id": 3,
-          "name": "설산",
+          "name": "뒤틀린 공간",
           "floorCount": 5,
           "floorPool": [
-              0,
-              1,
-              2,
-              3,
               4,
               5,
               6,
               7,
               8,
-              9
+              9,
+              10,
+              11,
+              12,
+              13,
+              14
           ],
           "eventPool": [
               1,
               2
           ],
-          "bossFloorID": 4,
-          "rewardGold": 1000
+          "bossFloorID": 14,
+          "rewardGold": 3000
       }
   ]
 }

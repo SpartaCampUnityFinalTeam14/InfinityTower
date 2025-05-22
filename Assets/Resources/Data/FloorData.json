@@ -1,15 +1,15 @@
 {
   "data": [
     {
-      "id":0,
-      "mapID":0,
-      "waveCount":3,
-      "waveID":[
+      "id": 0,
+      "mapID": 0,
+      "waveCount": 3,
+      "waveID": [
         0,
         10,
         20
       ],
-      "spawnPosition":[
+      "spawnPosition": [
         0,
         0,
         0,
@@ -17,15 +17,15 @@
       ]
     },
     {
-      "id":1,
-      "mapID":1,
-      "waveCount":3,
-      "waveID":[
+      "id": 1,
+      "mapID": 1,
+      "waveCount": 3,
+      "waveID": [
         1,
         11,
         21
       ],
-      "spawnPosition":[
+      "spawnPosition": [
         0,
         0,
         0,
@@ -33,15 +33,15 @@
       ]
     },
     {
-      "id":2,
-      "mapID":2,
-      "waveCount":3,
-      "waveID":[
+      "id": 2,
+      "mapID": 2,
+      "waveCount": 3,
+      "waveID": [
         2,
         12,
-        21
+        22
       ],
-      "spawnPosition":[
+      "spawnPosition": [
         0,
         0,
         0,
@@ -49,15 +49,15 @@
       ]
     },
     {
-      "id":3,
-      "mapID":3,
-      "waveCount":3,
-      "waveID":[
+      "id": 3,
+      "mapID": 3,
+      "waveCount": 3,
+      "waveID": [
         3,
         13,
         23
       ],
-      "spawnPosition":[
+      "spawnPosition": [
         0,
         0,
         0,
@@ -65,15 +65,63 @@
       ]
     },
     {
-      "id":4,
-      "mapID":4,
-      "waveCount":3,
-      "waveID":[
+      "id": 4,
+      "mapID": 0,
+      "waveCount": 3,
+      "waveID": [
         4,
+        10,
+        22
+      ],
+      "spawnPosition": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": 5,
+      "mapID": 1,
+      "waveCount": 3,
+      "waveID": [
+        5,
+        13,
+        24
+      ],
+      "spawnPosition": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": 6,
+      "mapID": 2,
+      "waveCount": 3,
+      "waveID": [
+        6,
+        11,
+        25
+      ],
+      "spawnPosition": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": 7,
+      "mapID": 3,
+      "waveCount": 3,
+      "waveID": [
+        7,
         14,
         24
       ],
-      "spawnPosition":[
+      "spawnPosition": [
         0,
         0,
         0,
@@ -81,15 +129,15 @@
       ]
     },
     {
-      "id":5,
-      "mapID":0,
-      "waveCount":3,
-      "waveID":[
-        5,
+      "id": 8,
+      "mapID": 7,
+      "waveCount": 3,
+      "waveID": [
+        8,
         15,
         25
       ],
-      "spawnPosition":[
+      "spawnPosition": [
         0,
         0,
         0,
@@ -97,15 +145,47 @@
       ]
     },
     {
-      "id":6,
-      "mapID":1,
-      "waveCount":3,
-      "waveID":[
+      "id": 9,
+      "mapID": 7,
+      "waveCount": 3,
+      "waveID": [
+        9,
+        16,
+        26
+      ],
+      "spawnPosition": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": 10,
+      "mapID": 4,
+      "waveCount": 3,
+      "waveID": [
+        6,
+        15,
+        24
+      ],
+      "spawnPosition": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": 11,
+      "mapID": 5,
+      "waveCount": 3,
+      "waveID": [
         6,
         16,
         26
       ],
-      "spawnPosition":[
+      "spawnPosition": [
         0,
         0,
         0,
@@ -113,15 +193,15 @@
       ]
     },
     {
-      "id":7,
-      "mapID":2,
-      "waveCount":3,
-      "waveID":[
+      "id": 12,
+      "mapID": 6,
+      "waveCount": 3,
+      "waveID": [
         7,
         17,
-        25
+        27
       ],
-      "spawnPosition":[
+      "spawnPosition": [
         0,
         0,
         0,
@@ -129,15 +209,15 @@
       ]
     },
     {
-      "id":8,
-      "mapID":3,
-      "waveCount":3,
-      "waveID":[
+      "id": 13,
+      "mapID": 8,
+      "waveCount": 3,
+      "waveID": [
         8,
         18,
         28
       ],
-      "spawnPosition":[
+      "spawnPosition": [
         0,
         0,
         0,
@@ -145,15 +225,15 @@
       ]
     },
     {
-      "id":9,
-      "mapID":4,
-      "waveCount":3,
-      "waveID":[
+      "id": 14,
+      "mapID": 9,
+      "waveCount": 3,
+      "waveID": [
         9,
         19,
         29
       ],
-      "spawnPosition":[
+      "spawnPosition": [
         0,
         0,
         0,
