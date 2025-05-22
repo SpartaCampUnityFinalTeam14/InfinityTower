@@ -88,4 +88,13 @@ public static class Util
     }
 
     public static int GetFinalResultStep() => 9;
+
+    public static void CloseGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
 }

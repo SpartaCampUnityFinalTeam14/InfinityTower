@@ -43,6 +43,12 @@ public class ArtifactGachaManager
         }
     }
 
+    public int GetGachaPrice()
+    {
+        return (int)(DataManager.Instance.maginNumberData.artifactGachaRequiredGold 
+            * MathF.Pow(DataManager.Instance.maginNumberData.artifactPriceRatio, artifactCount));
+    }
+
     public bool IsAllArtifactPulled()
     {
         if (artifactCount >= SaveManager.Instance.artifactLevelDict.Count * 3) return true;

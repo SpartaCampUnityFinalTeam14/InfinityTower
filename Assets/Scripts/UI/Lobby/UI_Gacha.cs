@@ -28,7 +28,7 @@ public class UI_Gacha : MonoBehaviour, ScrollPanel
     [SerializeField] private BoolEventChannel OnScrollStateChanged;
 
     private GachaManager gachaManager;
-    private int requiredGold = 50;
+    private int requiredGold;
     private Coroutine showEachResult;
     private Coroutine showResults;
     private bool isShowResultPlaying = false;
@@ -37,6 +37,8 @@ public class UI_Gacha : MonoBehaviour, ScrollPanel
     protected void Awake()
     {
         gachaManager = new();
+
+        requiredGold = DataManager.Instance.maginNumberData.gachaRequiredGold;
 
         gacha1Button.onClick.AddListener(Gacha1);
         gacha10Button.onClick.AddListener(Gacha10);

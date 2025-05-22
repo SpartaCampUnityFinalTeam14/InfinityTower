@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class UI_TowerSelectSlot : MonoBehaviour
 {
-    public int id;
+    public int id = -1;
     private TowerData data;
 
     [SerializeField] private Button selectButton;
@@ -34,6 +34,8 @@ public class UI_TowerSelectSlot : MonoBehaviour
 
     public void UpdateSlot()
     {
+        if (data == null) return;
+
         towerImage.sprite = Resources.Load<Sprite>($"Icons/Tower/Tower_{id}");
         nameText.text = data.name;
         descriptionText.text = data.description;
