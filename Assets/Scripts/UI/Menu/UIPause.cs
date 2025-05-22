@@ -74,6 +74,8 @@ public class UIPause : UI
         {
             StageManager.Instance.timeScaleManager.PopTimeScale();
 
+            StageManager.Instance.SendAnalytics("STAGE_FAILED", true);
+
             Hide();
         }
 

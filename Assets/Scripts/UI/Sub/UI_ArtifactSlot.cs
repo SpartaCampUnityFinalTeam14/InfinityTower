@@ -14,6 +14,7 @@ public class UI_ArtifactSlot : MonoBehaviour
     [SerializeField] private Image artifactImage;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI countText;
+    [SerializeField] private GameObject artifactNotPickedIcon; 
 
     public void Init(int id)
     {
@@ -30,5 +31,6 @@ public class UI_ArtifactSlot : MonoBehaviour
     public void SetCount(int count)
     {
         countText.text = count.ToString();
+        artifactNotPickedIcon.SetActive(count <= 0);
     }
 }

@@ -28,7 +28,7 @@ public class UI_Gacha : MonoBehaviour, ScrollPanel
     [SerializeField] private BoolEventChannel OnScrollStateChanged;
 
     private GachaManager gachaManager;
-    private int requiredGold = 50;
+    private int requiredGold;
     private Coroutine showEachResult;
     private Coroutine showResults;
     private bool isShowResultPlaying = false;
@@ -37,6 +37,8 @@ public class UI_Gacha : MonoBehaviour, ScrollPanel
     protected void Awake()
     {
         gachaManager = new();
+
+        requiredGold = DataManager.Instance.maginNumberData.gachaRequiredGold;
 
         gacha1Button.onClick.AddListener(Gacha1);
         gacha10Button.onClick.AddListener(Gacha10);
@@ -67,8 +69,6 @@ public class UI_Gacha : MonoBehaviour, ScrollPanel
             UIManager.Instance.ShowUI<UI_Alert>().Alert("골드가 부족합니다.");
             return;
         }
-        SaveManager.Instance.playerData.UseGold(requiredGold);
-        OnGoldChanged.RaiseEvent();
 
         skipAllButton.gameObject.SetActive(false);
 
@@ -76,6 +76,8 @@ public class UI_Gacha : MonoBehaviour, ScrollPanel
 
         gachaList.Add(gachaManager.GetRandomGacha());
 
+        SaveManager.Instance.playerData.UseGold(requiredGold);
+        OnGoldChanged.RaiseEvent();
         showResults = StartCoroutine(ShowResults());
     }
 
@@ -86,8 +88,6 @@ public class UI_Gacha : MonoBehaviour, ScrollPanel
             UIManager.Instance.ShowUI<UI_Alert>().Alert("골드가 부족합니다.");
             return;
         }
-        SaveManager.Instance.playerData.UseGold(requiredGold * 10);
-        OnGoldChanged.RaiseEvent();
 
         skipAllButton.gameObject.SetActive(true);
 
@@ -95,9 +95,11 @@ public class UI_Gacha : MonoBehaviour, ScrollPanel
 
         for (int i = 0; i < 10; i++)
         {
-            gachaList.Add(gachaManager.GetRandomGacha());
+            gachaList.Add(gachaManager.GetRandomGacha("MULTI"));
         }
 
+        SaveManager.Instance.playerData.UseGold(requiredGold * 10);
+        OnGoldChanged.RaiseEvent();
         showResults = StartCoroutine(ShowResults());
     }
 

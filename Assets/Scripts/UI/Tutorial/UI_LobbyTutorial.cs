@@ -8,7 +8,10 @@ public class UI_LobbyTutorial : UI
 {
     public List<TutorialStep> steps = new();
     private TutorialStep curStep;
-    
+
+    private readonly Vector2 baseResolution = new Vector2(1920f, 1080f);
+    private float tweenDuration = 0.5f;
+
     [SerializeField] private RectTransform maskImage;
     [SerializeField] private List<RectTransform> maskPanels;
     [SerializeField] private TextMeshProUGUI explanationText;
@@ -64,26 +67,25 @@ public class UI_LobbyTutorial : UI
         RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRT, screenBL, canvas.worldCamera, out localBL);
         RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRT, screenTR, canvas.worldCamera, out localTR);
 
+        float topHeight = baseResolution.y / 2f - localTR.y;
+        float leftWidth = localBL.x + baseResolution.x / 2f;
+        float bottomHeight = localBL.y + baseResolution.y / 2f;
+        float rightWidth = baseResolution.x / 2f - localTR.x;
+
         ResetPanels();
 
-        float topHeight = canvasH / 2f - localTR.y;
-        float bottomHeight = localBL.y + canvasH / 2f;
-        float leftWidth = localBL.x + canvasW / 2f;
-        float rightWidth = canvasW / 2f - localTR.x;
-        float tweenDuration = 0.5f;
-
-        maskPanels[0].DOSizeDelta(new Vector2(maskPanels[0].sizeDelta.x, topHeight), tweenDuration).SetEase(Ease.InExpo);
-        maskPanels[1].DOSizeDelta(new Vector2(leftWidth, maskPanels[2].sizeDelta.y), tweenDuration).SetEase(Ease.InExpo);
-        maskPanels[2].DOSizeDelta(new Vector2(maskPanels[1].sizeDelta.x, bottomHeight), tweenDuration).SetEase(Ease.InExpo);
-        maskPanels[3].DOSizeDelta(new Vector2(rightWidth, maskPanels[3].sizeDelta.y), tweenDuration).SetEase(Ease.InExpo);
+        maskPanels[0].DOSizeDelta(new Vector2(baseResolution.x, topHeight), tweenDuration).SetEase(Ease.InExpo);
+        maskPanels[1].DOSizeDelta(new Vector2(leftWidth, baseResolution.y), tweenDuration).SetEase(Ease.InExpo);
+        maskPanels[2].DOSizeDelta(new Vector2(baseResolution.x, bottomHeight), tweenDuration).SetEase(Ease.InExpo);
+        maskPanels[3].DOSizeDelta(new Vector2(rightWidth, baseResolution.y), tweenDuration).SetEase(Ease.InExpo);
     }
 
     void ResetPanels()
     {
-        maskPanels[0].sizeDelta = new Vector2(0f, 0f); // Top
-        maskPanels[1].sizeDelta = new Vector2(0f, 0f); // Bottom
-        maskPanels[2].sizeDelta = new Vector2(0f, 0f); // Left
-        maskPanels[3].sizeDelta = new Vector2(0f, 0f); // Right
+        maskPanels[0].sizeDelta = new Vector2(baseResolution.x, 0f); // Top
+        maskPanels[1].sizeDelta = new Vector2(0f, baseResolution.y); // Left
+        maskPanels[2].sizeDelta = new Vector2(baseResolution.x, 0f); // Bottom
+        maskPanels[3].sizeDelta = new Vector2(0f, baseResolution.y); // Right
     }
 
     public TutorialStep FindTutorial(int order)
