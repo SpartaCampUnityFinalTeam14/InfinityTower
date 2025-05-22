@@ -233,6 +233,26 @@ public abstract class BaseTower : Poolable, IBuffable
     //    }
     //}
     
+    public void PlayAttackSFX()
+    {
+        if (ID >= 0 && ID <= 5)
+        {
+            SoundManager.Instance.PlaySFX(SFX.Attack_Soldier);
+        }
+        else if (ID == 12 || ID == 13)
+        {
+            SoundManager.Instance.PlaySFX(SFX.Attack_Wizard);
+        }
+        else if (ID == 14)
+        {
+            SoundManager.Instance.PlaySFX(SFX.Attack_MagicProfessor);
+        }
+        else
+        {
+            SoundManager.Instance.PlaySFX(SFX.Attack_Soldier);
+        }
+    }
+
     protected void PlayAttackAnimation(Vector3 targetPos)
     {
         anim?.SetTrigger("Attack");

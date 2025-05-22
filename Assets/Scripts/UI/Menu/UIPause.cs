@@ -37,6 +37,7 @@ public class UIPause : UI
     {
         if (pause && !isToggle)
         {
+            SoundManager.Instance.StopAllSFX();
             Show();
             isToggle = true;
         }

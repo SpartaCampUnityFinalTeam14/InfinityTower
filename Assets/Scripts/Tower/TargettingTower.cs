@@ -164,6 +164,7 @@ public abstract class TargettingTower : BaseTower
         float delay = 0.93f / anim.speed; // ✅ 속도 반영해서 딜레이 계산
         yield return new WaitForSeconds(delay);
         UseActOnTargets();
+        PlayAttackSFX();
     }
 
     protected abstract void UseActOnTargets(); // 공격/버프 등을 하위에서 정의

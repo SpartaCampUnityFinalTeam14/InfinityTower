@@ -86,6 +86,7 @@ public class MonsterBase : Poolable, ISkillUser, IBuffable
         if (isDead)
             return;
 
+        SoundManager.Instance.PlaySFX(SFX.Hit_Monster);
         currentHP -= Mathf.RoundToInt(amount);
         UpdateHpUI();
         
