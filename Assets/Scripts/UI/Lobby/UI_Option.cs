@@ -12,15 +12,7 @@ public class UI_Option : MonoBehaviour, ScrollPanel
     {
         SoundManager.Instance.LoadVolume();
 
-        clearButton.onClick.AddListener(() =>
-        {
-            SaveManager.Instance.DeleteAll();
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
-        });
+        clearButton.onClick.AddListener(() => SaveManager.Instance.ResetAll());
 
         masterSlider.value = SoundManager.Instance.GetMasterVolume();
         BGMSlider.value = SoundManager.Instance.GetBGMVolume();

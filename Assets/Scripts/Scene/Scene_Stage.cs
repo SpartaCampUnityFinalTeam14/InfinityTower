@@ -14,5 +14,7 @@ public class Scene_Stage : Scene
             StageManager.Instance.isIntroEnd = true;
         });
 
+        SoundManager.Instance.StopAllSound();
+        SoundManager.Instance.PlayBGM(BGM.SimpleBattleBGM);
     }
 }

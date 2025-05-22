@@ -6,12 +6,19 @@ using UnityEngine.Audio;
 
 public enum BGM//BGM 폴더의 파일 이름과 동일하게
 {
-    
+    LobbyBGM,
+    SimpleBattleBGM
 }
 
 public enum SFX//SFX 폴더의 파일 이름과 동일하게
 {
-    
+    Hit_Monster,
+    TowerDeploymentSFX,
+    Attack_Soldier,
+    Attack_Wizard,
+    Attack_MagicProfessor,
+
+
 }
 
 public class SoundManager : Singleton<SoundManager>

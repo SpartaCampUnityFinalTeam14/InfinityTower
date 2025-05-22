@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class ArtifactGachaManager
 {
@@ -42,6 +43,12 @@ public class ArtifactGachaManager
         }
     }
 
+    public int GetGachaPrice()
+    {
+        return (int)(DataManager.Instance.maginNumberData.artifactGachaRequiredGold 
+            * MathF.Pow(DataManager.Instance.maginNumberData.artifactPriceRatio, artifactCount));
+    }
+
     public bool IsAllArtifactPulled()
     {
         if (artifactCount >= SaveManager.Instance.artifactLevelDict.Count * 3) return true;
@@ -64,6 +71,19 @@ public class ArtifactGachaManager
         {
             artifactPool[rarity].RemoveAt(randomIndex);
         }
+        
+        string artifactName = DataManager.Instance.artifactDicts[artifactId / 1000][artifactId].name;
+        
+        Debug.Log(artifactName);
+        
+        AnalyticsManager.SendEvent("GACHA_ARTIFACT", new Dictionary<string, object>
+        {
+            { "PLAYER_HASGOLD", SaveManager.Instance.playerData.gold },
+            { "HAS_ARTIFACT", artifactCount },
+            { "PLAYER_CURRENTSTAGE", SaveManager.Instance.playerData.selectedStageIndex },
+            { "GACHA_RESULT_ARTIFACT", artifactName },
+        });
+        
         artifactCount++;
         SaveManager.Instance.SaveArtifactSaveData();
         return artifactId;

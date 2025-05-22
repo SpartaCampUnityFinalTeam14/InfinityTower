@@ -26,7 +26,6 @@ public class UI_Artifact : MonoBehaviour, ScrollPanel
 
     [SerializeField] private EventChannel OnGoldChanged;
     [SerializeField] private BoolEventChannel OnScrollStateChanged;
-    private int requiredGold = 10;
 
     private ArtifactGachaManager gachaManager;
     private bool isShowResultPlaying;
@@ -44,7 +43,7 @@ public class UI_Artifact : MonoBehaviour, ScrollPanel
 
         CheckGachaAble();
 
-        gold1Text.text = $"{requiredGold.ToString():N0}";
+        UpdatePriceText();
 
         Init();
     }
@@ -90,6 +89,11 @@ public class UI_Artifact : MonoBehaviour, ScrollPanel
         OnGoldChanged.RaiseEvent();
     }
 
+    void UpdatePriceText()
+    {
+        gold1Text.text = $"{gachaManager.GetGachaPrice().ToString():N0}";
+    }
+
     void CheckGachaAble()
     {
         gachaButton.interactable = !gachaManager.IsAllArtifactPulled();
@@ -98,7 +102,7 @@ public class UI_Artifact : MonoBehaviour, ScrollPanel
 
     void GachaArtifact()
     {
-        if (!SaveManager.Instance.playerData.CheckGold(requiredGold))
+        if (!SaveManager.Instance.playerData.CheckGold(gachaManager.GetGachaPrice()))
         {
             UIManager.Instance.ShowUI<UI_Alert>().Alert("골드가 부족합니다.");
             return;
@@ -120,8 +124,9 @@ public class UI_Artifact : MonoBehaviour, ScrollPanel
         boxAnimator.SetInteger("BoxID", boxID);
         boxAnimator.Update(0f);
 
+        SaveManager.Instance.playerData.UseGold(gachaManager.GetGachaPrice());
         int id = gachaManager.GetRandomArtifact();
-        SaveManager.Instance.playerData.UseGold(requiredGold);
+        UpdatePriceText();
         OnGoldChanged.RaiseEvent();
         int rarity = id / 1000;
         resultBackground.color = rarityColors[rarity];

@@ -4,12 +4,11 @@ using Unity.Services.Analytics;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-public class AnalyticsManager : MonoBehaviour
+public class AnalyticsManager : Singleton<AnalyticsManager>
 {
     private static bool isInitialized = false;
     private static AnalyticsManager instance;
 
-    // Unity 실행 시 자동으로 AnalyticsManager 생성
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void InitOnLoad()
     {
@@ -23,6 +22,8 @@ public class AnalyticsManager : MonoBehaviour
 
     private async void Awake()
     {
+        base.Awake();
+
         if (!isInitialized)
         {
             await InitializeAnalytics();
@@ -59,5 +60,24 @@ public class AnalyticsManager : MonoBehaviour
 
         AnalyticsService.Instance.CustomData(eventName, parameters);
         Debug.Log($"📤 Sent Custom Event: {eventName}");
+    }
+
+    /// <summary>
+    /// 세션 및 유저 관련 강제 초기화 (테스트용)
+    /// </summary>
+    public static void ResetAnalyticsSession()
+    {
+        if (!isInitialized)
+        {
+            Debug.LogWarning("⚠️ Analytics not initialized. Cannot reset session.");
+            return;
+        }
+
+        AnalyticsService.Instance.StopDataCollection();
+        PlayerPrefs.DeleteKey("unity.player_session_id");
+        PlayerPrefs.Save();
+
+        AnalyticsService.Instance.StartDataCollection();
+        Debug.Log("🔄 Analytics session forcibly reset");
     }
 }

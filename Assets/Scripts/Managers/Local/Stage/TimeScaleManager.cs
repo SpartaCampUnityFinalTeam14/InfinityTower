@@ -13,7 +13,7 @@ public class TimeScaleManager
         baseTimeScale = timeScale;
         Time.timeScale = timeScale;
     }
-
+    
     public void PushTimeScale(float value)
     {
         stackTimeScale.Push(Time.timeScale);
@@ -22,13 +22,14 @@ public class TimeScaleManager
 
     public void PopTimeScale()
     {
-        if (stackTimeScale.Count > 0)
+        if (stackTimeScale.Count > 1)
         {
             Time.timeScale = stackTimeScale.Pop();
         }
         else
         {
             Time.timeScale = baseTimeScale;
+            stackTimeScale.Clear();
         }
     }
 }

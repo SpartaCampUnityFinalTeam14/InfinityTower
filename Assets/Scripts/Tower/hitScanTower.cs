@@ -15,7 +15,7 @@ public class hitScanTower : TargettingTower
         foreach (GameObject target in targets)
         {
             if (target == null) continue;
-
+            //공격 적용
             if (towerData.TargetType == TargetType.Enemy)
             {
                 MonsterBase enemy = target.GetComponent<MonsterBase>();
@@ -28,6 +28,8 @@ public class hitScanTower : TargettingTower
                 enemy.TakeDamage(totalDamage);
                 Debug.Log($"[hitScanTower] 데미지 {totalDamage} 적용 (기본:{damage}, 추가:{attackPowerBuff}) -> {enemy.name}");
             }
+
+            if (target == null) continue;
             //효과 적용
             ApplyEffectOnAttack(target);
         }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 
 public abstract class BaseTower : Poolable, IBuffable
@@ -112,6 +113,7 @@ public abstract class BaseTower : Poolable, IBuffable
             MonsterBase enemy = target.GetComponent<MonsterBase>();
             foreach (var T in myEffectDict)
             {
+                if (enemy == null) continue;
                 // 디버프는 항상 적용
                 float[] effectValues = towerData.effectValue[towerData.effectID.IndexOf(T.Key)].values;
                 T.Value.ApplyEffect_Monster(enemy, effectValues[0], effectValues[1], effectValues[2] > 0);
@@ -124,6 +126,7 @@ public abstract class BaseTower : Poolable, IBuffable
             TargettingTower ally = target.GetComponent<TargettingTower>();
             foreach (var T in myEffectDict)
             {
+                if (ally == null) continue;
                 float[] effectValues = towerData.effectValue[towerData.effectID.IndexOf(T.Key)].values;
                 T.Value.ApplyEffect_Tower(ally, effectValues[0], effectValues[1], effectValues[2] > 0);
                 Debug.Log($"버프 {(EffectType)T.Key} {effectValues[0]} 적용 (지속: {effectValues[1]}) -> {ally.name}");
@@ -222,7 +225,26 @@ public abstract class BaseTower : Poolable, IBuffable
                 }
             }
         }
-        
+    }
+
+    public void PlayAttackSFX()
+    {
+        if (ID >= 0 && ID <= 5)
+        {
+            SoundManager.Instance.PlaySFX(SFX.Attack_Soldier);
+        }
+        else if (ID == 12 || ID == 13)
+        {
+            SoundManager.Instance.PlaySFX(SFX.Attack_Wizard);
+        }
+        else if (ID == 14)
+        {
+            SoundManager.Instance.PlaySFX(SFX.Attack_MagicProfessor);
+        }
+        else
+        {
+            SoundManager.Instance.PlaySFX(SFX.Attack_Soldier);
+        }
     }
 
     protected void PlayAttackAnimation(Vector3 targetPos)

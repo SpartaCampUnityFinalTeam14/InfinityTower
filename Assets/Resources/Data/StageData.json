@@ -43,7 +43,7 @@
               2
           ],
           "bossFloorID": 4,
-          "rewardGold": 1000
+          "rewardGold": 1100
       },
       {
           "id": 2,
@@ -66,7 +66,7 @@
               2
           ],
           "bossFloorID": 4,
-          "rewardGold": 1000
+          "rewardGold": 1200
       },
       {
           "id": 3,
@@ -89,7 +89,7 @@
               2
           ],
           "bossFloorID": 4,
-          "rewardGold": 1000
+          "rewardGold": 1300
       }
   ]
 }

@@ -121,6 +121,8 @@ public class ShopItem : MonoBehaviour
     {
         Debug.Log("아이템 구매");
 
+        SendAnalytics();
+
         if (StageManager.Instance.CheckToken(price))
         {
             StageManager.Instance.UseToken(price);
@@ -139,5 +141,24 @@ public class ShopItem : MonoBehaviour
         {
             UIManager.Instance.ShowUI<UI_Alert>().Alert("주화가 부족합니다.");
         }
+    }
+
+    private void SendAnalytics()
+    {
+        string productName = type switch
+        {
+            Shop_ItemType.Ability => data.name,
+            Shop_ItemType.ClassBook => $"Book{amount}",
+            Shop_ItemType.Potion => "Heal",
+            _ => "Unknown"
+        };
+
+        AnalyticsManager.SendEvent("SHOP_BUY", new Dictionary<string, object>
+        {
+            { "PLAYER_HASTOKEN", StageManager.Instance.token },
+            { "PURCHASED_PRODUCT", productName },
+            { "STAGE_NUMBER", StageManager.Instance.GetStageNum() },
+            { "FLOOR_NUMBER", StageManager.Instance.GetFloorNum() }
+        });
     }
 }

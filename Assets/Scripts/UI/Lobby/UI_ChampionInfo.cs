@@ -20,6 +20,7 @@ public class UI_ChampionInfo : UI
 
     [Header("우측 상단")]
     [SerializeField] private TextMeshProUGUI championHPText;
+    [SerializeField] private TextMeshProUGUI championAtkText;
 
     [Header("우측 하단")]
     [SerializeField] private Image skill1Icon;
@@ -74,6 +75,7 @@ public class UI_ChampionInfo : UI
         SetLevel(SaveManager.Instance.championLevelDict[data.id].level);
         SetExp(SaveManager.Instance.championLevelDict[data.id].exp);
         championHPText.text = data.hp.ToString();
+        championAtkText.text = data.atk.ToString();
 
         SetSkillInfo(data.skillid[0]);
         skill1Icon.sprite = Resources.Load<Sprite>($"Icons/Skill/Skill_{data.skillid[0]}");

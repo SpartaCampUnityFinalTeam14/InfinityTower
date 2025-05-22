@@ -62,6 +62,11 @@ public class UI_StageResult : UI
 
     void ToLobby()
     {
+        AnalyticsManager.SendEvent("Funnel_Step", new Dictionary<string, object>
+        {
+            {"Funnel_Step_Number", 9}
+        });
+        
         StageManager.Instance.timeScaleManager.PopTimeScale();
         GameManager.Instance.LoadScene("KSM_Lobby");
     }

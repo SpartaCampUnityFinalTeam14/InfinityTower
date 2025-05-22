@@ -37,6 +37,7 @@ public class UIPause : UI
     {
         if (pause && !isToggle)
         {
+            SoundManager.Instance.StopAllSFX();
             Show();
             isToggle = true;
         }
@@ -72,6 +73,8 @@ public class UIPause : UI
         else
         {
             StageManager.Instance.timeScaleManager.PopTimeScale();
+
+            StageManager.Instance.SendAnalytics("STAGE_FAILED", true);
 
             Hide();
         }
