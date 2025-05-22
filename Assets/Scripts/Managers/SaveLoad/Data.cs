@@ -703,6 +703,7 @@ public class StageDataLoader : ILoader<int, StageData>
 [Serializable]
 public class MagicNumberData
 {
+    public string version;
     public int artifactGachaRequiredGold;
     public float artifactPriceRatio;
     public int gachaRequiredGold;

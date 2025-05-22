@@ -12,12 +12,7 @@ public class UI_Option : MonoBehaviour, ScrollPanel
     {
         SoundManager.Instance.LoadVolume();
 
-        clearButton.onClick.AddListener(() =>
-        {
-            SaveManager.Instance.DeleteAll();
-            GameManager.Instance.isTutorialAlreadySeen = false;
-            GameManager.Instance.LoadScene("KSM_Lobby");
-        });
+        clearButton.onClick.AddListener(() => SaveManager.Instance.ResetAll());
 
         masterSlider.value = SoundManager.Instance.GetMasterVolume();
         BGMSlider.value = SoundManager.Instance.GetBGMVolume();
