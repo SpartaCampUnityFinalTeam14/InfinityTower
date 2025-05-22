@@ -44,7 +44,7 @@ public class GachaManager
         return exp < remainedExp;
     }
 
-    public KeyValuePair<bool,int> GetRandomGacha()
+    public KeyValuePair<bool, int> GetRandomGacha(string gachaType = "SINGLE")
     {
         float random = Random.Range(0.0f, 1.0f);
         int id;
@@ -79,7 +79,20 @@ public class GachaManager
             SaveManager.Instance.SaveTowerLevelData();
             if (CheckTowerExp(id) == false) towerPool.Remove(id);
         }
+        
+        bool isChampion = random < championProb;
+        string resultName = isChampion
+            ? DataManager.Instance.championDict[id].name
+            : DataManager.Instance.towerDict[id].name;
 
+        AnalyticsManager.SendEvent("GACHA_TOWER", new Dictionary<string, object>
+        {
+            { "PLAYER_HASGOLD", SaveManager.Instance.playerData.gold },
+            { "PLAYER_CURRENTSTAGE", SaveManager.Instance.playerData.selectedStageIndex },
+            { "GACHA_RESULT", resultName },
+            { "NUMBEROFGACHA", gachaType }
+        });
+        
         return new KeyValuePair<bool, int>(random < championProb, id);
     }
 }

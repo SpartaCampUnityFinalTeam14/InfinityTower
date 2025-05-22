@@ -105,6 +105,8 @@ public class UI_UpgradeTower : UI
 
             int idx = StageManager.Instance.selectedTowers.IndexOf(selectedTower.id);
 
+            SendAnalytics();
+
             if (idx != -1)
             {
                 StageManager.Instance.selectedTowers[idx] = DataManager.Instance.towerDict[selectedTower.id].upgradeTo;
@@ -129,5 +131,17 @@ public class UI_UpgradeTower : UI
     public void OnClickResultExit()
     {
         upgradeResult.SetActive(false);
+    }
+
+    private void SendAnalytics()
+    {
+        Debug.Log(StageManager.Instance.GetFloorNum());
+        
+        AnalyticsManager.SendEvent("TOWER_UPGRADE", new Dictionary<string, object>
+        {
+            { "TOWER_TYPE", DataManager.Instance.towerDict[selectedTower.id].name },
+            { "STAGE_NUMBER", StageManager.Instance.GetStageNum() },
+            { "FLOOR_NUMBER", StageManager.Instance.GetFloorNum() }
+        });
     }
 }

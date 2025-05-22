@@ -203,4 +203,9 @@ public class Floor : MonoBehaviour
         Debug.Log("<color=green>웨이브 종료</color>");
         isWaveEnd = true;
     }
+
+    public int GetCurWave()
+    {
+        return curWave;
+    }
 }

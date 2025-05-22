@@ -76,11 +76,70 @@ public class StageManager : Singleton<StageManager>
     {
         OnPlayerHpChanged.RaiseEvent(hp);
         OnFloorCountChanged.RaiseEvent(1);
+        SendAnalytics("STAGE_STARTED");
     }
 
     private void Update()
     {
         timer += Time.deltaTime;
+    }
+
+    public void SendAnalytics(string eventName, bool playerQuit = false)
+    {
+        var eventData = BuildBaseAnalyticsData();
+
+        switch (eventName)
+        {
+            case "STAGE_STARTED":
+                AppendStageStartData(eventData);
+                break;
+            case "STAGE_CLEARED":
+                AppendStageClearData(eventData);
+                break;
+            case "STAGE_FAILED":
+                AppendStageFailData(eventData, playerQuit);
+                break;
+        }
+
+        AnalyticsManager.SendEvent(eventName, eventData);
+    }
+
+    private Dictionary<string, object> BuildBaseAnalyticsData()
+    {
+        var data = new Dictionary<string, object>
+        {
+            { "STAGE_NUMBER", stageIndex + 1 },
+        };
+
+        for (int i = 0; i < 5; i++)
+        {
+            string key = $"TOWER_TYPE_USED_{i + 1}";
+            string value = (i < selectedTowers.Count) ? DataManager.Instance.towerDict[selectedTowers[i]].name : "None";
+            data.Add(key, value);
+        }
+
+        return data;
+    }
+
+    private void AppendStageStartData(Dictionary<string, object> data)
+    {
+        data.Add("PLAYER_HASGOLD", SaveManager.Instance.playerData.gold);
+    }
+
+    private void AppendStageClearData(Dictionary<string, object> data)
+    {
+        data.Add("HAS_ARTIFACT", abilityManager.allAbilities.Values.Count);
+    }
+
+    private void AppendStageFailData(Dictionary<string, object> data, bool playerQuit)
+    {
+        AppendStageClearData(data); // 공통 필드
+
+        float remainGoals = 1f - (float)floorCount / maxFloor;
+        data.Add("REMAIN_GOALS", remainGoals);
+        data.Add("FLOOR_NUMBER", floorCount + 1);
+        data.Add("WAVE_NUMBER", CurFloor?.GetCurWave() + 1 ?? -1);
+        data.Add("DID_PLAYER_QUIT", playerQuit);
     }
 
     void Init()
@@ -197,6 +256,11 @@ public class StageManager : Singleton<StageManager>
                     break;
             }
         }
+    }
+
+    public int GetStageNum()
+    {
+        return stageIndex;
     }
 
     public int GetFloorNum()
@@ -491,6 +555,11 @@ public class StageManager : Singleton<StageManager>
         Debug.Log("<color=white>스테이지 종료</color>");
 
         bool isSuccess = floorCount >= maxFloor;
+        
+        string eventName = isSuccess ? "STAGE_CLEARED" : "STAGE_FAILED";
+
+        SendAnalytics(eventName);
+        
         UIManager.Instance.ShowUI<UI_StageResult>().Init(isSuccess, (int)timer, floorCount, GetReward());
         if (isSuccess)
             SaveManager.Instance.playerData.AddStage(SaveManager.Instance.playerData.selectedStageIndex + 1);
