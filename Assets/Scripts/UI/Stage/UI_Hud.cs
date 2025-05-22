@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class UI_Hud : UI
 {
+    [SerializeField] private RectTransform floorInfoBackgroundRect;
     [SerializeField] private TextMeshProUGUI floorText;
     [SerializeField] private TextMeshProUGUI waveText;
     [SerializeField] private TextMeshProUGUI monsterCountText;
@@ -100,6 +101,8 @@ public class UI_Hud : UI
     void SetMonsterCountText(int monsterCount)
     {
         monsterCountText.text = monsterCount.ToString();
+        
+        LayoutRebuilder.ForceRebuildLayoutImmediate(floorInfoBackgroundRect);
     }
 
     public override void Clear()

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Tilemaps;
@@ -104,6 +105,9 @@ public class Floor : MonoBehaviour
 
     IEnumerator ProgressWave()
     {
+        monsterCnt = waveData.spawnCount.Sum();
+        OnMonsterCountChanged.RaiseEvent(waveData.spawnCount.Sum());
+
         for (int i = 0; i < waveData.enemyID.Count; i++)
         {
             for (int j = 0; j < waveData.spawnCount[i]; j++)
@@ -123,7 +127,6 @@ public class Floor : MonoBehaviour
         GameObject monster = Resources.Load<GameObject>($"Prefabs/Monsters/Enemy_{monsterID}");
         MonsterBase spawnedMonster = PoolManager.Instance.Get(monster).GetComponent<MonsterBase>();
         spawnedMonster.Init(monsterID, path.pathPoints, path.startPos, this);
-        AddMonsterCount(1);
         
         Debug.Log("<color=red>몬스터 스폰함</color>");
     }
@@ -141,12 +144,6 @@ public class Floor : MonoBehaviour
     public void AddTowerInfo(BaseTower tower)
     {
         spawnTowerList.Add(tower);
-    }
-
-    public void AddMonsterCount(int count)
-    {
-        monsterCnt += count;
-        OnMonsterCountChanged.RaiseEvent(monsterCnt);
     }
 
     public void SubrtactMonsterCount(int count)
