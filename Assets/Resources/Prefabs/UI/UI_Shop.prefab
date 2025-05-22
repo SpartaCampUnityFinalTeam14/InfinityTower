@@ -2538,6 +2538,7 @@ MonoBehaviour:
   textFloor: {fileID: 4805725482735087888}
   textToken: {fileID: 1066791945030585682}
   btnAbility: {fileID: 229747260219129050}
+  refreshCnt: 3
   ParentItems: {fileID: 3150381703589708991}
   btnRefresh: {fileID: 2870084036224338049}
   btnUpgrade: {fileID: 0}

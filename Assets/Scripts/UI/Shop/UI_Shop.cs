@@ -11,6 +11,7 @@ public class UI_Shop : UI
     [SerializeField] TextMeshProUGUI textFloor;
     [SerializeField] TextMeshProUGUI textToken;
     [SerializeField] Button btnAbility;
+    [SerializeField] int refreshCnt;
 
     [Header("Middle")]
     [SerializeField] Transform ParentItems;
@@ -30,7 +31,7 @@ public class UI_Shop : UI
 
     [SerializeField] private EventChannel OnFloorStarted;
 
-    private int refreshCnt;
+    
 
     public override void Show()
     {
@@ -42,8 +43,7 @@ public class UI_Shop : UI
         UpdateFloor(manager.GetFloorNum() + 1);
         UpdateToken(manager.token);
         UpdateItemList();
-
-        refreshCnt = 100;
+        
         popup_Item.gameObject.SetActive(false);
     }
 

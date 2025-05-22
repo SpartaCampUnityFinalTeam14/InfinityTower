@@ -4599,7 +4599,7 @@ MonoBehaviour:
   Title_UpgradeStat: {fileID: 2243289485762123667}
   Value_OriginStat: {fileID: 5523890417559071251}
   Value_UpgradeStat: {fileID: 3019460862006969502}
-  upgradeCost: {fileID: 6279347046658240305}
+  upgradeCost: {fileID: 3000662286665467647}
 --- !u!1 &8675954927452786760
 GameObject:
   m_ObjectHideFlags: 0
