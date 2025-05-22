@@ -47,6 +47,11 @@ public class MonsterBase : Poolable, ISkillUser, IBuffable
             InitAbilityStat();
     }
 
+    private void OnDisable()
+    {
+        RemoveAbilityStat();
+    }
+
     public virtual void Init(int id, List<Vector3> path, Transform startPos, Floor floor)
     {
         this.floor = floor;
@@ -55,6 +60,7 @@ public class MonsterBase : Poolable, ISkillUser, IBuffable
 
         currentHP = (int)GetFinalStatValue(StatType.HP);
         moveSpeed = GetFinalStatValue(StatType.moveSpeed);
+
         defense = GetFinalStatValue(StatType.armor);
 
         nowEffectedDict = new Dictionary<int, int>();
@@ -344,6 +350,27 @@ public class MonsterBase : Poolable, ISkillUser, IBuffable
                 }
             }
         }
+    }
+
+    private void RemoveAbilityStat()
+    {
+        var list = StageManager.Instance.abilityManager.GetAbilities((int)TargetType.Enemy);
+
+        foreach (Ability ability in list)
+        {
+            if (ability.Data.targetID.Count <= 0 || ability.Data.targetID.Contains(this.data.id))
+            {
+                for (int i = 0; i < ability.Data.valueType.Count; i++)
+                {
+                    if (AddModifierStat.TryGetValue(ability.Data.valueType[i], out float value))
+                    {
+                        value -= ability.Data.value[i];
+                        MathF.Max(value, 0f);
+                    }
+                }
+            }
+        }
+
     }
 
     public string GetName()

@@ -12,18 +12,22 @@ public class UI_UpgradeTower : UI
 
     [Header("UpgradeInfo")]
     [SerializeField] GameObject upgradeInfo;
-    [SerializeField] TextMeshProUGUI infoName_befor;
-    [SerializeField] Image infoIcon_befor;
-    [SerializeField] TextMeshProUGUI infoName_after;
-    [SerializeField] Image infoIcon_after;
-    [SerializeField] TextMeshProUGUI upgradeCost;
+    [SerializeField] TextMeshProUGUI infoName_Origin;
+    [SerializeField] TextMeshProUGUI infoName_Upgrade;
+    [SerializeField] Image infoIcon_Origin;
+    [SerializeField] Image infoIcon_Upgrade;
 
     [Header("UpgradeResult")]
     [SerializeField] GameObject upgradeResult;
-    [SerializeField] TextMeshProUGUI resultName_befor;
-    [SerializeField] Image resultIcon_befor;
-    [SerializeField] TextMeshProUGUI resultName_after;
-    [SerializeField] Image resultIcon_after;
+    [SerializeField] TextMeshProUGUI resultName_Origin;
+    [SerializeField] TextMeshProUGUI resultName_Upgrade;
+    [SerializeField] Image resultIcon_Origin;
+    [SerializeField] Image resultIcon_Upgrade;
+    [SerializeField] TextMeshProUGUI Title_OriginStat;
+    [SerializeField] TextMeshProUGUI Title_UpgradeStat;
+    [SerializeField] TextMeshProUGUI Value_OriginStat;
+    [SerializeField] TextMeshProUGUI Value_UpgradeStat;
+    [SerializeField] TextMeshProUGUI upgradeCost;
 
     TowerData selectedTower;
 
@@ -40,18 +44,19 @@ public class UI_UpgradeTower : UI
         foreach (var towerID in StageManager.Instance.selectedTowers)
         {
             towerList[idx].Init(DataManager.Instance.towerDict[towerID]);
-            towerList[idx].OnClickIcon += ShowUpgradeInfo;
+            towerList[idx].OnClickIcon += ShowUpgradeResult;
             idx++;
         }
 
         textBook.text = StageManager.Instance.book.ToString();
 
-        upgradeInfo.SetActive(false);
+        //upgradeInfo.SetActive(false);
+        upgradeResult.SetActive(false);
     }
 
-    void ShowUpgradeInfo(TowerData data)
+    void ShowUpgradeInfo(TowerData originData)
     {
-        if (data.upgradeTo == -1) // 타워가 이미 최종 단계일 경우
+        if (originData.upgradeTo == -1) // 타워가 이미 최종 단계일 경우
         {
             UIManager.Instance.ShowUI<UI_Alert>().Alert("이미 최종 단계입니다.");
             upgradeInfo.SetActive(false);
@@ -62,36 +67,72 @@ public class UI_UpgradeTower : UI
 
         upgradeInfo.SetActive(true);
 
-        TowerData upgradeTower = DataManager.Instance.towerDict[data.upgradeTo];
+        TowerData upgradeTower = DataManager.Instance.towerDict[originData.upgradeTo];
 
-        infoName_befor.text = data.name;
-        infoName_after.text = upgradeTower.name;
+        // 타워 이름 업데이트
+        infoName_Origin.text = originData.name;
+        infoName_Upgrade.text = upgradeTower.name;
 
-        var icon = Resources.Load<Sprite>($"Icons/Tower/Tower_{data.id}");
-        if (icon) infoIcon_befor.sprite = icon;
+        // 타워 아이콘 업데이트
+        var icon = Resources.Load<Sprite>($"Icons/Tower/Tower_{originData.id}");
+        if (icon) infoIcon_Origin.sprite = icon;
 
         icon = Resources.Load<Sprite>($"Icons/Tower/Tower_{upgradeTower.id}");
-        if (icon) infoIcon_after.sprite = icon;
+        if (icon) infoIcon_Upgrade.sprite = icon;
 
-        upgradeCost.text = $"-{(data.id % 3) + 2}";
+        upgradeCost.text = $"-{(originData.id % 3) + 2}";
 
-        selectedTower = data;
+        selectedTower = originData;
     }
 
-    void ShowUpgradeResult(TowerData data)
+    void ShowUpgradeResult(TowerData originData)
     {
+        // 타워가 이미 최종 단계일 경우
+        if (originData.upgradeTo == -1) 
+        {
+            UIManager.Instance.ShowUI<UI_Alert>().Alert("이미 최종 단계입니다.");
+            upgradeInfo.SetActive(false);
+            selectedTower = null;
+
+            return;
+        }
+
+        selectedTower = originData;
+        TowerData upgradeData = DataManager.Instance.towerDict[originData.upgradeTo];
+
+        // 타워 이름 업데이트
+        resultName_Origin.text = originData.name;
+        resultName_Upgrade.text = upgradeData.name;
+
+        // 타워 아이콘 업데이트
+        var icon = Resources.Load<Sprite>($"Icons/Tower/Tower_{originData.id}");
+        if (icon) resultIcon_Origin.sprite = icon;
+
+        icon = Resources.Load<Sprite>($"Icons/Tower/Tower_{upgradeData.id}");
+        if (icon) resultIcon_Upgrade.sprite = icon;
+
+        // Tower Stat Update
+        Title_OriginStat.text = string.Empty;
+        Title_UpgradeStat.text = string.Empty;
+        Value_OriginStat.text = string.Empty;
+        Value_UpgradeStat.text = string.Empty;
+
+        for (int i = 0; i < originData.statType.Count; i++)
+        {
+            Title_OriginStat.text += DataManager.Instance.statusDict[originData.statType[i]].name + '\n';
+            Value_OriginStat.text += originData.statValue[i].ToString("N1") + '\n';
+        }
+
+        for (int i = 0; i < upgradeData.statType.Count; i++)
+        {
+            Title_UpgradeStat.text += DataManager.Instance.statusDict[upgradeData.statType[i]].name + '\n';
+            Value_UpgradeStat.text += upgradeData.statValue[i].ToString("N1") + '\n';
+        }
+
+        // Cost Text Update
+        upgradeCost.text = $"-{(originData.id % 3) + 2}";
+
         upgradeResult.SetActive(true);
-
-        TowerData upgradeTower = DataManager.Instance.towerDict[data.upgradeTo];
-
-        resultName_befor.text = data.name;
-        resultName_after.text = upgradeTower.name;
-
-        var icon = Resources.Load<Sprite>($"Icons/Tower/Tower_{data.id}");
-        if (icon) resultIcon_befor.sprite = icon;
-
-        icon = Resources.Load<Sprite>($"Icons/Tower/Tower_{upgradeTower.id}");
-        if (icon) resultIcon_after.sprite = icon;
     }
 
     public void OnClickUpgrade()
@@ -108,17 +149,15 @@ public class UI_UpgradeTower : UI
             if (idx != -1)
             {
                 StageManager.Instance.selectedTowers[idx] = DataManager.Instance.towerDict[selectedTower.id].upgradeTo;
-
-                ShowUpgradeResult(selectedTower);
-                Init();
+                //ShowUpgradeResult(selectedTower);
             }
+
+            OnClickResultExit();
         }
         else
         {
             UIManager.Instance.ShowUI<UI_Alert>().Alert("전직의 서가 부족합니다.");
         }
-
-
     }
 
     public void OnClickExitButton()
@@ -128,6 +167,8 @@ public class UI_UpgradeTower : UI
 
     public void OnClickResultExit()
     {
+        Init();
+
         upgradeResult.SetActive(false);
     }
 }

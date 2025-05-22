@@ -21,17 +21,17 @@ public class Ability
         stack = 1;
     }
 
-    public bool TryAddStack(int cnt = 1)
+    public bool TryAddStack(int num = 1)
     {
-        if (data.stackLimit < stack + cnt)
+        if (data.stackLimit < stack + num)
             return false;
 
-        stack += cnt;
+        stack += num;
         return true;
     }
 
-    public void SubStack(int cnt = 1)
+    public void SubStack(int num = 1)
     {
-        stack -= cnt;
+        stack -= num;
     }
 }

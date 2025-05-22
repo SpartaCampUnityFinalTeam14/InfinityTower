@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEngine.Rendering.VirtualTexturing.Debugging;
 
 public class AbilityManager
 {
@@ -77,7 +78,8 @@ public class AbilityManager
                 }
 
                 // 보유 특성 스택이 최대면 가챠 풀에서 제거
-                RemoveAbilityInGachaPool(data);
+                if (DataManager.Instance.abilityDict[data.perkID].stackLimit <= allAbilities[data.perkID].CurStack)
+                    abilityGachaPool[data.rarity].Remove(data.perkID);
             }
         }
     }
@@ -88,6 +90,13 @@ public class AbilityManager
         {
             // 특성 스택 제거
             allAbilities[data.perkID].SubStack(1);
+
+            // 캐릭터 관련 특성이라면 스테이지 매니져의 특성계수 삭제
+            if (data.targetType.Equals((int)TargetType.Player))
+            {
+                for (int i = 0; i < data.valueType.Count; i++)
+                    StageManager.Instance.RemoveAbilityMultiplier(data.valueType[i], data.value[i]);
+            }
 
             // 특성이 없을 때 삭제
             if (allAbilities[data.perkID].CurStack <= 0)

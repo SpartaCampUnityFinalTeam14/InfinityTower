@@ -19,12 +19,18 @@ public class UI_Shop : UI
     [SerializeField] Button btnExit;
     [SerializeField] List<ShopItem> itemList_Ablity;
     [SerializeField] int itemAmount;
+    [SerializeField] TextMeshProUGUI textRefresh;
 
     [Header("Common Item")]
     [SerializeField] ShopItem item_ClassBook;
     [SerializeField] ShopItem item_Potion;
 
+    [Header("Popup ItemInfo")]
+    public Popup_ItemInfo popup_Item;
+
     [SerializeField] private EventChannel OnFloorStarted;
+
+    private int refreshCnt;
 
     public override void Show()
     {
@@ -36,6 +42,9 @@ public class UI_Shop : UI
         UpdateFloor(manager.GetFloorNum() + 1);
         UpdateToken(manager.token);
         UpdateItemList();
+
+        refreshCnt = 100;
+        popup_Item.gameObject.SetActive(false);
     }
 
     public void UpdateHealth(float health, float maxHealth)
@@ -80,6 +89,15 @@ public class UI_Shop : UI
 
     public void OnClickRefresh()
     {
+        if (refreshCnt == 0)
+        {
+            UIManager.Instance.ShowUI<UI_Alert>().Alert("새로고침 횟수가 부족합니다.");
+            return;
+        }
+
+        refreshCnt--;
+
+        textRefresh.text = $"새로고침 {refreshCnt} / 3";
         UpdateItemList();
     }
 

@@ -54,10 +54,8 @@ public class UI_FloorLoading : UI
 
         seq.AppendCallback(() => anim.SetTrigger("Move"));
         seq.Append(playerRect.DOMove(middlePos.position, moveDuration).SetEase(Ease.Linear));
-        //seq.AppendInterval(moveDuration);
-
         seq.Append(playerRect.DOMove(endPos.position, moveDuration).SetEase(Ease.Linear));
-        seq.AppendInterval(moveDuration + endDelay);
+        seq.AppendInterval(endDelay);
 
         seq.Append(canvasGroup.DOFade(0f, fadeInDuration).OnComplete(() =>
         {

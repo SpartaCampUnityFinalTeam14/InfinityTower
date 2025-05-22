@@ -45,6 +45,8 @@ public abstract class BaseTower : Poolable, IBuffable
 
     private void OnDisable()
     {
+        RemoveAbilityStat();
+
         TilemapManager.Instance.UnregisterOccupiedCell(cellPos);
     }
 
@@ -201,6 +203,26 @@ public abstract class BaseTower : Poolable, IBuffable
                 }
             }
         }
+    }
+    private void RemoveAbilityStat()
+    {
+        var list = StageManager.Instance.abilityManager.GetAbilities((int)TargetType.Tower);
+
+        foreach (Ability ability in list)
+        {
+            if (ability.Data.targetID.Count <= 0 || ability.Data.targetID.Contains(towerData.id))
+            {
+                for (int i = 0; i < ability.Data.valueType.Count; i++)
+                {
+                    if (AddModifierStat.TryGetValue(ability.Data.valueType[i], out float value))
+                    {
+                        value -= ability.Data.value[i];
+                        MathF.Max(value, 0f);
+                    }
+                }
+            }
+        }
+        
     }
 
     protected void PlayAttackAnimation(Vector3 targetPos)

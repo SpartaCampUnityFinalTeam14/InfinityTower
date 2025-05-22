@@ -23,7 +23,7 @@ public class AbilityHandler
             handle.Add(data);
 
             // 타겟이 캐릭터인 경우 즉각 스테이지 매니져에 업데이트
-            if (type.Equals(TargetType.Player))
+            if (type.Equals((int)TargetType.Player))
             {
                 foreach (var ability in handle)
                 {
@@ -39,16 +39,6 @@ public class AbilityHandler
         if (abilities.TryGetValue(type, out var handle))
         {
             handle.Remove(data);
-
-            // 타겟이 캐릭터인 경우 즉각 스테이지 매니져에 업데이트
-            if (type.Equals(TargetType.Player))
-            {
-                foreach (var ability in handle)
-                {
-                    for (int i = 0; i < ability.Data.valueType.Count; i++)
-                        StageManager.Instance.RemoveAbilityMultiplier(ability.Data.valueType[i], ability.Data.value[i]);
-                }
-            }
         }
     }
 

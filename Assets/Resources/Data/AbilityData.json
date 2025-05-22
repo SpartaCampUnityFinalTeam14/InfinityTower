@@ -344,29 +344,8 @@
     },
     {
       "perkID": 18,
-      "name": "모 아니면 도",
-      "description": "클리어 보상 <b><color=#00FF66>+30%</color></b>\\n적 체력 <b><color=#CC3333>+25%</color></b>",
-      "valueType": [
-        9,
-        16
-      ],
-      "value": [
-        -0.25,
-        0.3
-      ],
-      "effectType": "",
-      "effectValue": "",
-      "projectile": "",
-      "targetType": 2,
-      "targetID": "",
-      "rarity": 1,
-      "stackLimit": 1,
-      "image": "risk_return"
-    },
-    {
-      "perkID": 19,
       "name": "무기 중량화",
-      "description": "공격력 <b><color=#00FF66>+30%</color></b>\\n공격속도 <b><color=#CC3333>-8%</color></b>",
+      "description": "공격력 <b><color=#00FF66>+30%</color></b>\n공격속도 <b><color=#CC3333>-8%</color></b>",
       "valueType": [
         0,
         2
@@ -385,9 +364,9 @@
       "image": "weapon_heavy"
     },
     {
-      "perkID": 20,
+      "perkID": 19,
       "name": "무기 경량화",
-      "description": "공격 속도 <b><color=#00FF66>+25%</color></b>\\n공격력 <b><color=#CC3333>-10%</color></b>",
+      "description": "공격 속도 <b><color=#00FF66>+25%</color></b>\n공격력 <b><color=#CC3333>-10%</color></b>",
       "valueType": [
         0,
         2

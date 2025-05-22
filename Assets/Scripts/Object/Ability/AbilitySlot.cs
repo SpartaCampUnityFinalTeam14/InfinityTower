@@ -13,12 +13,10 @@ public class AbilitySlot : MonoBehaviour
     [SerializeField] Button button;
     [SerializeField] TextMeshProUGUI title;
     [SerializeField] TextMeshProUGUI description;
-    [SerializeField] TextMeshProUGUI value;
     [SerializeField] Outline outline;
     [SerializeField] CanvasGroup canvasGroup;
     [SerializeField] Image icon;
     [SerializeField] float fadeDuration = 0.3f;
-    [SerializeField] Image background;
 
     public event Action<AbilitySlot> actionClick;
     public AbilityData Data { get; private set; }
@@ -32,36 +30,32 @@ public class AbilitySlot : MonoBehaviour
     {
         this.Data = data;
 
+        string hex = string.Empty;
         switch (data.rarity)
         {
             case (int)Rarity.Common:
-                background.color = Color.white;
+                hex = "#969696FF";
                 break;
             case (int)Rarity.Rare:
-                background.color = Color.blue;
+                hex = "#0096FFFF";
                 break;
             case (int)Rarity.Epic:
-                background.color = Color.magenta;
+                hex = "#9600FFFF";
                 break;
         }
+
+        if (ColorUtility.TryParseHtmlString(hex, out Color color))
+            outline.effectColor = color;
 
         title.text = data.name;
         description.text = data.description;
         icon.sprite = Resources.Load<Sprite>($"Icons/Ability/{Path.ChangeExtension(data.image, null)}");
 
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < data.valueType.Count; i++)
-        {
-            //sb.AppendLine($"{DataManager.Instance.abilityTypedict[data.valueType[i]].description} ({data.value[i]})");
-            //sb.AppendLine($"{DataManager.Instance.abilityTypedict[data.valueType[i]].description} ({data.value[i]})");
-        }
-        value.text = sb.ToString();
-
         // 슬롯 버튼 비활성
         button.enabled = false;
 
-        // 아웃라인 비활성
-        outline.enabled = false;
+        // 아웃라인
+        outline.enabled = true;
 
         // alpha값 초기화
         canvasGroup.alpha = 1f;
