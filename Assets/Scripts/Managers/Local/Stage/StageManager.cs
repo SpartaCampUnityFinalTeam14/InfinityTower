@@ -228,6 +228,7 @@ public class StageManager : Singleton<StageManager>
     {
         hp = Mathf.Max(hp - damage, 0);
         OnPlayerHpChanged.RaiseEvent(hp);
+        UIManager.Instance.GetUI<UI_Hud>().TakeDamage();
         if (hp <= 0) GameOver();
     }
 

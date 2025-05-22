@@ -1,9 +1,17 @@
+using DG.Tweening;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UI_Hud : UI
 {
+    [SerializeField] private Image damageImage;
+    [SerializeField] private Color startColor;
+    [SerializeField] private Color endColor;
+    private GameObject damageGO;
+    private Sequence damageSequence;
+
     [SerializeField] private RectTransform floorInfoBackgroundRect;
     [SerializeField] private TextMeshProUGUI floorText;
     [SerializeField] private TextMeshProUGUI waveText;
@@ -12,7 +20,7 @@ public class UI_Hud : UI
     [SerializeField] private TextMeshProUGUI hpText;
 
     [SerializeField] private Button speedButton;
-    [SerializeField] private TextMeshProUGUI speedText; 
+    [SerializeField] private TextMeshProUGUI speedText;
     [SerializeField] private Button pauseButton;
 
     [SerializeField] private FloatEventChannel OnCostChanged;
@@ -32,6 +40,9 @@ public class UI_Hud : UI
 
         UnSubscribe();
         Subscribe();
+
+        damageGO = damageImage.gameObject;
+        damageGO.SetActive(false);
     }
 
     void UnSubscribe()
@@ -85,7 +96,29 @@ public class UI_Hud : UI
 
     void SetHPText(int hp)
     {
+        if (hp < int.Parse(hpText.text.Split("/")[0]))
+        {
+            hpText.color = Color.red;
+            hpText.DOColor(Color.white, 0.3f).SetUpdate(true);
+            hpText.rectTransform.localScale = Vector3.one * 1.3f;
+            hpText.rectTransform.DOScale(Vector3.one, 0.3f).SetUpdate(true);
+        }
         hpText.text = $"{hp.ToString("N0")}/{StageManager.Instance.GetMaxHP()}";
+    }
+
+    public void TakeDamage()
+    {
+        damageGO.SetActive(true);
+        damageImage.color = startColor;
+
+        damageSequence?.Kill();
+
+        damageSequence = DOTween.Sequence().SetUpdate(true);
+        damageSequence
+            .Join(damageImage
+                .DOColor(endColor, 0.3f)
+                .OnComplete(() => damageGO.SetActive(false)))
+            .Join(Camera.main.DOShakePosition(0.2f, 0.3f));
     }
 
     void SetFloorText(int floorCount)
@@ -101,7 +134,7 @@ public class UI_Hud : UI
     void SetMonsterCountText(int monsterCount)
     {
         monsterCountText.text = monsterCount.ToString();
-        
+
         LayoutRebuilder.ForceRebuildLayoutImmediate(floorInfoBackgroundRect);
     }
 
