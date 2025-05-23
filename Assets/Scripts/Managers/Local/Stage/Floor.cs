@@ -110,23 +110,26 @@ public class Floor : MonoBehaviour
     void EndFloor()
     {
         Debug.Log("<color=cyan>플로어 종료</color>");
-        
+
         // ✅ 퍼널 이벤트: 플로어 클리어
         int floorIndex = StageManager.Instance.GetFloorNum();
         int funnelStep = Util.GetFunnelStepForFloorClear(floorIndex);
-        
+
         Debug.Log($"<color=cyan><UNK> 플로우 종료 {floorIndex}, {funnelStep} <UNK></color>");
-        
+
         AnalyticsManager.SendEvent("Funnel_Step", new Dictionary<string, object>
         {
             { "Funnel_Step_Number", funnelStep }
         });
-        
-        ReleaseTower();
+
         StageManager.Instance.ResetDropTowerCooldown();
 
         var ui = UIManager.Instance.ShowUI<UI_Wave>();
-        ui.ShowFloorClear(() => isFloorEnd = true);
+        ui.ShowFloorClear(() =>
+            {
+                isFloorEnd = true;
+                ReleaseTower();
+            });
     }
 
     public void StartWave(int index)
