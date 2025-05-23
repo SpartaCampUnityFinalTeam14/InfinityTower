@@ -29,15 +29,15 @@ public class TilemapManager : MonoBehaviour
 
         if (tile == null)
         {
-            Debug.Log(cellPos + " , 타일 없음");
+            //Debug.Log(cellPos + " , 타일 없음");
             return false;
         }
         if (occupiedCells.Contains(cellPos)) 
         {
-            Debug.Log(cellPos + " , 타일 이미 꽉 차 있음");
+            //Debug.Log(cellPos + " , 타일 이미 꽉 차 있음");
             return false; 
         }
-        Debug.Log(cellPos + " , 타일 있음");
+        //Debug.Log(cellPos + " , 타일 있음");
         return true;
     }
 

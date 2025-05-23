@@ -8,7 +8,6 @@ public class Projectile_DoTField : Projectile
     private float dotRadius;
 
     private Vector3 targetPos;
-    private bool hasExploded = false;
 
     public override void Init(ProjectileData data, ProjectileDataSO visual, float customDamage, BaseTower towerData)
     {

@@ -118,6 +118,8 @@ public class TowerSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (eventData.button != PointerEventData.InputButton.Left) return;
+
         if (!IsCostEnough())
         {
             Debug.LogWarning("❌ 코스트 부족으로 드래그 취소");
