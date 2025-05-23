@@ -309,7 +309,7 @@ public class MonsterBase : Poolable, ISkillUser, IBuffable
         }
         else if (statType == StatType.HP)
         {
-            Debug.Log("레벨스케일링 적용");
+            //Debug.Log("레벨스케일링 적용");
             return data.GetStat(statType) * (1 + GetAddModifierValue(statType)) * StageManager.Instance.monsterLevelScaling;
         }
         else

@@ -24,7 +24,8 @@ public class UI_Deck : MonoBehaviour, ScrollPanel
     [SerializeField] private IntEventChannel OnTowerSelected;
     [SerializeField] private IntEventChannel OnTowerSlotSelected;
     [SerializeField] private IntEventChannel OnChampionSelected;
-    
+    [SerializeField] private BoolEventChannel OnScrollStateChanged;
+
     private int selectedTowerIndex = -1;
 
     protected void Awake()
@@ -38,6 +39,7 @@ public class UI_Deck : MonoBehaviour, ScrollPanel
         towerSelectMaskButton.onClick.AddListener(() => 
         {
             towerSelectMask.SetActive(false);
+            OnScrollStateChanged.RaiseEvent(true);
             selectedTowerIndex = -1;
         });
 
@@ -104,6 +106,7 @@ public class UI_Deck : MonoBehaviour, ScrollPanel
     {
         selectedTowerIndex = index;
         towerSelectMask.SetActive(true);
+        OnScrollStateChanged.RaiseEvent(false);
     }
 
     void SelectedSlot(int index)
@@ -120,6 +123,7 @@ public class UI_Deck : MonoBehaviour, ScrollPanel
         selectedTowerIndex = -1;
 
         towerSelectMask.SetActive(false);
+        OnScrollStateChanged.RaiseEvent(true);
     }
 
     void SelectTower(int selectedPos, int selectedTowerIndex)
