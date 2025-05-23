@@ -142,4 +142,9 @@ public class UI_Hud : UI
     {
         UnSubscribe();
     }
+
+    private void OnDestroy()
+    {
+        UnSubscribe();
+    }
 }

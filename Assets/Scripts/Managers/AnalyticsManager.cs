@@ -20,7 +20,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         }
     }
 
-    private async void Awake()
+    protected override async void Awake()
     {
         base.Awake();
 

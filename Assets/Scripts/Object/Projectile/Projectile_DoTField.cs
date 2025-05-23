@@ -8,7 +8,6 @@ public class Projectile_DoTField : Projectile
     private float dotRadius;
 
     private Vector3 targetPos;
-    private bool hasExploded = false;
 
     public override void Init(ProjectileData data, ProjectileDataSO visual, float customDamage, BaseTower towerData)
     {
@@ -16,7 +15,7 @@ public class Projectile_DoTField : Projectile
 
         // 🧠 ProjectileData에서 장판 세팅
         dotDuration = data.dotDuration;
-        dotDamagePerTick = Mathf.Max(1, towerData.GetFinalStatValue(StatType.attackDamage) * 0.2f);
+        dotDamagePerTick = Mathf.Max(1, towerData.GetFinalStatValue(StatType.attackDamage) * 0.1f);
         dotTickInterval = data.dotTickInterval;
         dotRadius = data.dotRadius;
     }
