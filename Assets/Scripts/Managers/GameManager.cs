@@ -5,8 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
-    public bool isTutorialAlreadySeen;
-
     protected override void Awake()
     {
         base.Awake();

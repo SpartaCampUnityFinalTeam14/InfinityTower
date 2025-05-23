@@ -13,6 +13,7 @@ public abstract class ISaveLoader<Key, Value>
 [Serializable]
 public class PlayerData
 {
+    public bool isTutorialAlreadySeen;
     public int gold;
     public int selectedStageIndex;
     public List<int> playableStages;
@@ -22,6 +23,7 @@ public class PlayerData
 
     public PlayerData()
     {
+        isTutorialAlreadySeen = false;
         gold = 3500;
         selectedStageIndex = 0;
         playableStages = new() { 0 };
