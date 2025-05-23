@@ -1,0 +1,574 @@
+{
+    "data": [
+        {
+            "id": 0,
+            "name": "훈련병",
+            "description": "검을 휘둘러 적 한명에게 피해를 입힌다.\n3단계 전직 시 검에 불을 휘둘러 적에게 지속피해를 입힌다",
+            "targetType": 2,
+            "targetingRule": 0,
+            "isSplash": "FALSE",
+            "splashRadius": 0,
+            "projectileID": -1,
+            "effectID": "",
+            "effectValue": "",
+            "effectDuration": 0,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": [
+                13,
+                4,
+                0.4,
+                1,
+                7,
+                100
+            ],
+            "upgradeTo": 1,
+            "originalID": 0
+        },
+        {
+            "id": 1,
+            "name": "병사",
+            "description": "",
+            "targetType": 2,
+            "targetingRule": 0,
+            "isSplash": "FALSE",
+            "splashRadius": 0,
+            "projectileID": -1,
+            "effectID": "",
+            "effectValue": "",
+            "effectDuration": 0,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": [
+                20,
+                4,
+                0.4,
+                1,
+                7,
+                130
+            ],
+            "upgradeTo": 2,
+            "originalID": 0
+        },
+        {
+            "id": 2,
+            "name": "기사",
+            "description": "",
+            "targetType": 2,
+            "targetingRule": 0,
+            "isSplash": "FALSE",
+            "splashRadius": 0,
+            "projectileID": -1,
+            "effectID": [
+                1
+            ],
+            "effectValue": [
+                {
+                    "values" : [2,3,1]
+                }
+            ],
+            "effectDuration": 3,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": [
+                25,
+                4,
+                0.4,
+                1,
+                10,
+                200
+            ],
+            "upgradeTo": -1,
+            "originalID": 0
+        },
+        {
+            "id": 3,
+            "name": "훈련병(궁병)",
+            "description": "넓은 사거리를 이용해 적 한명에게 피해를 입힌다.\n3단계 전직 시 시야가 넓어져 사거리가 대폭 상승한다",
+            "targetType": 2,
+            "targetingRule": 0,
+            "isSplash": "FALSE",
+            "splashRadius": 0,
+            "projectileID": 0,
+            "effectID": "",
+            "effectValue": "",
+            "effectDuration": 0,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": [
+                12,
+                6,
+                0.333,
+                1,
+                10,
+                130
+            ],
+            "upgradeTo": 4,
+            "originalID": 3
+        },
+        {
+            "id": 4,
+            "name": "궁병",
+            "description": "",
+            "targetType": 2,
+            "targetingRule": 0,
+            "isSplash": "FALSE",
+            "splashRadius": 0,
+            "projectileID": 0,
+            "effectID": "",
+            "effectValue": "",
+            "effectDuration": 0,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": [
+                15,
+                6,
+                0.333,
+                1,
+                10,
+                150
+            ],
+            "upgradeTo": 5,
+            "originalID": 3
+        },
+        {
+            "id": 5,
+            "name": "명사수",
+            "description": "",
+            "targetType": 2,
+            "targetingRule": 3,
+            "isSplash": "FALSE",
+            "splashRadius": 0,
+            "projectileID": 4,
+            "effectID": "",
+            "effectValue": "",
+            "effectDuration": 0,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": [
+                25,
+                9,
+                0.4,
+                1,
+                12,
+                220
+            ],
+            "upgradeTo": -1,
+            "originalID": 3
+        },
+        {
+            "id": 6,
+            "name": "견습 검사",
+            "description": "단검을 휘둘러 사거리는 짧으나 한 번에 두명의 적을 공격한다.\n3단계 전직 시 적 세명을 한 번에 공격한다",
+            "targetType": 2,
+            "targetingRule": 0,
+            "isSplash": "FALSE",
+            "splashRadius": 0,
+            "projectileID": -1,
+            "effectID": "",
+            "effectValue": "",
+            "effectDuration": 0,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": [
+                12,
+                3,
+                0.6,
+                1,
+                10,
+                150
+            ],
+            "upgradeTo": 7,
+            "originalID": 6
+        },
+        {
+            "id": 7,
+            "name": "검사",
+            "description": "",
+            "targetType": 2,
+            "targetingRule": 0,
+            "isSplash": "FALSE",
+            "splashRadius": 0,
+            "projectileID": -1,
+            "effectID": "",
+            "effectValue": "",
+            "effectDuration": 0,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": [
+                18,
+                3,
+                0.6,
+                1,
+                13,
+                190
+            ],
+            "upgradeTo": 8,
+            "originalID": 6
+        },
+        {
+            "id": 8,
+            "name": "검성",
+            "description": "",
+            "targetType": 2,
+            "targetingRule": 0,
+            "isSplash": "FALSE",
+            "splashRadius": 0,
+            "projectileID": -1,
+            "effectID": "",
+            "effectValue": "",
+            "effectDuration": 0,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": [
+                22,
+                3,
+                0.85,
+                1,
+                20,
+                270
+            ],
+            "upgradeTo": -1,
+            "originalID": 6
+        },
+        {
+            "id": 9,
+            "name": "오크",
+            "description": "방망이를 휘둘러 느리지만 강력한 한 방을 노린다.\n3단계 전직 시 방패를 내리쳐 적 주위에도 피해를 입힌다 ",
+            "targetType": 2,
+            "targetingRule": 3,
+            "isSplash": "FALSE",
+            "splashRadius": 0,
+            "projectileID": -1,
+            "effectID": "",
+            "effectValue": "",
+            "effectDuration": 0,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": [
+                30,
+                3,
+                0.333,
+                1,
+                12,
+                170
+            ],
+            "upgradeTo": 10,
+            "originalID": 9
+        },
+        {
+            "id": 10,
+            "name": "오크 병사",
+            "description": "",
+            "targetType": 2,
+            "targetingRule": 3,
+            "isSplash": "FALSE",
+            "splashRadius": 0,
+            "projectileID": -1,
+            "effectID": "",
+            "effectValue": "",
+            "effectDuration": 0,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": [
+                35,
+                3,
+                0.333,
+                1,
+                15,
+                200
+            ],
+            "upgradeTo": 11,
+            "originalID": 9
+        },
+        {
+            "id": 11,
+            "name": "오크 근위병",
+            "description": "",
+            "targetType": 2,
+            "targetingRule": 3,
+            "isSplash": "TRUE",
+            "splashRadius": 2,
+            "projectileID": -1,
+            "effectID": "",
+            "effectValue": "",
+            "effectDuration": 0,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": [
+                35,
+                3,
+                0.333,
+                3,
+                18,
+                300
+            ],
+            "upgradeTo": -1,
+            "originalID": 9
+        },
+        {
+            "id": 12,
+            "name": "마법부 학생",
+            "description": "마법을 사용해 적 주위에도 피해를 준다.\n3단계 전직 시 얼음 마법을 사용해 적의 이동속도를 느리게 한다",
+            "targetType": 2,
+            "targetingRule": 0,
+            "isSplash": "TRUE",
+            "splashRadius": 1,
+            "projectileID": 1,
+            "effectID": "",
+            "effectValue": "",
+            "effectDuration": 0,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": [
+                15,
+                4,
+                0.333,
+                1,
+                10,
+                160
+            ],
+            "upgradeTo": 13,
+            "originalID": 12
+        },
+        {
+            "id": 13,
+            "name": "마법사",
+            "description": "",
+            "targetType": 2,
+            "targetingRule": 0,
+            "isSplash": "TRUE",
+            "splashRadius": 1.5,
+            "projectileID": 1,
+            "effectID": "",
+            "effectValue": "",
+            "effectDuration": 0,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": [
+                18,
+                4,
+                0.333,
+                1,
+                10,
+                200
+            ],
+            "upgradeTo": 14,
+            "originalID": 12
+        },
+        {
+            "id": 14,
+            "name": "마법 교수",
+            "description": "",
+            "targetType": 2,
+            "targetingRule": 0,
+            "isSplash": "TRUE",
+            "splashRadius": 2,
+            "projectileID": -1,
+            "effectID": [
+                0
+            ],
+            "effectValue": [
+                {
+                    "values" : [0.3,3,1]
+                }
+            ],
+            "effectDuration": 2,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": [
+                27,
+                4,
+                0.4,
+                1,
+                20,
+                280
+            ],
+            "upgradeTo": -1,
+            "originalID": 12
+        },
+        {
+            "id": 15,
+            "name": "약사",
+            "description": "독약을 제조해 적 발 밑에 뿌려 피해를 입힌다.\n3단계 전직 시 맹독을 칼날에 발라 적에게 흩뿌린다",
+            "targetType": 2,
+            "targetingRule": 0,
+            "isSplash": "FALSE",
+            "splashRadius": 0,
+            "projectileID": 2,
+            "effectID": "",
+            "effectValue": "",
+            "effectDuration": 0,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": [
+                10,
+                4,
+                0.36,
+                1,
+                15,
+                150
+            ],
+            "upgradeTo": 16,
+            "originalID": 15
+        },
+        {
+            "id": 16,
+            "name": "독 제조사",
+            "description": "",
+            "targetType": 2,
+            "targetingRule": 0,
+            "isSplash": "FALSE",
+            "splashRadius": 0,
+            "projectileID": 2,
+            "effectID": "",
+            "effectValue": "",
+            "effectDuration": 0,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": [
+                12,
+                4,
+                0.36,
+                1,
+                15,
+                200
+            ],
+            "upgradeTo": 17,
+            "originalID": 15
+        },
+        {
+            "id": 17,
+            "name": "역병 의사",
+            "description": "",
+            "targetType": 2,
+            "targetingRule": 3,
+            "isSplash": "FALSE",
+            "splashRadius": 0,
+            "projectileID": 3,
+            "effectID": "",
+            "effectValue": "",
+            "effectDuration": 0,
+            "statType": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "statValue": [
+                20,
+                4,
+                0.43,
+                1,
+                20,
+                275
+            ],
+            "upgradeTo": -1,
+            "originalID": 15
+        }
+    ]
+}

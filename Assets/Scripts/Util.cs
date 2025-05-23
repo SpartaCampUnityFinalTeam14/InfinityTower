@@ -1,5 +1,11 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using TMPro;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public static class Util
 {
@@ -9,7 +15,7 @@ public static class Util
     }
 
     /// <summary>
-    /// Resources/Prefab Æú´õ ³»ÀÇ ÁöÁ¤µÈ °æ·Î¿¡¼­ PrefabÀ» ·ÎµåÇÏ¿© ÇÏÀÌ¾î¶óÅ°¿¡ Ãß°¡ÇÕ´Ï´Ù.
+    /// Resources/Prefabs í´ë” ë‚´ì˜ ì§€ì •ëœ ê²½ë¡œì—ì„œ Prefabì„ ë¡œë“œí•˜ì—¬ í•˜ì´ì–´ë¼í‚¤ì— ì¶”ê°€í•©ë‹ˆë‹¤.
     /// </summary>
     public static GameObject InstantiatePrefab(string path, Vector3 position = default, Quaternion rotation = default, Transform parent = null)
     {
@@ -24,7 +30,7 @@ public static class Util
     }
 
     /// <summary>
-    /// Resources/Prefab Æú´õ ³»ÀÇ ÁöÁ¤µÈ °æ·Î¿¡¼­ PrefabÀ» ·ÎµåÇÏ¿© Ãß°¡µÈ ÇÏÀÌ¾î¶óÅ°ÀÇ ÄÄÆ÷³ÍÆ®¸¦ °¡Á®¿É´Ï´Ù.
+    /// Resources/Prefabs í´ë” ë‚´ì˜ ì§€ì •ëœ ê²½ë¡œì—ì„œ Prefabì„ ë¡œë“œí•˜ì—¬ ì¶”ê°€ëœ í•˜ì´ì–´ë¼í‚¤ì˜ ì»´í¬ë„ŒíŠ¸ë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤.
     /// </summary>
     public static T InstantiatePrefabAndGetComponent<T>(string path, Vector3 position = default, Quaternion rotation = default, Transform parent = null) where T : Component
     {
@@ -34,5 +40,61 @@ public static class Util
             throw new InvalidOperationException($"Prefab instantiated but component of type {typeof(T)} not found in {path}");
         }
         return comp;
+    }
+
+    public static string FormatTimeMMSS(int seconds)
+    {
+        return $"{seconds / 60:D2}:{seconds % 60:D2}";
+    }
+
+    public static bool IsPointerOverUIObject(GameObject uiObject = null)
+    {
+        PointerEventData eventData = new(EventSystem.current) { position = Input.mousePosition };
+        List<RaycastResult> results = new();
+        EventSystem.current.RaycastAll(eventData, results);
+        if (results.Count == 0) return false;
+        if (uiObject == null) return results.Count > 0;
+        return results[0].gameObject == uiObject;
+    }
+    
+    // ì›¨ì´ë¸Œ ì‹œì‘
+    public static int GetFunnelStepForWave(int floor, int wave)
+    {
+        return (floor + 1) * 100 + (wave + 1); // floor 0, wave 0 â†’ 101
+    }
+
+    // í”Œë¡œì–´ í´ë¦¬ì–´
+    public static int GetFunnelStepForFloorClear(int floor)
+    {
+        return (floor + 1) * 100 + 99;
+    }
+
+    // ìƒì  ì§„ì…
+    public static int GetFunnelStepForShopEntry(int floor)
+    {
+        return (floor + 1) * 100 - 23; // ex: floor 0 â†’ 177
+    }
+
+    // í”Œë¡œì–´ ì‹œì‘
+    public static int GetFunnelStepForFloorStart(int floor)
+    {
+        return (floor + 1) * 100;
+    }
+
+    // ì´ë²¤íŠ¸ ì§„ì… ë° ì„ íƒ (í”Œë¡œì–´ 2, 4)
+    public static int GetFunnelStepForEventSelect(int floor)
+    {
+        return (floor) * 100 + 88;
+    }
+
+    public static int GetFinalResultStep() => 9;
+
+    public static void CloseGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 }

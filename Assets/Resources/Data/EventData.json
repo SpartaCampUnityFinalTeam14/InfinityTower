@@ -1,0 +1,55 @@
+{
+    "data": [
+      {
+        "id": 0,
+        "title": "구원 요청",
+        "type": 0,
+        "description": "우리는 탐색 도중 한 무리의 사람들을 만났다. 그들은 우리에게 도움을 요청하며, 도와줄 시 그에 따른 보상을 해준다고 말한다.",
+        "choiceTitle": "도와줘야 하나?",
+        "choice1": "도와준다",
+        "choice2": "놔두고 갈길간다",
+        "choice3": null,
+        "choice1ID": 0,
+        "choice2ID": 1,
+        "choice3ID": null,
+        "rewardType": null,
+        "reward": null,
+        "image": null,
+        "result": null
+      },
+      {
+        "id": 1,
+        "title": "수상한 상자",
+        "type": 3,
+        "description": "오두막안에 누군가 버린 듯한 수상한 상자가 있다. 안에 뭐가 있는 것 같은데?",
+        "choiceTitle": "열어볼까?",
+        "choice1": "열어본다\n(80% 확률로 성공)",
+        "choice2": "그냥 지나가자",
+        "choice3": null,
+        "choice1ID": 10000,
+        "choice2ID": 8,
+        "choice3ID": null,
+        "rewardType": null,
+        "reward": null,
+        "image": "Box",
+        "result": null
+      },
+      {
+        "id": 2,
+        "title": "점술가",
+        "type": 0,
+        "description": "층을 탐색하던 도중 한 점술가를 만났다.\n점술가는 여러 카드를 보여주며 우리의 운명이 좋지않을 거라 말하며, 자신이 주는 부적을 가져가거나 아니면 카드를 바꿔 운명을 바꿔보라 말했다.",
+        "choiceTitle": "어떻게 할까…",
+        "choice1": "좋아, 가져가지",
+        "choice2": "카드를 바꾼다",
+        "choice3": "이거 사기꾼 아냐?",
+        "choice1ID": 9,
+        "choice2ID": 10,
+        "choice3ID": 11,
+        "rewardType": null,
+        "reward": null,
+        "image": "FortuneTeller",
+        "result": null
+      }
+    ]
+    }

@@ -1,0 +1,50 @@
+{
+  "data": [
+    {
+      "id": 0,
+      "name": "체인 라이트닝",
+      "description": "여러 명에게 번개",
+      "coolTime": 15.0,
+      "multiplier": 1.2,
+      "skillType": 0,
+      "visualId": "ChainLightning",
+      "attackType": 0,
+      "effectID": [],
+      "effectValue": []
+    },
+    {
+      "id": 1,
+      "name": "메테오",
+      "description": "범위 피해",
+      "coolTime": 30.0,
+      "multiplier": 2,
+      "skillType": 1,
+      "range": 3,
+      "visualId": "Meteor",
+      "attackType": 0,
+      "effectID": [],
+      "effectValue": []
+    },
+    {
+      "id": 2,
+      "name": "사기진작",
+      "description": "범위 버프",
+      "coolTime": 50.0,
+      "multiplier": 0,
+      "skillType": 1,
+      "range": 5,
+      "visualId": "Booster",
+      "attackType": 1,
+      "effectID": [4],
+      "effectValue": [
+        {
+          "values": [
+            1.5,
+            5,
+            0
+          ]
+        }
+      ]
+    }
+  ]
+}

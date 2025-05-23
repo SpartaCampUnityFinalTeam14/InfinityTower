@@ -386,6 +386,75 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1859979431
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1859979434}
+  - component: {fileID: 1859979433}
+  - component: {fileID: 1859979432}
+  m_Layer: 0
+  m_Name: StageManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1859979432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1859979431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 251fc3a054ac4f64ca469b8f13f0c10f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1859979433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1859979431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 008e97adda5752442ad43d90b77a980c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  costRecoveryMultiplier: 100
+  selectedTowers: 
+  selectedChampion: 0
+  skillTargetingSystem: {fileID: 0}
+  skillVisualDB: {fileID: 0}
+  OnCostChanged: {fileID: 11400000, guid: 8861c2d9b4b5f53449900531b454b226, type: 2}
+  OnPlayerHpChanged: {fileID: 0}
+  OnFloorCountChanged: {fileID: 11400000, guid: 488655e93354e78488197b1da7274906, type: 2}
+  OnResetTowerCoolDown: {fileID: 0}
+  isEventEnd: 0
+  isIntroEnd: 0
+  isAdditionalFloor: 0
+--- !u!4 &1859979434
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1859979431}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -393,3 +462,4 @@ SceneRoots:
   - {fileID: 1307137801}
   - {fileID: 519420032}
   - {fileID: 619394802}
+  - {fileID: 1859979434}

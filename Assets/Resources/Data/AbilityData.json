@@ -1,0 +1,388 @@
+{
+  "data": [
+    {
+      "perkID": 0,
+      "name": "강한 일격 I",
+      "description": "타워의 공격력 <b><color=#00FF66>+10%</color></b>",
+      "valueType": [
+        0
+      ],
+      "value": [
+        0.1
+      ],
+      "effectType": "",
+      "effectValue": "",
+      "projectile": "",
+      "targetType": 0,
+      "targetID": "",
+      "rarity": 0,
+      "stackLimit": 3,
+      "image": "power_strike"
+    },
+    {
+      "perkID": 1,
+      "name": "강한 일격 II",
+      "description": "타워의 공격력 <b><color=#00FF66>+20%</color></b>",
+      "valueType": [
+        0
+      ],
+      "value": [
+        0.2
+      ],
+      "effectType": "",
+      "effectValue": "",
+      "projectile": "",
+      "targetType": 0,
+      "targetID": "",
+      "rarity": 1,
+      "stackLimit": 2,
+      "image": "power_strike"
+    },
+    {
+      "perkID": 2,
+      "name": "강한 일격 III",
+      "description": "타워의 공격력 <b><color=#00FF66>+40%</color></b>",
+      "valueType": [
+        0
+      ],
+      "value": [
+        0.2
+      ],
+      "effectType": "",
+      "effectValue": "",
+      "projectile": "",
+      "targetType": 0,
+      "targetID": "",
+      "rarity": 2,
+      "stackLimit": 1,
+      "image": "power_strike"
+    },
+    {
+      "perkID": 3,
+      "name": "재빠른 손놀림 I",
+      "description": "타워의 공격 속도 <b><color=#00FF66>+8%</color></b>",
+      "valueType": [
+        2
+      ],
+      "value": [
+        0.08
+      ],
+      "effectType": "",
+      "effectValue": "",
+      "projectile": "",
+      "targetType": 0,
+      "targetID": "",
+      "rarity": 0,
+      "stackLimit": 3,
+      "image": "quick_hands"
+    },
+    {
+      "perkID": 4,
+      "name": "재빠른 손놀림 II",
+      "description": "타워의 공격 속도 <b><color=#00FF66>+15%</color></b>",
+      "valueType": [
+        2
+      ],
+      "value": [
+        0.15
+      ],
+      "effectType": "",
+      "effectValue": "",
+      "projectile": "",
+      "targetType": 0,
+      "targetID": "",
+      "rarity": 1,
+      "stackLimit": 2,
+      "image": "quick_hands"
+    },
+    {
+      "perkID": 5,
+      "name": "재빠른 손놀림 III",
+      "description": "타워의 공격 속도 <b><color=#00FF66>+30%</color></b>",
+      "valueType": [
+        2
+      ],
+      "value": [
+        0.3
+      ],
+      "effectType": "",
+      "effectValue": "",
+      "projectile": "",
+      "targetType": 0,
+      "targetID": "",
+      "rarity": 2,
+      "stackLimit": 1,
+      "image": "quick_hands"
+    },
+    {
+      "perkID": 6,
+      "name": "신속 교대",
+      "description": "타워의 재배치 쿨타임 시간 <b><color=#00FF66>-20%</color></b>",
+      "valueType": [
+        4
+      ],
+      "value": [
+        -0.2
+      ],
+      "effectType": "",
+      "effectValue": "",
+      "projectile": "",
+      "targetType": 0,
+      "targetID": "",
+      "rarity": 1,
+      "stackLimit": 2,
+      "image": "quick_shift"
+    },
+    {
+      "perkID": 7,
+      "name": "소형 영약",
+      "description": "플레이어 최대 체력 <b><color=#00FF66>+20%</color></b>",
+      "valueType": [
+        8
+      ],
+      "value": [
+        0.2
+      ],
+      "effectType": "",
+      "effectValue": "",
+      "projectile": "",
+      "targetType": 1,
+      "targetID": "",
+      "rarity": 0,
+      "stackLimit": 1,
+      "image": "health_up"
+    },
+    {
+      "perkID": 8,
+      "name": "대형 영약",
+      "description": "플레이어 최대 체력 <b><color=#00FF66>+50%</color></b>",
+      "valueType": [
+        8
+      ],
+      "value": [
+        0.4
+      ],
+      "effectType": "",
+      "effectValue": "",
+      "projectile": "",
+      "targetType": 1,
+      "targetID": "",
+      "rarity": 1,
+      "stackLimit": 1,
+      "image": "health_up"
+    },
+    {
+      "perkID": 9,
+      "name": "후원",
+      "description": "코스트 회복 속도 <b><color=#00FF66>+15%</color></b>",
+      "valueType": [
+        6
+      ],
+      "value": [
+        0.15
+      ],
+      "effectType": "",
+      "effectValue": "",
+      "projectile": "",
+      "targetType": 1,
+      "targetID": "",
+      "rarity": 0,
+      "stackLimit": 1,
+      "image": "money_boost"
+    },
+    {
+      "perkID": 10,
+      "name": "더 큰 후원",
+      "description": "코스트 회복 속도 <b><color=#00FF66>+25%</color></b>",
+      "valueType": [
+        6
+      ],
+      "value": [
+        0.25
+      ],
+      "effectType": "",
+      "effectValue": "",
+      "projectile": "",
+      "targetType": 1,
+      "targetID": "",
+      "rarity": 1,
+      "stackLimit": 1,
+      "image": "money_boost"
+    },
+    {
+      "perkID": 11,
+      "name": "자선가",
+      "description": "코스트 회복 속도 <b><color=#00FF66>+50%</color></b>",
+      "valueType": [
+        6
+      ],
+      "value": [
+        0.5
+      ],
+      "effectType": "",
+      "effectValue": "",
+      "projectile": "",
+      "targetType": 1,
+      "targetID": "",
+      "rarity": 2,
+      "stackLimit": 1,
+      "image": "money_boost"
+    },
+    {
+      "perkID": 12,
+      "name": "기선제압 I",
+      "description": "적 체력 <b><color=#CCCCCC>-10%</color></b>",
+      "valueType": [
+        9
+      ],
+      "value": [
+        -0.1
+      ],
+      "effectType": "",
+      "effectValue": "",
+      "projectile": "",
+      "targetType": 2,
+      "targetID": "",
+      "rarity": 0,
+      "stackLimit": 1,
+      "image": "overpowering"
+    },
+    {
+      "perkID": 13,
+      "name": "기선제압 II",
+      "description": "적 체력 <b><color=#CCCCCC>-20%</color></b>",
+      "valueType": [
+        9
+      ],
+      "value": [
+        -0.2
+      ],
+      "effectType": "",
+      "effectValue": "",
+      "projectile": "",
+      "targetType": 2,
+      "targetID": "",
+      "rarity": 1,
+      "stackLimit": 1,
+      "image": "overpowering"
+    },
+    {
+      "perkID": 14,
+      "name": "느린 걸음 I",
+      "description": "적 이동 속도 <b><color=#CCCCCC>-10%</color></b>",
+      "valueType": [
+        10
+      ],
+      "value": [
+        -0.1
+      ],
+      "effectType": "",
+      "effectValue": "",
+      "projectile": "",
+      "targetType": 2,
+      "targetID": "",
+      "rarity": 0,
+      "stackLimit": 1,
+      "image": "slow"
+    },
+    {
+      "perkID": 15,
+      "name": "느린 걸음 II",
+      "description": "적 이동 속도 <b><color=#CCCCCC>-20%</color></b>",
+      "valueType": [
+        10
+      ],
+      "value": [
+        -0.2
+      ],
+      "effectType": "",
+      "effectValue": "",
+      "projectile": "",
+      "targetType": 2,
+      "targetID": "",
+      "rarity": 1,
+      "stackLimit": 1,
+      "image": "slow"
+    },
+    {
+      "perkID": 16,
+      "name": "방어구 파괴",
+      "description": "적 방어력 <b><color=#CCCCCC>-30%</color></b>",
+      "valueType": [
+        11
+      ],
+      "value": [
+        -0.3
+      ],
+      "effectType": "",
+      "effectValue": "",
+      "projectile": "",
+      "targetType": 2,
+      "targetID": "",
+      "rarity": 2,
+      "stackLimit": 1,
+      "image": "armor_break"
+    },
+    {
+      "perkID": 17,
+      "name": "긴급 방어",
+      "description": "적이 플레이어에게 입히는 대미지 <b><color=#00FF66>-30%</color></b>",
+      "valueType": [
+        12
+      ],
+      "value": [
+        -0.3
+      ],
+      "effectType": "",
+      "effectValue": "",
+      "projectile": "",
+      "targetType": 2,
+      "targetID": "",
+      "rarity": 0,
+      "stackLimit": 1,
+      "image": "damage_reduction"
+    },
+    {
+      "perkID": 18,
+      "name": "무기 중량화",
+      "description": "공격력 <b><color=#00FF66>+30%</color></b>\n공격속도 <b><color=#CC3333>-8%</color></b>",
+      "valueType": [
+        0,
+        2
+      ],
+      "value": [
+        0.3,
+        -0.08
+      ],
+      "effectType": "",
+      "effectValue": "",
+      "projectile": "",
+      "targetType": 0,
+      "targetID": "",
+      "rarity": 1,
+      "stackLimit": 1,
+      "image": "weapon_heavy"
+    },
+    {
+      "perkID": 19,
+      "name": "무기 경량화",
+      "description": "공격 속도 <b><color=#00FF66>+25%</color></b>\n공격력 <b><color=#CC3333>-10%</color></b>",
+      "valueType": [
+        0,
+        2
+      ],
+      "value": [
+        -0.1,
+        0.25
+      ],
+      "effectType": "",
+      "effectValue": "",
+      "projectile": "",
+      "targetType": 0,
+      "targetID": "",
+      "rarity": 1,
+      "stackLimit": 1,
+      "image": "weapon_light"
+    }
+  ]
+}

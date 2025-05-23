@@ -1,0 +1,27 @@
+{
+    "data": [
+      {
+        "id": 10000,
+        "drop1ID": 2,
+        "drop1Per": 80,
+        "drop2ID": 6,
+        "drop2Per": 20
+      },
+      {
+        "id": 10001,
+        "drop1ID": 3,
+        "drop1Per": 50,
+        "drop2ID": 6,
+        "drop2Per": 50
+
+      },
+      {
+        "id": 10002,
+        "drop1ID": 4,
+        "drop1Per": 30,
+        "drop2ID": 6,
+        "drop2Per": 70
+
+      }
+    ]
+    }

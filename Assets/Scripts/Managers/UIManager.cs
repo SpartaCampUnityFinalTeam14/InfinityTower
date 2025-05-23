@@ -5,21 +5,31 @@ using UnityEngine;
 
 public class UIManager : Singleton<UIManager>
 {
-    Dictionary<Type, UI> _sceneDict = new Dictionary<Type, UI>();
-    Stack<UI_Popup> _popupUIs = new Stack<UI_Popup>();
+    Dictionary<Type, UI> _sceneDict = new();
+    List<UI> _stackableList = new(); 
+    Stack<UI_Popup> _popupUIs = new();
 
     int popupOrder = 10;
+    int stackOrder = 1;
 
     Transform _root;
     Transform Root
     {
         get
         {
-            if(_root == null)
+            if(_root == null || _root.gameObject == null)
             {
                 _root = new GameObject("@UI_Root").transform;
             }
             return _root;
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            HideStackUI();
         }
     }
 
@@ -29,11 +39,11 @@ public class UIManager : Singleton<UIManager>
 
         if (_sceneDict.TryGetValue(uiType, out UI existingUI))
         {
-            existingUI.Hide();
             return existingUI as T;
         }
-
-        throw new InvalidOperationException($"There's No {uiType.Name} in UIManager");
+        Debug.Log($"There's No {uiType.Name} in UIManager");
+        return null;
+        //throw new InvalidOperationException($"There's No {uiType.Name} in UIManager");
     }
 
     public T ShowPopupUI<T>() where T : UI_Popup
@@ -64,6 +74,15 @@ public class UIManager : Singleton<UIManager>
         if (_sceneDict.TryGetValue(uiType, out UI existingUI))
         {
             existingUI.Hide();
+            for(int i = _stackableList.Count - 1; i >= 0; i--)
+            {
+                if(existingUI == _stackableList[i])
+                {
+                    _stackableList.RemoveAt(i);
+                    if (_stackableList.Count == 0) stackOrder = 1;
+                    break;
+                }
+            }
             return existingUI as T;
         }
 
@@ -72,6 +91,15 @@ public class UIManager : Singleton<UIManager>
         ui.Hide();
 
         return null;
+    }
+
+    public void HideStackUI()
+    {
+        if(_stackableList.Count <= 0) return;
+
+        UI ui = _stackableList.Last();
+        ui.Hide();
+        _stackableList.Remove(ui);
     }
 
     public T ShowUI<T>(Transform par) where T : UI
@@ -88,6 +116,7 @@ public class UIManager : Singleton<UIManager>
 
         T ui = Util.InstantiatePrefabAndGetComponent<T>(path: $"UI/{uiType.Name}", parent: par);
         _sceneDict[uiType] = ui;
+        ui.Show();
 
         return ui;
     }
@@ -97,7 +126,26 @@ public class UIManager : Singleton<UIManager>
         return ShowUI<T>(Root);
     }
 
-    //¥Ÿ∏• ≈¨∑°Ω∫µÈø°º≠ »£√‚«œ¥¬ ∏ﬁº≠µÂ
+    public T ShowStackUI<T>() where T : UI
+    {
+        T ui = ShowUI<T>();
+        ui.SetCanvas(stackOrder++);
+
+        for(int i = 0; i < _stackableList.Count; i++)
+        {
+            if(ui == _stackableList[i])
+            {
+                _stackableList.RemoveAt(i);
+                break;
+            }
+        }
+
+        _stackableList.Add(ui);
+
+        return ui;
+    }
+
+    //Îã§Î•∏ ÌÅ¥ÎûòÏä§Îì§ÏóêÏÑú Ìò∏Ï∂úÌïòÎäî Î©îÏÑúÎìú
     public void RemoveUI<T>() where T: UI
     {
         Type uiType = typeof(T);
@@ -111,7 +159,7 @@ public class UIManager : Singleton<UIManager>
         else throw new InvalidOperationException($"There's No {uiType.Name} in UIManager");
     }
 
-    //UI¿« Closeø°º≠ »£√‚«œ¥¬ ∏ﬁº≠µÂ
+    //UIÏùò CloseÏóêÏÑú Ìò∏Ï∂úÌïòÎäî Î©îÏÑúÎìú
     public void RemoveUI(UI ui)
     {
         Type uiType = ui.GetType();
@@ -129,7 +177,8 @@ public class UIManager : Singleton<UIManager>
     {
         foreach (UI ui in _sceneDict.Values.ToList())
         {
-            Destroy(ui.gameObject);
+            ui.Clear();
+            if (ui) Destroy(ui.gameObject);
         }
         _sceneDict.Clear();
 
@@ -142,7 +191,7 @@ public class UIManager : Singleton<UIManager>
     public void Clear()
     {
         RemoveAllUI();
-        Destroy(Root.gameObject);
+        _stackableList.Clear();
         _root = null;
     }
 }
