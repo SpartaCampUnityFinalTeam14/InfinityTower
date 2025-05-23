@@ -173,7 +173,7 @@ public abstract class BaseTower : Poolable, IBuffable
             if (hit.collider != null && hit.collider.gameObject.GetComponent<BaseTower>().Equals(this))
             {
                 var ui = UIManager.Instance.ShowUI<UITowerInfo>();
-                ui.Init(transform, towerData);
+                ui.Init(transform, towerData, this);
 
                 // 사거리표시
                 rangeIndicator = PoolManager.Instance.Get(rangePrefab, 1, transform).GetComponent<RangeIndicator>();
