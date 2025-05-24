@@ -170,8 +170,11 @@ public abstract class BaseTower : Poolable, IBuffable
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
             
-            if (hit.collider != null && hit.collider.gameObject.GetComponent<BaseTower>().Equals(this))
+            if (hit.collider != null && hit.collider.gameObject.TryGetComponent(out BaseTower tower))
             {
+                if (!tower.Equals(this))
+                    return;
+
                 var ui = UIManager.Instance.ShowUI<UITowerInfo>();
                 ui.Init(transform, towerData, this);
 
