@@ -54,6 +54,7 @@ public class EventRewardHandler
     string ApplyHealthReward(int value)
     {
         // 체력 증감 로직
+        //value < 0 ? StageManager.Instance.TakeDamage(value) : StageManager.Instance.Heal(value);
         return $"체력 {value}";
     }
 
