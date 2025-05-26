@@ -1426,7 +1426,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4119884122203345954}
         m_TargetAssemblyTypeName: UIFortuneEvent, Assembly-CSharp
-        m_MethodName: OnbuttonChange
+        m_MethodName: OnClickClose
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
