@@ -76,8 +76,8 @@ public class UITowerInfo : UI
         );
 
         // UI 오브젝트 위치 설정
-        CheckUIOutOfVeiw(rectBg, localPos, new Vector2(400, 0));
-        CheckUIOutOfVeiw(btnUpgrade.GetComponent<RectTransform>(), localPos, new Vector2(-100, 100));
+        //CheckUIOutOfVeiw(rectBg, localPos, new Vector2(400, 0));
+        //CheckUIOutOfVeiw(btnUpgrade.GetComponent<RectTransform>(), localPos, new Vector2(-100, 100));
         CheckUIOutOfVeiw(btnRemove.GetComponent<RectTransform>(), localPos, new Vector2(0, 150));
     }
 
