@@ -15,6 +15,7 @@ public enum TargettingRule
     Farthest,  // 가장 멀리있는 적
     LowestHP,  // 체력이 가장 낮은 적을 공격
     HighestHP, // 체력이 가장 높은 적을 공격
+    ClosestToGoal//목표지점까지 남은 거리가 적은 적
 }
 
 public enum TargetType

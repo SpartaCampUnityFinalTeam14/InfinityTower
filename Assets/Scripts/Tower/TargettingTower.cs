@@ -93,6 +93,12 @@ public abstract class TargettingTower : BaseTower
                             .ToList();
                         break;
 
+                    case TargettingRule.ClosestToGoal: //목표에 가장 가까운 적
+                        enemiesInRange = enemiesInRange
+                            .OrderBy(m => m.GetRemainingPathDistance())
+                            .ToList();
+                        break;
+
                     default:
                         break;
                 }

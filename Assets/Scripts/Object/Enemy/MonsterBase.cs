@@ -13,7 +13,7 @@ public class MonsterBase : Poolable, ISkillUser, IBuffable
     protected MonsterData data;
 
     List<Vector3> pathPoints;
-    int curTileIdx = 0;
+    public int curTileIdx = 0;
     public int currentHP;
     //방어력 추가
     private float defense;
@@ -162,7 +162,26 @@ public class MonsterBase : Poolable, ISkillUser, IBuffable
         StageManager.Instance.TakeDamage((int)GetFinalStatValue(StatType.damage));
         Dead();
     }
-    
+
+    public float GetRemainingPathDistance()
+    {
+        float distance = 0f;
+
+        if (pathPoints == null || pathPoints.Count == 0 || curTileIdx >= pathPoints.Count)
+            return float.MaxValue;
+
+        // 현재 위치에서 다음 타일까지 거리
+        distance += Vector3.Distance(transform.position, pathPoints[curTileIdx]);
+
+        // 이후 모든 남은 타일 거리 합산
+        for (int i = curTileIdx + 1; i < pathPoints.Count; i++)
+        {
+            distance += Vector3.Distance(pathPoints[i - 1], pathPoints[i]);
+        }
+
+        return distance;
+    }
+
     private void AnimateWalk(Sprite[] walkSprites)
     {
         if (walkSprites == null || walkSprites.Length == 0)
