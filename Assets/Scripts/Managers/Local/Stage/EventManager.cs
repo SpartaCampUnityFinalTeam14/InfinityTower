@@ -11,6 +11,8 @@ public class EventManager
     EventRewardHandler rewardHandler;
     EventResultHandler resultHandler;
 
+    public List<AbilityData> rewardAbility = new();
+
     public EventManager()
     {
         rewardHandler = new EventRewardHandler();
@@ -75,6 +77,7 @@ public class EventManager
 
     public void OnClickResultButton()
     {
-        resultHandler.HandleResult(resultData);
+        if (rewardAbility.Count <= 0) resultHandler.HandleResult(resultData);
+        else uiEvent.SetReward(rewardAbility);
     }
 }

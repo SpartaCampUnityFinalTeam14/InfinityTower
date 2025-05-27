@@ -308,7 +308,7 @@ public class StageManager : Singleton<StageManager>
 
     public void AddAbilityMultiplier(int statType, float value)
     {
-        if (abilityMultiplier.TryAdd(statType, value))
+        if (!abilityMultiplier.TryAdd(statType, value))
         {
             abilityMultiplier[statType] += value;
         }
@@ -316,7 +316,7 @@ public class StageManager : Singleton<StageManager>
 
     public void RemoveAbilityMultiplier(int statType, float value)
     {
-        if (abilityMultiplier.TryGetValue(statType, out float statValue))
+        if (!abilityMultiplier.TryGetValue(statType, out float statValue))
         {
             abilityMultiplier[statType] -= value;
         }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -19,7 +20,6 @@ public class UIEvent : UI, IPointerClickHandler
     [SerializeField] GameObject mainPanel;
     [SerializeField] GameObject choicePanel;
     [SerializeField] GameObject resultPanel;
-    [SerializeField] GameObject rewardPanel;
     [SerializeField] Animator anim;
 
     [Header("Choice Panel")]
@@ -36,6 +36,10 @@ public class UIEvent : UI, IPointerClickHandler
     [SerializeField] TextMeshProUGUI resultText;
     [SerializeField] GameObject layoutResult;
     [SerializeField] Button btnResult;
+
+    [Header("Reward Panel")]
+    [SerializeField] GameObject rewardPanel;
+    [SerializeField] List<AbilitySlot> abilitySlots;
 
     Coroutine coroutine;
     WaitForSecondsRealtime wait;
@@ -183,6 +187,21 @@ public class UIEvent : UI, IPointerClickHandler
         UpdateChoice(data);
     }
 
+    public void SetReward(List<AbilityData> list)
+    {
+        if (list.Count <= 0)
+            return;
+
+        for (int i = 0; i < list.Count; i++)
+        {
+            abilitySlots[i].Init(list[i]);
+
+            abilitySlots[i].gameObject.SetActive(true);
+        }
+
+        rewardPanel.SetActive(true);
+    }
+
     void UpdateChoice(EventData data)
     {
         layoutChoice.SetActive(true);
@@ -245,5 +264,18 @@ public class UIEvent : UI, IPointerClickHandler
             return;
 
         isSkip = true;
+    }
+
+    public void OnRewardClose()
+    {
+        for (int i = 0; i < abilitySlots.Count; i++)
+        {
+            abilitySlots[i].gameObject.SetActive(false);
+        }
+
+        rewardPanel.SetActive(false);
+
+        var ui = UIManager.Instance.GetUI<UIEvent>();
+        ui.CloseEvent();
     }
 }

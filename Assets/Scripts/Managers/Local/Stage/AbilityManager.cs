@@ -30,7 +30,7 @@ public class AbilityManager
         FilterAbilitiesByDeck();
     }
 
-    void FilterAbilitiesByDeck()
+    public void FilterAbilitiesByDeck()
     {
         // HashSet Contains 시간 복잡도 O(1)
         hashSelectedTower.Clear();
