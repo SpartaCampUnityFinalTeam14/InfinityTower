@@ -451,7 +451,7 @@ public class StageManager : Singleton<StageManager>
             if (i != 0)
             {
                 //book = 100;
-                //token = 10000;
+                //token = 100000;
                 ShowFloorLoading();
             }
 

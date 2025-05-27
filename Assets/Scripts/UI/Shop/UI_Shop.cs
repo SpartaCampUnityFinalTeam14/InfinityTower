@@ -40,7 +40,7 @@ public class UI_Shop : UI
         StageManager manager = StageManager.Instance;
 
         //manager.abilityManager.FilterAbilitiesByDeck();
-
+        refreshCnt = 3;
         UpdateHealth(manager.GetHP(), manager.GetMaxHP());
         UpdateFloor(manager.GetFloorNum() + 1);
         UpdateToken(manager.token);
