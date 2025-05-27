@@ -65,6 +65,7 @@ public class EventManager
         }
 
         // 보상 지급
+        rewardAbility.Clear();
         StringBuilder sbReward = new StringBuilder();
         for (int i = 0; i < resultData.rewardType.Count; i++)
         {
