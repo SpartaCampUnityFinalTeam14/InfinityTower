@@ -81,8 +81,9 @@ public class UI_Wave : UI
 
         seq.AppendCallback(() =>
         {
-            onComplete?.Invoke();
             Hide();
+
+            onComplete?.Invoke();
         });
     }
 
