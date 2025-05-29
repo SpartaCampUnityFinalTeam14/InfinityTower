@@ -33,7 +33,7 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
     private float half;
 
     private bool isDragging = false;
-    private float ScrollSpeedThreshHold = 10;
+    private float ScrollSpeedThreshHold = 1;
     private int curIndex = 2;
     private int targetIndex = 2;
 

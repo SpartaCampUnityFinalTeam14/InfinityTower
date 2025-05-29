@@ -17,7 +17,8 @@ public class UIChangeAbility : UI
         base.Hide();
 
         // 이벤트창 닫기
-        UIManager.Instance.HideUI<UIEvent>();
+        var ui = UIManager.Instance.GetUI<UIEvent>();
+        ui.CloseEvent();
     }
 
     public void Init(AbilityData beforeData, AbilityData afterData)
@@ -32,5 +33,8 @@ public class UIChangeAbility : UI
     public void OnButtonClick()
     {
         Hide();
+
+        var ui = UIManager.Instance.GetUI<UIEvent>();
+        ui.CloseEvent();
     }
 }

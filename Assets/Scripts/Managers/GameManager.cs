@@ -5,10 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
-    public bool isTutorialAlreadySeen;
-
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         AnalyticsManager.SendEvent("Funnel_Step", new Dictionary<string, object>        
         {
             { "Funnel_Step_Number", 1 }

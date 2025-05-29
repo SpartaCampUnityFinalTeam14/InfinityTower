@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static UnityEngine.Rendering.VirtualTexturing.Debugging;
 
 public class AbilityManager
 {
@@ -31,7 +30,7 @@ public class AbilityManager
         FilterAbilitiesByDeck();
     }
 
-    void FilterAbilitiesByDeck()
+    public void FilterAbilitiesByDeck()
     {
         // HashSet Contains 시간 복잡도 O(1)
         hashSelectedTower.Clear();
@@ -76,12 +75,12 @@ public class AbilityManager
                 {
                     allAbilities[data.perkID].Data.value[i] += DataManager.Instance.abilityDict[data.perkID].value[i];
                 }
-
-                // 보유 특성 스택이 최대면 가챠 풀에서 제거
-                if (DataManager.Instance.abilityDict[data.perkID].stackLimit <= allAbilities[data.perkID].CurStack)
-                    abilityGachaPool[data.rarity].Remove(data.perkID);
             }
         }
+
+        // 보유 특성 스택이 최대면 가챠 풀에서 제거
+        if (DataManager.Instance.abilityDict[data.perkID].stackLimit <= allAbilities[data.perkID].CurStack)
+            abilityGachaPool[data.rarity].Remove(data.perkID);
     }
 
     public void RemoveAbility(AbilityData data)

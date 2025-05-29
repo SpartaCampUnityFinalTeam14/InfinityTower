@@ -8,6 +8,7 @@ public class UIFortuneEvent : UI
     [SerializeField] Transform iconParent;
     [SerializeField] AbilitySlot abilitSlot;
     [SerializeField] Button btnChange;
+    [SerializeField] Button btnClose;
 
     List<AbilityIcon> listIcon;
     AbilityData selectedData;
@@ -82,6 +83,11 @@ public class UIFortuneEvent : UI
         var uiResult = UIManager.Instance.ShowUI<UIChangeAbility>();
         uiResult.Init(selectedData, newAbility);
 
+        Hide();
+    }
+
+    public void OnClickClose()
+    {
         Hide();
     }
 }

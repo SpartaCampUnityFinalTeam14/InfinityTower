@@ -29,9 +29,10 @@ public class UI_Main : UI
 
     private void Start()
     {
-        if (!GameManager.Instance.isTutorialAlreadySeen)
+        if (!SaveManager.Instance.playerData.isTutorialAlreadySeen)
         {
-            GameManager.Instance.isTutorialAlreadySeen = true;
+            SaveManager.Instance.playerData.isTutorialAlreadySeen = true;
+            SaveManager.Instance.SavePlayerData();
             tutorialBackground.SetActive(true);
         }
         else tutorialBackground.SetActive(false);
