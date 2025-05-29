@@ -7,12 +7,14 @@ public class UI_Option : MonoBehaviour, ScrollPanel
     [SerializeField] private Slider BGMSlider;
     [SerializeField] private Slider SFXSlider;
     [SerializeField] private Button clearButton;
+    [SerializeField] private Button creditButton;
 
     protected void Awake()
     {
         SoundManager.Instance.LoadVolume();
 
         clearButton.onClick.AddListener(() => SaveManager.Instance.ResetAll());
+        creditButton.onClick.AddListener(() => GameManager.Instance.LoadScene("Credit"));
 
         masterSlider.value = SoundManager.Instance.GetMasterVolume();
         BGMSlider.value = SoundManager.Instance.GetBGMVolume();
