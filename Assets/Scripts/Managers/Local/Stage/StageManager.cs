@@ -180,7 +180,7 @@ public class StageManager : Singleton<StageManager>
                 stageValue = 1.2f;
                 break;
             default:
-                stageValue = 1.2f;
+                stageValue = 1.4f;
                 break;
         }
         switch (floorCount)
@@ -189,19 +189,19 @@ public class StageManager : Singleton<StageManager>
                 floorValue = 1.0f;
                 break;
             case 1:
-                floorValue = 1.08f;
+                floorValue = 1.1f;
                 break;
             case 2:
-                floorValue = 1.17f;
+                floorValue = 1.2f;
                 break;
             case 3:
-                floorValue = 1.25f;
-                break;
-            case 4:
                 floorValue = 1.3f;
                 break;
-            default:
+            case 4:
                 floorValue = 1.4f;
+                break;
+            default:
+                floorValue = 1.5f;
                 break;
         }
         switch (CurFloor.curWave)
@@ -210,13 +210,13 @@ public class StageManager : Singleton<StageManager>
                 waveValue = 1.0f;
                 break;
             case 1:
-                waveValue = 1.2f;
+                waveValue = 1.3f;
                 break;
             case 2:
-                waveValue = 1.45f;
+                waveValue = 1.5f;
                 break;
             default:
-                waveValue = 1.45f;
+                waveValue = 1.5f;
                 break;
         }
 
