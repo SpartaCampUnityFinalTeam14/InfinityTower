@@ -1,10 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UITowerInfo : UI
@@ -13,28 +8,37 @@ public class UITowerInfo : UI
     [SerializeField] GameObject bg;
     [SerializeField] TextMeshProUGUI title;
     [SerializeField] TextMeshProUGUI description;
-    [SerializeField] TextMeshProUGUI statInfo;
+    [SerializeField] TextMeshProUGUI stat_title;
+    [SerializeField] TextMeshProUGUI stat_value;
+    [SerializeField] Image towerIcon;
     [SerializeField] Button btnClose;
     [SerializeField] Button btnUpgrade;
     [SerializeField] Button btnRemove;
 
     BaseTower seletedTower;
 
-    public void Init(Transform seleted, TowerData data)
+    public void Init(Transform seleted, TowerData data, BaseTower tower)
     {
         SetUIPos(seleted);
 
         seletedTower = seleted.GetComponent<BaseTower>();
         
         title.text = data.name;
-        description.text = data.description;
-        
-        StringBuilder sb = new StringBuilder();
+        //description.text = data.description;
+
+        var icon = Resources.Load<Sprite>($"Icons/Tower/Tower_{data.id}");
+        if (icon) towerIcon.sprite = icon;
+
+        stat_title.text = string.Empty;
+        stat_value.text = string.Empty;
+        float value;
         for (int i = 0; i < data.statType.Count; i++)
         {
-            sb.AppendLine($"{(StatType)data.statType[i]}: {data.statValue[i]}");
+            stat_title.text += DataManager.Instance.statusDict[data.statType[i]].name + "\n";
+            
+            value = tower.GetFinalStatValue((StatType)data.statType[i]);
+            stat_value.text += (value % 1 == 0 ? value.ToString("N0") : value.ToString("N2")) + "\n";
         }
-        statInfo.text = sb.ToString();
     }
 
     public void OnCloseClick()
@@ -72,9 +76,9 @@ public class UITowerInfo : UI
         );
 
         // UI 오브젝트 위치 설정
-        CheckUIOutOfVeiw(rectBg, localPos, new Vector2(400, -200));
-        CheckUIOutOfVeiw(btnUpgrade.GetComponent<RectTransform>(), localPos, new Vector2(-100, 100));
-        CheckUIOutOfVeiw(btnRemove.GetComponent<RectTransform>(), localPos, new Vector2(100, 100));
+        //CheckUIOutOfVeiw(rectBg, localPos, new Vector2(400, 0));
+        //CheckUIOutOfVeiw(btnUpgrade.GetComponent<RectTransform>(), localPos, new Vector2(-100, 100));
+        CheckUIOutOfVeiw(btnRemove.GetComponent<RectTransform>(), localPos, new Vector2(0, 150));
     }
 
     void CheckUIOutOfVeiw(RectTransform rc, Vector2 localPos, Vector2 offsetPos)

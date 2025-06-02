@@ -35,6 +35,7 @@ public class EventRewardHandler
     string AddRandomPerk(int rarity, int count)
     {
         StringBuilder sb = new StringBuilder();
+        StageManager.Instance.eventManager.rewardAbility.Clear();
 
         for (int i = 0; i < count; i++)
         {
@@ -44,7 +45,8 @@ public class EventRewardHandler
                 Debug.LogError("이벤트: 랜덤 특성 뽑기 실패");
             
             StageManager.Instance.abilityManager.AddAbillity(ability);
-            
+            StageManager.Instance.eventManager.rewardAbility.Add(ability);
+
             sb.AppendLine($"{ability.name} 획득");
         }
 
@@ -54,7 +56,13 @@ public class EventRewardHandler
     string ApplyHealthReward(int value)
     {
         // 체력 증감 로직
-        return $"체력 {value}";
+
+        if (value < 0)
+            StageManager.Instance.TakeDamage(value);
+        else
+            StageManager.Instance.Heal(value);
+
+            return $"체력 {value}";
     }
 
     string ApplyCostReward(int value)

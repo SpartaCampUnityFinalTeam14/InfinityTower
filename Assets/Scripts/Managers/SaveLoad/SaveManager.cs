@@ -372,7 +372,6 @@ public class SaveManager : Singleton<SaveManager>
 
         Init();
 
-        GameManager.Instance.isTutorialAlreadySeen = false;
         GameManager.Instance.LoadScene("KSM_Lobby");
     }
 

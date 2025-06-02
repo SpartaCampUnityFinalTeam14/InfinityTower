@@ -21,6 +21,7 @@ public class SingleTargetProjectile : Projectile
             if (monster == null || monster.IsDead)
             {
                 targetLost = true;
+                target = null;
             }
             else
             {
