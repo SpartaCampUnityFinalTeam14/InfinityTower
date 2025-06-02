@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class Projectile_DoTField : Projectile
 {
@@ -7,7 +8,9 @@ public class Projectile_DoTField : Projectile
     private float dotTickInterval;
     private float dotRadius;
 
-    private Vector3 targetPos;
+    private Transform target;
+    private Vector3 lastKnownPosition;
+    private bool targetLost = false;
 
     public override void Init(ProjectileData data, ProjectileDataSO visual, float customDamage, BaseTower towerData)
     {
@@ -20,24 +23,37 @@ public class Projectile_DoTField : Projectile
         dotRadius = data.dotRadius;
     }
 
-    public override void SetTarget(Transform t)
+    public override void SetTarget(Transform target)
     {
-        if (t != null)
-            targetPos = t.position;
+        this.target = target;
+        if (target != null)
+            lastKnownPosition = target.position;
     }
 
     protected override void Move()
     {
-        //if (hasExploded) return;
+        if (!targetLost && target != null)
+        {
+            var monster = target.GetComponent<MonsterBase>();
+            if (monster == null || monster.IsDead)
+            {
+                targetLost = true;
+                target = null;
+            }
+            else
+            {
+                lastKnownPosition = target.position;
+            }
+        }
 
-        Vector3 dir = (targetPos - transform.position).normalized;
+        Vector3 dir = (lastKnownPosition - transform.position).normalized;
 
         FlipByDirection(dir);
         
         Vector3 moveDir = dir * speed * Time.deltaTime;
 
         //float dist = Vector3.Distance(transform.position, targetPos);
-        if (Vector3.SqrMagnitude(transform.position - targetPos) < moveDir.sqrMagnitude)
+        if (Vector3.SqrMagnitude(transform.position - lastKnownPosition) < moveDir.sqrMagnitude)
         {
             Explode();
         }
